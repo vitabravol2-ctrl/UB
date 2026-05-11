@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QColor, QTextCursor, QTextCharFormat
-from PySide6.QtWidgets import QCheckBox, QDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QProgressBar, QHeaderView
+from PySide6.QtWidgets import QCheckBox, QDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QProgressBar, QHeaderView, QSizePolicy
 
 from app.core.binance_account import BinanceAPIError, BinanceAccountClient
 from app.core.config import CONFIG, SETTINGS_STORE
@@ -141,9 +141,9 @@ class MainWindow(QMainWindow):
         for col in range(4):
             self.grid.setColumnStretch(col, 1)
             self.grid.setColumnMinimumWidth(col, 280)
-        self.grid.setRowStretch(0, 1)
-        self.grid.setRowStretch(1, 2)
-        self.grid.setRowStretch(2, 2)
+        self.grid.setRowStretch(0, 0)
+        self.grid.setRowStretch(1, 0)
+        self.grid.setRowStretch(2, 1)
 
     def _build_cards(self) -> None:
         conn, self.conn = kv_card("CONNECTION", [("API", "NOT SET"), ("REST", "N/A"), ("WS", "OPTIONAL LOST"), ("Источник", "NONE"), ("Обновление", "0 ms")])
@@ -157,7 +157,6 @@ class MainWindow(QMainWindow):
         spread, self.spread = kv_card("SPREAD ENGINE", [("Статус", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Источник", "NONE"), ("Обновление", "--")])
         self.spread_box = spread
         plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")])
-        plan.setMinimumHeight(280)
         self.plan_box = plan
         runtime, self.runtime = kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Active order", "none"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Треб. подтверждение", "YES"), ("Авто-отмена", "YES")])
         self.runtime_box = runtime
@@ -166,9 +165,8 @@ class MainWindow(QMainWindow):
         bal, self.bal = kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
         self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(risk, 2, 0, 1, 1)
 
-        summary, self.summary = kv_card("SESSION RESULT", [("Started at", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("SELL reprices", "0"), ("Current exit mode", "NORMAL"), ("Active order", "none")], compact=True)
-        summary.setMinimumHeight(280)
-        summary.setMaximumHeight(420)
+        summary_rows = [("Started at", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("SELL reprices", "0"), ("Current exit mode", "NORMAL"), ("Active order", "none")]
+        summary, self.summary = kv_card("SESSION RESULT", summary_rows)
         self.grid.addWidget(summary, 2, 1, 1, 3)
 
         self.compact_status = QLabel("")
@@ -177,9 +175,14 @@ class MainWindow(QMainWindow):
 
     def _build_controls(self) -> None:
         row = QHBoxLayout()
+        row.setContentsMargins(0, 0, 0, 0)
+        row.setSpacing(10)
         self.settings_btn = QPushButton("НАСТРОЙКИ"); self.settings_btn.setProperty("kind", "neutral"); self.settings_btn.clicked.connect(self.open_settings_dialog); row.addWidget(self.settings_btn)
         self.start_stop_btn = QPushButton("START"); self.start_stop_btn.setProperty("kind", "start"); self.start_stop_btn.clicked.connect(self.toggle_runtime); row.addWidget(self.start_stop_btn)
         self.cancel_btn = QPushButton("ОТМЕНИТЬ ВСЁ"); self.cancel_btn.setProperty("kind", "danger"); self.cancel_btn.clicked.connect(self.cancel_all); row.addWidget(self.cancel_btn)
+        for btn in (self.settings_btn, self.start_stop_btn, self.cancel_btn):
+            btn.setMinimumHeight(54)
+            btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.main_layout.addLayout(row)
 
     def _build_logs(self) -> None:
@@ -188,8 +191,9 @@ class MainWindow(QMainWindow):
         self.system_logs = QTextEdit(); self.system_logs.setReadOnly(True); self.system_logs.document().setMaximumBlockCount(300)
         self.log_tabs.addTab(self.trade_logs, "Торговля")
         self.log_tabs.addTab(self.system_logs, "Система")
-        self.log_tabs.setMinimumHeight(180)
-        self.main_layout.addWidget(self.log_tabs)
+        self.log_tabs.setMinimumHeight(220)
+        self.log_tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.main_layout.addWidget(self.log_tabs, 1)
 
     def open_settings_dialog(self) -> None:
         d = QDialog(self); d.setWindowTitle("Настройки UB"); d.setModal(True); d.resize(760, 620)
