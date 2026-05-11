@@ -84,5 +84,48 @@ class SettingsStore:
         self.path.write_text(json.dumps(asdict(data), indent=2), encoding="utf-8")
 
 
+    @staticmethod
+    def _sanitize_payload(payload: dict[str, Any], include_secrets: bool = True) -> dict[str, Any]:
+        clean = dict(payload)
+        if not include_secrets:
+            for key in list(clean):
+                low = key.lower()
+                if "secret" in low or "api_key" in low or low.endswith("key"):
+                    clean.pop(key, None)
+        return clean
+
+    def export_settings_json(self, export_path: str) -> None:
+        data = asdict(self.load())
+        safe = self._sanitize_payload(data, include_secrets=False)
+        Path(export_path).write_text(json.dumps(safe, indent=2), encoding="utf-8")
+
+    def import_settings_json(self, import_path: str) -> SettingsData:
+        payload = json.loads(Path(import_path).read_text(encoding="utf-8"))
+        if not isinstance(payload, dict):
+            raise ValueError("settings payload must be JSON object")
+        base = asdict(self.load())
+        merged = dict(base)
+        for key, value in payload.items():
+            if key not in base:
+                continue
+            old = base[key]
+            if isinstance(old, bool):
+                if isinstance(value, bool):
+                    merged[key] = value
+                else:
+                    raise ValueError(f"invalid bool for {key}")
+            elif isinstance(old, int):
+                merged[key] = int(value)
+            elif isinstance(old, float):
+                merged[key] = float(value)
+            elif isinstance(old, str):
+                merged[key] = str(value)
+            else:
+                merged[key] = value
+        data = SettingsData(**merged)
+        self.save(data)
+        return data
+
+
 CONFIG = UBConfig()
 SETTINGS_STORE = SettingsStore()

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QColor, QTextCursor, QTextCharFormat
-from PySide6.QtWidgets import QCheckBox, QDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QProgressBar, QHeaderView, QSizePolicy
+from PySide6.QtWidgets import QCheckBox, QDialog, QFileDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QProgressBar, QHeaderView, QSizePolicy
 
 from app.core.binance_account import BinanceAPIError, BinanceAccountClient
 from app.core.config import CONFIG, SETTINGS_STORE
@@ -121,6 +121,7 @@ class MainWindow(QMainWindow):
         self.canceled_buys = 0
         self.sell_timeouts = 0
         self.file_logs = FileLogManager()
+        self.gui_log_limit = 500
         self.pending_gui_logs = {"trade": [], "system": []}
         self.summary_signature = ""
         self.last_ws_live_log_ms = 0
@@ -190,8 +191,8 @@ class MainWindow(QMainWindow):
 
     def _build_logs(self) -> None:
         self.log_tabs = QTabWidget()
-        self.trade_logs = QTextEdit(); self.trade_logs.setReadOnly(True); self.trade_logs.document().setMaximumBlockCount(300)
-        self.system_logs = QTextEdit(); self.system_logs.setReadOnly(True); self.system_logs.document().setMaximumBlockCount(300)
+        self.trade_logs = QTextEdit(); self.trade_logs.setReadOnly(True); self.trade_logs.document().setMaximumBlockCount(self.gui_log_limit)
+        self.system_logs = QTextEdit(); self.system_logs.setReadOnly(True); self.system_logs.document().setMaximumBlockCount(self.gui_log_limit)
         self.log_tabs.addTab(self.trade_logs, "Торговля")
         self.log_tabs.addTab(self.system_logs, "Система")
         self.log_tabs.setMinimumHeight(220)
@@ -253,7 +254,7 @@ class MainWindow(QMainWindow):
                 f.addRow("Pair Info", pair_info)
             tabs.addTab(w, title)
 
-        btns = QHBoxLayout(); save = QPushButton("SAVE"); close = QPushButton("CLOSE"); save.clicked.connect(lambda: self._save_settings_dialog(d)); close.clicked.connect(d.close); btns.addWidget(save); btns.addWidget(close); lay.addLayout(btns)
+        btns = QHBoxLayout(); save = QPushButton("SAVE"); export_btn = QPushButton("Export settings"); import_btn = QPushButton("Import settings"); close = QPushButton("CLOSE"); save.clicked.connect(lambda: self._save_settings_dialog(d)); export_btn.clicked.connect(self._export_settings); import_btn.clicked.connect(self._import_settings); close.clicked.connect(d.close); btns.addWidget(save); btns.addWidget(export_btn); btns.addWidget(import_btn); btns.addWidget(close); lay.addLayout(btns)
         d.exec()
 
     def _save_api_fields(self, key: str, secret: str, show: QCheckBox, secret_input: QLineEdit) -> None:
@@ -268,8 +269,35 @@ class MainWindow(QMainWindow):
             if isinstance(widget, QCheckBox): setattr(self.settings, key, widget.isChecked())
             elif isinstance(old, int): setattr(self.settings, key, int(float(widget.text())))
             elif isinstance(old, float): setattr(self.settings, key, float(widget.text()))
-        SETTINGS_STORE.save(self.settings); self.rest_timer.setInterval(self.settings.rest_poll_ms); self.account_timer.setInterval(self.settings.balances_poll_ms); self.account.debug_api_logs = self.settings.debug_api_logs; self.log("OK", "settings saved")
+        SETTINGS_STORE.save(self.settings); self._apply_runtime_settings(); self.log("OK", "[SETTINGS] settings saved")
         dialog.close()
+
+    def _apply_runtime_settings(self) -> None:
+        self.rest_timer.setInterval(self.settings.rest_poll_ms)
+        self.account_timer.setInterval(self.settings.balances_poll_ms)
+        self.active_sync_timer.setInterval(self.settings.active_order_poll_ms)
+        self.account.debug_api_logs = self.settings.debug_api_logs
+        self.ws.max_ws_age_ms = self.settings.max_ws_age_ms
+
+    def _export_settings(self) -> None:
+        path, _ = QFileDialog.getSaveFileName(self, "Export settings", "settings_export.json", "JSON (*.json)")
+        if not path:
+            return
+        SETTINGS_STORE.export_settings_json(path)
+        self.log("INFO", f"[SETTINGS] exported path={path}")
+
+    def _import_settings(self) -> None:
+        path, _ = QFileDialog.getOpenFileName(self, "Import settings", "", "JSON (*.json)")
+        if not path:
+            return
+        try:
+            imported = SETTINGS_STORE.import_settings_json(path)
+        except Exception as exc:
+            self.log("ERROR", f"[SETTINGS] import failed reason={exc}")
+            return
+        self.settings = imported
+        self._apply_runtime_settings()
+        self.log("INFO", f"[SETTINGS] imported path={path}")
 
     def toggle_runtime(self) -> None:
         self.runtime_active = not self.runtime_active
@@ -857,22 +885,25 @@ class MainWindow(QMainWindow):
             if at_bottom:
                 widget.setTextCursor(cursor)
 
+    def _should_show_in_gui(self, tag: str, message: str) -> bool:
+        if "[EXEC]" in message or tag in {"ERROR", "WARNING"}:
+            return True
+        if message in {"START", "STOP"} or "[SETTINGS]" in message:
+            return True
+        if "[SYNC]" in message and ("desync fixed" in message or "filled detected" in message):
+            return True
+        return False
+
     def log(self, tag: str, message: str) -> None:
-        important = ("[EXEC] PLACE BUY", "[EXEC] BUY FILLED", "[EXEC] PLACE SELL", "[EXEC] SELL FILLED", "[EXEC] REALIZED", "[EXEC] TIMEOUT", "[EXEC] CANCEL", "[SYNC] desync fixed", "[ERROR]")
-        if ("[SYNC] openOrders" in message or "[SYNC] active order status" in message):
-            return
-        if "[WS] LIVE" in message:
-            now_ms = int(time.time() * 1000)
-            if now_ms - self.last_ws_live_log_ms < 10_000 and "reconnect" not in message.lower():
-                return
-            self.last_ws_live_log_ms = now_ms
-        if message.startswith("[") and not any(k in message for k in important) and not message.startswith("[PLAN]"):
-            if not message.startswith("[EXEC] BLOCK"):
-                return
         line = format_log(tag, message)
         if line.split("] ", 1)[-1] == self.last_log_line:
             return
         self.last_log_line = line.split("] ", 1)[-1]
+        self.file_logs.write_session(line)
+
+        if not self._should_show_in_gui(tag, message):
+            return
+
         color = {"INFO": "#CBD5E1", "OK": "#22C55E", "WARNING": "#FACC15", "ERROR": "#EF4444"}.get(tag, "#CBD5E1")
         trade_keys = ("[EXEC]", "REALIZED", "PLACE BUY", "BUY FILLED", "PLACE SELL", "SELL FILLED", "CANCEL", "TIMEOUT")
         bucket = "trade" if any(k in message for k in trade_keys) else "system"
@@ -882,6 +913,7 @@ class MainWindow(QMainWindow):
             self.file_logs.write_trade(line.replace(f"[{tag}]", "[EXEC]"))
         else:
             self.file_logs.write_system(line)
+
 
     def closeEvent(self, event) -> None:  # type: ignore[override]
         self.ws.stop(); super().closeEvent(event)
