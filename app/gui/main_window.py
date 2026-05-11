@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.settings = SETTINGS_STORE.load()
-        self.setWindowTitle("UB v0.7.2 / BTCU Trading Cockpit")
+        self.setWindowTitle("UB v0.7.4 / BTCU Trading Cockpit")
         self.resize(1600, 900)
         self.setMinimumSize(1280, 760)
         self.setStyleSheet(main_qss())
@@ -182,6 +182,9 @@ class MainWindow(QMainWindow):
         self.last_health_log_ms = 0
         self.last_health_reason = ""
         self._last_health_update_ms = 0
+        self.entry_guard_cooldown_until_ms = 0
+        self.entry_guard_cooldown_reason = ""
+        self.entry_guard_stable_snapshots_required = 8
         self.last_plan_recompute_ms = 0
         self._cached_plan = None
         self.rest_fallback_count = 0
@@ -569,6 +572,8 @@ class MainWindow(QMainWindow):
             self.losses += 1
         self.last_pnl = cycle_pnl
         self.log("OK", f"[EXEC] CYCLE CLOSED pnl={cycle_pnl:+.6f}")
+        if cycle_pnl < -epsilon:
+            self._start_entry_guard_cooldown("loss_cycle")
         self.log("INFO", f"[EXEC] SESSION realized={self.session_realized_pnl:+.6f} wins={self.wins} losses={self.losses}")
         self.cycle_realized_pnl = 0.0
         self.cycle_has_fifo_close = False
@@ -817,6 +822,7 @@ class MainWindow(QMainWindow):
         self.exit_started_ms = now_ms
         self.exit_mode = "PANIC"
         self.panic_exit_final = True
+        self._start_entry_guard_cooldown("panic_exit")
         self.panic_exit_order_id = int(self.active_order["orderId"])
         self.panic_exit_price = float(new_price)
         self.panic_exit_started_ms = now_ms
@@ -1097,9 +1103,6 @@ class MainWindow(QMainWindow):
                 self.fsm_state = "DONE"
             elif self.inventory_chunks:
                 self.fsm_state = "DONE"
-            elif self.market_health_state not in {MarketHealthState.EXCELLENT, MarketHealthState.GOOD}:
-                self.log("WARNING", "[EXEC] BLOCK reason=market_health_bad")
-                self.fsm_state = "DONE"
             elif self.active_order.get("orderId") or self.fsm_state in {"WAIT_BUY_FILL", "PLACE_SELL", "WAIT_SELL_FILL", "SELL_TIMEOUT", "ERROR_POSITION"}:
                 self.fsm_state = "DONE"
             elif self.active_order.get("orderId"):
@@ -1109,32 +1112,36 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", f"[EXEC] BLOCK reason=required_u_gt_max_exposure_u required_u={(plan.required_u or 0.0):.4f} max_exposure_u={self.settings.max_live_exposure_u:.4f}")
                 self.fsm_state = "DONE"
             else:
-                try:
-                    o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
-                    now = int(time.time() * 1000)
-                    self._reset_sell_accounting("new_cycle", reset_panic_order_id=self.position_qty <= 1e-12)
-                    self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
-                    self.buy_reported_qty = 0.0
-                    self.buy_reported_quote = 0.0
-                    self.position_state = "BUY_PENDING"
-                    self.entry_started_ms = now
-                    self.log("OK", f"[EXEC] BUY ORDER SENT orderId={self.active_order['orderId']} price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
-                    self.log("OK", f"[EXEC] PLACE BUY price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
-                    self.fsm_state = "WAIT_BUY_FILL"
-                except BinanceAPIError as exc:
-                    code = exc.binance_code
-                    msg = exc.binance_msg or ""
-                    self.log("ERROR", f"[EXEC] BUY REJECTED status={exc.status_code} code={code} msg={msg}")
-                    self.log("ERROR", f"[EXEC] BUY REJECTED body={exc.response_text}")
-                    lower_msg = msg.lower()
-                    if any(k in lower_msg for k in ["permission", "api-key", "api key", "not allowed", "unauthorized"]):
-                        self.runtime["Mode"].setText("ERROR: API permission")
-                    elif any(k in lower_msg for k in ["invalid symbol", "unknown order", "unsupported", "invalid", "filter", "minnotional", "minqty"]):
-                        self.runtime["Mode"].setText("ERROR: order unsupported for BTCU")
-                    self.active_order = {}
-                    self.order_retry_blocked_until_ms = int(time.time() * 1000) + 10_000
-                    self.log("WARNING", "[EXEC] STOP retry storm prevented")
-                    self.fsm_state = "ERROR"
+                ok_to_buy, _ = self.final_pre_buy_check(plan, now_ms)
+                if not ok_to_buy:
+                    self.fsm_state = "DONE"
+                else:
+                    try:
+                        o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
+                        now = int(time.time() * 1000)
+                        self._reset_sell_accounting("new_cycle", reset_panic_order_id=self.position_qty <= 1e-12)
+                        self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                        self.buy_reported_qty = 0.0
+                        self.buy_reported_quote = 0.0
+                        self.position_state = "BUY_PENDING"
+                        self.entry_started_ms = now
+                        self.log("OK", f"[EXEC] BUY ORDER SENT orderId={self.active_order['orderId']} price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
+                        self.log("OK", f"[EXEC] PLACE BUY price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
+                        self.fsm_state = "WAIT_BUY_FILL"
+                    except BinanceAPIError as exc:
+                        code = exc.binance_code
+                        msg = exc.binance_msg or ""
+                        self.log("ERROR", f"[EXEC] BUY REJECTED status={exc.status_code} code={code} msg={msg}")
+                        self.log("ERROR", f"[EXEC] BUY REJECTED body={exc.response_text}")
+                        lower_msg = msg.lower()
+                        if any(k in lower_msg for k in ["permission", "api-key", "api key", "not allowed", "unauthorized"]):
+                            self.runtime["Mode"].setText("ERROR: API permission")
+                        elif any(k in lower_msg for k in ["invalid symbol", "unknown order", "unsupported", "invalid", "filter", "minnotional", "minqty"]):
+                            self.runtime["Mode"].setText("ERROR: order unsupported for BTCU")
+                        self.active_order = {}
+                        self.order_retry_blocked_until_ms = int(time.time() * 1000) + 10_000
+                        self.log("WARNING", "[EXEC] STOP retry storm prevented")
+                        self.fsm_state = "ERROR"
         elif self.runtime_active and self.fsm_state == "WAIT_BUY_FILL" and self.active_order.get("orderId"):
             now = int(time.time() * 1000)
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
@@ -1464,6 +1471,64 @@ class MainWindow(QMainWindow):
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
         ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
         self.top_status.setText(f"BTC/U | WS ● {ws_txt} | REST ● {rest_txt} | API ● {self.api_status} | {'HOT' if spread_state=='HOT' else 'READY'}")
+
+    def _start_entry_guard_cooldown(self, reason: str) -> None:
+        now_ms = int(time.time() * 1000)
+        cooldown_ms = 3000
+        self.entry_guard_cooldown_until_ms = max(self.entry_guard_cooldown_until_ms, now_ms + cooldown_ms)
+        self.entry_guard_cooldown_reason = reason
+
+    def _mid_delta_ticks(self) -> float:
+        tick = self._tick_size()
+        if tick <= 0 or len(self.recent_mids) < 2:
+            return 0.0
+        return (self.recent_mids[-1][1] - self.recent_mids[0][1]) / tick
+
+    def _bid_delta_ticks(self) -> float:
+        tick = self._tick_size()
+        if tick <= 0 or len(self.recent_bids) < 2:
+            return 0.0
+        return (self.recent_bids[-1][1] - self.recent_bids[0][1]) / tick
+
+    def final_pre_buy_check(self, plan, now_ms: int):
+        if now_ms - self._last_health_update_ms >= 150:
+            self._update_market_health(now_ms)
+            self._last_health_update_ms = now_ms
+        ws_age = self.state.monotonic_age_ms(self.state.last_ws_monotonic)
+        spread = float((self.state.snapshot.ask or 0.0) - (self.state.snapshot.bid or 0.0))
+        bid_delta = self._bid_delta_ticks()
+        mid_delta = self._mid_delta_ticks()
+        source = str(self.state.snapshot.source or "NONE")
+        free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
+        need_u = float(plan.order_size_u or 0.0) * 1.01
+        stable_n = min(len(self.recent_bids), len(self.recent_mids))
+
+        reason = ""
+        if ws_age is None:
+            reason = "ws_stale"
+        elif ws_age > self.settings.max_ws_age_ms:
+            reason = "ws_stale"
+        elif self.settings.live_enabled and self.settings.ws_optional_enabled and source != "WS":
+            reason = "rest_source_live_ws_required"
+        elif spread >= self.settings.min_spread and self.last_spread_good_since_ms > 0 and (now_ms - self.last_spread_good_since_ms) < self.market_health_min_spread_lifetime_ms:
+            reason = "spread_too_young"
+        elif bid_delta <= -2:
+            reason = "bid_unstable"
+        elif mid_delta < 0:
+            reason = "mid_momentum_negative"
+        elif stable_n < self.entry_guard_stable_snapshots_required:
+            reason = "snapshots_insufficient"
+        elif now_ms < self.entry_guard_cooldown_until_ms:
+            reason = f"loss_cooldown_{self.entry_guard_cooldown_reason or 'active'}"
+        elif self.market_health_state not in {MarketHealthState.GOOD, MarketHealthState.EXCELLENT}:
+            reason = "market_health_bad"
+        elif free_u < need_u:
+            reason = "balance_low_preflight"
+
+        if reason:
+            self.log("WARNING", f"[EXEC] BLOCK_BUY reason={reason} ws_age={ws_age} spread={spread:.2f} bid_delta={bid_delta:.2f} mid_delta={mid_delta:.2f}")
+            return False, reason
+        return True, ""
 
     def _update_market_health(self, now_ms: int) -> None:
         bid = self.state.snapshot.bid
