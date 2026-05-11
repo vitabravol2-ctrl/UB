@@ -111,15 +111,23 @@ class BinanceAccountClient:
         assert isinstance(data, list)
         return data
 
+    def get_open_orders_safe(self, symbol: str) -> tuple[list[dict[str, Any]], bool]:
+        try:
+            return self.get_open_orders(symbol), False
+        except requests.HTTPError as exc:
+            if exc.response is not None and exc.response.status_code == 400:
+                return [], True
+            raise
+
     def get_exchange_filters(self, symbol: str) -> dict[str, float | bool]:
         resp = self.session.get(f"{BINANCE_BASE_URL}/api/v3/exchangeInfo", params={"symbol": symbol}, timeout=5)
         resp.raise_for_status()
         payload = resp.json()
         symbols = payload.get("symbols", [])
         if not symbols:
-            return {"loaded": False, "tickSize": 0.0, "stepSize": 0.0, "minQty": 0.0, "minNotional": 0.0}
+            return {"loaded": True, "fallback": True, "tickSize": 0.01, "stepSize": 0.00001, "minQty": 0.00001, "minNotional": 5.0}
         filters = symbols[0].get("filters", [])
-        out = {"loaded": True, "tickSize": 0.0, "stepSize": 0.0, "minQty": 0.0, "minNotional": 0.0}
+        out = {"loaded": True, "fallback": False, "tickSize": 0.0, "stepSize": 0.0, "minQty": 0.0, "minNotional": 0.0}
         for flt in filters:
             if flt.get("filterType") == "PRICE_FILTER":
                 out["tickSize"] = float(flt.get("tickSize", 0))
@@ -128,6 +136,8 @@ class BinanceAccountClient:
                 out["minQty"] = float(flt.get("minQty", 0))
             elif flt.get("filterType") in {"MIN_NOTIONAL", "NOTIONAL"}:
                 out["minNotional"] = float(flt.get("minNotional", flt.get("notional", 0)))
+        if out["tickSize"] <= 0 or out["stepSize"] <= 0 or out["minQty"] <= 0 or out["minNotional"] <= 0:
+            return {"loaded": True, "fallback": True, "tickSize": 0.01, "stepSize": 0.00001, "minQty": 0.00001, "minNotional": 5.0}
         return out
 
 
