@@ -31,6 +31,7 @@ class MarketWSClient:
         self._accepted_tick_ms: int | None = None
         self._no_match_count = 0
         self._last_no_match_log_ms = 0
+        self._last_live_log_ms = 0
 
     def start(self) -> None:
         if self._running:
@@ -41,6 +42,7 @@ class MarketWSClient:
         self._accepted_tick_ms = None
         self._no_match_count = 0
         self._last_no_match_log_ms = 0
+        self._last_live_log_ms = 0
         self.exchange_symbol = self._resolve_exchange_symbol()
         self._thread = threading.Thread(target=self._run, daemon=True)
         self._thread.start()
@@ -100,7 +102,6 @@ class MarketWSClient:
                     bid = payload.get("b")
                     ask = payload.get("a")
                     ts = int(payload.get("E") or payload.get("u") or int(time.time() * 1000))
-                    self.signals.log.emit("WS", f"tick received symbol={symbol} bid={bid} ask={ask}")
 
                     if symbol != self.exchange_symbol:
                         now_ms = int(time.time() * 1000)
@@ -117,10 +118,10 @@ class MarketWSClient:
                     ask_f = float(ask)
                     self._accepted_tick_ms = int(time.time() * 1000)
                     self.signals.book.emit(bid_f, ask_f, ts)
-                    if self._mode == "fallback":
-                        self.signals.log.emit("WS", f"accepted tick from fallback {symbol} bid={bid_f:.2f} ask={ask_f:.2f}")
-                    else:
-                        self.signals.log.emit("WS", f"accepted tick {symbol} bid={bid_f:.2f} ask={ask_f:.2f}")
+                    now_ms = int(time.time() * 1000)
+                    if now_ms - self._last_live_log_ms >= 5000:
+                        self._last_live_log_ms = now_ms
+                        self.signals.log.emit("WS", f"LIVE bid={bid_f:.2f} ask={ask_f:.2f}")
                 except Exception as exc:
                     self.signals.status.emit("ERROR")
                     self.signals.log.emit("WS", f"error {exc}")
@@ -128,7 +129,8 @@ class MarketWSClient:
             def on_open(_ws: websocket.WebSocketApp) -> None:
                 self._connected_at_ms = int(time.time() * 1000)
                 if self._mode == "primary":
-                    self.signals.log.emit("WS", "connected primary")
+                    self.signals.status.emit("CONNECTED")
+                    self.signals.log.emit("WS", "connected")
 
                     def switch_if_no_ticks() -> None:
                         time.sleep(self.max_ws_age_ms / 1000)
@@ -145,7 +147,8 @@ class MarketWSClient:
 
                     threading.Thread(target=switch_if_no_ticks, daemon=True).start()
                 else:
-                    self.signals.log.emit("WS", "connected fallback")
+                    self.signals.status.emit("CONNECTED")
+                    self.signals.log.emit("WS", "reconnected")
 
             def on_error(_ws: websocket.WebSocketApp, error: Exception) -> None:
                 self.signals.status.emit("ERROR")
@@ -153,7 +156,7 @@ class MarketWSClient:
 
             def on_close(_ws: websocket.WebSocketApp, *_args: object) -> None:
                 self.signals.status.emit("LOST")
-                self.signals.log.emit("WS", "reconnecting reason=socket closed")
+                self.signals.log.emit("WS", "stale/lost")
 
             self._ws = websocket.WebSocketApp(url, on_message=on_message, on_open=on_open, on_error=on_error, on_close=on_close)
             self._ws.run_forever(ping_interval=20, ping_timeout=5)
