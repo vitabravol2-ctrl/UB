@@ -164,7 +164,7 @@ class MainWindow(QMainWindow):
         self.market_health_mid_window_ms = 1000
         self.market_health_unstable_bid_ticks = 3
         self.market_health_negative_mid_ticks = 3
-        self.market_health_min_spread_lifetime_ms = 400
+        self.market_health_min_spread_lifetime_ms = 500
         self.recent_bids: deque[tuple[int, float]] = deque()
         self.recent_mids: deque[tuple[int, float]] = deque()
         self.last_spread_good_since_ms = 0
@@ -1015,6 +1015,11 @@ class MainWindow(QMainWindow):
                     self.log("WARNING", "[EXEC] BLOCK reason=position_open_no_new_buy")
                     self.last_position_open_block_log_ms = now_ms
                 self.fsm_state = "DONE"
+            elif self.balances.get("U", {}).get("free", 0.0) < float(plan.order_size_u or 0.0) * 1.01:
+                free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
+                need_u = float(plan.order_size_u or 0.0) * 1.01
+                self.log("WARNING", f"[EXEC] BLOCK reason=balance_low_preflight free={free_u:.8f} need={need_u:.8f}")
+                self.fsm_state = "DONE"
             elif not plan.balance_ok:
                 self.log("WARNING", "[EXEC] BLOCK reason=balance_low")
                 self.fsm_state = "DONE"
@@ -1412,6 +1417,7 @@ class MainWindow(QMainWindow):
             self.last_spread_good_since_ms = 0
 
         reasons: list[str] = []
+        hard_block_reason = ""
         state = MarketHealthState.EXCELLENT
 
         if len(self.recent_bids) >= 2:
@@ -1419,6 +1425,8 @@ class MainWindow(QMainWindow):
             if bid_delta_ticks <= -self.market_health_unstable_bid_ticks:
                 reasons.append(f"unstable_bid delta_ticks={bid_delta_ticks:.2f}")
                 state = MarketHealthState.UNTRADEABLE
+            if bid_delta_ticks <= -2:
+                hard_block_reason = "falling_market"
 
         if len(self.recent_mids) >= 2:
             mid_delta_ticks = (self.recent_mids[-1][1] - self.recent_mids[0][1]) / tick
@@ -1426,8 +1434,12 @@ class MainWindow(QMainWindow):
                 reasons.append(f"negative_momentum ticks={mid_delta_ticks:.2f}")
                 if state != MarketHealthState.UNTRADEABLE:
                     state = MarketHealthState.DANGER
+            if mid_delta_ticks <= -3:
+                hard_block_reason = "falling_market"
 
         spread_lifetime = 0 if self.last_spread_good_since_ms == 0 else now_ms - self.last_spread_good_since_ms
+        if spread >= self.settings.min_spread and spread_lifetime < 500:
+            hard_block_reason = "spread_too_young"
         if spread >= self.settings.min_spread and spread_lifetime < self.market_health_min_spread_lifetime_ms:
             reasons.append(f"unstable_spread lifetime={spread_lifetime}")
             if state == MarketHealthState.EXCELLENT:
@@ -1435,10 +1447,22 @@ class MainWindow(QMainWindow):
         elif spread < self.settings.min_spread:
             state = MarketHealthState.DANGER if state == MarketHealthState.EXCELLENT else state
 
-        if state == MarketHealthState.EXCELLENT and spread >= self.settings.min_spread:
+        if state == MarketHealthState.EXCELLENT and spread >= self.settings.min_spread and spread_lifetime >= 500:
             state = MarketHealthState.GOOD
 
         self.market_health_state = state
+        if hard_block_reason == "spread_too_young":
+            self.log("WARNING", f"[HEALTH] block spread_too_young lifetime={spread_lifetime}")
+            self.market_health_state = MarketHealthState.DANGER
+        elif hard_block_reason == "falling_market":
+            bid_ticks = 0.0
+            mid_ticks = 0.0
+            if len(self.recent_bids) >= 2:
+                bid_ticks = (self.recent_bids[-1][1] - self.recent_bids[0][1]) / tick
+            if len(self.recent_mids) >= 2:
+                mid_ticks = (self.recent_mids[-1][1] - self.recent_mids[0][1]) / tick
+            self.log("WARNING", f"[HEALTH] block falling_market bid_ticks={bid_ticks:.2f} mid_ticks={mid_ticks:.2f}")
+            self.market_health_state = MarketHealthState.DANGER
         if reasons:
             reason_key = "|".join(reasons)
             if reason_key != self.last_health_reason or now_ms - self.last_health_log_ms >= 1200:
