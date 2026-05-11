@@ -404,6 +404,50 @@ class MainWindow(QMainWindow):
             return qty
         return int(qty / step) * step
 
+
+    def handle_sell_timeout_recovery(self, now_ms: int) -> None:
+        if self.position_qty <= 0:
+            self.log("ERROR", "[EXEC] EXIT FAILED no_position_after_timeout")
+            self.position_state = "EXIT_FAILED"
+            self.fsm_state = "SELL_TIMEOUT"
+            return
+        order_id = int(self.active_order.get("orderId", 0) or 0)
+        self.log("WARNING", f"[EXEC] SELL TIMEOUT orderId={order_id}")
+        if now_ms - self.last_sell_reprice_ms < 1000:
+            self.fsm_state = "WAIT_SELL_FILL"
+            return
+        if order_id:
+            self.log("WARNING", f"[EXEC] CANCEL SELL orderId={order_id}")
+            self.account.cancel_order(CONFIG.binance_symbol, order_id)
+        self._inc_canceled_attempt("timeout_sell")
+        self._inc_canceled_attempt("canceled_sell")
+        self.sell_timeouts += 1
+        if self.sell_reprice_count >= int(self.settings.max_sell_reprices):
+            self.log("ERROR", "[EXEC] EXIT FAILED max_reprices_reached")
+            self.log("ERROR", "[EXEC] EXIT FAILED")
+            self.exit_mode = "FAILED"
+            self.position_state = "EXIT_FAILED"
+            self.fsm_state = "SELL_TIMEOUT"
+            return
+        bid_now = float(self.state.snapshot.bid or 0.0)
+        ask_now = float(self.state.snapshot.ask or 0.0)
+        aggressive = float(self.settings.aggressive_exit_offset)
+        old_price = float(self.active_order.get("price", 0.0) or 0.0)
+        new_price = max(bid_now + 0.01, ask_now - aggressive)
+        sell_qty = float(Decimal(str(self.position_qty)))
+        self.sell_reprice_count += 1
+        self.log("WARNING", f"[EXEC] SELL REPRICE old={old_price:.2f} new={new_price:.2f} count={self.sell_reprice_count}")
+        self.log("OK", f"[EXEC] PLACE SELL price={new_price:.2f} qty={sell_qty:.6f}")
+        o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
+        self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
+        self.position_sell_order_id = int(self.active_order["orderId"])
+        self.last_sell_reprice_ms = now_ms
+        self.exit_started_ms = now_ms
+        self.exit_mode = "AGGRESSIVE"
+        self.position_state = "SELL_PENDING"
+        self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
+        self.fsm_state = "WAIT_SELL_FILL"
+
     def _refresh_ui(self) -> None:
         bid = self.state.snapshot.bid; ask = self.state.snapshot.ask; spread = self.state.snapshot.spread
         spread_state = "BAD" if spread is None else ("HOT" if spread >= self.settings.min_spread + 0.02 else ("READY" if spread >= self.settings.min_spread else "WATCH"))
@@ -594,39 +638,12 @@ class MainWindow(QMainWindow):
                     self.position_state = "POSITION_OPEN"
                     self.fsm_state = "PLACE_SELL"
             elif now - self.exit_started_ms >= self.settings.exit_timeout_ms:
-                self.log("WARNING", "[EXEC] SELL TIMEOUT")
-                if now - self.last_sell_reprice_ms < 1000:
-                    self.fsm_state = "WAIT_SELL_FILL"
-                elif self.sell_reprice_count >= int(self.settings.max_sell_reprices):
-                    self.log("ERROR", "[EXEC] EXIT FAILED max_reprices_reached")
-                    self.log("ERROR", "[EXEC] EXIT FAILED")
-                    self.exit_mode = "FAILED"
+                if self.position_qty > 0:
+                    self.handle_sell_timeout_recovery(now)
+                else:
+                    self.log("ERROR", "[EXEC] EXIT FAILED no_position_after_timeout")
                     self.position_state = "EXIT_FAILED"
                     self.fsm_state = "SELL_TIMEOUT"
-                else:
-                    old_price = float(self.active_order.get("price", 0.0) or 0.0)
-                    order_id = int(self.active_order["orderId"])
-                    self.log("WARNING", f"[EXEC] CANCEL SELL orderId={order_id}")
-                    self.account.cancel_order(CONFIG.binance_symbol, order_id)
-                    self._inc_canceled_attempt("timeout_sell")
-                    self._inc_canceled_attempt("canceled_sell")
-                    self.sell_timeouts += 1
-                    bid_now = float(self.state.snapshot.bid or 0.0)
-                    ask_now = float(self.state.snapshot.ask or 0.0)
-                    aggressive = float(self.settings.aggressive_exit_offset)
-                    new_price = max(bid_now + 0.01, ask_now - aggressive)
-                    sell_qty = float(Decimal(str(self.position_qty)))
-                    self.log("WARNING", f"[EXEC] SELL REPRICE old={old_price:.2f} new={new_price:.2f}")
-                    o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
-                    self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
-                    self.position_sell_order_id = int(self.active_order["orderId"])
-                    self.sell_reprice_count += 1
-                    self.last_sell_reprice_ms = now
-                    self.exit_started_ms = now
-                    self.exit_mode = "AGGRESSIVE"
-                    self.position_state = "SELL_PENDING"
-                    self.log("WARNING", f"[EXEC] SELL REPRICE count={self.sell_reprice_count}")
-                    self.log("OK", "[EXEC] EXIT RECOVERED")
 
         self.risk["Order size U"].setText(self._fmt(self.settings.order_size_u, 2))
         self.risk["Max exposure U"].setText(self._fmt(self.settings.max_live_exposure_u, 2))
