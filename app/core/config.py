@@ -3,7 +3,9 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class UBConfig:
-    symbol: str = "BTCU"
+    display_symbol: str = "BTCU"
+    binance_symbol: str = "BTCUUSDT"
+    stream_symbol: str = "btcuusdt"
     min_spread: float = 7.0
     entry_offset: float = 1.0
     exit_offset: float = 1.0

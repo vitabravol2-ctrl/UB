@@ -1,5 +1,6 @@
 import time
 from PySide6.QtCore import QTimer, Qt
+from PySide6.QtGui import QTextOption
 from PySide6.QtWidgets import (
     QDockWidget,
     QFormLayout,
@@ -9,9 +10,9 @@ from PySide6.QtWidgets import (
     QLabel,
     QLineEdit,
     QMainWindow,
+    QPlainTextEdit,
     QPushButton,
     QTableWidget,
-    QTableWidgetItem,
     QVBoxLayout,
     QWidget,
 )
@@ -28,15 +29,16 @@ from app.gui.widgets import big_value, kv_card
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle("UB v0.1.1 / BTCU Microspread Terminal")
+        self.setWindowTitle("UB v0.1.2 / BTCU Microspread Terminal")
         self.resize(1320, 820)
         self.setStyleSheet(main_qss())
 
         self.state = MarketState()
         self.rest = MarketREST()
-        self.ws = MarketWSClient(CONFIG.symbol)
+        self.ws = MarketWSClient(CONFIG.stream_symbol, CONFIG.binance_symbol)
         self.started_watch_ms = int(time.time() * 1000)
         self.runtime_active = False
+        self._last_stale_log_ms = 0
 
         root = QWidget()
         self.setCentralWidget(root)
@@ -66,7 +68,8 @@ class MainWindow(QMainWindow):
         self.rest_timer.timeout.connect(self.fetch_rest)
         self.rest_timer.start(CONFIG.rest_poll_ms)
 
-        self.log("BOOT", "UB v0.1.1 запущен")
+        self.log("BOOT", "UB v0.1.2 запущен")
+        self.log("BOOT", "WS test enabled")
 
     def _build_cards(self) -> None:
         conn, self.conn = kv_card("ПОДКЛЮЧЕНИЕ", [("WS", "CONNECTING"), ("REST", "N/A"), ("Возраст WS ms", "N/A"), ("Возраст REST ms", "N/A")])
@@ -82,7 +85,7 @@ class MainWindow(QMainWindow):
         engine, self.engine = kv_card("СПРЕД", [("Статус", "BAD"), ("Спред", "N/A"), ("Захват", "0.00"), ("Время жизни", "0")])
         fsm, self.fsm = kv_card("RUNTIME / FSM", [("Состояние", "IDLE"), ("Вход", "N/A"), ("Выход", "N/A"), ("Режим", "WATCH")])
         risk, _ = kv_card("РИСК", [("Риск", "LOW"), ("Паника", "READY"), ("Экспозиция", "LOW")])
-        bal, _ = kv_card("БАЛАНСЫ", [("BTC", "N/A"), ("USDT", "N/A")])
+        bal, _ = kv_card("БАЛАНСЫ", [("BTC", "N/A"), ("U", "N/A")])
         self.grid.addWidget(engine, 1, 0)
         self.grid.addWidget(fsm, 1, 1)
         self.grid.addWidget(risk, 1, 2)
@@ -90,7 +93,7 @@ class MainWindow(QMainWindow):
 
         self.orders = QTableWidget(0, 4)
         self.orders.setHorizontalHeaderLabels(["Вход", "Выход", "Qty", "Статус"])
-        self.orders.setMaximumHeight(120)
+        self.orders.setMaximumHeight(90)
         orders_box = QGroupBox("ОРДЕРА / ПОЗИЦИИ")
         o_lay = QVBoxLayout()
         o_lay.addWidget(self.orders)
@@ -99,7 +102,6 @@ class MainWindow(QMainWindow):
 
     def _build_controls(self) -> None:
         row = QHBoxLayout()
-
         self.settings_btn = QPushButton("НАСТРОЙКИ")
         self.settings_btn.clicked.connect(self.toggle_settings)
         row.addWidget(self.settings_btn)
@@ -113,13 +115,17 @@ class MainWindow(QMainWindow):
         cancel_btn.setProperty("kind", "danger")
         cancel_btn.clicked.connect(self.cancel_all)
         row.addWidget(cancel_btn)
-
         self.main_layout.addLayout(row)
 
     def _build_logs(self) -> None:
-        self.logs = QTableWidget(0, 1)
-        self.logs.setHorizontalHeaderLabels(["ЛОГИ"])
-        self.logs.setMaximumHeight(170)
+        self.logs = QPlainTextEdit()
+        self.logs.setReadOnly(True)
+        self.logs.setMaximumBlockCount(500)
+        self.logs.setMinimumHeight(280)
+        self.logs.setWordWrapMode(QTextOption.WrapAnywhere)
+        self.logs.setStyleSheet(
+            "QPlainTextEdit {background-color: #111827; color: #E5E7EB; font-family: Consolas, 'Courier New', monospace; font-size: 11pt; border: 1px solid #374151; }"
+        )
         self.main_layout.addWidget(self.logs)
 
     def _build_settings_panel(self) -> None:
@@ -127,31 +133,25 @@ class MainWindow(QMainWindow):
         self.settings_dock.setAllowedAreas(Qt.RightDockWidgetArea)
         w = QWidget()
         lay = QVBoxLayout(w)
-
         strategy = QGroupBox("СТРАТЕГИЯ")
         s_form = QFormLayout()
         for key, val in [("min_spread", CONFIG.min_spread), ("entry_offset", CONFIG.entry_offset), ("exit_offset", CONFIG.exit_offset), ("target_capture", 0.0), ("stop_loss", 0.0), ("max_hold_ms", 5000)]:
             s_form.addRow(key, QLineEdit(str(val)))
         strategy.setLayout(s_form)
-
         risk = QGroupBox("РИСК")
         r_form = QFormLayout()
         for key, val in [("lot_size", 1), ("max_open_lots", 1), ("max_daily_loss", 100)]:
             r_form.addRow(key, QLineEdit(str(val)))
         risk.setLayout(r_form)
-
         mode = QGroupBox("РЕЖИМ")
         m_form = QFormLayout()
         m_form.addRow("LIVE", QLabel("OFF"))
         m_form.addRow("auto cancel on stop", QLabel("ON"))
         mode.setLayout(m_form)
-
-        apply_btn = QPushButton("ПРИМЕНИТЬ")
-
         lay.addWidget(strategy)
         lay.addWidget(risk)
         lay.addWidget(mode)
-        lay.addWidget(apply_btn)
+        lay.addWidget(QPushButton("ПРИМЕНИТЬ"))
         self.settings_dock.setWidget(w)
         self.addDockWidget(Qt.RightDockWidgetArea, self.settings_dock)
         self.settings_dock.hide()
@@ -168,7 +168,6 @@ class MainWindow(QMainWindow):
             self.start_stop_btn.setText("STOP")
             self.log("FSM", "IDLE -> WATCH_SPREAD")
             return
-
         self.runtime_active = False
         self.fsm["Состояние"].setText("IDLE")
         self.start_stop_btn.setText("START")
@@ -191,21 +190,27 @@ class MainWindow(QMainWindow):
 
     def fetch_rest(self) -> None:
         try:
-            bid, ask, ts = self.rest.fetch_book_ticker(CONFIG.symbol)
+            bid, ask, ts = self.rest.fetch_book_ticker(CONFIG.binance_symbol)
             self.state.last_rest_ms = ts
             self.state.rest_status = "OK"
             ws_age = self.state.age_ms(self.state.last_ws_ms)
             if ws_age is None or ws_age > CONFIG.max_ws_age_ms:
-                self.log("WS", "stale")
                 self.state.snapshot.bid = bid
                 self.state.snapshot.ask = ask
                 self.state.snapshot.updated_ms = ts
                 self.state.snapshot.source = "REST"
+                self.log("REST", f"fallback OK bid={bid:.2f} ask={ask:.2f}")
         except Exception as exc:
             self.state.rest_status = "ERROR"
             self.log("REST", f"error: {exc}")
 
     def on_tick(self) -> None:
+        ws_age = self.state.age_ms(self.state.last_ws_ms)
+        if ws_age is not None and ws_age > CONFIG.max_ws_age_ms:
+            now_ms = int(time.time() * 1000)
+            if now_ms - self._last_stale_log_ms >= 3000:
+                self.log("WS", f"stale age={ws_age}ms")
+                self._last_stale_log_ms = now_ms
         self._refresh_ui()
 
     def _refresh_ui(self) -> None:
@@ -215,10 +220,18 @@ class MainWindow(QMainWindow):
         ws_age = self.state.age_ms(self.state.last_ws_ms)
         rest_age = self.state.age_ms(self.state.last_rest_ms)
 
-        ws_ok = ws_age is not None and ws_age <= CONFIG.max_ws_age_ms
-        self.state.ws_status = "OK" if ws_ok else "LOST"
+        if self.state.ws_status == "CONNECTING":
+            ws_display = "CONNECTING"
+        elif self.state.ws_status == "ERROR":
+            ws_display = "ERROR"
+        elif ws_age is None:
+            ws_display = "LOST"
+        elif ws_age <= CONFIG.max_ws_age_ms:
+            ws_display = "OK"
+        else:
+            ws_display = "STALE"
 
-        self.conn["WS"].setText(self.state.ws_status)
+        self.conn["WS"].setText(ws_display)
         self.conn["REST"].setText(self.state.rest_status)
         self.conn["Возраст WS ms"].setText("N/A" if ws_age is None else str(ws_age))
         self.conn["Возраст REST ms"].setText("N/A" if rest_age is None else str(rest_age))
@@ -237,28 +250,20 @@ class MainWindow(QMainWindow):
                 status = "READY"
             elif spread > 0:
                 status = "WATCH"
-
         self.engine["Статус"].setText(status)
         self.engine["Спред"].setText("N/A" if spread is None else f"{spread:.2f}")
         self.engine["Захват"].setText(f"{capture:.2f}")
         self.engine["Время жизни"].setText(str(max(int(time.time() * 1000) - self.started_watch_ms, 0)))
 
-        if bid is not None and ask is not None:
-            self.fsm["Вход"].setText(f"{bid + CONFIG.entry_offset:.2f}")
-            self.fsm["Выход"].setText(f"{ask - CONFIG.exit_offset:.2f}")
-
         runtime_txt = "WATCH" if self.runtime_active else "IDLE"
-        spread_txt = "FALLBACK" if not ws_ok and self.state.rest_status == "OK" else f"SPREAD {status}"
-        ws_txt = f"{ws_age}ms" if ws_ok and ws_age is not None else "LOST"
-        self.top_status.setText(f"{CONFIG.symbol} | WS ● {ws_txt} | REST ● {self.state.rest_status} | {runtime_txt} | {spread_txt}")
+        ws_ok = ws_display == "OK"
+        mode_txt = "FALLBACK" if (not ws_ok and self.state.rest_status == "OK") else "WS LIVE"
+        ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else ws_display
+        self.top_status.setText(f"{CONFIG.display_symbol} | WS ● {ws_txt} | REST ● {self.state.rest_status} | {runtime_txt} | {mode_txt}")
 
     def log(self, tag: str, message: str) -> None:
-        text = format_log(tag, message)
-        row = self.logs.rowCount()
-        self.logs.insertRow(row)
-        self.logs.setItem(row, 0, QTableWidgetItem(text))
-        if self.logs.rowCount() > 120:
-            self.logs.removeRow(0)
+        self.logs.appendPlainText(format_log(tag, message))
+        self.logs.verticalScrollBar().setValue(self.logs.verticalScrollBar().maximum())
 
     def closeEvent(self, event) -> None:  # type: ignore[override]
         self.ws.stop()
