@@ -412,6 +412,17 @@ class MainWindow(QMainWindow):
     def on_tick(self) -> None: self._refresh_ui()
     def _fmt(self, v: float, n: int = 6) -> str: return f"{v:.{n}f}".rstrip("0").rstrip(".") if v else "0"
 
+
+    def _inc_canceled_attempt(self, key: str) -> None:
+        if key in self.canceled_attempts:
+            self.canceled_attempts[key] += 1
+
+    def _normalize_qty(self, qty: float) -> float:
+        step = float(self.filters.get("stepSize", 0.0) or 0.0)
+        if step <= 0:
+            return qty
+        return int(qty / step) * step
+
     def _refresh_ui(self) -> None:
         bid = self.state.snapshot.bid; ask = self.state.snapshot.ask; spread = self.state.snapshot.spread
         spread_state = "BAD" if spread is None else ("HOT" if spread >= self.settings.min_spread + 0.02 else ("READY" if spread >= self.settings.min_spread else "WATCH"))
@@ -532,13 +543,19 @@ class MainWindow(QMainWindow):
                     self.log("WARNING", "[EXEC] BLOCK reason=buy_not_filled")
                     self.fsm_state = "DONE"
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
-            self.log("OK", f"[EXEC] PLACE SELL price={plan.exit_price:.2f} qty={self.position_qty:.6f}")
-            o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(plan.exit_price), float(self.position_qty))
-            now = int(time.time() * 1000)
-            self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(plan.exit_price), "qty": float(self.position_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
-            self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
-            self.exit_started_ms = now
-            self.fsm_state = "WAIT_SELL_FILL"
+            sell_qty = self._normalize_qty(float(self.position_qty))
+            min_qty = float(self.filters.get("minQty", 0.0) or 0.0)
+            if sell_qty <= 0 or (min_qty > 0 and sell_qty < min_qty):
+                self.log("WARNING", f"[EXEC] BLOCK reason=sell_qty_invalid qty={sell_qty:.8f} minQty={min_qty:.8f}")
+                self.fsm_state = "DONE"
+            else:
+                self.log("OK", f"[EXEC] PLACE SELL price={plan.exit_price:.2f} qty={sell_qty:.6f}")
+                o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(plan.exit_price), float(sell_qty))
+                now = int(time.time() * 1000)
+                self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(plan.exit_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
+                self.exit_started_ms = now
+                self.fsm_state = "WAIT_SELL_FILL"
         elif self.runtime_active and self.fsm_state == "WAIT_SELL_FILL" and self.active_order.get("orderId"):
             now = int(time.time() * 1000)
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
