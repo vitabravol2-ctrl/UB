@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from decimal import Decimal, ROUND_DOWN
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlencode
 
 import requests
 from requests import HTTPError
@@ -64,9 +65,31 @@ class BinanceAccountClient:
         self.api_key = api_key.strip()
         self.api_secret = api_secret.strip()
 
-    def sign_params(self, params: dict[str, Any], secret: str) -> str:
-        query = "&".join(f"{k}={params[k]}" for k in sorted(params.keys()))
-        return hmac.new(secret.encode("utf-8"), query.encode("utf-8"), hashlib.sha256).hexdigest()
+    def sign_params(self, query_string: str, secret: str) -> str:
+        return hmac.new(secret.encode("utf-8"), query_string.encode("utf-8"), hashlib.sha256).hexdigest()
+
+    def _build_signed_query(self, params: dict[str, Any] | None = None) -> tuple[str, str]:
+        payload: dict[str, Any] = dict(params or {})
+        payload["recvWindow"] = 5000
+        payload["timestamp"] = int(time.time() * 1000) + self.time_offset_ms
+        query_string = urlencode(payload, doseq=True)
+        signature = self.sign_params(query_string, self.api_secret)
+        return query_string, signature
+
+    def _signed_request(self, method: str, path: str, params: dict[str, Any] | None = None) -> requests.Response:
+        if not self.api_key or not self.api_secret:
+            raise ValueError("API NOT SET")
+        query_string, signature = self._build_signed_query(params)
+        print(f"[API] signed {method.upper()} {path} params={query_string}")
+        final_url = f"{BINANCE_BASE_URL}{path}?{query_string}&signature={signature}"
+        headers = {"X-MBX-APIKEY": self.api_key}
+        if method.upper() == "GET":
+            return self.session.get(final_url, headers=headers, timeout=6)
+        if method.upper() == "POST":
+            return self.session.post(final_url, headers=headers, timeout=6)
+        if method.upper() == "DELETE":
+            return self.session.delete(final_url, headers=headers, timeout=6)
+        raise ValueError(f"Unsupported method: {method}")
 
     def sync_time(self) -> int:
         local_ms = int(time.time() * 1000)
@@ -94,14 +117,7 @@ class BinanceAccountClient:
         )
 
     def signed_get(self, path: str, params: dict[str, Any] | None = None) -> dict[str, Any] | list[dict[str, Any]]:
-        if not self.api_key or not self.api_secret:
-            raise ValueError("API NOT SET")
-        payload: dict[str, Any] = dict(params or {})
-        payload["recvWindow"] = 5000
-        payload["timestamp"] = int(time.time() * 1000) + self.time_offset_ms
-        payload["signature"] = self.sign_params(payload, self.api_secret)
-        headers = {"X-MBX-APIKEY": self.api_key}
-        resp = self.session.get(f"{BINANCE_BASE_URL}{path}", params=payload, headers=headers, timeout=6)
+        resp = self._signed_request("GET", path, params)
         if resp.status_code in {401, 403}:
             raise RuntimeError("INVALID API KEY")
         data = self._parse_json_body(resp)
@@ -116,14 +132,7 @@ class BinanceAccountClient:
 
 
     def signed_post(self, path: str, params: dict[str, Any]) -> dict[str, Any]:
-        if not self.api_key or not self.api_secret:
-            raise ValueError("API NOT SET")
-        payload: dict[str, Any] = dict(params)
-        payload["recvWindow"] = 5000
-        payload["timestamp"] = int(time.time() * 1000) + self.time_offset_ms
-        payload["signature"] = self.sign_params(payload, self.api_secret)
-        headers = {"X-MBX-APIKEY": self.api_key}
-        resp = self.session.post(f"{BINANCE_BASE_URL}{path}", params=payload, headers=headers, timeout=6)
+        resp = self._signed_request("POST", path, params)
         data = self._parse_json_body(resp)
         if resp.status_code >= 400:
             self._raise_binance_error(resp, data)
@@ -131,14 +140,7 @@ class BinanceAccountClient:
         return data
 
     def signed_delete(self, path: str, params: dict[str, Any]) -> dict[str, Any]:
-        if not self.api_key or not self.api_secret:
-            raise ValueError("API NOT SET")
-        payload: dict[str, Any] = dict(params)
-        payload["recvWindow"] = 5000
-        payload["timestamp"] = int(time.time() * 1000) + self.time_offset_ms
-        payload["signature"] = self.sign_params(payload, self.api_secret)
-        headers = {"X-MBX-APIKEY": self.api_key}
-        resp = self.session.delete(f"{BINANCE_BASE_URL}{path}", params=payload, headers=headers, timeout=6)
+        resp = self._signed_request("DELETE", path, params)
         data = self._parse_json_body(resp)
         if resp.status_code >= 400:
             self._raise_binance_error(resp, data)
@@ -146,7 +148,19 @@ class BinanceAccountClient:
         return data
 
     def place_limit_order(self, symbol: str, side: str, price: float, qty: float) -> dict[str, Any]:
-        return self.signed_post("/api/v3/order", {"symbol": symbol, "side": side, "type": "LIMIT", "timeInForce": "GTC", "quantity": f"{qty:.8f}", "price": f"{price:.8f}"})
+        price_decimal = Decimal(str(price)).normalize()
+        qty_decimal = Decimal(str(qty)).normalize()
+        return self.signed_post(
+            "/api/v3/order",
+            {
+                "symbol": symbol,
+                "side": side,
+                "type": "LIMIT",
+                "timeInForce": "GTC",
+                "quantity": format(qty_decimal, "f"),
+                "price": format(price_decimal, "f"),
+            },
+        )
 
     def cancel_order(self, symbol: str, order_id: int) -> dict[str, Any]:
         return self.signed_delete("/api/v3/order", {"symbol": symbol, "orderId": order_id})
