@@ -41,6 +41,7 @@ class BinanceAccountClient:
         self.session = requests.Session()
         self.debug_api_logs = DEBUG_API_LOGS
         self._last_debug_log_ms = 0
+        self._symbol_filters_cache: dict[str, dict[str, float | bool]] = {}
 
     @staticmethod
     def _mask_key(key: str) -> str:
@@ -154,8 +155,18 @@ class BinanceAccountClient:
         return data
 
     def place_limit_order(self, symbol: str, side: str, price: float, qty: float) -> dict[str, Any]:
-        price_decimal = Decimal(str(price)).normalize()
-        qty_decimal = Decimal(str(qty)).normalize()
+        symbol_filters = self._symbol_filters_cache.get(symbol)
+        if symbol_filters is None:
+            try:
+                symbol_filters = self.get_exchange_filters(symbol)
+            except requests.RequestException:
+                symbol_filters = {"tickSize": 0.01, "stepSize": 0.00001}
+            self._symbol_filters_cache[symbol] = symbol_filters
+
+        tick_size = Decimal(str(float(symbol_filters.get("tickSize", 0.01) or 0.01)))
+        step_size = Decimal(str(float(symbol_filters.get("stepSize", 0.00001) or 0.00001)))
+        price_decimal = Decimal(str(price)).quantize(tick_size, rounding=ROUND_DOWN)
+        qty_decimal = Decimal(str(qty)).quantize(step_size, rounding=ROUND_DOWN)
         return self.signed_post(
             "/api/v3/order",
             {
