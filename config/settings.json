@@ -10,8 +10,8 @@
   "max_exposure_u": 20.0,
   "max_live_exposure_u": 20.0,
   "panic_exit": true,
-  "live_enabled": false,
-  "require_confirmation": true,
+  "live_enabled": true,
+  "require_confirmation": false,
   "auto_cancel_on_stop": true,
   "buy_timeout_ms": 4500,
   "sell_timeout_ms": 5000,
@@ -58,5 +58,12 @@
   "panic_ladder_step_ticks": 2,
   "panic_ladder_ms": 400,
   "panic_cross_after_ms": 3500,
-  "exit_ioc_enabled": false
+  "exit_ioc_enabled": false,
+  "entry_reprice_enabled": true,
+  "entry_reprice_cooldown_ms": 300,
+  "max_entry_reprices": 3,
+  "entry_chase_ticks": 1,
+  "entry_cross_if_spread_ticks_above": 1000,
+  "min_spread_after_entry_ticks": 3,
+  "buy_timeout_ms_fast": 1200
 }

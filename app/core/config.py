@@ -18,8 +18,8 @@ class SettingsData:
     max_exposure_u: float = 20.0
     max_live_exposure_u: float = 20.0
     panic_exit: bool = True
-    live_enabled: bool = False
-    require_confirmation: bool = True
+    live_enabled: bool = True
+    require_confirmation: bool = False
     auto_cancel_on_stop: bool = True
     buy_timeout_ms: int = 4500
     buy_timeout_ms_fast: int = 1200
@@ -96,13 +96,16 @@ class SettingsStore:
             return data
         payload = json.loads(self.path.read_text(encoding="utf-8"))
         current = asdict(SettingsData())
+        known_keys = set(current.keys())
         if "lot_size" in payload and "order_size_u" not in payload:
             legacy_lot = float(payload.get("lot_size", 0.0) or 0.0)
             payload["order_size_u"] = legacy_lot if legacy_lot > 1 else 20.0
             payload["legacy_qty_btc"] = legacy_lot if legacy_lot < 1 else 0.0
         if "live_max_exposure_u" in payload and "max_live_exposure_u" not in payload:
             payload["max_live_exposure_u"] = float(payload["live_max_exposure_u"])
-        current.update(payload)
+        for key, value in payload.items():
+            if key in known_keys:
+                current[key] = value
         current.pop("lot_size", None)
         current.pop("legacy_qty_btc", None)
         if "entry_timeout_ms" in payload and "buy_timeout_ms" not in payload:
