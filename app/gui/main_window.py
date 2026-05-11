@@ -88,6 +88,7 @@ class MainWindow(QMainWindow):
         self.position_state = "FLAT"
         self.buy_filled_qty = 0.0
         self.sell_reported_qty = 0.0
+        self.sell_target_qty = 0.0
         self.buy_reported_qty = 0.0
         self.buy_reported_quote = 0.0
         self.avg_entry = 0.0
@@ -530,6 +531,13 @@ class MainWindow(QMainWindow):
         soft_floor = old_price - tick
         return max(candidate_price, soft_floor)
 
+    def _remaining_to_sell(self) -> float:
+        return max(self.position_qty - self.sell_reported_qty, 0.0)
+
+    def _sync_sell_target_qty(self) -> float:
+        self.sell_target_qty = self._remaining_to_sell()
+        return self.sell_target_qty
+
     def _panic_exit_final(self, now_ms: int, reason: str, sl_mode: bool = False) -> None:
         if self.panic_exit_final and self.panic_exit_order_id:
             self.log("WARNING", f"[EXEC] PANIC HOLD active orderId={self.panic_exit_order_id}")
@@ -576,7 +584,7 @@ class MainWindow(QMainWindow):
         self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
         self.realized_u = sell_quote - (self.position_entry_avg * sell_qty)
         self.log("OK", f"[EXEC] SELL FILLED id={order_ref}")
-        remaining = max(self.position_qty - sell_qty, 0.0)
+        remaining = max(self.position_qty, 0.0)
         self.log("OK", f"[EXEC] SELL FILLED qty={sell_qty:.6f} remaining={remaining:.6f}")
         self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
         self._apply_session_pnl(self.realized_u)
@@ -688,7 +696,13 @@ class MainWindow(QMainWindow):
                     return
                 candidate_price = max(bid_now + tick, ask_now - aggressive)
             new_price = self._cap_soft_sell_reprice(old_price, candidate_price)
-            sell_qty = float(Decimal(str(self.position_qty)))
+            sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
+            if sell_qty <= 0:
+                self.position_qty = 0.0
+                self.position_state = "FLAT"
+                self.active_order = {}
+                self.fsm_state = "WAIT_READY"
+                return
             self.sell_reprice_count += 1
             self.log("WARNING", f"[EXEC] SELL REPRICE old={old_price:.2f} new={new_price:.2f} count={self.sell_reprice_count}")
             self.log("INFO", f"[EXEC] SELL REPLACE remaining={sell_qty:.6f}")
@@ -811,10 +825,13 @@ class MainWindow(QMainWindow):
                 self.avg_entry = (cum_quote / executed_qty) if executed_qty > 0 else float(self.active_order.get("price", 0.0))
                 self.position_entry_avg = self.avg_entry
                 self.position_buy_order_id = int(self.active_order["orderId"])
-                self.log("OK", f"[EXEC] BUY PARTIAL filled={new_chunk:.6f} total={executed_qty:.6f}")
+                self.log("OK", f"[EXEC] BUY PARTIAL delta={new_chunk:.6f} total={executed_qty:.6f}")
                 self.log("OK", f"[EXEC] BUY REMAINING qty={max(float(self.active_order.get('qty', 0.0)) - executed_qty, 0.0):.6f}")
-                self.log("OK", f"[EXEC] POSITION qty={self.position_qty:.6f}")
-                if not (self.active_order.get("side") == "SELL"):
+                self.log("OK", f"[EXEC] INVENTORY qty={self.position_qty:.6f}")
+                self._sync_sell_target_qty()
+                if self.active_order.get("side") == "SELL" and self.active_order.get("orderId"):
+                    self.fsm_state = "WAIT_SELL_FILL"
+                else:
                     self.fsm_state = "PLACE_SELL"
             if st.get("status") == "FILLED":
                 buy_qty = float(Decimal(str(executed_qty)))
@@ -839,7 +856,6 @@ class MainWindow(QMainWindow):
                 self.panic_exit_started_ms = 0
                 self.panic_escalated_once = False
                 self.last_panic_wait_log_ms = 0
-                self.sell_reported_qty = 0.0
                 self.fsm_state = "PLACE_SELL"
             elif now - self.entry_started_ms >= int(self.settings.buy_timeout_ms):
                 order_id = int(self.active_order["orderId"])
@@ -862,7 +878,7 @@ class MainWindow(QMainWindow):
                     self.fsm_state = "PLACE_SELL"
                 elif executed_qty > 0:
                     self.log("WARNING", "[EXEC] BUY REMAINDER CANCELLED")
-                    self.log("OK", f"[EXEC] POSITION qty={self.position_qty:.6f}")
+                    self.log("INFO", f"[EXEC] SELL CONTINUES inventory={self.position_qty:.6f}")
                     self.active_order = {}
                     self.position_state = "POSITION_OPEN" if self.position_qty > 0 else "FLAT"
                     if self.position_qty > 0 and not (self.active_order.get("side") == "SELL"):
@@ -881,7 +897,7 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", "[EXEC] BLOCK duplicate_sell_prevented")
                 self.fsm_state = "WAIT_SELL_FILL"
                 return
-            sell_qty = float(Decimal(str(self.position_qty)))
+            sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
             min_qty = float(self.filters.get("minQty", 0.0) or 0.0)
             if sell_qty <= 0:
                 self.log("WARNING", "[EXEC] BLOCK reason=no_position_to_sell")
@@ -922,8 +938,22 @@ class MainWindow(QMainWindow):
             if sell_delta > 0:
                 self.position_qty = max(self.position_qty - sell_delta, 0.0)
                 self.sell_reported_qty = executed_qty
+                self.log("OK", f"[EXEC] SELL PARTIAL delta={sell_delta:.6f}")
+                self.log("OK", f"[EXEC] INVENTORY remaining={self.position_qty:.6f}")
                 if self.panic_exit_final and st.get("status") == "PARTIALLY_FILLED":
                     self.log("WARNING", f"[EXEC] PANIC PARTIAL filled={sell_delta:.6f} remaining={self.position_qty:.6f}")
+            remaining_to_sell = self._sync_sell_target_qty()
+            active_sell_qty = float(self.active_order.get("qty", 0.0) or 0.0)
+            if (
+                st.get("status") in {"NEW", "PARTIALLY_FILLED"}
+                and not self.panic_exit_final
+                and remaining_to_sell > (active_sell_qty + 1e-9)
+                and not self.sell_recovery_in_progress
+                and not self.sell_cancel_in_progress
+            ):
+                self.log("INFO", f"[EXEC] SELL UPSIZE old={active_sell_qty:.6f} new={remaining_to_sell:.6f}")
+                self.handle_sell_timeout_recovery(now)
+                return
             if st.get("status") == "FILLED":
                 self._handle_sell_filled(st, int(self.active_order["orderId"]))
             elif now - self.exit_started_ms >= int(self.settings.sell_timeout_ms):
