@@ -21,7 +21,7 @@ class SettingsData:
     live_enabled: bool = False
     require_confirmation: bool = True
     auto_cancel_on_stop: bool = True
-    entry_timeout_ms: int = 10000
+    entry_timeout_ms: int = 15000
     exit_timeout_ms: int = 20000
     panic_reprice_once: bool = True
     rest_poll_ms: int = 2000
