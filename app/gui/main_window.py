@@ -1,6 +1,7 @@
 import time
 from dataclasses import dataclass
 from decimal import Decimal
+from collections import deque
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QColor, QTextCursor, QTextCharFormat
 from PySide6.QtWidgets import QCheckBox, QDialog, QFileDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QProgressBar, QHeaderView, QSizePolicy
@@ -63,6 +64,13 @@ class InventoryChunk:
     qty: float
     entry_price: float
     created_ms: int
+
+
+class MarketHealthState:
+    EXCELLENT = "EXCELLENT"
+    GOOD = "GOOD"
+    DANGER = "DANGER"
+    UNTRADEABLE = "UNTRADEABLE"
 
 
 class MainWindow(QMainWindow):
@@ -151,6 +159,17 @@ class MainWindow(QMainWindow):
         self.last_sell_place_signature = ""
         self.sell_hold_window_ms = 1500
         self.sell_hold_near_ticks = 2
+        self.market_health_state = MarketHealthState.GOOD
+        self.market_health_bid_window_ms = 1000
+        self.market_health_mid_window_ms = 1000
+        self.market_health_unstable_bid_ticks = 3
+        self.market_health_negative_mid_ticks = 3
+        self.market_health_min_spread_lifetime_ms = 400
+        self.recent_bids: deque[tuple[int, float]] = deque()
+        self.recent_mids: deque[tuple[int, float]] = deque()
+        self.last_spread_good_since_ms = 0
+        self.last_health_log_ms = 0
+        self.last_health_reason = ""
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -185,7 +204,7 @@ class MainWindow(QMainWindow):
         self.spread_box = spread
         plan, self.plan = build_kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")], compact=True)
         self.plan_box = plan
-        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
+        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Market Health", "GOOD"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
         self.runtime_box = runtime
         risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
@@ -948,6 +967,7 @@ class MainWindow(QMainWindow):
         self.runtime["Position state"].setText(self.position_state)
         self.runtime["Position qty"].setText(self._fmt(self.position_qty, 6))
         self.runtime["Entry avg"].setText(self._fmt(self.position_entry_avg, 6))
+        self.runtime["Market Health"].setText(self.market_health_state)
         plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status)
         now_ms = int(time.time() * 1000)
         plan_status = plan.status
@@ -987,6 +1007,7 @@ class MainWindow(QMainWindow):
         market_valid = ws_ok or self.state.rest_status == "OK"
         allow_buy = self.settings.live_enabled and plan.status in {"READY", "HOT"} and market_valid and plan.filters_ok and (plan.required_u or 0.0) <= self.settings.max_live_exposure_u
         if self.runtime_active and self.fsm_state == "WAIT_READY" and allow_buy:
+            self._update_market_health(now_ms)
             if self.position_qty > 0:
                 if not plan.balance_ok:
                     self.log("WARNING", "[EXEC] BALANCE LOW ignored: exit priority")
@@ -996,6 +1017,11 @@ class MainWindow(QMainWindow):
                 self.fsm_state = "DONE"
             elif not plan.balance_ok:
                 self.log("WARNING", "[EXEC] BLOCK reason=balance_low")
+                self.fsm_state = "DONE"
+            elif self.inventory_chunks:
+                self.fsm_state = "DONE"
+            elif self.market_health_state not in {MarketHealthState.EXCELLENT, MarketHealthState.GOOD}:
+                self.log("WARNING", "[EXEC] BLOCK reason=market_health_bad")
                 self.fsm_state = "DONE"
             elif self.active_order.get("orderId") or self.fsm_state in {"WAIT_BUY_FILL", "PLACE_SELL", "WAIT_SELL_FILL", "SELL_TIMEOUT", "ERROR_POSITION"}:
                 self.fsm_state = "DONE"
@@ -1360,6 +1386,70 @@ class MainWindow(QMainWindow):
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
         ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
         self.top_status.setText(f"BTC/U | WS ● {ws_txt} | REST ● {rest_txt} | API ● {self.api_status} | {'HOT' if spread_state=='HOT' else 'READY'}")
+
+    def _update_market_health(self, now_ms: int) -> None:
+        bid = self.state.snapshot.bid
+        ask = self.state.snapshot.ask
+        if bid is None or ask is None:
+            self.market_health_state = MarketHealthState.DANGER
+            return
+        tick = self._tick_size()
+        if tick <= 0:
+            tick = 0.01
+        mid = (bid + ask) / 2.0
+        self.recent_bids.append((now_ms, bid))
+        self.recent_mids.append((now_ms, mid))
+        while self.recent_bids and now_ms - self.recent_bids[0][0] > self.market_health_bid_window_ms:
+            self.recent_bids.popleft()
+        while self.recent_mids and now_ms - self.recent_mids[0][0] > self.market_health_mid_window_ms:
+            self.recent_mids.popleft()
+
+        spread = ask - bid
+        if spread >= self.settings.min_spread:
+            if self.last_spread_good_since_ms == 0:
+                self.last_spread_good_since_ms = now_ms
+        else:
+            self.last_spread_good_since_ms = 0
+
+        reasons: list[str] = []
+        state = MarketHealthState.EXCELLENT
+
+        if len(self.recent_bids) >= 2:
+            bid_delta_ticks = (self.recent_bids[-1][1] - self.recent_bids[0][1]) / tick
+            if bid_delta_ticks <= -self.market_health_unstable_bid_ticks:
+                reasons.append(f"unstable_bid delta_ticks={bid_delta_ticks:.2f}")
+                state = MarketHealthState.UNTRADEABLE
+
+        if len(self.recent_mids) >= 2:
+            mid_delta_ticks = (self.recent_mids[-1][1] - self.recent_mids[0][1]) / tick
+            if mid_delta_ticks <= -self.market_health_negative_mid_ticks:
+                reasons.append(f"negative_momentum ticks={mid_delta_ticks:.2f}")
+                if state != MarketHealthState.UNTRADEABLE:
+                    state = MarketHealthState.DANGER
+
+        spread_lifetime = 0 if self.last_spread_good_since_ms == 0 else now_ms - self.last_spread_good_since_ms
+        if spread >= self.settings.min_spread and spread_lifetime < self.market_health_min_spread_lifetime_ms:
+            reasons.append(f"unstable_spread lifetime={spread_lifetime}")
+            if state == MarketHealthState.EXCELLENT:
+                state = MarketHealthState.DANGER
+        elif spread < self.settings.min_spread:
+            state = MarketHealthState.DANGER if state == MarketHealthState.EXCELLENT else state
+
+        if state == MarketHealthState.EXCELLENT and spread >= self.settings.min_spread:
+            state = MarketHealthState.GOOD
+
+        self.market_health_state = state
+        if reasons:
+            reason_key = "|".join(reasons)
+            if reason_key != self.last_health_reason or now_ms - self.last_health_log_ms >= 1200:
+                for reason in reasons:
+                    self.log("WARNING", f"[HEALTH] {reason}")
+                self.last_health_reason = reason_key
+                self.last_health_log_ms = now_ms
+        elif now_ms - self.last_health_log_ms >= 5000:
+            self.log("INFO", f"[HEALTH] state={self.market_health_state}")
+            self.last_health_reason = ""
+            self.last_health_log_ms = now_ms
 
     def _flush_gui_logs(self) -> None:
         for key, widget in (("trade", self.trade_logs), ("system", self.system_logs)):
