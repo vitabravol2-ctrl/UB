@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from PySide6.QtWidgets import QCheckBox, QDialog, QFormLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QVBoxLayout
+from PySide6.QtWidgets import QCheckBox, QDialog, QFormLayout, QHBoxLayout, QLabel, QLineEdit, QMessageBox, QPushButton, QVBoxLayout
 
 from app.core.grid_config import GRID_SETTINGS_STORE, GridSettings
 
@@ -19,7 +19,6 @@ class GridSettingsDialog(QDialog):
         self.max_exposure_u = QLineEdit()
         self.auto_float_enabled = QCheckBox()
         self.live_enabled = QCheckBox()
-        self.live_enabled.setEnabled(False)
 
         form = QFormLayout()
         form.addRow("Upper Price", self.upper_price)
@@ -29,8 +28,7 @@ class GridSettingsDialog(QDialog):
         form.addRow("Profit Ticks", self.profit_ticks)
         form.addRow("Max Exposure U", self.max_exposure_u)
         form.addRow("Auto Float enabled", self.auto_float_enabled)
-        form.addRow("LIVE enabled", self.live_enabled)
-        form.addRow("", QLabel("LIVE locked in v0.8.2"))
+        form.addRow("LIVE Small enabled", self.live_enabled)
 
         buttons = QHBoxLayout()
         self.save_btn = QPushButton("Save")
@@ -50,8 +48,12 @@ class GridSettingsDialog(QDialog):
         self.defaults_btn.clicked.connect(self.load_defaults)
         self.apply_btn.clicked.connect(self.accept)
         self.cancel_btn.clicked.connect(self.reject)
-
+        self.live_enabled.toggled.connect(self._warn_live)
         self.apply_settings(GRID_SETTINGS_STORE.load())
+
+    def _warn_live(self, checked: bool) -> None:
+        if checked:
+            QMessageBox.warning(self, "LIVE warning", "LIVE mode places real orders. Start with small budget.")
 
     def collect_settings(self) -> GridSettings:
         return GridSettings(
@@ -62,7 +64,7 @@ class GridSettingsDialog(QDialog):
             profit_ticks=int(self.profit_ticks.text()),
             max_exposure_u=float(self.max_exposure_u.text()),
             auto_float_enabled=self.auto_float_enabled.isChecked(),
-            live_enabled=False,
+            live_enabled=self.live_enabled.isChecked(),
         )
 
     def apply_settings(self, s: GridSettings) -> None:
@@ -73,7 +75,7 @@ class GridSettingsDialog(QDialog):
         self.profit_ticks.setText(str(s.profit_ticks))
         self.max_exposure_u.setText(str(s.max_exposure_u))
         self.auto_float_enabled.setChecked(s.auto_float_enabled)
-        self.live_enabled.setChecked(False)
+        self.live_enabled.setChecked(s.live_enabled)
 
     def save(self) -> None:
         GRID_SETTINGS_STORE.save(self.collect_settings())

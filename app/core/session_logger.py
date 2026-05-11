@@ -18,7 +18,9 @@ class SessionLogger:
         now = datetime.utcnow().strftime("%H:%M:%S")
         line = f"[{now}] [{tag}] {message}"
         with self._lock:
-            self.path.open("a", encoding="utf-8").write(line + "\n")
+            with self.path.open("a", encoding="utf-8") as f:
+                f.write(line + "\n")
+                f.flush()
             self.gui_lines.append(line)
         return line
 
