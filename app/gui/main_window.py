@@ -29,13 +29,13 @@ from app.gui.widgets import big_value, kv_card
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle("UB v0.1.3 / BTCU Microspread Terminal")
+        self.setWindowTitle("UB v0.1.4 / BTCU Microspread Terminal")
         self.resize(1320, 820)
         self.setStyleSheet(main_qss())
 
         self.state = MarketState()
         self.rest = MarketREST()
-        self.ws = MarketWSClient(CONFIG.stream_symbol, CONFIG.binance_symbol)
+        self.ws = MarketWSClient(CONFIG.stream_symbol, CONFIG.binance_symbol, CONFIG.max_ws_age_ms)
         self.started_watch_ms = int(time.time() * 1000)
         self.runtime_active = False
         self._last_stale_log_ms = 0
@@ -68,12 +68,12 @@ class MainWindow(QMainWindow):
         self.rest_timer.timeout.connect(self.fetch_rest)
         self.rest_timer.start(CONFIG.rest_poll_ms)
 
-        self.log("BOOT", "UB v0.1.3 запущен")
+        self.log("BOOT", "UB v0.1.4 запущен")
         self.log(
             "CONFIG",
             f"display={CONFIG.display_symbol} binance={CONFIG.binance_symbol} stream={CONFIG.stream_symbol}",
         )
-        self.log("BOOT", "WS test enabled")
+        self.log("BOOT", "WS diagnostic mode enabled")
 
     def _build_cards(self) -> None:
         conn, self.conn = kv_card("ПОДКЛЮЧЕНИЕ", [("WS", "CONNECTING"), ("REST", "N/A"), ("Возраст WS ms", "N/A"), ("Возраст REST ms", "N/A")])
@@ -170,9 +170,11 @@ class MainWindow(QMainWindow):
             self.ws.start()
             self.fsm["Состояние"].setText("WATCH_SPREAD")
             self.start_stop_btn.setText("STOP")
+            self.log("RUNTIME", "START WATCH")
             self.log("FSM", "IDLE -> WATCH_SPREAD")
             return
         self.runtime_active = False
+        self.log("RUNTIME", "STOP")
         self.fsm["Состояние"].setText("IDLE")
         self.start_stop_btn.setText("START")
         self.ws.stop()
@@ -204,7 +206,7 @@ class MainWindow(QMainWindow):
                 self.state.snapshot.ask = ask
                 self.state.snapshot.updated_ms = ts
                 self.state.snapshot.source = "REST"
-                self.log("REST", f"fallback OK bid={bid:.2f} ask={ask:.2f}")
+                self.log("REST", f"OK bid={bid:.2f} ask={ask:.2f}")
         except Exception as exc:
             self.state.rest_status = "ERROR"
             self.log("REST", f"error: {exc}")
@@ -262,7 +264,12 @@ class MainWindow(QMainWindow):
 
         runtime_txt = "WATCH" if self.runtime_active else "IDLE"
         ws_ok = ws_display == "OK"
-        mode_txt = "FALLBACK" if (not ws_ok and self.state.rest_status == "OK") else "WS LIVE"
+        if ws_ok:
+            mode_txt = "WS LIVE"
+        elif self.state.rest_status == "OK":
+            mode_txt = "FALLBACK"
+        else:
+            mode_txt = "NO DATA"
         ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else ws_display
         self.top_status.setText(f"{CONFIG.display_symbol} | WS ● {ws_txt} | REST ● {self.state.rest_status} | {runtime_txt} | {mode_txt}")
 
