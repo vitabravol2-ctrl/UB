@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.settings = SETTINGS_STORE.load()
-        self.setWindowTitle("UB v0.7.4 / BTCU Trading Cockpit")
+        self.setWindowTitle("UB v0.7.5 / BTCU Trading Cockpit")
         self.resize(1600, 900)
         self.setMinimumSize(1280, 760)
         self.setStyleSheet(main_qss())
@@ -171,11 +171,11 @@ class MainWindow(QMainWindow):
         self.sell_hold_window_ms = 1500
         self.sell_hold_near_ticks = 2
         self.market_health_state = MarketHealthState.GOOD
-        self.market_health_bid_window_ms = 1000
-        self.market_health_mid_window_ms = 1000
-        self.market_health_unstable_bid_ticks = 3
-        self.market_health_negative_mid_ticks = 3
-        self.market_health_min_spread_lifetime_ms = 500
+        self.market_health_bid_window_ms = self.settings.stable_snapshot_window_ms
+        self.market_health_mid_window_ms = self.settings.stable_snapshot_window_ms
+        self.market_health_unstable_bid_ticks = abs(self.settings.max_negative_bid_delta)
+        self.market_health_negative_mid_ticks = abs(self.settings.max_negative_mid_delta)
+        self.market_health_min_spread_lifetime_ms = self.settings.min_spread_lifetime_ms
         self.recent_bids: deque[tuple[int, float]] = deque()
         self.recent_mids: deque[tuple[int, float]] = deque()
         self.last_spread_good_since_ms = 0
@@ -184,7 +184,10 @@ class MainWindow(QMainWindow):
         self._last_health_update_ms = 0
         self.entry_guard_cooldown_until_ms = 0
         self.entry_guard_cooldown_reason = ""
-        self.entry_guard_stable_snapshots_required = 8
+        self.entry_guard_state = "WARMING"
+        self.entry_guard_reason = "boot"
+        self.entry_guard_last_block_log_ms = 0
+        self.entry_guard_stable_count = 0
         self.last_plan_recompute_ms = 0
         self._cached_plan = None
         self.rest_fallback_count = 0
@@ -200,6 +203,7 @@ class MainWindow(QMainWindow):
         self.rest_timer = QTimer(self); self.rest_timer.timeout.connect(self.fetch_rest); self.rest_timer.start(self.settings.rest_poll_ms)
         self.account_timer = QTimer(self); self.account_timer.timeout.connect(self.refresh_account_data); self.account_timer.start(self.settings.balances_poll_ms)
         self.active_sync_timer = QTimer(self); self.active_sync_timer.timeout.connect(self.sync_active_order); self.active_sync_timer.start(max(self.settings.active_order_poll_ms, 1200))
+        self._apply_runtime_settings()
         self.on_test_connection(silent=True)
 
 
@@ -223,7 +227,7 @@ class MainWindow(QMainWindow):
         self.spread_box = spread
         plan, self.plan = build_kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")], compact=True)
         self.plan_box = plan
-        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Market Health", "GOOD"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
+        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
         self.runtime_box = runtime
         risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
@@ -290,6 +294,7 @@ class MainWindow(QMainWindow):
             "min_profit_ticks": "Min profit ticks",
             "take_profit_ticks": "Take profit ticks",
             "stop_loss_ticks": "Stop loss ticks",
+            "guard_mode": "Guard mode (FAST/BALANCED/STRICT)",
         }
 
         account_tab = QWidget(); account_form = QFormLayout(account_tab)
@@ -301,7 +306,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Execution", ["buy_timeout_ms", "sell_timeout_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "min_profit_ticks", "take_profit_ticks", "stop_loss_ticks"]), ("Safety", ["live_enabled", "require_confirmation", "auto_cancel_on_stop", "panic_reprice_once"])]
+        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Execution", ["buy_timeout_ms", "sell_timeout_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "min_profit_ticks", "take_profit_ticks", "stop_loss_ticks"]), ("Safety", ["live_enabled", "require_confirmation", "auto_cancel_on_stop", "panic_reprice_once"]), ("Guard", ["guard_mode", "guard_enabled", "require_ws_for_buy", "max_ws_age_for_buy_ms", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -324,6 +329,7 @@ class MainWindow(QMainWindow):
         self.account.save_api_keys(key, secret)
         secret_input.clear(); show.setChecked(False)
         self.log("INFO", f"API keys loaded key={self.account._mask_key(self.account.api_key)}")
+        self._apply_runtime_settings()
         self.on_test_connection(silent=True)
 
     def _save_settings_dialog(self, dialog: QDialog) -> None:
@@ -341,6 +347,12 @@ class MainWindow(QMainWindow):
         self.active_sync_timer.setInterval(self.settings.active_order_poll_ms)
         self.account.debug_api_logs = self.settings.debug_api_logs
         self.ws.max_ws_age_ms = self.settings.max_ws_age_ms
+        self._apply_guard_mode_preset()
+        self.market_health_bid_window_ms = self.settings.stable_snapshot_window_ms
+        self.market_health_mid_window_ms = self.settings.stable_snapshot_window_ms
+        self.market_health_unstable_bid_ticks = abs(self.settings.max_negative_bid_delta)
+        self.market_health_negative_mid_ticks = abs(self.settings.max_negative_mid_delta)
+        self.market_health_min_spread_lifetime_ms = self.settings.min_spread_lifetime_ms
 
     def _export_settings(self) -> None:
         path, _ = QFileDialog.getSaveFileName(self, "Export settings", "settings_export.json", "JSON (*.json)")
@@ -1040,6 +1052,12 @@ class MainWindow(QMainWindow):
         self.runtime["Position qty"].setText(self._fmt(self.position_qty, 6))
         self.runtime["Entry avg"].setText(self._fmt(self.position_entry_avg, 6))
         self.runtime["Market Health"].setText(self.market_health_state)
+        self.runtime["Entry Guard"].setText(self.settings.guard_mode)
+        self.runtime["Guard state"].setText(self.entry_guard_state)
+        self.runtime["Guard reason"].setText(self.entry_guard_reason)
+        self.runtime["Stable snaps"].setText(f"{self.entry_guard_stable_count}/{self.settings.stable_snapshots_required}")
+        cooldown_left = max(self.entry_guard_cooldown_until_ms - now_ms, 0)
+        self.runtime["Cooldown ms"].setText(str(cooldown_left))
         can_recompute_plan = self.runtime_active or self.position_qty > 0 or bool(self.active_order.get("orderId"))
         now_ms = int(time.time() * 1000)
         if can_recompute_plan and (now_ms - self.last_plan_recompute_ms >= 250):
@@ -1474,7 +1492,7 @@ class MainWindow(QMainWindow):
 
     def _start_entry_guard_cooldown(self, reason: str) -> None:
         now_ms = int(time.time() * 1000)
-        cooldown_ms = 3000
+        cooldown_ms = self.settings.panic_cooldown_ms if reason == "panic_exit" else self.settings.loss_cooldown_ms
         self.entry_guard_cooldown_until_ms = max(self.entry_guard_cooldown_until_ms, now_ms + cooldown_ms)
         self.entry_guard_cooldown_reason = reason
 
@@ -1494,40 +1512,50 @@ class MainWindow(QMainWindow):
         if now_ms - self._last_health_update_ms >= 150:
             self._update_market_health(now_ms)
             self._last_health_update_ms = now_ms
+        if not self.settings.guard_enabled:
+            return True, ""
         ws_age = self.state.monotonic_age_ms(self.state.last_ws_monotonic)
         spread = float((self.state.snapshot.ask or 0.0) - (self.state.snapshot.bid or 0.0))
         bid_delta = self._bid_delta_ticks()
         mid_delta = self._mid_delta_ticks()
         source = str(self.state.snapshot.source or "NONE")
         free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
-        need_u = float(plan.order_size_u or 0.0) * 1.01
+        need_u = float(plan.order_size_u or 0.0) + float(self.settings.balance_safety_buffer_u)
         stable_n = min(len(self.recent_bids), len(self.recent_mids))
+        self.entry_guard_stable_count = stable_n
 
         reason = ""
-        if ws_age is None:
-            reason = "ws_stale"
-        elif ws_age > self.settings.max_ws_age_ms:
+        if self.settings.require_ws_for_buy and (ws_age is None or ws_age > self.settings.max_ws_age_for_buy_ms):
             reason = "ws_stale"
         elif self.settings.live_enabled and self.settings.ws_optional_enabled and source != "WS":
             reason = "rest_source_live_ws_required"
-        elif spread >= self.settings.min_spread and self.last_spread_good_since_ms > 0 and (now_ms - self.last_spread_good_since_ms) < self.market_health_min_spread_lifetime_ms:
+        elif spread >= self.settings.min_spread and self.last_spread_good_since_ms > 0 and (now_ms - self.last_spread_good_since_ms) < self.settings.min_spread_lifetime_ms:
             reason = "spread_too_young"
-        elif bid_delta <= -2:
+        elif self.settings.block_on_bid_unstable and bid_delta <= self.settings.max_negative_bid_delta:
             reason = "bid_unstable"
-        elif mid_delta < 0:
+        elif self.settings.block_on_mid_negative and mid_delta <= self.settings.max_negative_mid_delta:
             reason = "mid_momentum_negative"
-        elif stable_n < self.entry_guard_stable_snapshots_required:
+        elif self.settings.block_on_snapshots_insufficient and stable_n < self.settings.stable_snapshots_required:
             reason = "snapshots_insufficient"
         elif now_ms < self.entry_guard_cooldown_until_ms:
-            reason = f"loss_cooldown_{self.entry_guard_cooldown_reason or 'active'}"
+            reason = f"cooldown_{self.entry_guard_cooldown_reason or 'active'}"
         elif self.market_health_state not in {MarketHealthState.GOOD, MarketHealthState.EXCELLENT}:
             reason = "market_health_bad"
         elif free_u < need_u:
             reason = "balance_low_preflight"
 
         if reason:
-            self.log("WARNING", f"[EXEC] BLOCK_BUY reason={reason} ws_age={ws_age} spread={spread:.2f} bid_delta={bid_delta:.2f} mid_delta={mid_delta:.2f}")
+            prev_reason = self.entry_guard_reason
+            prev_state = self.entry_guard_state
+            self.entry_guard_state = "BLOCKED"
+            self.entry_guard_reason = reason
+            force_log = reason != prev_reason or prev_state != "BLOCKED"
+            if force_log or now_ms - self.entry_guard_last_block_log_ms >= self.settings.block_log_throttle_ms:
+                self.entry_guard_last_block_log_ms = now_ms
+                self.log("WARNING", f"[EXEC] BLOCK_BUY reason={reason} mode={self.settings.guard_mode} ws_age={ws_age} spread={spread:.2f} stable={stable_n}/{self.settings.stable_snapshots_required} mid_delta={mid_delta:.2f} bid_delta={bid_delta:.2f}")
             return False, reason
+        self.entry_guard_state = "READY"
+        self.entry_guard_reason = "ok"
         return True, ""
 
     def _update_market_health(self, now_ms: int) -> None:
@@ -1603,7 +1631,7 @@ class MainWindow(QMainWindow):
             self.market_health_state = MarketHealthState.DANGER
         if reasons:
             reason_key = "|".join(reasons)
-            if reason_key != self.last_health_reason or now_ms - self.last_health_log_ms >= 1200:
+            if reason_key != self.last_health_reason or now_ms - self.last_health_log_ms >= self.settings.health_log_throttle_ms:
                 for reason in reasons:
                     self.log("WARNING", f"[HEALTH] {reason}")
                 self.last_health_reason = reason_key
@@ -1655,6 +1683,17 @@ class MainWindow(QMainWindow):
         else:
             self.file_logs.write_system(line)
 
+
+    def _apply_guard_mode_preset(self) -> None:
+        mode = str(self.settings.guard_mode or "BALANCED").upper()
+        self.settings.guard_mode = mode if mode in {"FAST", "BALANCED", "STRICT"} else "BALANCED"
+        presets = {
+            "FAST": dict(min_spread_lifetime_ms=100, stable_snapshots_required=1, max_negative_mid_delta=-8.0, max_negative_bid_delta=-12.0, loss_cooldown_ms=500, panic_cooldown_ms=1000, block_on_snapshots_insufficient=False),
+            "BALANCED": dict(min_spread_lifetime_ms=300, stable_snapshots_required=3, max_negative_mid_delta=-4.0, max_negative_bid_delta=-7.0, loss_cooldown_ms=1500, panic_cooldown_ms=2500, block_on_snapshots_insufficient=True),
+            "STRICT": dict(min_spread_lifetime_ms=500, stable_snapshots_required=5, max_negative_mid_delta=-2.0, max_negative_bid_delta=-4.0, loss_cooldown_ms=3000, panic_cooldown_ms=5000, block_on_snapshots_insufficient=True),
+        }
+        for k, v in presets[self.settings.guard_mode].items():
+            setattr(self.settings, k, v)
 
     def closeEvent(self, event) -> None:  # type: ignore[override]
         self.ws.stop(); super().closeEvent(event)
