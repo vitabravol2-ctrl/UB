@@ -29,7 +29,7 @@ from app.gui.widgets import big_value, kv_card
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle("UB v0.1.2 / BTCU Microspread Terminal")
+        self.setWindowTitle("UB v0.1.3 / BTCU Microspread Terminal")
         self.resize(1320, 820)
         self.setStyleSheet(main_qss())
 
@@ -68,7 +68,11 @@ class MainWindow(QMainWindow):
         self.rest_timer.timeout.connect(self.fetch_rest)
         self.rest_timer.start(CONFIG.rest_poll_ms)
 
-        self.log("BOOT", "UB v0.1.2 запущен")
+        self.log("BOOT", "UB v0.1.3 запущен")
+        self.log(
+            "CONFIG",
+            f"display={CONFIG.display_symbol} binance={CONFIG.binance_symbol} stream={CONFIG.stream_symbol}",
+        )
         self.log("BOOT", "WS test enabled")
 
     def _build_cards(self) -> None:
@@ -190,6 +194,7 @@ class MainWindow(QMainWindow):
 
     def fetch_rest(self) -> None:
         try:
+            self.log("REST", f"bookTicker symbol={CONFIG.binance_symbol}")
             bid, ask, ts = self.rest.fetch_book_ticker(CONFIG.binance_symbol)
             self.state.last_rest_ms = ts
             self.state.rest_status = "OK"

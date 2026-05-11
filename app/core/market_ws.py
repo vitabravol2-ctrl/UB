@@ -16,7 +16,7 @@ class MarketWSClient:
     def __init__(self, stream_symbol: str, binance_symbol: str) -> None:
         self.stream_symbol = stream_symbol.lower()
         self.binance_symbol = binance_symbol.upper()
-        self.accept_symbols = {self.binance_symbol, self.binance_symbol.replace("USDT", "")}
+        self.accept_symbols = {self.binance_symbol}
         self.signals = MarketWSSignals()
         self._thread: threading.Thread | None = None
         self._ws: websocket.WebSocketApp | None = None
@@ -46,7 +46,10 @@ class MarketWSClient:
         while self._running:
             url = self._stream_url()
             self.signals.status.emit("CONNECTING")
-            self.signals.log.emit("WS", f"connecting url={url}")
+            if self._use_all_book_ticker:
+                self.signals.log.emit("WS", "connecting !bookTicker fallback")
+            else:
+                self.signals.log.emit("WS", f"connecting {self.stream_symbol}@bookTicker")
 
             def on_message(_ws: websocket.WebSocketApp, message: str) -> None:
                 try:
@@ -67,16 +70,14 @@ class MarketWSClient:
                         self._raw_ticks_logged += 1
                         self._last_raw_log_ms = now_ms
 
-                    if symbol not in self.accept_symbols:
+                    if self._use_all_book_ticker and symbol not in self.accept_symbols:
                         self.signals.log.emit("WS", f"ignored tick symbol={symbol}")
                         return
 
                     bid_f = float(bid)
                     ask_f = float(ask)
                     self.signals.book.emit(bid_f, ask_f, ts)
-                    if self._use_all_book_ticker:
-                        self.signals.log.emit("WS", f"accepted {symbol} from all-bookTicker")
-                    self.signals.log.emit("WS", f"accepted tick bid={bid_f:.2f} ask={ask_f:.2f}")
+                    self.signals.log.emit("WS", f"accepted tick {symbol} bid={bid_f:.2f} ask={ask_f:.2f}")
                 except Exception as exc:
                     self.signals.status.emit("ERROR")
                     self.signals.log.emit("WS", f"error {exc}")
