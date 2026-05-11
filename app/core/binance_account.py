@@ -82,6 +82,44 @@ class BinanceAccountClient:
         resp.raise_for_status()
         return data
 
+
+    def signed_post(self, path: str, params: dict[str, Any]) -> dict[str, Any]:
+        if not self.api_key or not self.api_secret:
+            raise ValueError("API NOT SET")
+        payload: dict[str, Any] = dict(params)
+        payload["recvWindow"] = 5000
+        payload["timestamp"] = int(time.time() * 1000) + self.time_offset_ms
+        payload["signature"] = self.sign_params(payload, self.api_secret)
+        headers = {"X-MBX-APIKEY": self.api_key}
+        resp = self.session.post(f"{BINANCE_BASE_URL}{path}", params=payload, headers=headers, timeout=6)
+        data = resp.json()
+        resp.raise_for_status()
+        return data
+
+    def signed_delete(self, path: str, params: dict[str, Any]) -> dict[str, Any]:
+        if not self.api_key or not self.api_secret:
+            raise ValueError("API NOT SET")
+        payload: dict[str, Any] = dict(params)
+        payload["recvWindow"] = 5000
+        payload["timestamp"] = int(time.time() * 1000) + self.time_offset_ms
+        payload["signature"] = self.sign_params(payload, self.api_secret)
+        headers = {"X-MBX-APIKEY": self.api_key}
+        resp = self.session.delete(f"{BINANCE_BASE_URL}{path}", params=payload, headers=headers, timeout=6)
+        data = resp.json()
+        resp.raise_for_status()
+        return data
+
+    def place_limit_order(self, symbol: str, side: str, price: float, qty: float) -> dict[str, Any]:
+        return self.signed_post("/api/v3/order", {"symbol": symbol, "side": side, "type": "LIMIT", "timeInForce": "GTC", "quantity": f"{qty:.8f}", "price": f"{price:.8f}"})
+
+    def cancel_order(self, symbol: str, order_id: int) -> dict[str, Any]:
+        return self.signed_delete("/api/v3/order", {"symbol": symbol, "orderId": order_id})
+
+    def get_order(self, symbol: str, order_id: int) -> dict[str, Any]:
+        data = self.signed_get("/api/v3/order", {"symbol": symbol, "orderId": order_id})
+        assert isinstance(data, dict)
+        return data
+
     def test_account_connection(self) -> APIStatus:
         try:
             self.load_api_keys()

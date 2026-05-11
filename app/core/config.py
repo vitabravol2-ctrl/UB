@@ -16,10 +16,15 @@ class SettingsData:
     max_open_lots: int = 1
     max_daily_loss: float = 200.0
     max_exposure_u: float = 1000.0
+    live_max_exposure_u: float = 20.0
     panic_exit: bool = True
     live_enabled: bool = False
     require_confirmation: bool = True
+    arm_live: bool = False
     auto_cancel_on_stop: bool = True
+    entry_timeout_ms: int = 10000
+    exit_timeout_ms: int = 20000
+    panic_reprice_once: bool = True
     rest_poll_ms: int = 2000
     ws_optional_enabled: bool = True
     max_ws_age_ms: int = 5000
