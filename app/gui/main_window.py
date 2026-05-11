@@ -35,6 +35,11 @@ class MainWindow(QMainWindow):
         self.runtime_active = False
         self.trade_math = TradeMathEngine()
         self.last_plan_status = ""
+        self.ready_since_ms = 0
+        self.plan_stable_ms = 400
+        self.plan_ready_streak = 0
+        self.last_plan_log_ms = 0
+        self.last_plan_log_key = ""
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -58,7 +63,7 @@ class MainWindow(QMainWindow):
 
         spread, self.spread = kv_card("SPREAD ENGINE", [("Статус", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Источник", "NONE"), ("Обновление", "--")])
         self.spread_box = spread
-        plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Reason", "Нет рыночных данных"), ("Entry BUY", "N/A"), ("Exit SELL", "N/A"), ("Stop", "N/A"), ("Capture/BTC", "N/A"), ("Lot", "0"), ("Profit U", "N/A"), ("Loss U", "N/A"), ("R:R", "N/A")])
+        plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Reason", "Нет рыночных данных"), ("Entry BUY", "N/A"), ("Exit SELL", "N/A"), ("Stop", "N/A"), ("Capture/BTC", "N/A"), ("Lot", "0"), ("Required U", "N/A"), ("Balance OK", "NO"), ("Filters OK", "NO"), ("Ready age", "0ms"), ("Profit U", "N/A"), ("Loss U", "N/A"), ("R:R", "N/A")])
         plan.setMinimumHeight(320)
         self.plan_box = plan
         runtime, self.runtime = kv_card("RUNTIME", [("LIVE", "OFF"), ("Треб. подтверждение", "YES"), ("Авто-отмена", "YES")])
@@ -182,13 +187,31 @@ class MainWindow(QMainWindow):
         self.spread["Источник"].setText(self.state.snapshot.source); self.spread["Обновление"].setText(time.strftime("%H:%M:%S"))
         self.runtime["LIVE"].setText("ON" if self.settings.live_enabled else "OFF")
         plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status)
-        self.plan["Status"].setText(plan.status)
+        now_ms = int(time.time() * 1000)
+        plan_status = plan.status
+        if plan_status in {"READY", "HOT"}:
+            self.plan_ready_streak += 1
+            if self.ready_since_ms == 0:
+                self.ready_since_ms = now_ms
+            ready_age = now_ms - self.ready_since_ms
+            if ready_age < self.plan_stable_ms and self.plan_ready_streak < 2:
+                plan_status = "WARMUP"
+        else:
+            self.ready_since_ms = 0
+            self.plan_ready_streak = 0
+            ready_age = 0
+
+        self.plan["Status"].setText(plan_status)
         self.plan["Reason"].setText(plan.reason)
         self.plan["Entry BUY"].setText("N/A" if plan.entry_price is None else f"{plan.entry_price:.2f}")
         self.plan["Exit SELL"].setText("N/A" if plan.exit_price is None else f"{plan.exit_price:.2f}")
         self.plan["Stop"].setText("N/A" if plan.stop_price is None else f"{plan.stop_price:.2f}")
         self.plan["Capture/BTC"].setText("N/A" if plan.capture_per_btc is None else f"{plan.capture_per_btc:.2f}")
         self.plan["Lot"].setText(self._fmt(plan.lot_size, 6))
+        self.plan["Required U"].setText("N/A" if plan.required_u is None else self._fmt(plan.required_u, 6))
+        self.plan["Balance OK"].setText("YES" if plan.balance_ok else "NO")
+        self.plan["Filters OK"].setText("YES" if plan.filters_ok else "NO")
+        self.plan["Ready age"].setText(f"{ready_age}ms")
         self.plan["Profit U"].setText("N/A" if plan.expected_profit_u is None else self._fmt(plan.expected_profit_u, 6))
         self.plan["Loss U"].setText("N/A" if plan.stop_loss_u is None else self._fmt(plan.stop_loss_u, 6))
         self.plan["R:R"].setText("N/A" if plan.risk_reward is None else self._fmt(plan.risk_reward, 4))
@@ -209,23 +232,35 @@ class MainWindow(QMainWindow):
         self.conn_box.setProperty("state", "api-ok" if self.api_status == "OK" else ("api-error" if self.api_status == "ERROR" else "api-notset"))
         self.spread_box.setProperty("state", spread_state.lower())
         plan_state = "danger"
-        if plan.status == "READY":
+        if plan_status == "READY":
             plan_state = "ready"
-        elif plan.status == "HOT":
+        elif plan_status == "HOT":
             plan_state = "hot"
-        elif plan.status == "WARNING":
+        elif plan_status == "WARNING":
             plan_state = "warning"
         self.plan_box.setProperty("state", plan_state)
         self.risk_box.setProperty("state", "safe")
         self.spr_v.setStyleSheet("color:#22C55E;" if spread_state == "HOT" else "")
         for w in [self.conn_box, self.spread_box, self.plan_box, self.risk_box]: w.style().unpolish(w); w.style().polish(w)
 
-        if plan.status != self.last_plan_status:
-            self.last_plan_status = plan.status
-            if plan.status in {"READY", "HOT"}:
-                self.log("OK", f"[PLAN] {plan.status} entry={plan.entry_price:.2f} exit={plan.exit_price:.2f} profit={plan.expected_profit_u:.6f}")
+        log_key = f"{plan_status}|{plan.reason}"
+        should_log = False
+        if plan_status in {"READY", "HOT"} and plan_status != self.last_plan_status:
+            should_log = True
+        elif plan_status in {"BALANCE_LOW", "FILTER_FAIL"} and plan_status != self.last_plan_status:
+            should_log = True
+        elif plan_status not in {"READY", "HOT"} and plan.reason != self.last_plan_log_key.split("|", 1)[-1] if self.last_plan_log_key else True:
+            should_log = True
+        if should_log and (now_ms - self.last_plan_log_ms >= 2000 or log_key != self.last_plan_log_key):
+            self.last_plan_log_ms = now_ms
+            self.last_plan_log_key = log_key
+            self.last_plan_status = plan_status
+            if plan_status in {"READY", "HOT"}:
+                self.log("OK", f"[PLAN] {plan_status} entry={plan.entry_price:.2f} exit={plan.exit_price:.2f} profit={plan.expected_profit_u:.6f} age={ready_age}ms")
+            elif plan_status in {"BALANCE_LOW", "FILTER_FAIL"}:
+                self.log("WARNING", f"[PLAN] {plan_status} required={self._fmt(plan.required_u or 0.0, 2)} available={self._fmt(float(self.balances.get('U', {}).get('free', 0.0)), 2)} reason={plan.reason}")
             else:
-                self.log("WARNING", f"[PLAN] {plan.status} reason={plan.reason}")
+                self.log("WARNING", f"[PLAN] {plan_status} reason={plan.reason}")
 
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
         ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
