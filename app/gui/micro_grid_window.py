@@ -47,7 +47,7 @@ class MicroGridWindow(QMainWindow):
 
         cards = QHBoxLayout(); layout.addLayout(cards)
         c1,self.conn = build_terminal_card("Connection",[("WS","LOST"),("REST","N/A"),("API","NOT SET"),("Source","NONE")])
-        c2,self.market = build_terminal_card("Market",[("Bid","N/A"),("Ask","N/A"),("Spread U","N/A"),("Spread ticks","N/A"),("Mid","N/A"),("Last update age","N/A")])
+        c2,self.market = build_terminal_card("Market",[("Bid","N/A"),("Ask","N/A"),("Spread U","N/A"),("Spread ticks","N/A"),("Mid","N/A"),("Source","NONE"),("Last update age","N/A")])
         c3,self.grid_status = build_terminal_card("Grid Status",[("State","IDLE"),("Levels","0"),("Valid","0"),("Invalid","0"),("Near Market","0"),("Active Orders","0 locked")])
         c4,self.bal = build_terminal_card("Balances",[("BTC free","0"),("BTC locked","0"),("U free","0"),("U locked","0"),("Exposure U","0")])
         [cards.addWidget(c) for c in [c1,c2,c3,c4]]
