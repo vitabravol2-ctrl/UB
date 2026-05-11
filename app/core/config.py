@@ -39,6 +39,23 @@ class SettingsData:
     ws_optional_enabled: bool = True
     max_ws_age_ms: int = 5000
     ui_theme: str = "dark"
+    guard_mode: str = "BALANCED"
+    guard_enabled: bool = True
+    require_ws_for_buy: bool = True
+    max_ws_age_for_buy_ms: int = 1500
+    min_spread_lifetime_ms: int = 300
+    stable_snapshots_required: int = 3
+    stable_snapshot_window_ms: int = 1000
+    max_negative_mid_delta: float = -3.0
+    max_negative_bid_delta: float = -5.0
+    block_on_mid_negative: bool = True
+    block_on_bid_unstable: bool = True
+    block_on_snapshots_insufficient: bool = True
+    loss_cooldown_ms: int = 2000
+    panic_cooldown_ms: int = 3000
+    balance_safety_buffer_u: float = 10.0
+    block_log_throttle_ms: int = 2000
+    health_log_throttle_ms: int = 2000
 
 
 @dataclass(frozen=True)

@@ -30,5 +30,22 @@
   "debug_api_logs": false,
   "ws_optional_enabled": true,
   "max_ws_age_ms": 5000,
-  "ui_theme": "dark"
+  "ui_theme": "dark",
+  "guard_mode": "BALANCED",
+  "guard_enabled": true,
+  "require_ws_for_buy": true,
+  "max_ws_age_for_buy_ms": 1500,
+  "min_spread_lifetime_ms": 300,
+  "stable_snapshots_required": 3,
+  "stable_snapshot_window_ms": 1000,
+  "max_negative_mid_delta": -3.0,
+  "max_negative_bid_delta": -5.0,
+  "block_on_mid_negative": true,
+  "block_on_bid_unstable": true,
+  "block_on_snapshots_insufficient": true,
+  "loss_cooldown_ms": 2000,
+  "panic_cooldown_ms": 3000,
+  "balance_safety_buffer_u": 10.0,
+  "block_log_throttle_ms": 2000,
+  "health_log_throttle_ms": 2000
 }
