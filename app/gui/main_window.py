@@ -3,7 +3,7 @@ from PySide6.QtCore import QTimer
 from PySide6.QtGui import QColor, QTextCursor, QTextCharFormat
 from PySide6.QtWidgets import QCheckBox, QDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget
 
-from app.core.binance_account import BinanceAccountClient
+from app.core.binance_account import BinanceAPIError, BinanceAccountClient
 from app.core.config import CONFIG, SETTINGS_STORE
 from app.core.logger import format_log
 from app.core.market_rest import MarketREST
@@ -49,6 +49,7 @@ class MainWindow(QMainWindow):
         self.plan_ready_streak = 0
         self.last_plan_log_ms = 0
         self.last_plan_log_key = ""
+        self.order_retry_blocked_until_ms = 0
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -235,6 +236,8 @@ class MainWindow(QMainWindow):
         plan_key = f"{plan.status}:{self._fmt(plan.order_size_u,2)}:{self._fmt(plan.qty_btc,6)}:{self._fmt(plan.required_u or 0.0,2)}"
         if self.runtime_active and self.fsm_state == "DONE":
             self.fsm_state = "WAIT_READY"
+        if self.runtime_active and self.fsm_state == "ERROR" and now_ms >= self.order_retry_blocked_until_ms:
+            self.fsm_state = "DONE"
         if self.runtime_active and self.fsm_state == "IDLE":
             self.log("INFO", f"[EXEC] LIVE {'ON' if self.settings.live_enabled else 'OFF'}")
             self.log("INFO", "[EXEC] WAIT READY")
@@ -248,12 +251,27 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", f"[EXEC] BLOCK reason=required_u_gt_max_exposure_u required_u={(plan.required_u or 0.0):.4f} max_exposure_u={self.settings.max_live_exposure_u:.4f}")
                 self.fsm_state = "DONE"
             else:
-                o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
-                now = int(time.time() * 1000)
-                self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
-                self.entry_started_ms = now
-                self.log("OK", f"[EXEC] PLACE BUY price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
-                self.fsm_state = "WAIT_BUY_FILL"
+                try:
+                    o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
+                    now = int(time.time() * 1000)
+                    self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                    self.entry_started_ms = now
+                    self.log("OK", f"[EXEC] PLACE BUY price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
+                    self.fsm_state = "WAIT_BUY_FILL"
+                except BinanceAPIError as exc:
+                    code = exc.binance_code
+                    msg = exc.binance_msg or ""
+                    self.log("ERROR", f"[EXEC] BUY REJECTED status={exc.status_code} code={code} msg={msg}")
+                    self.log("ERROR", f"[EXEC] BUY REJECTED body={exc.response_text}")
+                    lower_msg = msg.lower()
+                    if any(k in lower_msg for k in ["permission", "api-key", "api key", "not allowed", "unauthorized"]):
+                        self.runtime["Mode"].setText("ERROR: API permission")
+                    elif any(k in lower_msg for k in ["invalid symbol", "unknown order", "unsupported", "invalid", "filter", "minnotional", "minqty"]):
+                        self.runtime["Mode"].setText("ERROR: order unsupported for BTCU")
+                    self.active_order = {}
+                    self.order_retry_blocked_until_ms = int(time.time() * 1000) + 10_000
+                    self.log("WARNING", "[EXEC] STOP retry storm prevented")
+                    self.fsm_state = "ERROR"
         elif self.runtime_active and self.fsm_state == "WAIT_BUY_FILL" and self.active_order.get("orderId"):
             now = int(time.time() * 1000)
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))

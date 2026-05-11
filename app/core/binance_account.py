@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 import requests
+from requests import HTTPError
 
 BINANCE_BASE_URL = "https://api.binance.com"
 
@@ -16,6 +17,18 @@ BINANCE_BASE_URL = "https://api.binance.com"
 class APIStatus:
     status: str
     message: str = ""
+
+
+
+
+class BinanceAPIError(HTTPError):
+    def __init__(self, message: str, response: requests.Response, payload: dict[str, Any] | None = None) -> None:
+        super().__init__(message, response=response)
+        self.status_code = response.status_code
+        self.response_text = response.text
+        self.payload = payload or {}
+        self.binance_code = self.payload.get("code") if isinstance(self.payload, dict) else None
+        self.binance_msg = self.payload.get("msg") if isinstance(self.payload, dict) else None
 
 
 class BinanceAccountClient:
@@ -63,6 +76,23 @@ class BinanceAccountClient:
         self.time_offset_ms = server_ms - local_ms
         return self.time_offset_ms
 
+    @staticmethod
+    def _parse_json_body(resp: requests.Response) -> dict[str, Any] | list[dict[str, Any]] | None:
+        try:
+            return resp.json()
+        except ValueError:
+            return None
+
+    def _raise_binance_error(self, resp: requests.Response, data: dict[str, Any] | list[dict[str, Any]] | None) -> None:
+        payload = data if isinstance(data, dict) else {}
+        code = payload.get("code")
+        msg = payload.get("msg")
+        raise BinanceAPIError(
+            f"Binance request failed status={resp.status_code} code={code} msg={msg} body={resp.text}",
+            response=resp,
+            payload=payload,
+        )
+
     def signed_get(self, path: str, params: dict[str, Any] | None = None) -> dict[str, Any] | list[dict[str, Any]]:
         if not self.api_key or not self.api_secret:
             raise ValueError("API NOT SET")
@@ -74,12 +104,14 @@ class BinanceAccountClient:
         resp = self.session.get(f"{BINANCE_BASE_URL}{path}", params=payload, headers=headers, timeout=6)
         if resp.status_code in {401, 403}:
             raise RuntimeError("INVALID API KEY")
-        data = resp.json()
+        data = self._parse_json_body(resp)
         if isinstance(data, dict) and data.get("code") == -1021:
             raise RuntimeError("TIME SYNC ERROR")
         if isinstance(data, dict) and data.get("code") in {-2015, -2014}:
             raise RuntimeError("INVALID API KEY")
-        resp.raise_for_status()
+        if resp.status_code >= 400:
+            self._raise_binance_error(resp, data)
+        assert data is not None
         return data
 
 
@@ -92,8 +124,10 @@ class BinanceAccountClient:
         payload["signature"] = self.sign_params(payload, self.api_secret)
         headers = {"X-MBX-APIKEY": self.api_key}
         resp = self.session.post(f"{BINANCE_BASE_URL}{path}", params=payload, headers=headers, timeout=6)
-        data = resp.json()
-        resp.raise_for_status()
+        data = self._parse_json_body(resp)
+        if resp.status_code >= 400:
+            self._raise_binance_error(resp, data)
+        assert isinstance(data, dict)
         return data
 
     def signed_delete(self, path: str, params: dict[str, Any]) -> dict[str, Any]:
@@ -105,8 +139,10 @@ class BinanceAccountClient:
         payload["signature"] = self.sign_params(payload, self.api_secret)
         headers = {"X-MBX-APIKEY": self.api_key}
         resp = self.session.delete(f"{BINANCE_BASE_URL}{path}", params=payload, headers=headers, timeout=6)
-        data = resp.json()
-        resp.raise_for_status()
+        data = self._parse_json_body(resp)
+        if resp.status_code >= 400:
+            self._raise_binance_error(resp, data)
+        assert isinstance(data, dict)
         return data
 
     def place_limit_order(self, symbol: str, side: str, price: float, qty: float) -> dict[str, Any]:
