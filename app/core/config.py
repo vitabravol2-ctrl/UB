@@ -35,6 +35,17 @@ class SettingsData:
     panic_reprice_once: bool = True
     aggressive_exit_offset: float = 1.0
     max_sell_reprices: int = 2
+    exit_engine_enabled: bool = True
+    exit_stage1_ms: int = 700
+    exit_stage2_ms: int = 1200
+    exit_stage3_ms: int = 1800
+    exit_reprice_step_ticks: int = 1
+    exit_max_reprices: int = 8
+    panic_ladder_enabled: bool = True
+    panic_ladder_step_ticks: int = 2
+    panic_ladder_ms: int = 400
+    panic_cross_after_ms: int = 3500
+    exit_ioc_enabled: bool = False
     min_profit_ticks: int = 1
     take_profit_ticks: int = 3
     stop_loss_ticks: int = 6
