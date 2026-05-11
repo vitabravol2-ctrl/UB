@@ -128,6 +128,10 @@ class MainWindow(QMainWindow):
         self.summary_signature = ""
         self.last_ws_live_log_ms = 0
         self.last_position_open_block_log_ms = 0
+        self.sell_recovery_in_progress = False
+        self.sell_cancel_in_progress = False
+        self.sell_hold_window_ms = 1500
+        self.sell_hold_near_ticks = 2
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -485,6 +489,17 @@ class MainWindow(QMainWindow):
         aggressive = float(self.settings.aggressive_exit_offset)
         return max(bid_now + tick, ask_now - aggressive)
 
+    def _is_market_near_sell_target(self, bid_now: float, target_price: float) -> bool:
+        tick = self._tick_size()
+        return bid_now > 0 and target_price > 0 and (target_price - bid_now) <= (tick * self.sell_hold_near_ticks)
+
+    def _cap_soft_sell_reprice(self, old_price: float, candidate_price: float) -> float:
+        tick = self._tick_size()
+        if old_price <= 0 or tick <= 0:
+            return candidate_price
+        soft_floor = old_price - tick
+        return max(candidate_price, soft_floor)
+
     def _panic_exit_final(self, now_ms: int, reason: str, sl_mode: bool = False) -> None:
         bid_now = float(self.state.snapshot.bid or 0.0)
         ask_now = float(self.state.snapshot.ask or 0.0)
@@ -536,77 +551,99 @@ class MainWindow(QMainWindow):
             self.fsm_state = "PLACE_SELL"
 
     def handle_sell_timeout_recovery(self, now_ms: int) -> None:
-        if self.position_qty <= 0:
-            self.log("ERROR", "[EXEC] EXIT FAILED no_position_after_timeout")
-            self.position_state = "EXIT_FAILED"
-            self.fsm_state = "SELL_TIMEOUT"
+        if self.sell_recovery_in_progress:
+            self.log("INFO", "[EXEC] RECOVERY WAIT in_progress")
             return
-        order_id = int(self.active_order.get("orderId", 0) or 0)
-        self.log("WARNING", f"[EXEC] SELL TIMEOUT orderId={order_id}")
-        if now_ms - self.last_sell_reprice_ms < int(self.settings.sell_reprice_cooldown_ms):
-            self.log("ERROR", "[EXEC] EXIT FAILED sell_reprice_cooldown_active")
-            self.position_state = "EXIT_FAILED"
-            self.fsm_state = "EXIT_FAILED"
-            return
-        if order_id:
-            self.log("WARNING", f"[EXEC] CANCEL SELL orderId={order_id}")
-            self.account.cancel_order(CONFIG.binance_symbol, order_id)
-            final = self.account.get_order(CONFIG.binance_symbol, order_id)
-            final_status = str(final.get("status", "UNKNOWN"))
-            self.log("INFO", f"[EXEC] SELL FINAL STATUS status={final_status} orderId={order_id}")
-            if final_status == "FILLED":
-                self._handle_sell_filled(final, order_id)
+        self.sell_recovery_in_progress = True
+        try:
+            if self.position_qty <= 0:
+                self.log("ERROR", "[EXEC] EXIT FAILED no_position_after_timeout")
+                self.position_state = "EXIT_FAILED"
+                self.fsm_state = "SELL_TIMEOUT"
                 return
-            if final_status not in {"CANCELED", "EXPIRED", "NEW"}:
-                self.log("ERROR", f"[EXEC] EXIT FAILED cancel_unexpected_status={final_status}")
+            order_id = int(self.active_order.get("orderId", 0) or 0)
+            old_price = float(self.active_order.get("price", 0.0) or 0.0)
+            bid_now = float(self.state.snapshot.bid or 0.0)
+            sl_ticks = max(int(getattr(self.settings, "stop_loss_ticks", 6)), 0)
+            sl_price = float(self.position_entry_avg) - (self._tick_size() * sl_ticks)
+            if self._is_market_near_sell_target(bid_now, old_price):
+                hold_elapsed = now_ms - int(self.exit_started_ms or 0)
+                if hold_elapsed < self.sell_hold_window_ms:
+                    self.log("INFO", "[EXEC] SELL HOLD near target")
+                    self.log("INFO", "[EXEC] RECOVERY WAIT market_near_target")
+                    return
+            self.log("WARNING", f"[EXEC] SELL TIMEOUT orderId={order_id}")
+            if now_ms - self.last_sell_reprice_ms < int(self.settings.sell_reprice_cooldown_ms):
+                self.log("ERROR", "[EXEC] EXIT FAILED sell_reprice_cooldown_active")
                 self.position_state = "EXIT_FAILED"
                 self.fsm_state = "EXIT_FAILED"
                 return
-        self._inc_canceled_attempt("timeout_sell")
-        self._inc_canceled_attempt("canceled_sell")
-        self.sell_timeouts += 1
-        if self.panic_exit_final:
-            self.log("WARNING", "[EXEC] PANIC EXIT final_recover_place_sell")
-            self._panic_exit_final(now_ms, "panic_final_recover")
-            return
-        if self.sell_reprice_count >= int(self.settings.max_sell_reprices):
-            self._panic_exit_final(now_ms, "max_reprices_reached")
-            return
-        bid_now = float(self.state.snapshot.bid or 0.0)
-        ask_now = float(self.state.snapshot.ask or 0.0)
-        aggressive = float(self.settings.aggressive_exit_offset)
-        old_price = float(self.active_order.get("price", 0.0) or 0.0)
-        tick = self._tick_size()
-        min_profit_ticks = max(int(self.settings.min_profit_ticks), 0)
-        min_exit_price = float(self.position_entry_avg) + (tick * min_profit_ticks)
-
-        position_age_ms = max(now_ms - self.entry_started_ms, 0) if self.entry_started_ms else 0
-        panic_exit_enabled = (
-            position_age_ms > int(self.settings.max_hold_ms)
-            or self.sell_reprice_count >= int(self.settings.max_sell_reprices)
-            or (bool(self.settings.panic_exit) and not self.runtime_active)
-        )
-        if panic_exit_enabled:
-            self.exit_mode = "PANIC"
-            self.log("WARNING", "[EXEC] PANIC EXIT enabled")
-            new_price = max(bid_now + tick, ask_now - aggressive)
-        else:
-            self.log("INFO", f"[EXEC] SAFE EXIT floor={min_exit_price:.2f}")
-            new_price = max(min_exit_price, bid_now + tick, ask_now - aggressive)
-        sell_qty = float(Decimal(str(self.position_qty)))
-        self.sell_reprice_count += 1
-        self.log("WARNING", f"[EXEC] SELL REPRICE safe old={old_price:.2f} new={new_price:.2f} count={self.sell_reprice_count}")
-        self.log("OK", f"[EXEC] PLACE SELL price={new_price:.2f} qty={sell_qty:.6f}")
-        o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
-        self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
-        self.position_sell_order_id = int(self.active_order["orderId"])
-        self.last_sell_reprice_ms = now_ms
-        self.exit_started_ms = now_ms
-        if self.exit_mode != "PANIC":
-            self.exit_mode = "AGGRESSIVE"
-        self.position_state = "SELL_PENDING"
-        self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
-        self.fsm_state = "WAIT_SELL_FILL"
+            if order_id:
+                if self.sell_cancel_in_progress:
+                    self.log("INFO", "[EXEC] RECOVERY WAIT cancel_in_progress")
+                    return
+                self.sell_cancel_in_progress = True
+                try:
+                    self.log("WARNING", f"[EXEC] CANCEL SELL orderId={order_id}")
+                    self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                finally:
+                    self.sell_cancel_in_progress = False
+                final = self.account.get_order(CONFIG.binance_symbol, order_id)
+                final_status = str(final.get("status", "UNKNOWN"))
+                self.log("INFO", f"[EXEC] SELL FINAL STATUS status={final_status} orderId={order_id}")
+                if final_status == "FILLED":
+                    self._handle_sell_filled(final, order_id)
+                    return
+                if final_status not in {"CANCELED", "EXPIRED", "NEW"}:
+                    self.log("ERROR", f"[EXEC] EXIT FAILED cancel_unexpected_status={final_status}")
+                    self.position_state = "EXIT_FAILED"
+                    self.fsm_state = "EXIT_FAILED"
+                    return
+            self._inc_canceled_attempt("timeout_sell")
+            self._inc_canceled_attempt("canceled_sell")
+            self.sell_timeouts += 1
+            if self.panic_exit_final:
+                self.log("WARNING", "[EXEC] PANIC EXIT final_recover_place_sell")
+                self._panic_exit_final(now_ms, "panic_final_recover")
+                return
+            if self.sell_reprice_count >= int(self.settings.max_sell_reprices):
+                if bid_now > 0 and bid_now <= sl_price:
+                    self.log("WARNING", "[EXEC] FORCE EXIT hard_sl_triggered")
+                    self._panic_exit_final(now_ms, "max_reprices_hard_sl", sl_mode=True)
+                else:
+                    self.log("INFO", "[EXEC] FORCE EXIT skipped market_stable")
+                    self.fsm_state = "WAIT_SELL_FILL"
+                return
+            ask_now = float(self.state.snapshot.ask or 0.0)
+            aggressive = float(self.settings.aggressive_exit_offset)
+            tick = self._tick_size()
+            min_profit_ticks = max(int(self.settings.min_profit_ticks), 0)
+            min_exit_price = float(self.position_entry_avg) + (tick * min_profit_ticks)
+            panic_exit_enabled = (bool(self.settings.panic_exit) and not self.runtime_active)
+            if panic_exit_enabled:
+                self.exit_mode = "PANIC"
+                self.log("WARNING", "[EXEC] PANIC EXIT enabled")
+                candidate_price = max(bid_now + tick, ask_now - aggressive)
+            else:
+                self.log("INFO", f"[EXEC] SAFE EXIT floor={min_exit_price:.2f}")
+                candidate_price = max(min_exit_price, bid_now + tick, ask_now - aggressive)
+            new_price = self._cap_soft_sell_reprice(old_price, candidate_price)
+            sell_qty = float(Decimal(str(self.position_qty)))
+            self.sell_reprice_count += 1
+            self.log("WARNING", f"[EXEC] SELL REPRICE old={old_price:.2f} new={new_price:.2f} count={self.sell_reprice_count}")
+            self.log("OK", f"[EXEC] PLACE SELL price={new_price:.2f} qty={sell_qty:.6f}")
+            o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
+            self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
+            self.position_sell_order_id = int(self.active_order["orderId"])
+            self.last_sell_reprice_ms = now_ms
+            self.exit_started_ms = now_ms
+            if self.exit_mode != "PANIC":
+                self.exit_mode = "AGGRESSIVE"
+            self.position_state = "SELL_PENDING"
+            self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
+            self.fsm_state = "WAIT_SELL_FILL"
+        finally:
+            self.sell_recovery_in_progress = False
 
     def _refresh_ui(self) -> None:
         bid = self.state.snapshot.bid; ask = self.state.snapshot.ask; spread = self.state.snapshot.spread
@@ -808,12 +845,7 @@ class MainWindow(QMainWindow):
             sl_ticks = max(int(getattr(self.settings, "stop_loss_ticks", 6)), 0)
             sl_price = float(self.position_entry_avg) - (tick * sl_ticks)
             if not self.panic_exit_final and self.position_qty > 0 and bid_now > 0 and bid_now <= sl_price:
-                order_id = int(self.active_order.get("orderId", 0) or 0)
-                if order_id:
-                    self.log("WARNING", f"[EXEC] CANCEL SELL orderId={order_id}")
-                    self.account.cancel_order(CONFIG.binance_symbol, order_id)
-                self._panic_exit_final(now, "hard_sl", sl_mode=True)
-                return
+                self.log("INFO", "[EXEC] RECOVERY WAIT hard_sl_pending_recovery")
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
             self.active_order["state"] = st.get("status", "NEW")
             if st.get("status") == "FILLED":
