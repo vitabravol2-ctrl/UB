@@ -1402,13 +1402,14 @@ class MainWindow(QMainWindow):
         self.spr_v.setStyleSheet("color:#22C55E;" if spread_state == "HOT" else "")
         for w in [self.conn_box, self.spread_box, self.plan_box, self.risk_box]: w.style().unpolish(w); w.style().polish(w)
 
-        log_key = f"{plan_status}|{plan.reason}"
+        plan_reason = plan.reason if plan else ""
+        log_key = f"{plan_status}|{plan_reason}"
         should_log = False
         if plan_status in {"READY", "HOT"} and plan_status != self.last_plan_status:
             should_log = True
         elif plan_status in {"BALANCE_LOW", "FILTER_FAIL"} and plan_status != self.last_plan_status:
             should_log = True
-        elif plan_status not in {"READY", "HOT"} and plan.reason != self.last_plan_log_key.split("|", 1)[-1] if self.last_plan_log_key else True:
+        elif plan_status not in {"READY", "HOT"} and (plan_reason != self.last_plan_log_key.split("|", 1)[-1] if self.last_plan_log_key else True):
             should_log = True
         if plan and self.runtime_active and should_log and (now_ms - self.last_plan_log_ms >= 2000 or log_key != self.last_plan_log_key):
             self.last_plan_log_ms = now_ms
