@@ -21,5 +21,7 @@
   "entry_timeout_ms": 10000,
   "exit_timeout_ms": 20000,
   "panic_reprice_once": true,
-  "order_size_u": 20.0
+  "order_size_u": 20.0,
+  "aggressive_exit_offset": 1.0,
+  "max_sell_reprices": 5
 }
