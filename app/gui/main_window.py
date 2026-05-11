@@ -471,6 +471,7 @@ class MainWindow(QMainWindow):
         is_flat = no_chunks and inventory_qty <= epsilon and active_sell_qty <= epsilon
         if not is_flat:
             return
+        self._reset_sell_accounting("flat", reset_panic_order_id=True)
         cycle_pnl = self.cycle_realized_pnl
         if abs(cycle_pnl) <= epsilon and not self.cycle_has_fifo_close:
             self.log("INFO", "[EXEC] CYCLE SKIP no_fifo_pnl")
@@ -560,7 +561,24 @@ class MainWindow(QMainWindow):
         return max(candidate_price, soft_floor)
 
     def _remaining_to_sell(self) -> float:
-        return max(self.position_qty - self.sell_reported_qty, 0.0)
+        inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
+        self.position_qty = inventory_qty
+        has_active_sell = bool(self.active_order.get("orderId")) and self.active_order.get("side") == "SELL"
+        if inventory_qty > 0 and not has_active_sell and self.sell_reported_qty >= inventory_qty:
+            self.sell_reported_qty = 0.0
+            self.log("WARNING", "[EXEC] SELL ACCOUNTING STALE RESET")
+        return max(inventory_qty - self.sell_reported_qty, 0.0)
+
+    def _reset_sell_accounting(self, reason: str, reset_panic_order_id: bool = False) -> None:
+        self.sell_reported_qty = 0.0
+        self.sell_target_qty = 0.0
+        self.position_sell_order_id = 0
+        self.sell_reprice_count = 0
+        self.sell_recovery_in_progress = False
+        self.sell_cancel_in_progress = False
+        if reset_panic_order_id:
+            self.panic_exit_order_id = 0
+        self.log("INFO", f"[EXEC] SELL ACCOUNTING RESET {reason}")
 
     def _recalc_position_from_chunks(self) -> float:
         self.position_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
@@ -864,6 +882,7 @@ class MainWindow(QMainWindow):
                 try:
                     o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
                     now = int(time.time() * 1000)
+                    self._reset_sell_accounting("new_cycle", reset_panic_order_id=self.position_qty <= 1e-12)
                     self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                     self.buy_reported_qty = 0.0
                     self.buy_reported_quote = 0.0
@@ -973,7 +992,13 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", "[EXEC] BLOCK duplicate_sell_prevented")
                 self.fsm_state = "WAIT_SELL_FILL"
                 return
+            inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
             sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
+            self.log("INFO", f"[EXEC] SELL CHECK inventory={inventory_qty:.6f} reported={self.sell_reported_qty:.6f} remaining={sell_qty:.6f} chunks={len(self.inventory_chunks)}")
+            if inventory_qty > 0 and sell_qty <= 0 and not (self.active_order.get('orderId') and self.active_order.get('side') == "SELL"):
+                self.sell_reported_qty = 0.0
+                self.log("WARNING", "[EXEC] SELL ACCOUNTING STALE RESET")
+                sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
             min_qty = float(self.filters.get("minQty", 0.0) or 0.0)
             if sell_qty <= 0:
                 self.log("WARNING", "[EXEC] BLOCK reason=no_position_to_sell")
