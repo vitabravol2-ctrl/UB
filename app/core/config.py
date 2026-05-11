@@ -8,7 +8,7 @@ class UBConfig:
     entry_offset: float = 1.0
     exit_offset: float = 1.0
     tick_size_default: float = 0.01
-    max_ws_age_ms: int = 1500
+    max_ws_age_ms: int = 5000
     rest_poll_ms: int = 2000
     live_enabled: bool = False
 

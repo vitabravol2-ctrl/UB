@@ -14,7 +14,7 @@ class MarketWSSignals(QObject):
 
 class MarketWSClient:
     def __init__(self, symbol: str) -> None:
-        self.symbol = symbol.lower()
+        self.symbol = f"{symbol.lower()}usdt"
         self.signals = MarketWSSignals()
         self._thread: threading.Thread | None = None
         self._ws: websocket.WebSocketApp | None = None
@@ -34,7 +34,7 @@ class MarketWSClient:
 
     def _run(self) -> None:
         self.signals.status.emit("CONNECTING")
-        self.signals.log.emit("WS", f"connecting bookTicker {self.symbol.upper()}")
+        self.signals.log.emit("WS", "connected")
         url = f"wss://stream.binance.com:9443/ws/{self.symbol}@bookTicker"
 
         def on_message(_ws: websocket.WebSocketApp, message: str) -> None:
@@ -42,21 +42,24 @@ class MarketWSClient:
                 payload = json.loads(message)
                 bid = float(payload["b"])
                 ask = float(payload["a"])
-                self.signals.book.emit(bid, ask, int(time.time() * 1000))
+                event_time = int(payload.get("E", int(time.time() * 1000)))
+                _ = payload.get("u")
+                self.signals.book.emit(bid, ask, event_time)
+                self.signals.log.emit("WS", "tick received")
             except Exception as exc:
                 self.signals.log.emit("WS", f"parse error: {exc}")
 
         def on_open(_ws: websocket.WebSocketApp) -> None:
             self.signals.status.emit("OK")
-            self.signals.log.emit("WS", "bookTicker OK")
+            self.signals.log.emit("WS", f"connected {self.symbol.upper()}")
 
         def on_error(_ws: websocket.WebSocketApp, error: Exception) -> None:
             self.signals.status.emit("LOST")
-            self.signals.log.emit("WS", f"error: {error}")
+            self.signals.log.emit("WS", f"reconnecting: {error}")
 
         def on_close(_ws: websocket.WebSocketApp, *_args: object) -> None:
             self.signals.status.emit("LOST")
-            self.signals.log.emit("WS", "closed")
+            self.signals.log.emit("WS", "stale")
 
         self._ws = websocket.WebSocketApp(
             url,
@@ -69,4 +72,5 @@ class MarketWSClient:
         while self._running:
             self._ws.run_forever(ping_interval=20, ping_timeout=5)
             if self._running:
+                self.signals.log.emit("WS", "reconnecting")
                 time.sleep(2)
