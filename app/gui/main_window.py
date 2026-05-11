@@ -153,8 +153,10 @@ class MainWindow(QMainWindow):
         self.summary_signature = ""
         self.last_ws_live_log_ms = 0
         self.ws_tick_count = 0
+        self.ws_raw_ticks_total = 0
         self.ws_tick_window_start_monotonic = time.monotonic()
         self.ws_ticks_per_sec = 0.0
+        self.ws_dropped_ticks = 0
         self.last_ws_tick_monotonic = 0.0
         self.last_ws_bid = 0.0
         self.last_ws_ask = 0.0
@@ -180,6 +182,10 @@ class MainWindow(QMainWindow):
         self.last_health_log_ms = 0
         self.last_health_reason = ""
         self._last_health_update_ms = 0
+        self.last_plan_recompute_ms = 0
+        self._cached_plan = None
+        self.rest_fallback_count = 0
+        self.stale_reason = ""
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -512,6 +518,9 @@ class MainWindow(QMainWindow):
 
     def on_ws_book(self, bid: float, ask: float, ts: int) -> None:
         now_monotonic = time.monotonic()
+        if self.last_ws_bid == bid and self.last_ws_ask == ask:
+            self.ws_dropped_ticks += 1
+            return
         self.state.snapshot.bid = bid
         self.state.snapshot.ask = ask
         self.state.snapshot.updated_ms = ts
@@ -519,6 +528,7 @@ class MainWindow(QMainWindow):
         self.state.last_ws_ms = ts
         self.state.last_ws_monotonic = now_monotonic
         self.ws_tick_count += 1
+        self.ws_raw_ticks_total += 1
         elapsed = now_monotonic - self.ws_tick_window_start_monotonic
         if elapsed >= 1.0:
             self.ws_ticks_per_sec = self.ws_tick_count / elapsed
@@ -612,20 +622,26 @@ class MainWindow(QMainWindow):
             self.log("WARNING" if self.filters.get("fallback") else "OK", "filters loaded fallback" if self.filters.get("fallback") else "filters loaded")
 
     def fetch_rest(self) -> None:
-        ws_age = self.state.age_ms(self.state.last_ws_ms)
+        ws_age = self.state.monotonic_age_ms(self.state.last_ws_monotonic)
         ws_ok = ws_age is not None and ws_age <= self.settings.max_ws_age_ms and self.state.ws_status == "CONNECTED"
         if ws_ok:
             return
         try:
             bid, ask, ts = self.rest.fetch_book_ticker(CONFIG.binance_symbol)
+            now_monotonic = time.monotonic()
+            ws_fresh = self.state.last_ws_monotonic is not None and self.state.monotonic_age_ms(self.state.last_ws_monotonic) <= self.settings.max_ws_age_ms
+            if ws_fresh:
+                return
             if self.state.rest_status == "ERROR":
                 self.log("OK", "REST restored")
             self.state.last_rest_ms = ts
+            self.state.last_rest_monotonic = now_monotonic
             self.state.rest_status = "OK"
             self.state.snapshot.bid = bid
             self.state.snapshot.ask = ask
             self.state.snapshot.updated_ms = ts
             self.state.snapshot.source = "REST"
+            self.rest_fallback_count += 1
         except Exception:
             if self.state.rest_status != "ERROR":
                 self.log("ERROR", "REST lost")
@@ -996,6 +1012,7 @@ class MainWindow(QMainWindow):
         ws_age = self.state.monotonic_age_ms(self.state.last_ws_monotonic)
         ws_connected = self.state.ws_status == "CONNECTED"
         ws_stale = ws_age is None or ws_age > self.settings.max_ws_age_ms
+        self.stale_reason = "NO_WS" if ws_age is None else ("WS_STALE" if ws_stale else "OK")
         ws_ok = ws_connected and not ws_stale
         ws_text = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
         market_snapshot_source = "WS" if ws_ok else self.state.snapshot.source
@@ -1018,8 +1035,11 @@ class MainWindow(QMainWindow):
         self.runtime["Entry avg"].setText(self._fmt(self.position_entry_avg, 6))
         self.runtime["Market Health"].setText(self.market_health_state)
         can_recompute_plan = self.runtime_active or self.position_qty > 0 or bool(self.active_order.get("orderId"))
-        plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status) if can_recompute_plan else None
         now_ms = int(time.time() * 1000)
+        if can_recompute_plan and (now_ms - self.last_plan_recompute_ms >= 250):
+            self._cached_plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status)
+            self.last_plan_recompute_ms = now_ms
+        plan = self._cached_plan if can_recompute_plan else None
         plan_status = plan.status if plan else "STOPPED"
         if plan_status in {"READY", "HOT"}:
             self.plan_ready_streak += 1
