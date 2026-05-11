@@ -114,10 +114,20 @@ class MicroGridWindow(QMainWindow):
 
     def _start_runtime(self):
         self.on_calculate()
+        if not self.rows:
+            self._log("[GRID] start blocked: empty grid levels")
+            self.grid_status["State"].setText("IDLE")
+            return
+        if self.market_state.snapshot.bid <= 0 or self.market_state.snapshot.ask <= 0:
+            self._log("[GRID] start blocked: no market data")
+            self.grid_status["State"].setText("IDLE")
+            return
+
+        self.grid_runtime.live_enabled = self.settings.live_enabled
         if self.settings.live_enabled:
             if QMessageBox.question(self, "Confirm LIVE", "LIVE mode will place real orders.") != QMessageBox.StandardButton.Yes:
+                self._log("[GRID] live start canceled by user")
                 return
-            self.grid_runtime.live_enabled = True
             self.grid_runtime.arm_live(True)
             self.grid_runtime.start_live()
         else:
