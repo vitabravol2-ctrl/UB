@@ -796,10 +796,10 @@ class MainWindow(QMainWindow):
                 self.last_sell_reprice_ms = 0
                 self.exit_mode = "NORMAL"
                 self.panic_exit_final = False
-        self.panic_exit_order_id = 0
-        self.panic_exit_price = 0.0
-        self.last_panic_wait_log_ms = 0
-        self.sell_reported_qty = 0.0
+                self.panic_exit_order_id = 0
+                self.panic_exit_price = 0.0
+                self.last_panic_wait_log_ms = 0
+                self.sell_reported_qty = 0.0
                 self.fsm_state = "PLACE_SELL"
             elif now - self.entry_started_ms >= int(self.settings.buy_timeout_ms):
                 order_id = int(self.active_order["orderId"])
