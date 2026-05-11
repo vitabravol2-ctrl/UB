@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from decimal import Decimal, ROUND_DOWN
 
 
 @dataclass
@@ -16,40 +17,63 @@ class TradePlan:
     stop_price: float | None = None
     stop_loss_u: float | None = None
     risk_reward: float | None = None
+    required_u: float | None = None
+    balance_ok: bool = False
+    filters_ok: bool = False
     status: str = "NO_DATA"
     reason: str = "Нет рыночных данных"
 
 
 class TradeMathEngine:
+    @staticmethod
+    def _d(value: float | int | str | None) -> Decimal:
+        return Decimal(str(value or 0))
+
+    @staticmethod
+    def _round_down_to_step(value: Decimal, step: Decimal) -> Decimal:
+        if step <= 0:
+            return value
+        units = (value / step).to_integral_value(rounding=ROUND_DOWN)
+        return units * step
+
     def build_plan(self, market_state, settings, filters: dict, balances: dict, api_status: str = "NOT SET") -> TradePlan:
         bid = market_state.snapshot.bid
         ask = market_state.snapshot.ask
-        lot_size = float(settings.lot_size)
+        lot_size = self._d(settings.lot_size)
 
         if bid is None or ask is None:
             return TradePlan(lot_size=lot_size, status="NO_DATA", reason="Нет рыночных данных")
 
-        spread = ask - bid
-        entry_price = bid + float(settings.entry_offset)
-        exit_price = ask - float(settings.exit_offset)
+        d_bid = self._d(bid)
+        d_ask = self._d(ask)
+        spread = d_ask - d_bid
+        entry_price = d_bid + self._d(settings.entry_offset)
+        exit_price = d_ask - self._d(settings.exit_offset)
+        tick = self._d(filters.get("tickSize", 0.0))
+        step = self._d(filters.get("stepSize", 0.0))
+        entry_price = self._round_down_to_step(entry_price, tick)
+        exit_price = self._round_down_to_step(exit_price, tick)
+        lot_size = self._round_down_to_step(lot_size, step)
         capture_per_btc = exit_price - entry_price
         expected_profit_u = capture_per_btc * lot_size
-        stop_price = entry_price - float(settings.stop_loss)
-        stop_loss_u = float(settings.stop_loss) * lot_size
+        stop_price = entry_price - self._d(settings.stop_loss)
+        stop_loss_u = self._d(settings.stop_loss) * lot_size
         risk_reward = (expected_profit_u / stop_loss_u) if stop_loss_u > 0 else None
+        required_u = entry_price * lot_size
 
         plan = TradePlan(
-            bid=bid,
-            ask=ask,
-            spread=spread,
-            entry_price=entry_price,
-            exit_price=exit_price,
-            capture_per_btc=capture_per_btc,
-            lot_size=lot_size,
-            expected_profit_u=expected_profit_u,
-            stop_price=stop_price,
-            stop_loss_u=stop_loss_u,
-            risk_reward=risk_reward,
+            bid=float(d_bid),
+            ask=float(d_ask),
+            spread=float(spread),
+            entry_price=float(entry_price),
+            exit_price=float(exit_price),
+            capture_per_btc=float(capture_per_btc),
+            lot_size=float(lot_size),
+            expected_profit_u=float(expected_profit_u),
+            stop_price=float(stop_price),
+            stop_loss_u=float(stop_loss_u),
+            risk_reward=float(risk_reward) if risk_reward is not None else None,
+            required_u=float(required_u),
             status="READY",
             reason="План готов",
         )
@@ -80,42 +104,50 @@ class TradeMathEngine:
             return
 
         fallback_filters = bool(filters.get("fallback"))
-        tick = float(filters.get("tickSize", 0.0))
-        step = float(filters.get("stepSize", 0.0))
-        min_qty = float(filters.get("minQty", 0.0))
-        min_notional = float(filters.get("minNotional", 0.0))
+        tick = self._d(filters.get("tickSize", 0.0))
+        step = self._d(filters.get("stepSize", 0.0))
+        min_qty = self._d(filters.get("minQty", 0.0))
+        min_notional = self._d(filters.get("minNotional", 0.0))
+        entry_price = self._d(plan.entry_price)
+        exit_price = self._d(plan.exit_price)
+        lot_size = self._d(plan.lot_size)
 
         if not fallback_filters and all(v > 0 for v in [tick, step, min_qty, min_notional]):
-            if plan.entry_price is not None and (plan.entry_price / tick) % 1 != 0:
+            if plan.entry_price is not None and (entry_price % tick) != 0:
                 plan.status = "FILTER_FAIL"
                 plan.reason = "Entry price не проходит tickSize"
                 return
-            if plan.exit_price is not None and (plan.exit_price / tick) % 1 != 0:
+            if plan.exit_price is not None and (exit_price % tick) != 0:
                 plan.status = "FILTER_FAIL"
                 plan.reason = "Exit price не проходит tickSize"
                 return
-            if (plan.lot_size / step) % 1 != 0:
+            if (lot_size % step) != 0:
                 plan.status = "FILTER_FAIL"
                 plan.reason = "Лот не проходит stepSize"
                 return
-            if plan.lot_size < min_qty:
+            if lot_size < min_qty:
                 plan.status = "FILTER_FAIL"
                 plan.reason = "Лот меньше minQty"
                 return
-            if (plan.entry_price or 0.0) * plan.lot_size < min_notional:
+            if entry_price * lot_size < min_notional:
                 plan.status = "FILTER_FAIL"
                 plan.reason = "Notional меньше minNotional"
                 return
+            plan.filters_ok = True
         elif fallback_filters:
             plan.reason = "План готов (Filters fallback)"
+            plan.filters_ok = True
 
-        required_u = (plan.entry_price or 0.0) * plan.lot_size
-        u_free = float(balances.get("U", {}).get("free", 0.0))
+        required_u = entry_price * lot_size
+        plan.required_u = float(required_u)
+        u_free = self._d(balances.get("U", {}).get("free", 0.0))
         if api_status == "OK":
             if u_free < required_u:
                 plan.status = "BALANCE_LOW"
                 plan.reason = "BALANCE_LOW"
+                plan.balance_ok = False
                 return
+            plan.balance_ok = True
         else:
             if plan.status in {"READY", "HOT"}:
                 plan.status = "WARNING"
