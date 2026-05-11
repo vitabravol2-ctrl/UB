@@ -135,6 +135,7 @@ class MainWindow(QMainWindow):
         self.losses = 0
         self.session_realized_pnl = 0.0
         self.cycle_realized_pnl = 0.0
+        self.cycle_has_fifo_close = False
         self.last_pnl = 0.0
         self.canceled_buys = 0
         self.sell_timeouts = 0
@@ -416,13 +417,9 @@ class MainWindow(QMainWindow):
             self.fsm_state = "PLACE_SELL"
         elif side == "SELL":
             self.log("OK", "[SYNC] SELL filled on exchange")
-            sell_qty = float(order_status.get("executedQty", 0.0) or 0.0)
-            sell_quote = float(order_status.get("cummulativeQuoteQty", 0.0) or 0.0)
-            self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
-            self._consume_inventory_fifo(sell_qty, self.avg_exit)
+            self._handle_sell_fill_update(order_status)
             self._recalc_position_from_chunks()
             self.position_state = "FLAT" if self.position_qty <= 0 else "POSITION_OPEN"
-            self._finalize_cycle_if_flat()
             self.fsm_state = "DONE"
         self.active_order = {}
 
@@ -464,6 +461,7 @@ class MainWindow(QMainWindow):
         self.session_realized_pnl += pnl_delta
         self.realized_u = pnl_delta
         self.cycle_realized_pnl += pnl_delta
+        self.cycle_has_fifo_close = True
         self.log("OK", f"[EXEC] REALIZED pnl={pnl_delta:+.6f}")
 
     def _finalize_cycle_if_flat(self, active_sell_qty: float = 0.0) -> None:
@@ -474,6 +472,9 @@ class MainWindow(QMainWindow):
         if not is_flat:
             return
         cycle_pnl = self.cycle_realized_pnl
+        if abs(cycle_pnl) <= epsilon and not self.cycle_has_fifo_close:
+            self.log("INFO", "[EXEC] CYCLE SKIP no_fifo_pnl")
+            return
         self.closed_cycles += 1
         if cycle_pnl > epsilon:
             self.wins += 1
@@ -483,6 +484,7 @@ class MainWindow(QMainWindow):
         self.log("OK", f"[EXEC] CYCLE CLOSED pnl={cycle_pnl:+.6f}")
         self.log("INFO", f"[EXEC] SESSION realized={self.session_realized_pnl:+.6f} wins={self.wins} losses={self.losses}")
         self.cycle_realized_pnl = 0.0
+        self.cycle_has_fifo_close = False
 
     def on_test_connection(self, silent: bool = False) -> None:
         status = self.account.test_account_connection(); self.api_status = status.status
@@ -644,11 +646,22 @@ class MainWindow(QMainWindow):
         self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
         self.fsm_state = "WAIT_SELL_FILL"
 
+    def _handle_sell_fill_update(self, order: dict[str, object]) -> None:
+        epsilon = 1e-12
+        executed_qty = float(order.get("executedQty", 0.0) or 0.0)
+        sell_delta = max(executed_qty - self.sell_reported_qty, 0.0)
+        if sell_delta <= epsilon:
+            return
+        sell_quote = float(order.get("cummulativeQuoteQty", 0.0) or 0.0)
+        avg_sell_price = (sell_quote / executed_qty) if executed_qty > 0 else float(self.active_order.get("price", 0.0))
+        self.avg_exit = avg_sell_price
+        self._consume_inventory_fifo(sell_delta, avg_sell_price)
+        self.sell_reported_qty = executed_qty
+        self._finalize_cycle_if_flat()
+
     def _handle_sell_filled(self, st: dict[str, object], order_ref: int) -> None:
+        self._handle_sell_fill_update(st)
         sell_qty = float(st.get("executedQty", 0.0) or 0.0)
-        sell_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
-        self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
-        self._consume_inventory_fifo(sell_qty, self.avg_exit)
         self.log("OK", f"[EXEC] SELL FILLED id={order_ref}")
         remaining = max(self.position_qty, 0.0)
         self.log("OK", f"[EXEC] SELL FILLED qty={sell_qty:.6f} remaining={remaining:.6f}")
@@ -722,11 +735,9 @@ class MainWindow(QMainWindow):
                 if final_status == "FILLED":
                     self._handle_sell_filled(final, order_id)
                     return
-                executed_qty = float(final.get("executedQty", 0.0) or 0.0)
-                sell_delta = max(executed_qty - self.sell_reported_qty, 0.0)
-                if sell_delta > 0:
-                    self._consume_inventory_fifo(sell_delta, old_price)
-                    self.sell_reported_qty = executed_qty
+                prev_sell_reported_qty = self.sell_reported_qty
+                self._handle_sell_fill_update(final)
+                sell_delta = max(self.sell_reported_qty - prev_sell_reported_qty, 0.0)
                 if final_status == "PARTIALLY_FILLED" and self.position_qty > 0:
                     self.log("INFO", f"[EXEC] SELL REPLACE remaining={self.position_qty:.6f}")
                 elif final_status not in {"CANCELED", "EXPIRED", "NEW", "PARTIALLY_FILLED"}:
@@ -998,12 +1009,10 @@ class MainWindow(QMainWindow):
                 self.log("INFO", "[EXEC] RECOVERY WAIT hard_sl_pending_recovery")
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
             self.active_order["state"] = st.get("status", "NEW")
-            executed_qty = float(st.get("executedQty", 0.0) or 0.0)
-            sell_delta = max(executed_qty - self.sell_reported_qty, 0.0)
+            prev_sell_reported_qty = self.sell_reported_qty
+            self._handle_sell_fill_update(st)
+            sell_delta = max(self.sell_reported_qty - prev_sell_reported_qty, 0.0)
             if sell_delta > 0:
-                sell_price = (float(st.get("cummulativeQuoteQty", 0.0) or 0.0) / executed_qty) if executed_qty > 0 else float(self.active_order.get("price", 0.0))
-                self._consume_inventory_fifo(sell_delta, sell_price)
-                self.sell_reported_qty = executed_qty
                 self.log("OK", f"[EXEC] SELL PARTIAL delta={sell_delta:.6f}")
                 self.log("OK", f"[EXEC] INVENTORY remaining={self.position_qty:.6f}")
                 if self.panic_exit_final and st.get("status") == "PARTIALLY_FILLED":
@@ -1045,14 +1054,11 @@ class MainWindow(QMainWindow):
                                 self.account.cancel_order(CONFIG.binance_symbol, panic_order_id)
                                 final = self.account.get_order(CONFIG.binance_symbol, panic_order_id)
                                 final_status = str(final.get("status", "UNKNOWN"))
-                                executed_qty = float(final.get("executedQty", 0.0) or 0.0)
-                                sell_delta = max(executed_qty - self.sell_reported_qty, 0.0)
-                                if sell_delta > 0:
-                                    final_sell_price = (float(final.get("cummulativeQuoteQty", 0.0) or 0.0) / executed_qty) if executed_qty > 0 else float(self.active_order.get("price", 0.0))
-                                    self._consume_inventory_fifo(sell_delta, final_sell_price)
-                                    self.sell_reported_qty = executed_qty
-                                    if final_status == "PARTIALLY_FILLED":
-                                        self.log("WARNING", f"[EXEC] PANIC PARTIAL filled={sell_delta:.6f} remaining={self.position_qty:.6f}")
+                                prev_sell_reported_qty = self.sell_reported_qty
+                                self._handle_sell_fill_update(final)
+                                sell_delta = max(self.sell_reported_qty - prev_sell_reported_qty, 0.0)
+                                if sell_delta > 0 and final_status == "PARTIALLY_FILLED":
+                                    self.log("WARNING", f"[EXEC] PANIC PARTIAL filled={sell_delta:.6f} remaining={self.position_qty:.6f}")
                                 if final_status == "FILLED" or self.position_qty <= 0:
                                     self._handle_sell_filled(final, panic_order_id)
                                     return
