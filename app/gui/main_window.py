@@ -32,6 +32,7 @@ class MainWindow(QMainWindow):
         self.balances = {"BTC": {"free": 0.0, "locked": 0.0}, "U": {"free": 0.0, "locked": 0.0}}
         self.filters = {"loaded": False, "fallback": False, "tickSize": 0.0, "stepSize": 0.0, "minQty": 0.0, "minNotional": 0.0}
         self.orders_data = []
+        self.closed_orders_data = []
         self.runtime_active = False
         self.fsm_state = "IDLE"
         self.active_order = {}
@@ -87,7 +88,7 @@ class MainWindow(QMainWindow):
         box = QGroupBox("REAL LIVE ORDERS"); lay = QVBoxLayout(); lay.addWidget(self.orders); box.setLayout(lay)
         self.grid.addWidget(box, 2, 1, 1, 3)
 
-        self.compact_status = QLabel("tick: 0 | step: 0 | minNotional: 0 | source: NONE")
+        self.compact_status = QLabel("")
         self.compact_status.setObjectName("topStatus")
         self.main_layout.addWidget(self.compact_status)
 
@@ -127,6 +128,11 @@ class MainWindow(QMainWindow):
                 if isinstance(inp, QCheckBox): inp.setChecked(v)
                 self.settings_inputs[key] = inp
                 f.addRow(labels.get(key, key), inp)
+            if title == "Data":
+                source_name = "WS" if self.state.ws_status == "OK" else self.state.snapshot.source
+                pair_info = QLabel(f"Pair info: tick={self._fmt(float(self.filters.get('tickSize', 0.0)), 5)} | step={self._fmt(float(self.filters.get('stepSize', 0.0)), 5)} | minNotional={self._fmt(float(self.filters.get('minNotional', 0.0)), 2)} | source={source_name}")
+                pair_info.setWordWrap(True)
+                f.addRow("Pair Info", pair_info)
             tabs.addTab(w, title)
 
         btns = QHBoxLayout(); save = QPushButton("SAVE"); close = QPushButton("CLOSE"); save.clicked.connect(lambda: self._save_settings_dialog(d)); close.clicked.connect(d.close); btns.addWidget(save); btns.addWidget(close); lay.addLayout(btns)
@@ -165,6 +171,10 @@ class MainWindow(QMainWindow):
     def on_ws_book(self, bid: float, ask: float, ts: int) -> None: self.state.snapshot.bid = bid; self.state.snapshot.ask = ask; self.state.snapshot.updated_ms = ts; self.state.snapshot.source = "WS"; self.state.last_ws_ms = ts
     def on_ws_status(self, status: str) -> None:
         self.state.ws_status = status
+
+    def _record_closed_order(self, order_id: int, side: str, price: float, qty: float, status: str, order_type: str, executed_qty: float = 0.0) -> None:
+        self.closed_orders_data.insert(0, {"orderId": order_id, "side": side, "price": price, "origQty": qty, "executedQty": executed_qty, "status": status, "time": int(time.time() * 1000), "type": order_type})
+        self.closed_orders_data = self.closed_orders_data[:20]
 
     def on_test_connection(self, silent: bool = False) -> None:
         status = self.account.test_account_connection(); self.api_status = status.status
@@ -256,6 +266,7 @@ class MainWindow(QMainWindow):
                     now = int(time.time() * 1000)
                     self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                     self.entry_started_ms = now
+                    self.log("OK", f"[EXEC] BUY ORDER SENT orderId={self.active_order['orderId']} price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
                     self.log("OK", f"[EXEC] PLACE BUY price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
                     self.fsm_state = "WAIT_BUY_FILL"
                 except BinanceAPIError as exc:
@@ -282,9 +293,29 @@ class MainWindow(QMainWindow):
                 self.log("OK", f"[EXEC] BUY FILLED id={self.active_order['orderId']}")
                 self.fsm_state = "PLACE_SELL"
             elif now - self.entry_started_ms >= self.settings.entry_timeout_ms:
-                self.account.cancel_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
-                self.log("WARNING", "[EXEC] BLOCK reason=buy_timeout")
-                self.fsm_state = "DONE"
+                order_id = int(self.active_order["orderId"])
+                self.log("WARNING", f"[EXEC] BUY TIMEOUT orderId={order_id}")
+                self.log("WARNING", f"[EXEC] CANCEL BUY orderId={order_id}")
+                try:
+                    self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                    self.log("OK", "[EXEC] BUY CANCELED confirmed")
+                except BinanceAPIError as exc:
+                    self.log("WARNING", f"[EXEC] BUY CANCEL response status={exc.status_code} code={exc.binance_code} msg={exc.binance_msg}")
+                final = self.account.get_order(CONFIG.binance_symbol, order_id)
+                final_status = final.get("status", "UNKNOWN")
+                self.log("INFO", f"[EXEC] BUY FINAL STATUS status={final_status} orderId={order_id}")
+                executed_qty = float(final.get("executedQty", 0.0) or 0.0)
+                if final_status == "FILLED":
+                    self.position_qty = executed_qty
+                    self.avg_entry = float(self.active_order.get("price", 0.0))
+                    self.log("OK", "[EXEC] BUY FILLED during cancel")
+                    self._record_closed_order(order_id, "BUY", float(self.active_order.get("price", 0.0)), float(self.active_order.get("qty", 0.0)), final_status, str(self.active_order.get("type", "LIMIT")), executed_qty=executed_qty)
+                    self.fsm_state = "PLACE_SELL"
+                else:
+                    self._record_closed_order(order_id, "BUY", float(self.active_order.get("price", 0.0)), float(self.active_order.get("qty", 0.0)), final_status, str(self.active_order.get("type", "LIMIT")), executed_qty=executed_qty)
+                    self.active_order = {}
+                    self.log("WARNING", "[EXEC] BLOCK reason=buy_not_filled")
+                    self.fsm_state = "DONE"
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
             self.log("OK", f"[EXEC] PLACE SELL price={plan.exit_price:.2f} qty={self.position_qty:.6f}")
             o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(plan.exit_price), float(self.position_qty))
@@ -301,6 +332,7 @@ class MainWindow(QMainWindow):
                 self.realized_u = (self.avg_exit - self.avg_entry) * self.position_qty
                 self.log("OK", f"[EXEC] SELL FILLED id={self.active_order['orderId']}")
                 self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
+                self._record_closed_order(int(self.active_order["orderId"]), "SELL", float(self.active_order.get("price", 0.0)), float(self.active_order.get("qty", 0.0)), "FILLED", str(self.active_order.get("type", "LIMIT")), executed_qty=float(st.get("executedQty", 0.0) or 0.0))
                 self.active_order = {}
                 self.fsm_state = "DONE"
             elif now - self.exit_started_ms >= self.settings.exit_timeout_ms:
@@ -319,8 +351,7 @@ class MainWindow(QMainWindow):
         self.risk["Max exposure U"].setText(self._fmt(self.settings.max_live_exposure_u, 2))
         self.risk["panic"].setText("ON" if self.settings.panic_exit else "OFF")
 
-        source_name = "WS" if ws_ok else self.state.snapshot.source
-        self.compact_status.setText(f"tick: {self._fmt(float(self.filters.get('tickSize',0.0)), 5)} | step: {self._fmt(float(self.filters.get('stepSize',0.0)), 5)} | minNotional: {self._fmt(float(self.filters.get('minNotional',0.0)), 2)} | source: {source_name}")
+        self.compact_status.setText("")
 
         u_free = float(self.balances.get("U", {}).get("free", 0.0))
         btc_free = float(self.balances.get("BTC", {}).get("free", 0.0))
@@ -363,7 +394,7 @@ class MainWindow(QMainWindow):
             elif plan_status in {"BALANCE_LOW", "FILTER_FAIL"}:
                 self.log("WARNING", f"[EXEC] BLOCK reason={plan_status.lower()}")
 
-        rows = list(self.orders_data)
+        rows = list(self.closed_orders_data) + list(self.orders_data)
         if self.active_order:
             rows.append({"orderId": self.active_order.get("orderId"), "side": self.active_order.get("side"), "price": self.active_order.get("price", 0), "origQty": self.active_order.get("qty", 0), "executedQty": 0, "status": self.active_order.get("state", "NEW"), "time": self.active_order.get("create_ms", int(time.time() * 1000)), "type": self.active_order.get("type", "LIMIT")})
         self.orders.setRowCount(len(rows))
