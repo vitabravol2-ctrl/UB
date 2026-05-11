@@ -22,6 +22,14 @@ class SettingsData:
     require_confirmation: bool = True
     auto_cancel_on_stop: bool = True
     buy_timeout_ms: int = 4500
+    buy_timeout_ms_fast: int = 1200
+    entry_mode: str = "BALANCED"
+    entry_reprice_enabled: bool = True
+    entry_reprice_cooldown_ms: int = 300
+    max_entry_reprices: int = 3
+    entry_chase_ticks: int = 1
+    entry_cross_if_spread_ticks_above: int = 1000
+    min_spread_after_entry_ticks: int = 3
     sell_timeout_ms: int = 5000
     sell_reprice_cooldown_ms: int = 700
     panic_reprice_once: bool = True
