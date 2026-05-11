@@ -87,6 +87,7 @@ class MainWindow(QMainWindow):
         self.account = BinanceAccountClient()
         self.account.debug_api_logs = self.settings.debug_api_logs
         self.api_status = "NOT SET"
+        self.api_ready = False
         self.last_log_line = ""
         self.logged_flags: set[str] = set()
         self.balances = {"BTC": {"free": 0.0, "locked": 0.0}, "U": {"free": 0.0, "locked": 0.0}}
@@ -404,20 +405,24 @@ class MainWindow(QMainWindow):
         self.log("INFO", f"[SETTINGS] imported path={path}")
 
     def toggle_runtime(self) -> None:
+        self.log("INFO", f"START_CLICK received enabled={self.start_stop_btn.isEnabled()} api_ready={self.api_ready} running={self.runtime_active}")
         self.runtime_active = not self.runtime_active
         if self.runtime_active:
             self.settings.live_enabled = True
             self.log("INFO", f"START_SETTINGS live_enabled={self.settings.live_enabled} guard_mode={self.settings.guard_mode} entry_mode={self.settings.entry_mode} exit_engine={self.settings.exit_engine_enabled} order_size={self.settings.order_size_u}")
-            if self.api_status != "OK":
+            if not self.api_ready:
                 self.log("WARNING", "START_BLOCKED reason=api_not_ready")
                 self.runtime_active = False
-                return
-            self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.log("OK", "START")
-            self._repair_runtime_state()
-            if self.position_qty > 0:
-                self.log("WARNING", f"[EXEC] START resume exit qty={self.position_qty:.6f}")
-                self.fsm_state = "PLACE_SELL"
-        else: self.ws.stop(); self.start_stop_btn.setText("START"); self.start_stop_btn.setProperty("kind", "start"); self.cancel_all(); self.log("WARNING", "STOP")
+            else:
+                self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.log("OK", "START")
+                self.log("OK", "START_OK runtime_started")
+                self._repair_runtime_state()
+                if self.position_qty > 0:
+                    self.log("WARNING", f"[EXEC] START resume exit qty={self.position_qty:.6f}")
+                    self.fsm_state = "PLACE_SELL"
+        else:
+            self.ws.stop(); self.start_stop_btn.setText("START"); self.start_stop_btn.setProperty("kind", "start"); self.cancel_all(); self.log("WARNING", "STOP")
+        self.start_stop_btn.setEnabled(True)
         self.start_stop_btn.style().polish(self.start_stop_btn)
 
     def cancel_all(self) -> None:
@@ -660,6 +665,7 @@ class MainWindow(QMainWindow):
 
     def on_test_connection(self, silent: bool = False) -> None:
         status = self.account.test_account_connection(); self.api_status = status.status
+        self.api_ready = status.status == "OK"
         if status.status == "OK":
             if not silent: self.log("OK", "API connected")
             self.refresh_account_data(load_filters=True)
@@ -667,7 +673,9 @@ class MainWindow(QMainWindow):
             self.log("ERROR", f"API error {status.message}")
 
     def refresh_account_data(self, load_filters: bool = False) -> None:
-        if self.api_status != "OK": return
+        self.api_ready = self.api_status == "OK"
+        if not self.api_ready:
+            return
         self.balances = self.account.get_account_balances()
         if load_filters or not self.filters.get("loaded"):
             self.filters = self.account.get_exchange_filters(CONFIG.binance_symbol)
