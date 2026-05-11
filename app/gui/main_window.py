@@ -1056,10 +1056,10 @@ class MainWindow(QMainWindow):
         self.runtime["Guard state"].setText(self.entry_guard_state)
         self.runtime["Guard reason"].setText(self.entry_guard_reason)
         self.runtime["Stable snaps"].setText(f"{self.entry_guard_stable_count}/{self.settings.stable_snapshots_required}")
+        now_ms = int(time.time() * 1000)
         cooldown_left = max(self.entry_guard_cooldown_until_ms - now_ms, 0)
         self.runtime["Cooldown ms"].setText(str(cooldown_left))
         can_recompute_plan = self.runtime_active or self.position_qty > 0 or bool(self.active_order.get("orderId"))
-        now_ms = int(time.time() * 1000)
         if can_recompute_plan and (now_ms - self.last_plan_recompute_ms >= 250):
             self._cached_plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status)
             self.last_plan_recompute_ms = now_ms
