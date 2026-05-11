@@ -649,7 +649,14 @@ class MainWindow(QMainWindow):
                 if final_status == "FILLED":
                     self._handle_sell_filled(final, order_id)
                     return
-                if final_status not in {"CANCELED", "EXPIRED", "NEW"}:
+                executed_qty = float(final.get("executedQty", 0.0) or 0.0)
+                sell_delta = max(executed_qty - self.sell_reported_qty, 0.0)
+                if sell_delta > 0:
+                    self.position_qty = max(self.position_qty - sell_delta, 0.0)
+                    self.sell_reported_qty = executed_qty
+                if final_status == "PARTIALLY_FILLED" and self.position_qty > 0:
+                    self.log("INFO", f"[EXEC] SELL REPLACE remaining={self.position_qty:.6f}")
+                elif final_status not in {"CANCELED", "EXPIRED", "NEW", "PARTIALLY_FILLED"}:
                     self.log("ERROR", f"[EXEC] EXIT FAILED cancel_unexpected_status={final_status}")
                     self.position_state = "EXIT_FAILED"
                     self.fsm_state = "EXIT_FAILED"
@@ -657,31 +664,34 @@ class MainWindow(QMainWindow):
             self._inc_canceled_attempt("timeout_sell")
             self._inc_canceled_attempt("canceled_sell")
             self.sell_timeouts += 1
-            if self.sell_reprice_count >= int(self.settings.max_sell_reprices):
-                if bid_now > 0 and bid_now <= sl_price:
-                    self.log("WARNING", "[EXEC] FORCE EXIT hard_sl_triggered")
-                    self._panic_exit_final(now_ms, "max_reprices_hard_sl", sl_mode=True)
-                else:
-                    self.log("INFO", "[EXEC] FORCE EXIT skipped market_stable")
-                    self.fsm_state = "WAIT_SELL_FILL"
-                return
             ask_now = float(self.state.snapshot.ask or 0.0)
             aggressive = float(self.settings.aggressive_exit_offset)
             tick = self._tick_size()
             min_profit_ticks = max(int(self.settings.min_profit_ticks), 0)
+            safe_exit_price = bid_now + tick
             min_exit_price = float(self.position_entry_avg) + (tick * min_profit_ticks)
-            panic_exit_enabled = (bool(self.settings.panic_exit) and not self.runtime_active)
-            if panic_exit_enabled:
-                self.exit_mode = "PANIC"
-                self.log("WARNING", "[EXEC] PANIC EXIT enabled")
-                candidate_price = max(bid_now + tick, ask_now - aggressive)
+            self.log("INFO", "[EXEC] SELL TIMEOUT check fast_exit")
+            if safe_exit_price >= min_exit_price:
+                self.log("INFO", f"[EXEC] FAST SAFE EXIT price={safe_exit_price:.2f} entry={float(self.position_entry_avg):.2f} bid={bid_now:.2f}")
+                candidate_price = safe_exit_price
+            elif (bid_now + tick) >= float(self.position_entry_avg):
+                candidate_price = max(bid_now + tick, float(self.position_entry_avg))
+                self.log("INFO", f"[EXEC] BREAK EVEN EXIT price={candidate_price:.2f} entry={float(self.position_entry_avg):.2f}")
+            elif bid_now > 0 and bid_now <= sl_price:
+                self.log("WARNING", "[EXEC] FORCE EXIT hard_sl_triggered")
+                self._panic_exit_final(now_ms, "hard_sl_timeout", sl_mode=True)
+                return
             else:
-                self.log("INFO", f"[EXEC] SAFE EXIT floor={min_exit_price:.2f}")
-                candidate_price = max(min_exit_price, bid_now + tick, ask_now - aggressive)
+                self.log("INFO", f"[EXEC] PANIC SKIP no_hard_sl bid={bid_now:.2f} entry={float(self.position_entry_avg):.2f}")
+                if self.sell_reprice_count >= int(self.settings.max_sell_reprices):
+                    self.fsm_state = "WAIT_SELL_FILL"
+                    return
+                candidate_price = max(bid_now + tick, ask_now - aggressive)
             new_price = self._cap_soft_sell_reprice(old_price, candidate_price)
             sell_qty = float(Decimal(str(self.position_qty)))
             self.sell_reprice_count += 1
             self.log("WARNING", f"[EXEC] SELL REPRICE old={old_price:.2f} new={new_price:.2f} count={self.sell_reprice_count}")
+            self.log("INFO", f"[EXEC] SELL REPLACE remaining={sell_qty:.6f}")
             self.log("OK", f"[EXEC] PLACE SELL price={new_price:.2f} qty={sell_qty:.6f}")
             o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
             self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
