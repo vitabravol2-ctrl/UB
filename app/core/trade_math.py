@@ -66,17 +66,17 @@ class TradeMathEngine:
 
         if plan.spread < float(settings.min_spread):
             plan.status = "SPREAD_TOO_SMALL"
-            plan.reason = "Спред меньше min_spread"
+            plan.reason = "SPREAD_TOO_SMALL"
             return
 
         if plan.capture_per_btc is None or plan.capture_per_btc <= 0:
             plan.status = "CAPTURE_TOO_SMALL"
-            plan.reason = "Захват <= 0, trade not possible"
+            plan.reason = "CAPTURE_TOO_SMALL"
             return
 
         if plan.capture_per_btc < float(settings.target_capture):
             plan.status = "CAPTURE_TOO_SMALL"
-            plan.reason = "Захват меньше target_capture"
+            plan.reason = "CAPTURE_TOO_SMALL"
             return
 
         fallback_filters = bool(filters.get("fallback"))
@@ -114,7 +114,7 @@ class TradeMathEngine:
         if api_status == "OK":
             if u_free < required_u:
                 plan.status = "BALANCE_LOW"
-                plan.reason = "Недостаточно U"
+                plan.reason = "BALANCE_LOW"
                 return
         else:
             if plan.status in {"READY", "HOT"}:
@@ -128,6 +128,6 @@ class TradeMathEngine:
             return
         if plan.capture_per_btc >= float(settings.target_capture) * 1.5:
             plan.status = "HOT"
-            plan.reason = "HOT: высокий захват"
+            plan.reason = "HOT"
         elif plan.status == "READY":
-            plan.reason = "План готов"
+            plan.reason = "READY"

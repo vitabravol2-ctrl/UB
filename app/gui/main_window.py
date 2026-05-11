@@ -18,8 +18,9 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.settings = SETTINGS_STORE.load()
-        self.setWindowTitle("UB v0.1.8 / BTCU Trading Cockpit")
-        self.resize(1400, 900)
+        self.setWindowTitle("UB v0.2.1 / BTCU Trading Cockpit")
+        self.resize(1600, 900)
+        self.setMinimumSize(1280, 760)
         self.setStyleSheet(main_qss())
         self.state = MarketState()
         self.rest = MarketREST()
@@ -57,7 +58,8 @@ class MainWindow(QMainWindow):
 
         spread, self.spread = kv_card("SPREAD ENGINE", [("Статус", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Источник", "NONE"), ("Обновление", "--")])
         self.spread_box = spread
-        plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Reason", "Нет рыночных данных"), ("Entry BUY", "N/A"), ("Exit SELL", "N/A"), ("Stop", "N/A"), ("Capture / BTC", "N/A"), ("Lot", "0"), ("Expected profit U", "N/A"), ("Stop loss U", "N/A"), ("R:R", "N/A")])
+        plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Reason", "Нет рыночных данных"), ("Entry BUY", "N/A"), ("Exit SELL", "N/A"), ("Stop", "N/A"), ("Capture/BTC", "N/A"), ("Lot", "0"), ("Profit U", "N/A"), ("Loss U", "N/A"), ("R:R", "N/A")])
+        plan.setMinimumHeight(320)
         self.plan_box = plan
         runtime, self.runtime = kv_card("RUNTIME", [("LIVE", "OFF"), ("Треб. подтверждение", "YES"), ("Авто-отмена", "YES")])
         self.runtime_box = runtime
@@ -114,6 +116,7 @@ class MainWindow(QMainWindow):
         self.account.save_api_keys(key, secret)
         secret_input.clear(); show.setChecked(False)
         self.log("INFO", f"API keys loaded key={self.account._mask_key(self.account.api_key)}")
+        self.on_test_connection(silent=True)
 
     def _save_settings_dialog(self, dialog: QDialog) -> None:
         for key, widget in self.settings_inputs.items():
@@ -134,9 +137,6 @@ class MainWindow(QMainWindow):
     def on_ws_book(self, bid: float, ask: float, ts: int) -> None: self.state.snapshot.bid = bid; self.state.snapshot.ask = ask; self.state.snapshot.updated_ms = ts; self.state.snapshot.source = "WS"; self.state.last_ws_ms = ts
     def on_ws_status(self, status: str) -> None:
         self.state.ws_status = status
-        if "ws_diag" not in self.logged_flags:
-            self.log("INFO", f"WS diagnostic {status}")
-            self.logged_flags.add("ws_diag")
 
     def on_test_connection(self, silent: bool = False) -> None:
         status = self.account.test_account_connection(); self.api_status = status.status
@@ -169,7 +169,10 @@ class MainWindow(QMainWindow):
     def _refresh_ui(self) -> None:
         bid = self.state.snapshot.bid; ask = self.state.snapshot.ask; spread = self.state.snapshot.spread
         spread_state = "BAD" if spread is None else ("HOT" if spread >= self.settings.min_spread + 0.02 else ("READY" if spread >= self.settings.min_spread else "WATCH"))
-        self.conn["API"].setText(self.api_status); self.conn["REST"].setText(self.state.rest_status); self.conn["WS"].setText("OK" if self.state.ws_status == "CONNECTED" else "OPTIONAL LOST"); self.conn["Источник"].setText(self.state.snapshot.source); self.conn["Обновление"].setText(f"{self.account.time_offset_ms} ms")
+        ws_age = self.state.age_ms(self.state.last_ws_ms)
+        ws_ok = ws_age is not None and ws_age <= self.settings.max_ws_age_ms and self.state.ws_status == "CONNECTED"
+        ws_text = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
+        self.conn["API"].setText(self.api_status); self.conn["REST"].setText(self.state.rest_status); self.conn["WS"].setText(ws_text); self.conn["Источник"].setText("WS" if ws_ok else self.state.snapshot.source); self.conn["Обновление"].setText(f"{self.account.time_offset_ms} ms")
         self.bid_v.setText("N/A" if bid is None else f"{bid:.2f}"); self.ask_v.setText("N/A" if ask is None else f"{ask:.2f}"); self.spr_v.setText("N/A" if spread is None else f"{spread:.2f}")
         self.spread["Статус"].setText(spread_state); self.spread["Spread"].setText("N/A" if spread is None else f"{spread:.2f}")
         cap = (spread - self.settings.entry_offset - self.settings.exit_offset) if spread is not None else None
@@ -184,14 +187,24 @@ class MainWindow(QMainWindow):
         self.plan["Entry BUY"].setText("N/A" if plan.entry_price is None else f"{plan.entry_price:.2f}")
         self.plan["Exit SELL"].setText("N/A" if plan.exit_price is None else f"{plan.exit_price:.2f}")
         self.plan["Stop"].setText("N/A" if plan.stop_price is None else f"{plan.stop_price:.2f}")
-        self.plan["Capture / BTC"].setText("N/A" if plan.capture_per_btc is None else f"{plan.capture_per_btc:.2f}")
+        self.plan["Capture/BTC"].setText("N/A" if plan.capture_per_btc is None else f"{plan.capture_per_btc:.2f}")
         self.plan["Lot"].setText(self._fmt(plan.lot_size, 6))
-        self.plan["Expected profit U"].setText("N/A" if plan.expected_profit_u is None else self._fmt(plan.expected_profit_u, 6))
-        self.plan["Stop loss U"].setText("N/A" if plan.stop_loss_u is None else self._fmt(plan.stop_loss_u, 6))
+        self.plan["Profit U"].setText("N/A" if plan.expected_profit_u is None else self._fmt(plan.expected_profit_u, 6))
+        self.plan["Loss U"].setText("N/A" if plan.stop_loss_u is None else self._fmt(plan.stop_loss_u, 6))
         self.plan["R:R"].setText("N/A" if plan.risk_reward is None else self._fmt(plan.risk_reward, 4))
 
         self.fil["Filters"].setText("YES fallback" if self.filters.get("fallback") else ("YES" if self.filters["loaded"] else "NO"))
         for k in ["tickSize", "stepSize", "minQty", "minNotional"]: self.fil[k].setText(self._fmt(float(self.filters[k]), 6))
+
+        u_free = float(self.balances.get("U", {}).get("free", 0.0))
+        btc_free = float(self.balances.get("BTC", {}).get("free", 0.0))
+        max_buy = (u_free / plan.entry_price) if plan.entry_price else 0.0
+        self.bal["BTC свободно"].setText(self._fmt(btc_free, 6))
+        self.bal["BTC lock"].setText(self._fmt(float(self.balances.get("BTC", {}).get("locked", 0.0)), 6))
+        self.bal["U свободно"].setText(self._fmt(u_free, 6))
+        self.bal["U lock"].setText(self._fmt(float(self.balances.get("U", {}).get("locked", 0.0)), 6))
+        self.bal["Max buy"].setText(f"{self._fmt(max_buy, 6)} BTC")
+        self.bal["Max sell"].setText(f"{self._fmt(btc_free, 6)} BTC")
 
         self.conn_box.setProperty("state", "api-ok" if self.api_status == "OK" else ("api-error" if self.api_status == "ERROR" else "api-notset"))
         self.spread_box.setProperty("state", spread_state.lower())
@@ -215,8 +228,8 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", f"[PLAN] {plan.status} reason={plan.reason}")
 
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
-        ws_txt = "OK" if self.state.ws_status == "CONNECTED" else "OPTIONAL"
-        self.top_status.setText(f"REST ● {rest_txt}   WS ● {ws_txt}   API ● {self.api_status}   {'HOT' if spread_state=='HOT' else 'READY'}")
+        ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
+        self.top_status.setText(f"BTC/U | WS ● {ws_txt} | REST ● {rest_txt} | API ● {self.api_status} | {'HOT' if spread_state=='HOT' else 'READY'}")
 
     def log(self, tag: str, message: str) -> None:
         line = format_log(tag, message)
