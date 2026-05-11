@@ -120,16 +120,17 @@ class MainWindow(QMainWindow):
         bal, self.bal = kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
         self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(risk, 2, 0, 1, 1)
 
-        self.cycles_table = QTableWidget(0, 9)
-        self.cycles_table.setHorizontalHeaderLabels(["Time", "Buy price", "Sell price", "Qty BTC", "Buy U", "Sell U", "PnL U", "Duration", "Status"])
+        self.cycles_table = QTableWidget(0, 7)
+        self.cycles_table.setHorizontalHeaderLabels(["Time", "Result", "Buy", "Sell", "Qty", "PnL U", "Duration"])
         self.cycles_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         cycles_box = QGroupBox("CLOSED CYCLES / ИСТОРИЯ СДЕЛОК")
         cycles_lay = QVBoxLayout(); cycles_lay.addWidget(self.cycles_table); cycles_box.setLayout(cycles_lay)
-        cycles_box.setMinimumHeight(430)
-        self.grid.addWidget(cycles_box, 2, 1, 2, 2)
+        cycles_box.setMinimumHeight(190)
+        self.grid.addWidget(cycles_box, 2, 1, 1, 3)
 
-        summary, self.summary = kv_card("EXECUTION SUMMARY", [("Cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Avg PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Open position", "0")])
-        self.grid.addWidget(summary, 2, 3, 2, 1)
+        summary, self.summary = kv_card("EXECUTION SUMMARY", [("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Canceled attempts", "0"), ("Realized PnL", "0"), ("Avg PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Open position", "0")])
+        summary.setMinimumHeight(190)
+        self.grid.addWidget(summary, 2, 4, 1, 1)
 
         self.compact_status = QLabel("")
         self.compact_status.setObjectName("topStatus")
@@ -571,28 +572,43 @@ class MainWindow(QMainWindow):
             self.cycles_signature = cycles_sig
             self.cycles_table.setRowCount(len(self.closed_cycles_data[:200]))
             for i, c in enumerate(self.closed_cycles_data[:200]):
-                vals = [time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(c["time"] / 1000.0)), self._fmt(c["buy_price"], 6), self._fmt(c["sell_price"], 6), self._fmt(c["qty"], 6), self._fmt(c["buy_u"], 6), self._fmt(c["sell_u"], 6), f"{c['pnl_u']:+.6f}", f"{int(c['duration_ms'])}ms", c["status"]]
+                result_label = {"WIN": "✅ WIN", "LOSS": "❌ LOSS", "CANCELED": "⚪ CANCELED", "ERROR": "⚪ CANCELED"}.get(c["status"], c["status"])
+                vals = [
+                    time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(c["time"] / 1000.0)),
+                    result_label,
+                    self._fmt(c["buy_price"], 6),
+                    self._fmt(c["sell_price"], 6),
+                    self._fmt(c["qty"], 6),
+                    f"{c['pnl_u']:+.6f}",
+                    f"{int(c['duration_ms'])}ms",
+                ]
+                result_color = {"WIN": "#22C55E", "LOSS": "#EF4444", "CANCELED": "#9CA3AF", "ERROR": "#9CA3AF"}.get(c["status"], "#CBD5E1")
+                pnl_color = "#9CA3AF" if c["status"] in {"CANCELED", "ERROR"} else ("#22C55E" if c["pnl_u"] >= 0 else "#EF4444")
                 for j, v in enumerate(vals):
                     item = QTableWidgetItem(v)
-                    if j == 8:
-                        color = {"WIN": "#22C55E", "LOSS": "#EF4444", "CANCELED": "#9CA3AF", "ERROR": "#EF4444"}.get(c["status"], "#CBD5E1")
-                        item.setForeground(QColor(color))
+                    if j == 1:
+                        item.setForeground(QColor(result_color))
+                    elif j == 5:
+                        item.setForeground(QColor(pnl_color))
                     self.cycles_table.setItem(i, j, item)
 
         closed = [c for c in self.closed_cycles_data if c["status"] in {"WIN", "LOSS"}]
+        canceled_attempts = len([c for c in self.closed_cycles_data if c["status"] in {"CANCELED", "ERROR"}])
         pnl_values = [c["pnl_u"] for c in closed]
         realized = sum(pnl_values)
         wins = len([x for x in pnl_values if x >= 0])
         losses = len([x for x in pnl_values if x < 0])
-        avg_pnl = (realized / len(pnl_values)) if pnl_values else 0.0
+        closed_cycles = len(pnl_values)
+        avg_pnl = (realized / closed_cycles) if closed_cycles else 0.0
         last_pnl = (pnl_values[0] if pnl_values else 0.0)
-        winrate = (wins / len(pnl_values) * 100.0) if pnl_values else 0.0
-        summary_sig = f"{len(pnl_values)}:{wins}:{losses}:{realized:.6f}:{avg_pnl:.6f}:{last_pnl:.6f}:{self.position_qty:.6f}"
+        winrate = (wins / closed_cycles * 100.0) if closed_cycles else 0.0
+        summary_sig = f"{closed_cycles}:{wins}:{losses}:{canceled_attempts}:{realized:.6f}:{avg_pnl:.6f}:{last_pnl:.6f}:{self.position_qty:.6f}"
         if summary_sig != self.summary_signature:
             self.summary_signature = summary_sig
-            self.summary["Cycles"].setText(str(len(pnl_values)))
+            self.summary["Closed cycles"].setText(str(closed_cycles))
             self.summary["Wins"].setText(str(wins))
             self.summary["Losses"].setText(str(losses))
+            self.summary["Canceled attempts"].setText(str(canceled_attempts))
             self.summary["Realized PnL"].setText(f"{realized:+.6f}")
             self.summary["Avg PnL"].setText(f"{avg_pnl:+.6f}")
             self.summary["Last PnL"].setText(f"{last_pnl:+.6f}")
