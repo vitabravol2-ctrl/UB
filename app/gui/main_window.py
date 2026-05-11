@@ -326,8 +326,9 @@ class MainWindow(QMainWindow):
         self.runtime_active = not self.runtime_active
         if self.runtime_active:
             self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.log("OK", "START")
-            if self.position_state == "EXIT_FAILED" and self.position_qty > 0:
-                self.log("WARNING", f"[EXEC] RECOVER EXIT position_qty={self.position_qty:.6f}")
+            self._repair_runtime_state()
+            if self.position_qty > 0:
+                self.log("WARNING", f"[EXEC] START resume exit qty={self.position_qty:.6f}")
                 self.fsm_state = "PLACE_SELL"
         else: self.ws.stop(); self.start_stop_btn.setText("START"); self.start_stop_btn.setProperty("kind", "start"); self.cancel_all(); self.log("WARNING", "STOP")
         self.start_stop_btn.style().polish(self.start_stop_btn)
@@ -354,6 +355,9 @@ class MainWindow(QMainWindow):
         self.runtime_active = False
         if self.position_qty > 0:
             self.position_state = "EXIT_FAILED"
+            self.log("WARNING", f"[EXEC] STOP with open inventory qty={self.position_qty:.6f}")
+        else:
+            self.position_state = "FLAT"
     def refresh_orders_manual(self) -> None:
         self.sync_active_order(force=True)
 
@@ -587,6 +591,29 @@ class MainWindow(QMainWindow):
         weighted = sum(chunk.qty * chunk.entry_price for chunk in self.inventory_chunks if chunk.qty > 0)
         self.position_entry_avg = weighted / total_qty
         return self.position_entry_avg
+
+    def _repair_runtime_state(self) -> None:
+        inventory_qty = self._recalc_position_from_chunks()
+        self._recalc_entry_avg_from_chunks()
+        active_side = str(self.active_order.get("side", ""))
+        has_active_order = bool(self.active_order.get("orderId"))
+        if inventory_qty <= 1e-12:
+            if self.position_state in {"POSITION_OPEN", "EXIT_FAILED"}:
+                self.log("WARNING", "[EXEC] STATE REPAIR reason=zero_inventory_not_flat")
+            self.position_state = "FLAT"
+            if self.fsm_state == "BUY_PENDING" and not (has_active_order and active_side == "BUY"):
+                self.log("WARNING", "[EXEC] STATE REPAIR reason=buy_pending_without_buy")
+                self.fsm_state = "DONE"
+        else:
+            if self.position_state == "FLAT":
+                self.log("WARNING", "[EXEC] STATE REPAIR reason=inventory_cannot_be_flat")
+                self.position_state = "POSITION_OPEN"
+            if self.position_state == "BUY_PENDING" and not (has_active_order and active_side == "BUY"):
+                self.log("WARNING", "[EXEC] STATE REPAIR reason=buy_pending_with_inventory")
+                self.position_state = "POSITION_OPEN"
+            if self.fsm_state == "WAIT_READY" and not (has_active_order and active_side == "SELL"):
+                self.log("INFO", f"[EXEC] EXIT RECOVERY inventory_no_sell qty={inventory_qty:.6f}")
+                self.fsm_state = "PLACE_SELL"
 
     def _add_inventory_chunk(self, qty: float, entry_price: float, now_ms: int) -> None:
         if qty <= 0:
@@ -874,6 +901,11 @@ class MainWindow(QMainWindow):
         self.plan["Age"].setText(f"{ready_age}ms")
         self.plan["Profit U"].setText("N/A" if plan.expected_profit_u is None else self._fmt(plan.expected_profit_u, 6))
         plan_key = f"{plan.status}:{self._fmt(plan.order_size_u,2)}:{self._fmt(plan.qty_btc,6)}:{self._fmt(plan.required_u or 0.0,2)}"
+        self._repair_runtime_state()
+        if self.position_qty > 0 and not (self.active_order.get("orderId") and self.active_order.get("side") == "SELL") and self.runtime_active:
+            if self.fsm_state != "PLACE_SELL":
+                self.log("INFO", f"[EXEC] EXIT RECOVERY inventory_no_sell qty={self.position_qty:.6f}")
+            self.fsm_state = "PLACE_SELL"
         if self.runtime_active and self.fsm_state == "DONE":
             self.fsm_state = "WAIT_READY"
         if self.runtime_active and self.fsm_state == "ERROR" and now_ms >= self.order_retry_blocked_until_ms:
@@ -883,11 +915,19 @@ class MainWindow(QMainWindow):
             self.log("INFO", "[EXEC] WAIT READY")
             self.fsm_state = "WAIT_READY"
         market_valid = ws_ok or self.state.rest_status == "OK"
-        if self.runtime_active and self.fsm_state == "WAIT_READY" and self.settings.live_enabled and plan.status in {"READY", "HOT"} and market_valid and plan.balance_ok and plan.filters_ok and (plan.required_u or 0.0) <= self.settings.max_live_exposure_u:
-            if self.active_order.get("orderId") or self.position_qty > 0 or self.fsm_state in {"WAIT_BUY_FILL", "PLACE_SELL", "WAIT_SELL_FILL", "SELL_TIMEOUT", "ERROR_POSITION"}:
+        allow_buy = self.settings.live_enabled and plan.status in {"READY", "HOT"} and market_valid and plan.filters_ok and (plan.required_u or 0.0) <= self.settings.max_live_exposure_u
+        if self.runtime_active and self.fsm_state == "WAIT_READY" and allow_buy:
+            if self.position_qty > 0:
+                if not plan.balance_ok:
+                    self.log("WARNING", "[EXEC] BALANCE LOW ignored: exit priority")
                 if now_ms - self.last_position_open_block_log_ms >= 3000:
                     self.log("WARNING", "[EXEC] BLOCK reason=position_open_no_new_buy")
                     self.last_position_open_block_log_ms = now_ms
+                self.fsm_state = "DONE"
+            elif not plan.balance_ok:
+                self.log("WARNING", "[EXEC] BLOCK reason=balance_low")
+                self.fsm_state = "DONE"
+            elif self.active_order.get("orderId") or self.fsm_state in {"WAIT_BUY_FILL", "PLACE_SELL", "WAIT_SELL_FILL", "SELL_TIMEOUT", "ERROR_POSITION"}:
                 self.fsm_state = "DONE"
             elif self.active_order.get("orderId"):
                 self.log("WARNING", "[EXEC] BLOCK reason=active_order")
@@ -1014,8 +1054,13 @@ class MainWindow(QMainWindow):
                 sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
             min_qty = float(self.filters.get("minQty", 0.0) or 0.0)
             if sell_qty <= 0:
-                self.log("WARNING", "[EXEC] BLOCK reason=no_position_to_sell")
-                self.fsm_state = "ERROR"
+                if inventory_qty > 0:
+                    self.log("WARNING", "[EXEC] SELL ACCOUNTING STALE RESET")
+                    self.sell_reported_qty = 0.0
+                    sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
+                if sell_qty <= 0:
+                    self.log("WARNING", "[EXEC] EXIT RECOVERY waiting inventory_resync")
+                    self.fsm_state = "DONE"
             elif min_qty > 0 and sell_qty < min_qty:
                 self.log("WARNING", f"[EXEC] BLOCK reason=sell_qty_invalid qty={sell_qty:.8f} minQty={min_qty:.8f}")
                 self.fsm_state = "ERROR"
