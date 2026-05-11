@@ -142,17 +142,20 @@ class MainWindow(QMainWindow):
             self.grid.setColumnStretch(col, 1)
             self.grid.setColumnMinimumWidth(col, 260)
         self.grid.setRowStretch(0, 0)
-        self.grid.setRowStretch(1, 0)
-        self.grid.setRowStretch(2, 0)
+        self.grid.setRowStretch(1, 2)
+        self.grid.setRowStretch(2, 2)
+        self.grid.setRowStretch(3, 2)
+        self.grid.setRowStretch(4, 0)
+        self.grid.setRowStretch(5, 2)
 
     def _build_cards(self) -> None:
         conn, self.conn = build_kv_card("CONNECTION", [("API", "NOT SET"), ("REST", "N/A"), ("WS", "OPTIONAL LOST"), ("Source", "NONE"), ("Latency", "0 ms")])
         self.conn_box = conn
-        self.grid.addWidget(conn, 0, 0)
+        self.grid.addWidget(conn, 1, 0)
 
         bid_box, self.bid_v = big_value("BID", "N/A"); ask_box, self.ask_v = big_value("ASK", "N/A"); spr_box, self.spr_v = big_value("SPREAD", "N/A")
         self.bid_box = bid_box; self.ask_box = ask_box; self.spr_box = spr_box
-        self.grid.addWidget(bid_box, 0, 1); self.grid.addWidget(ask_box, 0, 2); self.grid.addWidget(spr_box, 0, 3)
+        self.grid.addWidget(bid_box, 1, 1); self.grid.addWidget(ask_box, 1, 2); self.grid.addWidget(spr_box, 1, 3)
 
         spread, self.spread = build_kv_card("SPREAD ENGINE", [("Status", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Source", "NONE"), ("Latency", "--")], compact=True)
         self.spread_box = spread
@@ -163,15 +166,12 @@ class MainWindow(QMainWindow):
         risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
         bal, self.bal = build_kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")], compact=True)
-        self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(risk, 2, 0, 1, 1)
+        self.grid.addWidget(spread, 2, 0); self.grid.addWidget(plan, 2, 1); self.grid.addWidget(runtime, 2, 2); self.grid.addWidget(bal, 2, 3); self.grid.addWidget(risk, 3, 0, 1, 1)
 
         summary_rows = [("Started", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("Exit mode", "NORMAL")]
         summary, self.summary = build_kv_card("SESSION RESULT", summary_rows, compact=True, label_width=150)
-        self.grid.addWidget(summary, 2, 1, 1, 3)
+        self.grid.addWidget(summary, 3, 1, 1, 3)
 
-        self.compact_status = QLabel("")
-        self.compact_status.setObjectName("topStatus")
-        self.main_layout.addWidget(self.compact_status)
 
     def _build_controls(self) -> None:
         row = QHBoxLayout()
@@ -183,7 +183,8 @@ class MainWindow(QMainWindow):
         for btn in (self.settings_btn, self.start_stop_btn, self.cancel_btn):
             btn.setMinimumHeight(54)
             btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self.main_layout.addLayout(row)
+        self.controls_row = row
+        self.grid.addLayout(self.controls_row, 4, 0, 1, 4)
 
     def _build_logs(self) -> None:
         self.log_tabs = QTabWidget()
@@ -192,9 +193,8 @@ class MainWindow(QMainWindow):
         self.log_tabs.addTab(self.trade_logs, "Торговля")
         self.log_tabs.addTab(self.system_logs, "Система")
         self.log_tabs.setMinimumHeight(220)
-        self.log_tabs.setMaximumHeight(280)
-        self.log_tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self.main_layout.addWidget(self.log_tabs, 1)
+        self.log_tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.grid.addWidget(self.log_tabs, 5, 0, 1, 4)
 
     def open_settings_dialog(self) -> None:
         d = QDialog(self); d.setWindowTitle("Настройки UB"); d.setModal(True); d.resize(760, 620)
@@ -701,7 +701,7 @@ class MainWindow(QMainWindow):
         self.risk["Max exposure U"].setText(self._fmt(self.settings.max_live_exposure_u, 2))
         self.risk["panic"].setText("ON" if self.settings.panic_exit else "OFF")
 
-        self.compact_status.setText("")
+        self.top_status.setText("")
 
         u_free = float(self.balances.get("U", {}).get("free", 0.0))
         btc_free = float(self.balances.get("BTC", {}).get("free", 0.0))
