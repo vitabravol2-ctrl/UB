@@ -170,6 +170,7 @@ class MainWindow(QMainWindow):
         self.last_spread_good_since_ms = 0
         self.last_health_log_ms = 0
         self.last_health_reason = ""
+        self._last_health_update_ms = 0
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -177,10 +178,10 @@ class MainWindow(QMainWindow):
         self._build_cards(); self._build_controls(); self._build_logs(); self._configure_grid_layout()
 
         self.ws.signals.book.connect(self.on_ws_book); self.ws.signals.status.connect(self.on_ws_status); self.ws.signals.log.connect(self.log)
-        self.timer = QTimer(self); self.timer.timeout.connect(self.on_tick); self.timer.start(300)
+        self.timer = QTimer(self); self.timer.timeout.connect(self.on_tick); self.timer.start(250)
         self.rest_timer = QTimer(self); self.rest_timer.timeout.connect(self.fetch_rest); self.rest_timer.start(self.settings.rest_poll_ms)
         self.account_timer = QTimer(self); self.account_timer.timeout.connect(self.refresh_account_data); self.account_timer.start(self.settings.balances_poll_ms)
-        self.active_sync_timer = QTimer(self); self.active_sync_timer.timeout.connect(self.sync_active_order); self.active_sync_timer.start(self.settings.active_order_poll_ms)
+        self.active_sync_timer = QTimer(self); self.active_sync_timer.timeout.connect(self.sync_active_order); self.active_sync_timer.start(max(self.settings.active_order_poll_ms, 1200))
         self.on_test_connection(silent=True)
 
 
@@ -396,6 +397,9 @@ class MainWindow(QMainWindow):
             return
         try:
             now_ms = int(time.time() * 1000)
+            has_active_runtime = self.runtime_active or bool(self.active_order.get("orderId"))
+            if not has_active_runtime and not force and now_ms - self.last_open_orders_sync_ms < 5000:
+                return
             if force or now_ms - self.last_open_orders_sync_ms >= self.settings.open_orders_poll_ms:
                 self.sync_open_orders = self.account.get_open_orders(CONFIG.binance_symbol)
                 self.last_open_orders_sync_ms = now_ms
@@ -583,12 +587,23 @@ class MainWindow(QMainWindow):
             self.log("WARNING" if self.filters.get("fallback") else "OK", "filters loaded fallback" if self.filters.get("fallback") else "filters loaded")
 
     def fetch_rest(self) -> None:
+        ws_age = self.state.age_ms(self.state.last_ws_ms)
+        ws_ok = ws_age is not None and ws_age <= self.settings.max_ws_age_ms and self.state.ws_status == "CONNECTED"
+        if ws_ok:
+            return
         try:
             bid, ask, ts = self.rest.fetch_book_ticker(CONFIG.binance_symbol)
-            if self.state.rest_status == "ERROR": self.log("OK", "REST restored")
-            self.state.last_rest_ms = ts; self.state.rest_status = "OK"; self.state.snapshot.bid = bid; self.state.snapshot.ask = ask; self.state.snapshot.updated_ms = ts; self.state.snapshot.source = "REST"
+            if self.state.rest_status == "ERROR":
+                self.log("OK", "REST restored")
+            self.state.last_rest_ms = ts
+            self.state.rest_status = "OK"
+            self.state.snapshot.bid = bid
+            self.state.snapshot.ask = ask
+            self.state.snapshot.updated_ms = ts
+            self.state.snapshot.source = "REST"
         except Exception:
-            if self.state.rest_status != "ERROR": self.log("ERROR", "REST lost")
+            if self.state.rest_status != "ERROR":
+                self.log("ERROR", "REST lost")
             self.state.rest_status = "ERROR"
 
     def on_tick(self) -> None: self._refresh_ui()
@@ -1007,7 +1022,9 @@ class MainWindow(QMainWindow):
         market_valid = ws_ok or self.state.rest_status == "OK"
         allow_buy = self.settings.live_enabled and plan.status in {"READY", "HOT"} and market_valid and plan.filters_ok and (plan.required_u or 0.0) <= self.settings.max_live_exposure_u
         if self.runtime_active and self.fsm_state == "WAIT_READY" and allow_buy:
-            self._update_market_health(now_ms)
+            if now_ms - self._last_health_update_ms >= 250:
+                self._update_market_health(now_ms)
+                self._last_health_update_ms = now_ms
             if self.position_qty > 0:
                 if not plan.balance_ok:
                     self.log("WARNING", "[EXEC] BALANCE LOW ignored: exit priority")
