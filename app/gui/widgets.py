@@ -1,33 +1,41 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QFormLayout, QGroupBox, QLabel, QSizePolicy, QVBoxLayout
+from PySide6.QtWidgets import QGridLayout, QGroupBox, QLabel, QSizePolicy, QVBoxLayout, QWidget
 
 
 def kv_card(title: str, rows: list[tuple[str, str]], *, compact: bool = False) -> tuple[QGroupBox, dict[str, QLabel]]:
     box = QGroupBox(title)
-    layout = QFormLayout()
-    layout.setRowWrapPolicy(QFormLayout.DontWrapRows)
-    layout.setFieldGrowthPolicy(QFormLayout.ExpandingFieldsGrow)
-    layout.setLabelAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-    layout.setFormAlignment(Qt.AlignTop | Qt.AlignLeft)
-    layout.setHorizontalSpacing(14)
-    layout.setVerticalSpacing(8 if compact else 6)
-    layout.setContentsMargins(12, 14, 12, 12)
+    wrapper = QVBoxLayout()
+    wrapper.setContentsMargins(8, 8, 8, 8)
+
+    content = QWidget()
+    layout = QGridLayout(content)
+    layout.setContentsMargins(0, 0, 0, 0)
+    layout.setHorizontalSpacing(12)
+    layout.setVerticalSpacing(4 if compact else 6)
+    layout.setColumnStretch(0, 0)
+    layout.setColumnStretch(1, 1)
+
     refs: dict[str, QLabel] = {}
-    for k, v in rows:
+    for row, (k, v) in enumerate(rows):
         key_label = QLabel(k)
         key_label.setProperty("role", "secondary")
-        key_label.setMinimumHeight(24)
-        key_label.setMinimumWidth(150 if compact else 140)
-        key_label.setMaximumWidth(180 if compact else 170)
+        key_label.setMinimumHeight(22)
+        key_label.setMinimumWidth(140)
+        key_label.setMaximumWidth(170)
         key_label.setWordWrap(False)
+
         val_label = QLabel(v)
         val_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        val_label.setMinimumHeight(24)
+        val_label.setMinimumHeight(22)
         val_label.setWordWrap(False)
         val_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         refs[k] = val_label
-        layout.addRow(key_label, val_label)
-    box.setLayout(layout)
+
+        layout.addWidget(key_label, row, 0)
+        layout.addWidget(val_label, row, 1)
+
+    wrapper.addWidget(content)
+    box.setLayout(wrapper)
     box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
     return box, refs
 
