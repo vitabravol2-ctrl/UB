@@ -16,5 +16,10 @@
   "rest_poll_ms": 2000,
   "ws_optional_enabled": true,
   "max_ws_age_ms": 5000,
-  "ui_theme": "dark"
+  "ui_theme": "dark",
+  "live_max_exposure_u": 20.0,
+  "arm_live": false,
+  "entry_timeout_ms": 10000,
+  "exit_timeout_ms": 20000,
+  "panic_reprice_once": true
 }
