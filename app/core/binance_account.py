@@ -170,6 +170,11 @@ class BinanceAccountClient:
         assert isinstance(data, dict)
         return data
 
+    def get_all_orders(self, symbol: str, limit: int = 20) -> list[dict[str, Any]]:
+        data = self.signed_get("/api/v3/allOrders", {"symbol": symbol, "limit": limit})
+        assert isinstance(data, list)
+        return data
+
     def test_account_connection(self) -> APIStatus:
         try:
             self.load_api_keys()
