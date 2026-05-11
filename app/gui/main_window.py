@@ -57,6 +57,16 @@ class TradeHistoryRow:
     sell_order_id: int
 
 
+@dataclass
+class RuntimeCycle:
+    buy_order_id: int = 0
+    buy_executed_qty: float = 0.0
+    buy_avg_price: float = 0.0
+    buy_quote_qty: float = 0.0
+    sell_order_id: int = 0
+    sell_executed_qty: float = 0.0
+    sell_quote_qty: float = 0.0
+
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
@@ -111,6 +121,9 @@ class MainWindow(QMainWindow):
         self.open_position: TradeHistoryRow | None = None
         self.summary_signature = ""
         self.last_ws_live_log_ms = 0
+        self.runtime_cycle = RuntimeCycle()
+        self.cycle_order_counts = {"BUY": 0, "SELL": 0}
+        self.stop_requested = False
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -231,8 +244,8 @@ class MainWindow(QMainWindow):
 
     def toggle_runtime(self) -> None:
         self.runtime_active = not self.runtime_active
-        if self.runtime_active: self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.log("OK", "START")
-        else: self.ws.stop(); self.start_stop_btn.setText("START"); self.start_stop_btn.setProperty("kind", "start"); self.cancel_all(); self.log("WARNING", "STOP")
+        if self.runtime_active: self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.stop_requested = False; self.log("OK", "START")
+        else: self.ws.stop(); self.start_stop_btn.setText("START"); self.start_stop_btn.setProperty("kind", "start"); self.stop_requested = True; self.cancel_all(); self.log("WARNING", "STOP")
         self.start_stop_btn.style().polish(self.start_stop_btn)
 
     def cancel_all(self) -> None:
@@ -383,7 +396,7 @@ class MainWindow(QMainWindow):
             pnl = sell_u - buy_u
             history.append(TradeHistoryRow(time=b.time, status="WIN" if pnl > 0 else "LOSS", buy_avg_price=b.avg_price, sell_avg_price=matched.avg_price, qty=qty, pnl_u=pnl, duration_ms=max(matched.time - b.time, 0), buy_order_id=b.order_id, sell_order_id=matched.order_id))
         self.trade_history = list(reversed(history[-200:]))
-        self.position_qty = open_qty
+        # emergency: history/ledger is read-only for GUI and must not drive execution state
 
     def on_test_connection(self, silent: bool = False) -> None:
         status = self.account.test_account_connection(); self.api_status = status.status
@@ -476,6 +489,14 @@ class MainWindow(QMainWindow):
                 try:
                     o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
                     now = int(time.time() * 1000)
+                    self.runtime_cycle = RuntimeCycle()
+                    self.cycle_order_counts = {"BUY": 0, "SELL": 0}
+                    self.cycle_order_counts["BUY"] += 1
+                    if self.cycle_order_counts["BUY"] > 1:
+                        self.log("ERROR", "[EXEC] FSM ERROR reason=max_orders_per_cycle_buy")
+                        self.fsm_state = "ERROR"
+                        return
+                    self.runtime_cycle.buy_order_id = int(o.get("orderId", 0) or 0)
                     self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                     self.entry_started_ms = now
                     self.log("OK", f"[EXEC] BUY ORDER SENT orderId={self.active_order['orderId']} price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
@@ -504,6 +525,9 @@ class MainWindow(QMainWindow):
                 buy_qty = float(st.get("executedQty", 0.0) or 0.0)
                 buy_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
                 self.avg_entry = (buy_quote / buy_qty) if buy_qty > 0 else float(self.active_order.get("price", 0.0))
+                self.runtime_cycle.buy_executed_qty = buy_qty
+                self.runtime_cycle.buy_quote_qty = buy_quote
+                self.runtime_cycle.buy_avg_price = self.avg_entry
                 self.log("OK", f"[EXEC] BUY FILLED id={int(self.active_order['orderId'])}")
                 self.fsm_state = "PLACE_SELL"
             elif now - self.entry_started_ms >= self.settings.entry_timeout_ms:
@@ -532,13 +556,34 @@ class MainWindow(QMainWindow):
                     self.log("WARNING", "[EXEC] BLOCK reason=buy_not_filled")
                     self.fsm_state = "DONE"
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
-            self.log("OK", f"[EXEC] PLACE SELL price={plan.exit_price:.2f} qty={self.position_qty:.6f}")
-            o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(plan.exit_price), float(self.position_qty))
-            now = int(time.time() * 1000)
-            self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(plan.exit_price), "qty": float(self.position_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
-            self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
-            self.exit_started_ms = now
-            self.fsm_state = "WAIT_SELL_FILL"
+            if self.stop_requested:
+                self.log("WARNING", "[EXEC] BLOCK reason=stop_requested")
+                self.fsm_state = "DONE"
+            elif self.active_order.get("orderId"):
+                self.log("WARNING", "[EXEC] BLOCK reason=active_order")
+                self.fsm_state = "WAIT_SELL_FILL"
+            else:
+                sell_qty = float(self.runtime_cycle.buy_executed_qty)
+                if sell_qty <= 0:
+                    self.log("ERROR", "[EXEC] FSM ERROR reason=empty_buy_executed_qty")
+                    self.fsm_state = "ERROR"
+                elif sell_qty > float(self.runtime_cycle.buy_executed_qty):
+                    self.log("ERROR", f"[EXEC] BLOCK reason=sell_qty_gt_buy sell_qty={sell_qty:.8f} buy_qty={self.runtime_cycle.buy_executed_qty:.8f}")
+                    self.fsm_state = "ERROR"
+                else:
+                    self.cycle_order_counts["SELL"] += 1
+                    if self.cycle_order_counts["SELL"] > 1:
+                        self.log("ERROR", "[EXEC] FSM ERROR reason=max_orders_per_cycle_sell")
+                        self.fsm_state = "ERROR"
+                        return
+                    self.log("OK", f"[EXEC] PLACE SELL price={plan.exit_price:.2f} qty={sell_qty:.6f}")
+                    o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(plan.exit_price), sell_qty)
+                    now = int(time.time() * 1000)
+                    self.runtime_cycle.sell_order_id = int(o.get("orderId", 0) or 0)
+                    self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(plan.exit_price), "qty": sell_qty, "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                    self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
+                    self.exit_started_ms = now
+                    self.fsm_state = "WAIT_SELL_FILL"
         elif self.runtime_active and self.fsm_state == "WAIT_SELL_FILL" and self.active_order.get("orderId"):
             now = int(time.time() * 1000)
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
@@ -547,7 +592,9 @@ class MainWindow(QMainWindow):
                 sell_qty = float(st.get("executedQty", 0.0) or 0.0)
                 sell_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
                 self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
-                self.realized_u = (self.avg_exit - self.avg_entry) * self.position_qty
+                self.runtime_cycle.sell_executed_qty = sell_qty
+                self.runtime_cycle.sell_quote_qty = sell_quote
+                self.realized_u = (self.avg_exit - self.avg_entry) * sell_qty
                 self.log("OK", f"[EXEC] SELL FILLED id={int(self.active_order['orderId'])}")
                 self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
                 self.active_order = {}
@@ -555,11 +602,7 @@ class MainWindow(QMainWindow):
             elif now - self.exit_started_ms >= self.settings.exit_timeout_ms:
                 self.account.cancel_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
                 if self.settings.panic_reprice_once and not self.reprice_done and self.state.snapshot.ask:
-                    self.reprice_done = True
-                    p = float(self.state.snapshot.ask - self.settings.exit_offset)
-                    o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", p, float(self.position_qty))
-                    self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": p, "qty": float(self.position_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
-                    self.exit_started_ms = now
+                    self.log("WARNING", "[EXEC] BLOCK reason=max_orders_per_cycle_sell")
                 else:
                     self._inc_canceled_attempt("timeout_sell")
                     self._inc_canceled_attempt("canceled_sell")
