@@ -87,6 +87,8 @@ class MainWindow(QMainWindow):
         self.position_sell_order_id = 0
         self.position_state = "FLAT"
         self.buy_filled_qty = 0.0
+        self.buy_reported_qty = 0.0
+        self.buy_reported_quote = 0.0
         self.avg_entry = 0.0
         self.avg_exit = 0.0
         self.realized_u = 0.0
@@ -366,16 +368,19 @@ class MainWindow(QMainWindow):
         self.log("OK", "[SYNC] order filled detected")
         if side == "BUY":
             self.log("OK", "[SYNC] BUY filled on exchange")
-            self.position_qty = float(order_status.get("executedQty", 0.0) or 0.0)
-            if self.position_qty <= 0:
+            total_exec = float(order_status.get("executedQty", 0.0) or 0.0)
+            total_quote = float(order_status.get("cummulativeQuoteQty", 0.0) or 0.0)
+            if total_exec <= 0:
                 self.log("WARNING", "[EXEC] BLOCK reason=buy_filled_zero_qty")
                 self.position_state = "FLAT"
                 self.fsm_state = "ERROR"
                 self.active_order = {}
                 return
-            self.buy_filled_qty = self.position_qty
-            buy_quote = float(order_status.get("cummulativeQuoteQty", 0.0) or 0.0)
-            self.avg_entry = (buy_quote / self.position_qty) if self.position_qty > 0 else float(self.active_order.get("price", 0.0))
+            self.position_qty += max(total_exec - self.buy_reported_qty, 0.0)
+            self.buy_filled_qty = total_exec
+            self.buy_reported_qty = total_exec
+            self.buy_reported_quote = total_quote
+            self.avg_entry = (total_quote / total_exec) if total_exec > 0 else float(self.active_order.get("price", 0.0))
             self.position_entry_avg = self.avg_entry
             self.position_buy_order_id = int(self.active_order.get("orderId", 0) or 0)
             self.position_state = "POSITION_OPEN"
@@ -672,6 +677,8 @@ class MainWindow(QMainWindow):
                     o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
                     now = int(time.time() * 1000)
                     self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                    self.buy_reported_qty = 0.0
+                    self.buy_reported_quote = 0.0
                     self.position_state = "BUY_PENDING"
                     self.entry_started_ms = now
                     self.log("OK", f"[EXEC] BUY ORDER SENT orderId={self.active_order['orderId']} price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
@@ -695,18 +702,32 @@ class MainWindow(QMainWindow):
             now = int(time.time() * 1000)
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
             self.active_order["state"] = st.get("status", "NEW")
+            executed_qty = float(st.get("executedQty", 0.0) or 0.0)
+            cum_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
+            new_chunk = max(executed_qty - self.buy_reported_qty, 0.0)
+            if new_chunk > 0:
+                self.position_qty += new_chunk
+                self.buy_filled_qty = executed_qty
+                self.buy_reported_qty = executed_qty
+                self.buy_reported_quote = cum_quote
+                self.avg_entry = (cum_quote / executed_qty) if executed_qty > 0 else float(self.active_order.get("price", 0.0))
+                self.position_entry_avg = self.avg_entry
+                self.position_buy_order_id = int(self.active_order["orderId"])
+                self.log("OK", f"[EXEC] BUY PARTIAL filled={new_chunk:.6f} total={executed_qty:.6f}")
+                self.log("OK", f"[EXEC] BUY REMAINING qty={max(float(self.active_order.get('qty', 0.0)) - executed_qty, 0.0):.6f}")
+                self.log("OK", f"[EXEC] POSITION qty={self.position_qty:.6f}")
+                if not (self.active_order.get("side") == "SELL"):
+                    self.fsm_state = "PLACE_SELL"
             if st.get("status") == "FILLED":
-                buy_qty = float(Decimal(str(st.get("executedQty", "0"))))
+                buy_qty = float(Decimal(str(executed_qty)))
                 if buy_qty <= 0:
                     self.log("WARNING", "[EXEC] BLOCK reason=buy_filled_zero_qty")
                     self.position_state = "FLAT"
                     self.fsm_state = "ERROR"
                     self.active_order = {}
                     return
-                self.position_qty = buy_qty
                 self.buy_filled_qty = buy_qty
-                buy_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
-                self.avg_entry = (buy_quote / buy_qty) if buy_qty > 0 else float(self.active_order.get("price", 0.0))
+                self.avg_entry = (cum_quote / buy_qty) if buy_qty > 0 else float(self.active_order.get("price", 0.0))
                 self.position_entry_avg = self.avg_entry
                 self.position_buy_order_id = int(self.active_order["orderId"])
                 self.position_state = "POSITION_OPEN"
@@ -730,12 +751,20 @@ class MainWindow(QMainWindow):
                 self.log("INFO", f"[EXEC] BUY FINAL STATUS status={final_status} orderId={order_id}")
                 executed_qty = float(final.get("executedQty", 0.0) or 0.0)
                 if final_status == "FILLED":
-                    self.position_qty = executed_qty
                     self.buy_filled_qty = executed_qty
                     self.avg_entry = float(self.active_order.get("price", 0.0))
                     self.log("OK", "[EXEC] BUY FILLED during cancel")
                     self.log("OK", f"[EXEC] BUY FILLED id={int(self.active_order['orderId'])}")
                     self.fsm_state = "PLACE_SELL"
+                elif executed_qty > 0:
+                    self.log("WARNING", "[EXEC] BUY REMAINDER CANCELLED")
+                    self.log("OK", f"[EXEC] POSITION qty={self.position_qty:.6f}")
+                    self.active_order = {}
+                    self.position_state = "POSITION_OPEN" if self.position_qty > 0 else "FLAT"
+                    if self.position_qty > 0 and not (self.active_order.get("side") == "SELL"):
+                        self.fsm_state = "PLACE_SELL"
+                    else:
+                        self.fsm_state = "DONE"
                 else:
                     self._inc_canceled_attempt("timeout_buy")
                     self._inc_canceled_attempt("canceled_buy")
