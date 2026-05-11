@@ -124,6 +124,7 @@ class MainWindow(QMainWindow):
         self.pending_gui_logs = {"trade": [], "system": []}
         self.summary_signature = ""
         self.last_ws_live_log_ms = 0
+        self.last_position_open_block_log_ms = 0
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -463,7 +464,13 @@ class MainWindow(QMainWindow):
         sell_qty = float(Decimal(str(self.position_qty)))
         self.log("WARNING", f"[EXEC] FORCE EXIT price={new_price:.2f}")
         self.log("OK", f"[EXEC] PLACE SELL price={new_price:.2f} qty={sell_qty:.6f}")
-        o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
+        try:
+            o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
+        except Exception as exc:
+            self.log("ERROR", f"[EXEC] PANIC SELL FAILED reason={exc}")
+            self.fsm_state = "EXIT_FAILED"
+            self.position_state = "EXIT_FAILED"
+            return
         self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
         self.position_sell_order_id = int(self.active_order["orderId"])
         self.last_sell_reprice_ms = now_ms
@@ -474,6 +481,27 @@ class MainWindow(QMainWindow):
         self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
         self.fsm_state = "WAIT_SELL_FILL"
 
+    def _handle_sell_filled(self, st: dict[str, object], order_ref: int) -> None:
+        sell_qty = float(st.get("executedQty", 0.0) or 0.0)
+        sell_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
+        self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
+        self.realized_u = sell_quote - (self.position_entry_avg * sell_qty)
+        self.log("OK", f"[EXEC] SELL FILLED id={order_ref}")
+        remaining = max(self.position_qty - sell_qty, 0.0)
+        self.log("OK", f"[EXEC] SELL FILLED qty={sell_qty:.6f} remaining={remaining:.6f}")
+        self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
+        self._apply_session_pnl(self.realized_u)
+        self.active_order = {}
+        self.buy_filled_qty = 0.0
+        if sell_qty >= self.position_qty:
+            self.position_qty = 0.0
+            self.position_state = "FLAT"
+            self.fsm_state = "DONE"
+        else:
+            self.position_qty = remaining
+            self.position_state = "POSITION_OPEN"
+            self.fsm_state = "PLACE_SELL"
+
     def handle_sell_timeout_recovery(self, now_ms: int) -> None:
         if self.position_qty <= 0:
             self.log("ERROR", "[EXEC] EXIT FAILED no_position_after_timeout")
@@ -483,17 +511,30 @@ class MainWindow(QMainWindow):
         order_id = int(self.active_order.get("orderId", 0) or 0)
         self.log("WARNING", f"[EXEC] SELL TIMEOUT orderId={order_id}")
         if now_ms - self.last_sell_reprice_ms < int(self.settings.sell_reprice_cooldown_ms):
-            self.fsm_state = "WAIT_SELL_FILL"
+            self.log("ERROR", "[EXEC] EXIT FAILED sell_reprice_cooldown_active")
+            self.position_state = "EXIT_FAILED"
+            self.fsm_state = "EXIT_FAILED"
             return
         if order_id:
             self.log("WARNING", f"[EXEC] CANCEL SELL orderId={order_id}")
             self.account.cancel_order(CONFIG.binance_symbol, order_id)
+            final = self.account.get_order(CONFIG.binance_symbol, order_id)
+            final_status = str(final.get("status", "UNKNOWN"))
+            self.log("INFO", f"[EXEC] SELL FINAL STATUS status={final_status} orderId={order_id}")
+            if final_status == "FILLED":
+                self._handle_sell_filled(final, order_id)
+                return
+            if final_status not in {"CANCELED", "EXPIRED", "NEW"}:
+                self.log("ERROR", f"[EXEC] EXIT FAILED cancel_unexpected_status={final_status}")
+                self.position_state = "EXIT_FAILED"
+                self.fsm_state = "EXIT_FAILED"
+                return
         self._inc_canceled_attempt("timeout_sell")
         self._inc_canceled_attempt("canceled_sell")
         self.sell_timeouts += 1
         if self.panic_exit_final:
-            self.log("WARNING", "[EXEC] PANIC EXIT final_wait_no_reprice")
-            self.fsm_state = "WAIT_SELL_FILL"
+            self.log("WARNING", "[EXEC] PANIC EXIT final_recover_place_sell")
+            self._panic_exit_final(now_ms, "panic_final_recover")
             return
         if self.sell_reprice_count >= int(self.settings.max_sell_reprices):
             self._panic_exit_final(now_ms, "max_reprices_reached")
@@ -588,7 +629,9 @@ class MainWindow(QMainWindow):
         market_valid = ws_ok or self.state.rest_status == "OK"
         if self.runtime_active and self.fsm_state == "WAIT_READY" and self.settings.live_enabled and plan.status in {"READY", "HOT"} and market_valid and plan.balance_ok and plan.filters_ok and (plan.required_u or 0.0) <= self.settings.max_live_exposure_u:
             if self.active_order.get("orderId") or self.position_qty > 0 or self.fsm_state in {"WAIT_BUY_FILL", "PLACE_SELL", "WAIT_SELL_FILL", "SELL_TIMEOUT", "ERROR_POSITION"}:
-                self.log("WARNING", "[EXEC] BLOCK reason=position_open_no_new_buy")
+                if now_ms - self.last_position_open_block_log_ms >= 3000:
+                    self.log("WARNING", "[EXEC] BLOCK reason=position_open_no_new_buy")
+                    self.last_position_open_block_log_ms = now_ms
                 self.fsm_state = "DONE"
             elif self.active_order.get("orderId"):
                 self.log("WARNING", "[EXEC] BLOCK reason=active_order")
@@ -717,25 +760,7 @@ class MainWindow(QMainWindow):
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
             self.active_order["state"] = st.get("status", "NEW")
             if st.get("status") == "FILLED":
-                sell_qty = float(st.get("executedQty", 0.0) or 0.0)
-                sell_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
-                self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
-                self.realized_u = sell_quote - (self.position_entry_avg * sell_qty)
-                self.log("OK", f"[EXEC] SELL FILLED id={int(self.active_order['orderId'])}")
-                remaining = max(self.position_qty - sell_qty, 0.0)
-                self.log("OK", f"[EXEC] SELL FILLED qty={sell_qty:.6f} remaining={remaining:.6f}")
-                self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
-                self._apply_session_pnl(self.realized_u)
-                self.active_order = {}
-                self.buy_filled_qty = 0.0
-                if sell_qty >= self.position_qty:
-                    self.position_qty = 0.0
-                    self.position_state = "FLAT"
-                    self.fsm_state = "DONE"
-                else:
-                    self.position_qty = remaining
-                    self.position_state = "POSITION_OPEN"
-                    self.fsm_state = "PLACE_SELL"
+                self._handle_sell_filled(st, int(self.active_order["orderId"]))
             elif now - self.exit_started_ms >= int(self.settings.sell_timeout_ms):
                 if self.position_qty > 0:
                     self.handle_sell_timeout_recovery(now)
@@ -743,6 +768,9 @@ class MainWindow(QMainWindow):
                     self.log("ERROR", "[EXEC] EXIT FAILED no_position_after_timeout")
                     self.position_state = "EXIT_FAILED"
                     self.fsm_state = "SELL_TIMEOUT"
+        elif self.runtime_active and self.position_qty > 0 and not self.active_order.get("orderId") and self.position_state in {"SELL_PENDING", "EXIT_FAILED"}:
+            self.log("WARNING", "[EXEC] WATCHDOG position open without sell -> recover")
+            self.fsm_state = "PLACE_SELL"
 
         self.risk["Order size U"].setText(self._fmt(self.settings.order_size_u, 2))
         self.risk["Max exposure U"].setText(self._fmt(self.settings.max_live_exposure_u, 2))
