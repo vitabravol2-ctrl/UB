@@ -187,7 +187,7 @@ class MainWindow(QMainWindow):
         tabs = QTabWidget(); lay.addWidget(tabs)
         self.settings_inputs = {}
 
-        labels = {"order_size_u": "Размер сделки U", "max_exposure_u": "Макс. экспозиция U", "max_daily_loss": "Макс. дневной убыток U", "max_open_lots": "Max open lots", "panic_exit": "Panic exit", "live_enabled": "LIVE enabled", "require_confirmation": "Require confirmation", "auto_cancel_on_stop": "Auto cancel on stop", "max_live_exposure_u": "Live max exposure U", "open_orders_poll_ms": "openOrders interval ms", "all_orders_poll_ms": "allOrders interval ms", "balances_poll_ms": "balances interval ms", "debug_api_logs": "API debug logs"}
+        labels = {"order_size_u": "Размер сделки U", "max_exposure_u": "Макс. экспозиция U", "max_daily_loss": "Макс. дневной убыток U", "max_open_lots": "Max open lots", "panic_exit": "Panic exit", "live_enabled": "LIVE enabled", "require_confirmation": "Require confirmation", "auto_cancel_on_stop": "Auto cancel on stop", "max_live_exposure_u": "Live max exposure U", "open_orders_poll_ms": "openOrders interval ms", "all_orders_poll_ms": "allOrders interval ms", "balances_poll_ms": "balances interval ms", "debug_api_logs": "API debug logs", "min_profit_ticks": "Min profit ticks"}
 
         account_tab = QWidget(); account_form = QFormLayout(account_tab)
         api_key_input = QLineEdit(); api_secret_input = QLineEdit(); api_secret_input.setEchoMode(QLineEdit.Password)
@@ -198,7 +198,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Safety", ["live_enabled", "require_confirmation", "auto_cancel_on_stop", "entry_timeout_ms", "exit_timeout_ms", "panic_reprice_once", "aggressive_exit_offset", "max_sell_reprices"])]
+        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Safety", ["live_enabled", "require_confirmation", "auto_cancel_on_stop", "entry_timeout_ms", "exit_timeout_ms", "panic_reprice_once", "aggressive_exit_offset", "min_profit_ticks", "max_sell_reprices"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -404,6 +404,10 @@ class MainWindow(QMainWindow):
             return qty
         return int(qty / step) * step
 
+    def _tick_size(self) -> float:
+        tick = float(self.filters.get("tickSize", 0.0) or 0.0)
+        return tick if tick > 0 else float(CONFIG.tick_size_default)
+
 
     def handle_sell_timeout_recovery(self, now_ms: int) -> None:
         if self.position_qty <= 0:
@@ -433,17 +437,34 @@ class MainWindow(QMainWindow):
         ask_now = float(self.state.snapshot.ask or 0.0)
         aggressive = float(self.settings.aggressive_exit_offset)
         old_price = float(self.active_order.get("price", 0.0) or 0.0)
-        new_price = max(bid_now + 0.01, ask_now - aggressive)
+        tick = self._tick_size()
+        min_profit_ticks = max(int(self.settings.min_profit_ticks), 0)
+        min_exit_price = float(self.position_entry_avg) + (tick * min_profit_ticks)
+
+        position_age_ms = max(now_ms - self.entry_started_ms, 0) if self.entry_started_ms else 0
+        panic_exit_enabled = (
+            position_age_ms > int(self.settings.max_hold_ms)
+            or self.sell_reprice_count >= int(self.settings.max_sell_reprices)
+            or (bool(self.settings.panic_exit) and not self.runtime_active)
+        )
+        if panic_exit_enabled:
+            self.exit_mode = "PANIC"
+            self.log("WARNING", "[EXEC] PANIC EXIT enabled")
+            new_price = max(bid_now + tick, ask_now - aggressive)
+        else:
+            self.log("INFO", f"[EXEC] SAFE EXIT floor={min_exit_price:.2f}")
+            new_price = max(min_exit_price, bid_now + tick, ask_now - aggressive)
         sell_qty = float(Decimal(str(self.position_qty)))
         self.sell_reprice_count += 1
-        self.log("WARNING", f"[EXEC] SELL REPRICE old={old_price:.2f} new={new_price:.2f} count={self.sell_reprice_count}")
+        self.log("WARNING", f"[EXEC] SELL REPRICE safe old={old_price:.2f} new={new_price:.2f} count={self.sell_reprice_count}")
         self.log("OK", f"[EXEC] PLACE SELL price={new_price:.2f} qty={sell_qty:.6f}")
         o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
         self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
         self.position_sell_order_id = int(self.active_order["orderId"])
         self.last_sell_reprice_ms = now_ms
         self.exit_started_ms = now_ms
-        self.exit_mode = "AGGRESSIVE"
+        if self.exit_mode != "PANIC":
+            self.exit_mode = "AGGRESSIVE"
         self.position_state = "SELL_PENDING"
         self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
         self.fsm_state = "WAIT_SELL_FILL"

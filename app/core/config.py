@@ -25,6 +25,7 @@ class SettingsData:
     exit_timeout_ms: int = 20000
     panic_reprice_once: bool = True
     aggressive_exit_offset: float = 1.0
+    min_profit_ticks: int = 1
     max_sell_reprices: int = 5
     rest_poll_ms: int = 2000
     open_orders_poll_ms: int = 2000
