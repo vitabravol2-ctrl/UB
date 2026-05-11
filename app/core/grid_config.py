@@ -13,6 +13,7 @@ class GridSettings:
     max_exposure_u: float = 10000.0
     auto_float_enabled: bool = False
     live_enabled: bool = False
+    max_live_budget_u: float = 30.0
 
 
 class GridSettingsStore:
