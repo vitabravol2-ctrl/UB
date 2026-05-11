@@ -85,7 +85,7 @@ class MicroGridWindow(QMainWindow):
             return fn(*args)
         except Exception as exc:
             self.append_log(f"[GRID][ERROR] {action}: {exc}")
-            raise
+            return None
 
     def append_log(self, msg: str) -> None:
         self.session_logger.log("GRID", msg.replace("[GRID] ", ""))
@@ -146,13 +146,29 @@ class MicroGridWindow(QMainWindow):
         self._safe_call("market callbacks", self._load_filters); self._safe_call("balance refresh", self._balances_refresh); self._load_api_status(); self._load_open_orders()
 
     def _load_api_status(self)->None:
-        threading.Thread(target=lambda: self.conn["API"].setText(self.trade_adapter.load_api()),daemon=True).start()
+        def _worker() -> None:
+            try:
+                self.conn["API"].setText(self.trade_adapter.load_api())
+            except Exception as exc:
+                self.conn["API"].setText("ERROR")
+                self._log(f"[GRID] api status failed: {exc}")
+
+        threading.Thread(target=_worker, daemon=True).start()
     def _load_open_orders(self)->None:
-        threading.Thread(target=lambda: self._log(f"[GRID] open orders read n={len(self.trade_adapter.get_open_orders())}"),daemon=True).start()
+        def _worker() -> None:
+            try:
+                self._log(f"[GRID] open orders read n={len(self.trade_adapter.get_open_orders())}")
+            except Exception as exc:
+                self._log(f"[GRID] open orders skipped: {exc}")
+
+        threading.Thread(target=_worker, daemon=True).start()
     def _load_filters(self)->None:
-        f=self.trade_adapter.load_filters(); self.grid_engine.set_filters(float(f['tickSize']),float(f['stepSize']),float(f['minQty']),float(f['minNotional']))
+        f = self.trade_adapter.load_filters()
+        self.grid_engine.set_filters(float(f["tickSize"]), float(f["stepSize"]), float(f["minQty"]), float(f["minNotional"]))
+
     def _balances_refresh(self)->None:
-        b=self.trade_adapter.refresh_balances(); self.bal["BTC free"].setText(f"{b['BTC']['free']:.6f}")
+        b = self.trade_adapter.refresh_balances()
+        self.bal["BTC free"].setText(f"{b['BTC']['free']:.6f}")
     def _on_ws_status(self, status:str)->None: self.conn["WS"].setText(status); update_badge(self.mode_badge,"info","DRY VIEW")
     def _on_ws_book(self,bid:float,ask:float,ts:int)->None:
         self._safe_call("market callbacks", self._on_ws_book_inner, bid, ask, ts)
