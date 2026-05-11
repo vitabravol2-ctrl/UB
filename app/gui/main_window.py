@@ -1,7 +1,8 @@
 import time
+from dataclasses import dataclass
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QColor, QTextCursor, QTextCharFormat
-from PySide6.QtWidgets import QCheckBox, QDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QCheckBox, QDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QMessageBox, QPushButton, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget
 
 from app.core.binance_account import BinanceAPIError, BinanceAccountClient
 from app.core.config import CONFIG, SETTINGS_STORE
@@ -12,6 +13,24 @@ from app.core.trade_math import TradeMathEngine
 from app.core.market_ws import MarketWSClient
 from app.gui.styles import main_qss
 from app.gui.widgets import big_value, kv_card
+
+
+@dataclass
+class LiveOrder:
+    orderId: int
+    clientOrderId: str
+    side: str
+    price: float
+    origQty: float
+    executedQty: float
+    remainingQty: float
+    fillPercent: float
+    status: str
+    type: str
+    timeInForce: str
+    ageMs: int
+    updateTime: int
+    source: str
 
 
 class MainWindow(QMainWindow):
@@ -51,6 +70,10 @@ class MainWindow(QMainWindow):
         self.last_plan_log_ms = 0
         self.last_plan_log_key = ""
         self.order_retry_blocked_until_ms = 0
+        self.sync_open_orders: list[dict] = []
+        self.sync_history_orders: list[dict] = []
+        self.live_orders: list[LiveOrder] = []
+        self.last_sync_log_ms = 0
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -61,6 +84,8 @@ class MainWindow(QMainWindow):
         self.timer = QTimer(self); self.timer.timeout.connect(self.on_tick); self.timer.start(300)
         self.rest_timer = QTimer(self); self.rest_timer.timeout.connect(self.fetch_rest); self.rest_timer.start(self.settings.rest_poll_ms)
         self.account_timer = QTimer(self); self.account_timer.timeout.connect(self.refresh_account_data); self.account_timer.start(5000)
+        self.active_sync_timer = QTimer(self); self.active_sync_timer.timeout.connect(self.sync_active_order); self.active_sync_timer.start(500)
+        self.history_sync_timer = QTimer(self); self.history_sync_timer.timeout.connect(self.sync_order_history); self.history_sync_timer.start(3500)
         self.on_test_connection(silent=True)
 
     def _build_cards(self) -> None:
@@ -84,8 +109,21 @@ class MainWindow(QMainWindow):
         bal, self.bal = kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
         self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(risk, 2, 0, 1, 1)
 
-        self.orders = QTableWidget(0, 8); self.orders.setHorizontalHeaderLabels(["Order ID", "Side", "Price", "Qty", "Filled", "Status", "Age", "Type"])
+        self.orders = QTableWidget(0, 9); self.orders.setHorizontalHeaderLabels(["Order ID", "Side", "Price", "Qty", "Filled %", "Remaining", "Status", "Age", "Action"])
         box = QGroupBox("REAL LIVE ORDERS"); lay = QVBoxLayout(); lay.addWidget(self.orders); box.setLayout(lay)
+        box.setMinimumHeight(360)
+        actions = QHBoxLayout()
+        self.refresh_orders_btn = QPushButton("Refresh")
+        self.refresh_orders_btn.setProperty("kind", "neutral")
+        self.refresh_orders_btn.clicked.connect(self.refresh_orders_manual)
+        self.cancel_selected_btn = QPushButton("Cancel Selected")
+        self.cancel_selected_btn.setProperty("kind", "danger")
+        self.cancel_selected_btn.clicked.connect(self.cancel_selected_order)
+        self.view_details_btn = QPushButton("View Details")
+        self.view_details_btn.setProperty("kind", "neutral")
+        self.view_details_btn.clicked.connect(self.view_selected_order_details)
+        actions.addStretch(1); actions.addWidget(self.refresh_orders_btn); actions.addWidget(self.cancel_selected_btn); actions.addWidget(self.view_details_btn)
+        lay.addLayout(actions)
         self.grid.addWidget(box, 2, 1, 1, 3)
 
         self.compact_status = QLabel("")
@@ -166,8 +204,104 @@ class MainWindow(QMainWindow):
                 self.account.cancel_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
             except Exception:
                 pass
+            self.sync_active_order(force=True)
         self.active_order = {}
         self.fsm_state = "IDLE"
+    def refresh_orders_manual(self) -> None:
+        self.sync_active_order(force=True)
+        self.sync_order_history(force=True)
+
+    def _to_live_order(self, order: dict, source: str) -> LiveOrder:
+        now = int(time.time() * 1000)
+        orig_qty = float(order.get("origQty", 0.0) or 0.0)
+        exec_qty = float(order.get("executedQty", 0.0) or 0.0)
+        remaining = max(orig_qty - exec_qty, 0.0)
+        fill_pct = 100.0 if orig_qty <= 0 else min(max((exec_qty / orig_qty) * 100.0, 0.0), 100.0)
+        update_time = int(order.get("updateTime") or order.get("time") or now)
+        return LiveOrder(int(order.get("orderId", 0) or 0), str(order.get("clientOrderId", "")), str(order.get("side", "")), float(order.get("price", 0.0) or 0.0), orig_qty, exec_qty, remaining, fill_pct, str(order.get("status", "UNKNOWN")), str(order.get("type", "LIMIT")), str(order.get("timeInForce", "")), max(now - int(order.get("time", update_time) or update_time), 0), update_time, source)
+
+    def sync_active_order(self, force: bool = False) -> None:
+        if self.api_status != "OK":
+            return
+        try:
+            self.sync_open_orders = self.account.get_open_orders(CONFIG.binance_symbol)
+            if force or int(time.time() * 1000) - self.last_sync_log_ms > 2500:
+                self.log("INFO", f"[SYNC] openOrders n={len(self.sync_open_orders)}")
+                self.last_sync_log_ms = int(time.time() * 1000)
+            if self.active_order.get("orderId"):
+                st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
+                status = st.get("status", "UNKNOWN")
+                self.active_order["state"] = status
+                self.log("INFO", f"[SYNC] active order status={status}")
+                if status == "FILLED":
+                    self._apply_filled_from_sync(st)
+                elif status in {"CANCELED", "REJECTED", "EXPIRED"}:
+                    self.log("WARNING", "[SYNC] desync fixed")
+                    self.active_order = {}
+                    self.fsm_state = "DONE"
+            self._rebuild_live_orders()
+        except Exception:
+            pass
+
+    def _apply_filled_from_sync(self, order_status: dict) -> None:
+        side = self.active_order.get("side")
+        self.log("OK", "[SYNC] order filled detected")
+        if side == "BUY":
+            self.log("OK", "[SYNC] BUY filled on exchange")
+            self.position_qty = float(order_status.get("executedQty", 0.0) or 0.0)
+            self.avg_entry = float(self.active_order.get("price", 0.0))
+            self.fsm_state = "PLACE_SELL"
+        elif side == "SELL":
+            self.log("OK", "[SYNC] SELL filled on exchange")
+            self.avg_exit = float(self.active_order.get("price", 0.0))
+            self.realized_u = (self.avg_exit - self.avg_entry) * float(order_status.get("executedQty", 0.0) or 0.0)
+            self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
+            self.fsm_state = "DONE"
+        self.active_order = {}
+
+    def sync_order_history(self, force: bool = False) -> None:
+        if self.api_status != "OK":
+            return
+        try:
+            self.sync_history_orders = self.account.get_all_orders(CONFIG.binance_symbol, limit=20)
+            if self.active_order.get("orderId"):
+                known = [o for o in self.sync_history_orders if int(o.get("orderId", 0)) == int(self.active_order["orderId"])]
+                if not known:
+                    self.log("ERROR", "[SYNC] active order not found; FSM -> ERROR")
+                    self.fsm_state = "ERROR"
+            if force:
+                self.log("INFO", f"[SYNC] history n={len(self.sync_history_orders)}")
+            self._rebuild_live_orders()
+        except Exception:
+            pass
+
+    def _rebuild_live_orders(self) -> None:
+        rows: list[LiveOrder] = []
+        for o in self.sync_open_orders:
+            rows.append(self._to_live_order(o, "openOrders"))
+        for o in self.sync_history_orders[:20]:
+            if int(o.get("orderId", 0) or 0) not in {x.orderId for x in rows}:
+                rows.append(self._to_live_order(o, "allOrders"))
+        self.live_orders = sorted(rows, key=lambda x: x.updateTime, reverse=True)[:30]
+
+    def cancel_selected_order(self) -> None:
+        row = self.orders.currentRow()
+        if row < 0 or row >= len(self.live_orders):
+            return
+        order_id = self.live_orders[row].orderId
+        try:
+            self.account.cancel_order(CONFIG.binance_symbol, order_id)
+            self.log("OK", f"[SYNC] cancel selected orderId={order_id}")
+            self.sync_active_order(force=True)
+        except Exception as exc:
+            self.log("ERROR", f"[SYNC] cancel failed orderId={order_id} err={exc}")
+
+    def view_selected_order_details(self) -> None:
+        row = self.orders.currentRow()
+        if row < 0 or row >= len(self.live_orders):
+            return
+        o = self.live_orders[row]
+        QMessageBox.information(self, "Order Details", f"orderId={o.orderId}\nclientOrderId={o.clientOrderId}\nsource={o.source}\nstatus={o.status}\nside={o.side}\nprice={self._fmt(o.price, 6)}\norigQty={self._fmt(o.origQty, 6)}\nexecutedQty={self._fmt(o.executedQty, 6)}\nremaining={self._fmt(o.remainingQty, 6)}\nfilled={o.fillPercent:.1f}%")
     def on_ws_book(self, bid: float, ask: float, ts: int) -> None: self.state.snapshot.bid = bid; self.state.snapshot.ask = ask; self.state.snapshot.updated_ms = ts; self.state.snapshot.source = "WS"; self.state.last_ws_ms = ts
     def on_ws_status(self, status: str) -> None:
         self.state.ws_status = status
@@ -394,15 +528,18 @@ class MainWindow(QMainWindow):
             elif plan_status in {"BALANCE_LOW", "FILTER_FAIL"}:
                 self.log("WARNING", f"[EXEC] BLOCK reason={plan_status.lower()}")
 
-        rows = list(self.closed_orders_data) + list(self.orders_data)
-        if self.active_order:
-            rows.append({"orderId": self.active_order.get("orderId"), "side": self.active_order.get("side"), "price": self.active_order.get("price", 0), "origQty": self.active_order.get("qty", 0), "executedQty": 0, "status": self.active_order.get("state", "NEW"), "time": self.active_order.get("create_ms", int(time.time() * 1000)), "type": self.active_order.get("type", "LIMIT")})
-        self.orders.setRowCount(len(rows))
-        now = int(time.time() * 1000)
-        for i, o in enumerate(rows):
-            vals = [str(o.get("orderId", "")), str(o.get("side", "")), self._fmt(float(o.get("price", 0.0)), 6), self._fmt(float(o.get("origQty", 0.0)), 6), self._fmt(float(o.get("executedQty", 0.0)), 6), str(o.get("status", "")), f"{max(now - int(o.get('time', now)), 0)}ms", str(o.get("type", "LIMIT"))]
+        self.orders.setRowCount(len(self.live_orders))
+        def _bar(percent: float) -> str:
+            filled = int(round((percent / 100.0) * 10))
+            return f"{percent:.0f}% {'█' * filled}{'░' * (10 - filled)}"
+        for i, o in enumerate(self.live_orders):
+            vals = [str(o.orderId), o.side, self._fmt(o.price, 6), self._fmt(o.origQty, 6), _bar(o.fillPercent), self._fmt(o.remainingQty, 6), o.status, f"{o.ageMs}ms", o.type]
             for j, v in enumerate(vals):
-                self.orders.setItem(i, j, QTableWidgetItem(v))
+                item = QTableWidgetItem(v)
+                if j == 6:
+                    color = {"NEW": "#3B82F6", "PARTIALLY_FILLED": "#FACC15", "FILLED": "#22C55E", "CANCELED": "#9CA3AF", "REJECTED": "#EF4444", "EXPIRED": "#EF4444"}.get(o.status, "#CBD5E1")
+                    item.setForeground(QColor(color))
+                self.orders.setItem(i, j, item)
 
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
         ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
