@@ -29,7 +29,7 @@ from app.gui.widgets import big_value, kv_card
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle("UB v0.1.4 / BTCU Microspread Terminal")
+        self.setWindowTitle("UB v0.1.5 / BTCU Microspread Terminal")
         self.resize(1320, 820)
         self.setStyleSheet(main_qss())
 
@@ -39,6 +39,13 @@ class MainWindow(QMainWindow):
         self.started_watch_ms = int(time.time() * 1000)
         self.runtime_active = False
         self._last_stale_log_ms = 0
+        self._rest_bookticker_logged = False
+        self._last_rest_ok_log_ms = 0
+        self._had_rest_error = False
+        self._ws_lost_logged = False
+        self._spread_status = "BAD"
+        self._spread_value: float | None = None
+        self._spread_lifetime_start_ms = int(time.time() * 1000)
 
         root = QWidget()
         self.setCentralWidget(root)
@@ -68,15 +75,15 @@ class MainWindow(QMainWindow):
         self.rest_timer.timeout.connect(self.fetch_rest)
         self.rest_timer.start(CONFIG.rest_poll_ms)
 
-        self.log("BOOT", "UB v0.1.4 запущен")
+        self.log("BOOT", "UB v0.1.5 запущен")
         self.log(
             "CONFIG",
             f"display={CONFIG.display_symbol} binance={CONFIG.binance_symbol} stream={CONFIG.stream_symbol}",
         )
-        self.log("BOOT", "WS diagnostic mode enabled")
+        self.log("BOOT", "WS optional diagnostic mode enabled")
 
     def _build_cards(self) -> None:
-        conn, self.conn = kv_card("ПОДКЛЮЧЕНИЕ", [("WS", "CONNECTING"), ("REST", "N/A"), ("Возраст WS ms", "N/A"), ("Возраст REST ms", "N/A")])
+        conn, self.conn = kv_card("ПОДКЛЮЧЕНИЕ", [("WS", "OPTIONAL LOST"), ("REST", "N/A"), ("Источник", "NONE"), ("Возраст WS ms", "N/A"), ("Возраст REST ms", "N/A"), ("Data source", "NONE")])
         self.grid.addWidget(conn, 0, 0)
 
         bid_box, self.bid_v = big_value("BID", "N/A")
@@ -86,7 +93,7 @@ class MainWindow(QMainWindow):
         self.grid.addWidget(ask_box, 0, 2)
         self.grid.addWidget(spr_box, 0, 3)
 
-        engine, self.engine = kv_card("СПРЕД", [("Статус", "BAD"), ("Спред", "N/A"), ("Захват", "0.00"), ("Время жизни", "0")])
+        engine, self.engine = kv_card("СПРЕД", [("Статус", "BAD"), ("Спред", "N/A"), ("Захват", "0.00"), ("Время жизни", "0 ms"), ("Источник", "NONE"), ("Последнее обновление", "N/A")])
         fsm, self.fsm = kv_card("RUNTIME / FSM", [("Состояние", "IDLE"), ("Вход", "N/A"), ("Выход", "N/A"), ("Режим", "WATCH")])
         risk, _ = kv_card("РИСК", [("Риск", "LOW"), ("Паника", "READY"), ("Экспозиция", "LOW")])
         bal, _ = kv_card("БАЛАНСЫ", [("BTC", "N/A"), ("U", "N/A")])
@@ -166,7 +173,6 @@ class MainWindow(QMainWindow):
     def toggle_runtime(self) -> None:
         if not self.runtime_active:
             self.runtime_active = True
-            self.started_watch_ms = int(time.time() * 1000)
             self.ws.start()
             self.fsm["Состояние"].setText("WATCH_SPREAD")
             self.start_stop_btn.setText("STOP")
@@ -196,28 +202,39 @@ class MainWindow(QMainWindow):
 
     def fetch_rest(self) -> None:
         try:
-            self.log("REST", f"bookTicker symbol={CONFIG.binance_symbol}")
+            if not self._rest_bookticker_logged:
+                self.log("REST", f"bookTicker symbol={CONFIG.binance_symbol}")
+                self._rest_bookticker_logged = True
             bid, ask, ts = self.rest.fetch_book_ticker(CONFIG.binance_symbol)
+            prev_status = self.state.rest_status
             self.state.last_rest_ms = ts
             self.state.rest_status = "OK"
-            ws_age = self.state.age_ms(self.state.last_ws_ms)
-            if ws_age is None or ws_age > CONFIG.max_ws_age_ms:
-                self.state.snapshot.bid = bid
-                self.state.snapshot.ask = ask
-                self.state.snapshot.updated_ms = ts
-                self.state.snapshot.source = "REST"
+            self.state.snapshot.bid = bid
+            self.state.snapshot.ask = ask
+            self.state.snapshot.updated_ms = ts
+            self.state.snapshot.source = "REST"
+            now_ms = int(time.time() * 1000)
+            should_log = (
+                prev_status != "OK"
+                or self._had_rest_error
+                or self._last_rest_ok_log_ms == 0
+                or now_ms - self._last_rest_ok_log_ms >= 10000
+            )
+            if should_log:
                 self.log("REST", f"OK bid={bid:.2f} ask={ask:.2f}")
+                self._last_rest_ok_log_ms = now_ms
+            self._had_rest_error = False
         except Exception as exc:
+            if self.state.rest_status != "ERROR":
+                self.log("REST", f"error: {exc}")
             self.state.rest_status = "ERROR"
-            self.log("REST", f"error: {exc}")
+            self._had_rest_error = True
 
     def on_tick(self) -> None:
         ws_age = self.state.age_ms(self.state.last_ws_ms)
-        if ws_age is not None and ws_age > CONFIG.max_ws_age_ms:
-            now_ms = int(time.time() * 1000)
-            if now_ms - self._last_stale_log_ms >= 3000:
-                self.log("WS", f"stale age={ws_age}ms")
-                self._last_stale_log_ms = now_ms
+        if ws_age is not None and ws_age > CONFIG.max_ws_age_ms and not self._ws_lost_logged:
+            self.log("WS", "no BTCU bookTicker stream, running REST-first")
+            self._ws_lost_logged = True
         self._refresh_ui()
 
     def _refresh_ui(self) -> None:
@@ -238,8 +255,11 @@ class MainWindow(QMainWindow):
         else:
             ws_display = "STALE"
 
-        self.conn["WS"].setText(ws_display)
+        ws_conn = "OPTIONAL LOST" if ws_display in {"LOST", "STALE", "ERROR", "CONNECTING"} else "OK"
+        self.conn["WS"].setText(ws_conn)
         self.conn["REST"].setText(self.state.rest_status)
+        self.conn["Источник"].setText(self.state.snapshot.source)
+        self.conn["Data source"].setText(self.state.snapshot.source)
         self.conn["Возраст WS ms"].setText("N/A" if ws_age is None else str(ws_age))
         self.conn["Возраст REST ms"].setText("N/A" if rest_age is None else str(rest_age))
 
@@ -257,21 +277,49 @@ class MainWindow(QMainWindow):
                 status = "READY"
             elif spread > 0:
                 status = "WATCH"
+
+        now_ms = int(time.time() * 1000)
+        if spread is None:
+            self._spread_lifetime_start_ms = now_ms
+            self._spread_value = None
+            self._spread_status = status
+        else:
+            spread_changed = self._spread_value is None or abs(spread - self._spread_value) > max(0.01, 1.0)
+            if status != self._spread_status or spread_changed:
+                if status != self._spread_status:
+                    self.log("SPREAD", f"status changed {self._spread_status} -> {status}")
+                self._spread_lifetime_start_ms = now_ms
+                self._spread_status = status
+                self._spread_value = spread
+                self.log("SPREAD", f"{status} spread={spread:.2f} capture={capture:.2f} source={self.state.snapshot.source}")
+
+        lifetime_ms = max(now_ms - self._spread_lifetime_start_ms, 0)
+        lifetime_txt = self._format_duration(lifetime_ms)
         self.engine["Статус"].setText(status)
         self.engine["Спред"].setText("N/A" if spread is None else f"{spread:.2f}")
         self.engine["Захват"].setText(f"{capture:.2f}")
-        self.engine["Время жизни"].setText(str(max(int(time.time() * 1000) - self.started_watch_ms, 0)))
+        self.engine["Время жизни"].setText(lifetime_txt)
+        self.engine["Источник"].setText(self.state.snapshot.source)
+        self.engine["Последнее обновление"].setText("N/A" if rest_age is None else f"{rest_age} ms")
 
         runtime_txt = "WATCH" if self.runtime_active else "IDLE"
         ws_ok = ws_display == "OK"
-        if ws_ok:
-            mode_txt = "WS LIVE"
+        if self.state.rest_status == "OK" and ws_ok:
+            mode_txt = "WS+REST"
         elif self.state.rest_status == "OK":
-            mode_txt = "FALLBACK"
+            mode_txt = "REST LIVE"
         else:
             mode_txt = "NO DATA"
-        ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else ws_display
-        self.top_status.setText(f"{CONFIG.display_symbol} | WS ● {ws_txt} | REST ● {self.state.rest_status} | {runtime_txt} | {mode_txt}")
+        ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
+        rest_txt = f"OK {rest_age}ms" if self.state.rest_status == "OK" and rest_age is not None else self.state.rest_status
+        self.top_status.setText(f"{CONFIG.display_symbol} | REST ● {rest_txt} | WS ● {ws_txt} | {runtime_txt} | {mode_txt}")
+
+    def _format_duration(self, duration_ms: int) -> str:
+        if duration_ms < 1000:
+            return f"{duration_ms} ms"
+        if duration_ms < 10000:
+            return f"{duration_ms / 1000:.1f} s"
+        return f"{duration_ms / 1000:.1f} s"
 
     def log(self, tag: str, message: str) -> None:
         self.logs.appendPlainText(format_log(tag, message))
