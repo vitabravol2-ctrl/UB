@@ -33,6 +33,8 @@ class MarketWSClient:
         self._last_no_match_log_ms = 0
         self._last_live_log_ms = 0
         self._last_status = "LOST"
+        self._stop_lock = threading.Lock()
+        self._reconnect_count = 0
 
     def start(self) -> None:
         if self._running:
@@ -50,9 +52,11 @@ class MarketWSClient:
         self._thread.start()
 
     def stop(self) -> None:
-        self._running = False
-        if self._ws is not None:
-            self._ws.close()
+        with self._stop_lock:
+            self._running = False
+            ws = self._ws
+        if ws is not None:
+            ws.close()
 
     def _emit_status(self, status: str, log_message: str | None = None) -> None:
         if status != self._last_status:
@@ -127,10 +131,6 @@ class MarketWSClient:
                     ask_f = float(ask)
                     self._accepted_tick_ms = int(time.time() * 1000)
                     self.signals.book.emit(bid_f, ask_f, ts)
-                    now_ms = int(time.time() * 1000)
-                    if now_ms - self._last_live_log_ms >= 5000:
-                        self._last_live_log_ms = now_ms
-                        self.signals.log.emit("WS", f"LIVE bid={bid_f:.2f} ask={ask_f:.2f}")
                 except Exception as exc:
                     self._emit_status("ERROR", f"error {exc}")
 
@@ -167,4 +167,6 @@ class MarketWSClient:
             self._ws.run_forever(ping_interval=20, ping_timeout=5)
 
             if self._running:
+                self._reconnect_count += 1
+                self.signals.log.emit("WS", f"reconnect in {reconnect_delay}s count={self._reconnect_count}")
                 time.sleep(reconnect_delay)

@@ -24,11 +24,16 @@ class MarketState:
         self.last_ws_ms: int | None = None
         self.last_rest_ms: int | None = None
         self.last_ws_monotonic: float | None = None
+        self.last_rest_monotonic: float | None = None
+
+    @staticmethod
+    def now_ms() -> int:
+        return int(time.time() * 1000)
 
     def age_ms(self, timestamp: int | None) -> int | None:
         if timestamp is None:
             return None
-        return max(int(time.time() * 1000) - timestamp, 0)
+        return max(self.now_ms() - timestamp, 0)
 
     def monotonic_age_ms(self, monotonic_ts: float | None) -> int | None:
         if monotonic_ts is None:
