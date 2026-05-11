@@ -1,0 +1,147 @@
+import hashlib
+import hmac
+import os
+import time
+from dataclasses import dataclass
+from decimal import Decimal, ROUND_DOWN
+from pathlib import Path
+from typing import Any
+
+import requests
+
+BINANCE_BASE_URL = "https://api.binance.com"
+
+
+@dataclass
+class APIStatus:
+    status: str
+    message: str = ""
+
+
+class BinanceAccountClient:
+    def __init__(self) -> None:
+        self.api_key = ""
+        self.api_secret = ""
+        self.time_offset_ms = 0
+        self.session = requests.Session()
+
+    @staticmethod
+    def _mask_key(key: str) -> str:
+        if len(key) <= 8:
+            return "****"
+        return f"{key[:4]}...{key[-4:]}"
+
+    def load_api_keys(self) -> tuple[str, str]:
+        env_path = Path(".env")
+        if env_path.exists():
+            for line in env_path.read_text(encoding="utf-8").splitlines():
+                if line.startswith("BINANCE_API_KEY=") and not os.getenv("BINANCE_API_KEY"):
+                    os.environ["BINANCE_API_KEY"] = line.split("=", 1)[1].strip()
+                if line.startswith("BINANCE_API_SECRET=") and not os.getenv("BINANCE_API_SECRET"):
+                    os.environ["BINANCE_API_SECRET"] = line.split("=", 1)[1].strip()
+        self.api_key = os.getenv("BINANCE_API_KEY", "").strip()
+        self.api_secret = os.getenv("BINANCE_API_SECRET", "").strip()
+        return self.api_key, self.api_secret
+
+    def save_api_keys(self, api_key: str, api_secret: str) -> None:
+        Path(".env").write_text(
+            f"BINANCE_API_KEY={api_key.strip()}\nBINANCE_API_SECRET={api_secret.strip()}\n",
+            encoding="utf-8",
+        )
+        self.api_key = api_key.strip()
+        self.api_secret = api_secret.strip()
+
+    def sign_params(self, params: dict[str, Any], secret: str) -> str:
+        query = "&".join(f"{k}={params[k]}" for k in sorted(params.keys()))
+        return hmac.new(secret.encode("utf-8"), query.encode("utf-8"), hashlib.sha256).hexdigest()
+
+    def sync_time(self) -> int:
+        local_ms = int(time.time() * 1000)
+        resp = self.session.get(f"{BINANCE_BASE_URL}/api/v3/time", timeout=5)
+        resp.raise_for_status()
+        server_ms = int(resp.json()["serverTime"])
+        self.time_offset_ms = server_ms - local_ms
+        return self.time_offset_ms
+
+    def signed_get(self, path: str, params: dict[str, Any] | None = None) -> dict[str, Any] | list[dict[str, Any]]:
+        if not self.api_key or not self.api_secret:
+            raise ValueError("API NOT SET")
+        payload: dict[str, Any] = dict(params or {})
+        payload["recvWindow"] = 5000
+        payload["timestamp"] = int(time.time() * 1000) + self.time_offset_ms
+        payload["signature"] = self.sign_params(payload, self.api_secret)
+        headers = {"X-MBX-APIKEY": self.api_key}
+        resp = self.session.get(f"{BINANCE_BASE_URL}{path}", params=payload, headers=headers, timeout=6)
+        if resp.status_code in {401, 403}:
+            raise RuntimeError("INVALID API KEY")
+        data = resp.json()
+        if isinstance(data, dict) and data.get("code") == -1021:
+            raise RuntimeError("TIME SYNC ERROR")
+        if isinstance(data, dict) and data.get("code") in {-2015, -2014}:
+            raise RuntimeError("INVALID API KEY")
+        resp.raise_for_status()
+        return data
+
+    def test_account_connection(self) -> APIStatus:
+        try:
+            self.load_api_keys()
+            if not self.api_key or not self.api_secret:
+                return APIStatus("NOT SET", "API key/secret missing")
+            self.sync_time()
+            self.signed_get("/api/v3/account")
+            return APIStatus("OK", "connected")
+        except requests.RequestException:
+            return APIStatus("ERROR", "NETWORK ERROR")
+        except RuntimeError as exc:
+            return APIStatus("ERROR", str(exc))
+        except Exception as exc:
+            return APIStatus("ERROR", f"API ERROR: {exc}")
+
+    def get_account_balances(self) -> dict[str, dict[str, float]]:
+        data = self.signed_get("/api/v3/account")
+        assert isinstance(data, dict)
+        out: dict[str, dict[str, float]] = {"BTC": {"free": 0.0, "locked": 0.0}, "U": {"free": 0.0, "locked": 0.0}}
+        for row in data.get("balances", []):
+            if row.get("asset") in out:
+                out[row["asset"]] = {"free": float(row.get("free", 0)), "locked": float(row.get("locked", 0))}
+        return out
+
+    def get_open_orders(self, symbol: str) -> list[dict[str, Any]]:
+        data = self.signed_get("/api/v3/openOrders", {"symbol": symbol})
+        assert isinstance(data, list)
+        return data
+
+    def get_exchange_filters(self, symbol: str) -> dict[str, float | bool]:
+        resp = self.session.get(f"{BINANCE_BASE_URL}/api/v3/exchangeInfo", params={"symbol": symbol}, timeout=5)
+        resp.raise_for_status()
+        payload = resp.json()
+        symbols = payload.get("symbols", [])
+        if not symbols:
+            return {"loaded": False, "tickSize": 0.0, "stepSize": 0.0, "minQty": 0.0, "minNotional": 0.0}
+        filters = symbols[0].get("filters", [])
+        out = {"loaded": True, "tickSize": 0.0, "stepSize": 0.0, "minQty": 0.0, "minNotional": 0.0}
+        for flt in filters:
+            if flt.get("filterType") == "PRICE_FILTER":
+                out["tickSize"] = float(flt.get("tickSize", 0))
+            elif flt.get("filterType") == "LOT_SIZE":
+                out["stepSize"] = float(flt.get("stepSize", 0))
+                out["minQty"] = float(flt.get("minQty", 0))
+            elif flt.get("filterType") in {"MIN_NOTIONAL", "NOTIONAL"}:
+                out["minNotional"] = float(flt.get("minNotional", flt.get("notional", 0)))
+        return out
+
+
+def round_price_to_tick(price: float, tick_size: float) -> float:
+    return float((Decimal(str(price)) / Decimal(str(tick_size))).to_integral_value(rounding=ROUND_DOWN) * Decimal(str(tick_size)))
+
+
+def round_qty_to_step(qty: float, step_size: float) -> float:
+    return float((Decimal(str(qty)) / Decimal(str(step_size))).to_integral_value(rounding=ROUND_DOWN) * Decimal(str(step_size)))
+
+
+def validate_min_notional(price: float, qty: float, min_notional: float) -> bool:
+    return price * qty >= min_notional
+
+
+def validate_min_qty(qty: float, min_qty: float) -> bool:
+    return qty >= min_qty

@@ -1,40 +1,53 @@
-# UB v0.1.0 — GUI + Market Monitor
+# UB v0.1.6 — GUI + REST market + Binance account read-only
 
-UB (BTCU Spread Harvester) v0.1.0 is a **watch-only desktop cockpit** built with PySide6.
+UB (BTCU Spread Harvester) v0.1.6 is a desktop cockpit with REST-first market data and **read-only Binance account connectivity**.
 
-## Important
-- v0.1.0 **does not trade**.
+## Safety / scope (v0.1.6)
 - No order placement.
-- LIVE mode is hard-disabled (`LIVE OFF`).
-- No AI, no indicators, no autotrading.
+- No auto-trading / no paper-trading.
+- Cancel-all button is still a stub log only.
+- LIVE trading is hard-disabled (`LIVE OFF`).
 
-## Features in v0.1.0
-- Dark cockpit GUI.
-- Binance WS `bookTicker` for `BTCU`.
-- REST fallback via `/api/v3/ticker/bookTicker`.
-- Live bid/ask/spread/capture estimate display.
-- WS/REST connection status + age metrics.
-- Runtime/FSM, risk, balances, orders blocks as placeholders for v0.1.1 extension.
-- Safe Qt signal-based UI updates from background WS thread.
+## What v0.1.6 adds
+- Binance API keys via `.env`.
+- API test status: `NOT SET` / `OK` / `ERROR`.
+- Real balances (`BTC`, `U`: free/locked).
+- Open orders read-only table.
+- Exchange filters (`tickSize`, `stepSize`, `minQty`, `minNotional`).
+- Time sync offset via `/api/v3/time` for signed requests.
+- Max buy / max sell calculations shown in GUI.
 
-## Install
+## API setup
+1. Copy env template:
+```bash
+cp .env.example .env
+```
+2. Put keys in `.env`:
+```env
+BINANCE_API_KEY=your_key
+BINANCE_API_SECRET=your_secret
+```
+3. Never commit `.env` (already in `.gitignore`).
+
+## Endpoints used
+- `GET /api/v3/time`
+- `GET /api/v3/account` (SIGNED)
+- `GET /api/v3/openOrders?symbol=BTCU` (SIGNED)
+- `GET /api/v3/exchangeInfo?symbol=BTCU`
+- `GET /api/v3/ticker/bookTicker?symbol=BTCU`
+
+## Install / run
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-## Run
-```bash
-python main.py
-```
-
-## Windows quick start
-```powershell
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
+source .venv/bin/activate
 pip install -r requirements.txt
 python main.py
 ```
 
-If Binance doesn't provide BTCU data, the app stays alive and shows WS/REST error statuses in UI and logs.
+## How to verify account connection
+- Open `НАСТРОЙКИ` panel.
+- Fill API key + secret.
+- Click `Сохранить в .env`.
+- Click `Проверить`.
+- On success UI shows API `OK`, balances, filters, and open orders.
+

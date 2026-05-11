@@ -13,6 +13,8 @@ class UBConfig:
     max_ws_age_ms: int = 5000
     rest_poll_ms: int = 2000
     live_enabled: bool = False
+    require_confirmation: bool = True
+    auto_cancel_on_stop: bool = True
 
 
 CONFIG = UBConfig()

@@ -1,22 +1,9 @@
 import time
 from PySide6.QtCore import QTimer, Qt
 from PySide6.QtGui import QTextOption
-from PySide6.QtWidgets import (
-    QDockWidget,
-    QFormLayout,
-    QGridLayout,
-    QGroupBox,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QMainWindow,
-    QPlainTextEdit,
-    QPushButton,
-    QTableWidget,
-    QVBoxLayout,
-    QWidget,
-)
+from PySide6.QtWidgets import QCheckBox, QDockWidget, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPlainTextEdit, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
 
+from app.core.binance_account import BinanceAccountClient
 from app.core.config import CONFIG
 from app.core.logger import format_log
 from app.core.market_rest import MarketREST
@@ -29,302 +16,128 @@ from app.gui.widgets import big_value, kv_card
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle("UB v0.1.5 / BTCU Microspread Terminal")
-        self.resize(1320, 820)
+        self.setWindowTitle("UB v0.1.6 / BTCU Microspread Terminal")
+        self.resize(1320, 860)
         self.setStyleSheet(main_qss())
-
         self.state = MarketState()
         self.rest = MarketREST()
         self.ws = MarketWSClient(CONFIG.stream_symbol, CONFIG.binance_symbol, CONFIG.max_ws_age_ms)
-        self.started_watch_ms = int(time.time() * 1000)
+        self.account = BinanceAccountClient()
+        self.api_status = "NOT SET"
+        self.balances = {"BTC": {"free": 0.0, "locked": 0.0}, "U": {"free": 0.0, "locked": 0.0}}
+        self.filters = {"loaded": False, "tickSize": 0.0, "stepSize": 0.0, "minQty": 0.0, "minNotional": 0.0}
+        self.orders_data = []
         self.runtime_active = False
-        self._last_stale_log_ms = 0
-        self._rest_bookticker_logged = False
-        self._last_rest_ok_log_ms = 0
-        self._had_rest_error = False
-        self._ws_lost_logged = False
-        self._spread_status = "BAD"
-        self._spread_value: float | None = None
-        self._spread_lifetime_start_ms = int(time.time() * 1000)
-
-        root = QWidget()
-        self.setCentralWidget(root)
-        self.main_layout = QVBoxLayout(root)
-
-        self.top_status = QLabel()
-        self.top_status.setStyleSheet("font-size: 15px; font-weight: 800;")
-        self.main_layout.addWidget(self.top_status)
-
-        self.grid = QGridLayout()
-        self.main_layout.addLayout(self.grid)
-
-        self._build_cards()
-        self._build_controls()
-        self._build_logs()
-        self._build_settings_panel()
-
-        self.ws.signals.book.connect(self.on_ws_book)
-        self.ws.signals.status.connect(self.on_ws_status)
-        self.ws.signals.log.connect(self.log)
-
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.on_tick)
-        self.timer.start(300)
-
-        self.rest_timer = QTimer(self)
-        self.rest_timer.timeout.connect(self.fetch_rest)
-        self.rest_timer.start(CONFIG.rest_poll_ms)
-
-        self.log("BOOT", "UB v0.1.5 запущен")
-        self.log(
-            "CONFIG",
-            f"display={CONFIG.display_symbol} binance={CONFIG.binance_symbol} stream={CONFIG.stream_symbol}",
-        )
-        self.log("BOOT", "WS optional diagnostic mode enabled")
+        root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
+        self.top_status = QLabel(); self.main_layout.addWidget(self.top_status)
+        self.grid = QGridLayout(); self.main_layout.addLayout(self.grid)
+        self._build_cards(); self._build_controls(); self._build_logs(); self._build_settings_panel()
+        self.ws.signals.book.connect(self.on_ws_book); self.ws.signals.status.connect(self.on_ws_status); self.ws.signals.log.connect(self.log)
+        self.timer = QTimer(self); self.timer.timeout.connect(self.on_tick); self.timer.start(300)
+        self.rest_timer = QTimer(self); self.rest_timer.timeout.connect(self.fetch_rest); self.rest_timer.start(CONFIG.rest_poll_ms)
+        self.account_timer = QTimer(self); self.account_timer.timeout.connect(self.refresh_account_data); self.account_timer.start(5000)
 
     def _build_cards(self) -> None:
-        conn, self.conn = kv_card("ПОДКЛЮЧЕНИЕ", [("WS", "OPTIONAL LOST"), ("REST", "N/A"), ("Источник", "NONE"), ("Возраст WS ms", "N/A"), ("Возраст REST ms", "N/A"), ("Data source", "NONE")])
+        conn, self.conn = kv_card("ПОДКЛЮЧЕНИЕ", [("API", "NOT SET"), ("REST", "N/A"), ("WS", "OPTIONAL LOST"), ("Источник", "NONE"), ("Time offset", "0 ms")])
         self.grid.addWidget(conn, 0, 0)
-
-        bid_box, self.bid_v = big_value("BID", "N/A")
-        ask_box, self.ask_v = big_value("ASK", "N/A")
-        spr_box, self.spr_v = big_value("SPREAD", "N/A")
-        self.grid.addWidget(bid_box, 0, 1)
-        self.grid.addWidget(ask_box, 0, 2)
-        self.grid.addWidget(spr_box, 0, 3)
-
-        engine, self.engine = kv_card("СПРЕД", [("Статус", "BAD"), ("Спред", "N/A"), ("Захват", "0.00"), ("Время жизни", "0 ms"), ("Источник", "NONE"), ("Последнее обновление", "N/A")])
-        fsm, self.fsm = kv_card("RUNTIME / FSM", [("Состояние", "IDLE"), ("Вход", "N/A"), ("Выход", "N/A"), ("Режим", "WATCH")])
-        risk, _ = kv_card("РИСК", [("Риск", "LOW"), ("Паника", "READY"), ("Экспозиция", "LOW")])
-        bal, _ = kv_card("БАЛАНСЫ", [("BTC", "N/A"), ("U", "N/A")])
-        self.grid.addWidget(engine, 1, 0)
-        self.grid.addWidget(fsm, 1, 1)
-        self.grid.addWidget(risk, 1, 2)
-        self.grid.addWidget(bal, 1, 3)
-
-        self.orders = QTableWidget(0, 4)
-        self.orders.setHorizontalHeaderLabels(["Вход", "Выход", "Qty", "Статус"])
-        self.orders.setMaximumHeight(90)
-        orders_box = QGroupBox("ОРДЕРА / ПОЗИЦИИ")
-        o_lay = QVBoxLayout()
-        o_lay.addWidget(self.orders)
-        orders_box.setLayout(o_lay)
-        self.grid.addWidget(orders_box, 2, 0, 1, 4)
+        bid_box, self.bid_v = big_value("BID", "N/A"); ask_box, self.ask_v = big_value("ASK", "N/A"); spr_box, self.spr_v = big_value("SPREAD", "N/A")
+        self.grid.addWidget(bid_box, 0, 1); self.grid.addWidget(ask_box, 0, 2); self.grid.addWidget(spr_box, 0, 3)
+        bal, self.bal = kv_card("БАЛАНСЫ", [("BTC free", "0"), ("BTC locked", "0"), ("U free", "0"), ("U locked", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
+        fil, self.fil = kv_card("FILTERS", [("Filters", "NO"), ("tickSize", "0"), ("stepSize", "0"), ("minQty", "0"), ("minNotional", "0")])
+        self.grid.addWidget(bal, 1, 0, 1, 2); self.grid.addWidget(fil, 1, 2, 1, 2)
+        self.orders = QTableWidget(0, 7); self.orders.setHorizontalHeaderLabels(["Order ID", "Side", "Price", "Qty", "Filled", "Status", "Age"])
+        box = QGroupBox("ОРДЕРА / POSITIONS (read-only)"); lay = QVBoxLayout(); lay.addWidget(self.orders); box.setLayout(lay)
+        self.grid.addWidget(box, 2, 0, 1, 4)
 
     def _build_controls(self) -> None:
-        row = QHBoxLayout()
-        self.settings_btn = QPushButton("НАСТРОЙКИ")
-        self.settings_btn.clicked.connect(self.toggle_settings)
-        row.addWidget(self.settings_btn)
-
-        self.start_stop_btn = QPushButton("START")
-        self.start_stop_btn.setProperty("kind", "primary")
-        self.start_stop_btn.clicked.connect(self.toggle_runtime)
-        row.addWidget(self.start_stop_btn)
-
-        cancel_btn = QPushButton("ОТМЕНИТЬ ВСЁ")
-        cancel_btn.setProperty("kind", "danger")
-        cancel_btn.clicked.connect(self.cancel_all)
-        row.addWidget(cancel_btn)
-        self.main_layout.addLayout(row)
-
-    def _build_logs(self) -> None:
-        self.logs = QPlainTextEdit()
-        self.logs.setReadOnly(True)
-        self.logs.setMaximumBlockCount(500)
-        self.logs.setMinimumHeight(280)
-        self.logs.setWordWrapMode(QTextOption.WrapAnywhere)
-        self.logs.setStyleSheet(
-            "QPlainTextEdit {background-color: #111827; color: #E5E7EB; font-family: Consolas, 'Courier New', monospace; font-size: 11pt; border: 1px solid #374151; }"
-        )
-        self.main_layout.addWidget(self.logs)
+        row = QHBoxLayout(); self.settings_btn = QPushButton("НАСТРОЙКИ"); self.settings_btn.clicked.connect(self.toggle_settings); row.addWidget(self.settings_btn)
+        self.start_stop_btn = QPushButton("START"); self.start_stop_btn.clicked.connect(self.toggle_runtime); row.addWidget(self.start_stop_btn)
+        cancel_btn = QPushButton("ОТМЕНИТЬ ВСЁ"); cancel_btn.clicked.connect(self.cancel_all); row.addWidget(cancel_btn); self.main_layout.addLayout(row)
 
     def _build_settings_panel(self) -> None:
-        self.settings_dock = QDockWidget("НАСТРОЙКИ", self)
-        self.settings_dock.setAllowedAreas(Qt.RightDockWidgetArea)
-        w = QWidget()
-        lay = QVBoxLayout(w)
-        strategy = QGroupBox("СТРАТЕГИЯ")
-        s_form = QFormLayout()
-        for key, val in [("min_spread", CONFIG.min_spread), ("entry_offset", CONFIG.entry_offset), ("exit_offset", CONFIG.exit_offset), ("target_capture", 0.0), ("stop_loss", 0.0), ("max_hold_ms", 5000)]:
-            s_form.addRow(key, QLineEdit(str(val)))
-        strategy.setLayout(s_form)
-        risk = QGroupBox("РИСК")
-        r_form = QFormLayout()
-        for key, val in [("lot_size", 1), ("max_open_lots", 1), ("max_daily_loss", 100)]:
-            r_form.addRow(key, QLineEdit(str(val)))
-        risk.setLayout(r_form)
-        mode = QGroupBox("РЕЖИМ")
-        m_form = QFormLayout()
-        m_form.addRow("LIVE", QLabel("OFF"))
-        m_form.addRow("auto cancel on stop", QLabel("ON"))
-        mode.setLayout(m_form)
-        lay.addWidget(strategy)
-        lay.addWidget(risk)
-        lay.addWidget(mode)
-        lay.addWidget(QPushButton("ПРИМЕНИТЬ"))
-        self.settings_dock.setWidget(w)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.settings_dock)
-        self.settings_dock.hide()
+        self.settings_dock = QDockWidget("НАСТРОЙКИ", self); self.settings_dock.setAllowedAreas(Qt.RightDockWidgetArea)
+        w = QWidget(); lay = QVBoxLayout(w)
+        account = QGroupBox("АККАУНТ BINANCE"); form = QFormLayout()
+        self.api_key_input = QLineEdit(); self.api_secret_input = QLineEdit(); self.api_secret_input.setEchoMode(QLineEdit.Password)
+        self.show_secret = QCheckBox("show secret"); self.show_secret.toggled.connect(lambda v: self.api_secret_input.setEchoMode(QLineEdit.Normal if v else QLineEdit.Password))
+        self.test_api_btn = QPushButton("Проверить"); self.test_api_btn.clicked.connect(self.on_test_connection)
+        self.save_api_btn = QPushButton("Сохранить в .env"); self.save_api_btn.clicked.connect(self.on_save_api)
+        form.addRow("API key", self.api_key_input); form.addRow("API secret", self.api_secret_input); form.addRow("", self.show_secret); form.addRow(self.test_api_btn, self.save_api_btn)
+        account.setLayout(form)
+        mode = QGroupBox("LIVE SAFETY"); m = QFormLayout(); m.addRow("LIVE", QLabel("OFF")); m.addRow("REQUIRE_CONFIRMATION", QLabel("TRUE")); m.addRow("AUTO_CANCEL_ON_STOP", QLabel("TRUE")); mode.setLayout(m)
+        lay.addWidget(account); lay.addWidget(mode); self.settings_dock.setWidget(w); self.addDockWidget(Qt.RightDockWidgetArea, self.settings_dock); self.settings_dock.hide()
 
-    def toggle_settings(self) -> None:
-        self.settings_dock.setVisible(not self.settings_dock.isVisible())
+    def _build_logs(self) -> None:
+        self.logs = QPlainTextEdit(); self.logs.setReadOnly(True); self.logs.setWordWrapMode(QTextOption.WrapAnywhere); self.main_layout.addWidget(self.logs)
 
+    def toggle_settings(self) -> None: self.settings_dock.setVisible(not self.settings_dock.isVisible())
     def toggle_runtime(self) -> None:
-        if not self.runtime_active:
-            self.runtime_active = True
-            self.ws.start()
-            self.fsm["Состояние"].setText("WATCH_SPREAD")
-            self.start_stop_btn.setText("STOP")
-            self.log("RUNTIME", "START WATCH")
-            self.log("FSM", "IDLE -> WATCH_SPREAD")
+        self.runtime_active = not self.runtime_active
+        if self.runtime_active: self.ws.start(); self.start_stop_btn.setText("STOP")
+        else: self.ws.stop(); self.start_stop_btn.setText("START"); self.cancel_all()
+    def cancel_all(self) -> None: self.log("ORDERS", "cancel all requested")
+    def on_ws_book(self, bid: float, ask: float, ts: int) -> None: self.state.snapshot.bid = bid; self.state.snapshot.ask = ask; self.state.snapshot.updated_ms = ts; self.state.snapshot.source = "WS"; self.state.last_ws_ms = ts
+    def on_ws_status(self, status: str) -> None: self.state.ws_status = status
+
+    def on_save_api(self) -> None:
+        self.account.save_api_keys(self.api_key_input.text(), self.api_secret_input.text())
+        self.api_secret_input.clear(); self.show_secret.setChecked(False)
+        self.log("API", f"keys loaded key={self.account._mask_key(self.account.api_key)}")
+
+    def on_test_connection(self) -> None:
+        status = self.account.test_account_connection(); self.api_status = status.status
+        if status.status == "OK":
+            self.log("TIME", f"server offset={self.account.time_offset_ms}ms")
+            self.log("API", "test account OK")
+            self.refresh_account_data(load_filters=True)
+        else:
+            self.log("API", f"account error {status.message}")
+
+    def refresh_account_data(self, load_filters: bool = False) -> None:
+        if self.api_status != "OK":
             return
-        self.runtime_active = False
-        self.log("RUNTIME", "STOP")
-        self.fsm["Состояние"].setText("IDLE")
-        self.start_stop_btn.setText("START")
-        self.ws.stop()
-        self.cancel_all()
-        self.log("FSM", "WATCH_SPREAD -> IDLE")
-
-    def cancel_all(self) -> None:
-        self.log("ORDERS", "cancel all requested")
-
-    def on_ws_book(self, bid: float, ask: float, ts: int) -> None:
-        self.state.snapshot.bid = bid
-        self.state.snapshot.ask = ask
-        self.state.snapshot.updated_ms = ts
-        self.state.snapshot.source = "WS"
-        self.state.last_ws_ms = ts
-
-    def on_ws_status(self, status: str) -> None:
-        self.state.ws_status = status
+        try:
+            self.balances = self.account.get_account_balances(); self.orders_data = self.account.get_open_orders(CONFIG.binance_symbol)
+            self.log("BALANCE", f"BTC free={self.balances['BTC']['free']} locked={self.balances['BTC']['locked']}")
+            self.log("BALANCE", f"U free={self.balances['U']['free']} locked={self.balances['U']['locked']}")
+            self.log("ORDERS", f"open orders n={len(self.orders_data)}")
+            if load_filters or not self.filters.get("loaded"):
+                self.filters = self.account.get_exchange_filters(CONFIG.binance_symbol)
+                self.log("FILTERS", f"tickSize={self.filters['tickSize']} stepSize={self.filters['stepSize']} minQty={self.filters['minQty']} minNotional={self.filters['minNotional']}")
+        except Exception as exc:
+            self.api_status = "ERROR"; self.log("API", f"account error {exc}")
 
     def fetch_rest(self) -> None:
         try:
-            if not self._rest_bookticker_logged:
-                self.log("REST", f"bookTicker symbol={CONFIG.binance_symbol}")
-                self._rest_bookticker_logged = True
             bid, ask, ts = self.rest.fetch_book_ticker(CONFIG.binance_symbol)
-            prev_status = self.state.rest_status
-            self.state.last_rest_ms = ts
-            self.state.rest_status = "OK"
-            self.state.snapshot.bid = bid
-            self.state.snapshot.ask = ask
-            self.state.snapshot.updated_ms = ts
-            self.state.snapshot.source = "REST"
-            now_ms = int(time.time() * 1000)
-            should_log = (
-                prev_status != "OK"
-                or self._had_rest_error
-                or self._last_rest_ok_log_ms == 0
-                or now_ms - self._last_rest_ok_log_ms >= 10000
-            )
-            if should_log:
-                self.log("REST", f"OK bid={bid:.2f} ask={ask:.2f}")
-                self._last_rest_ok_log_ms = now_ms
-            self._had_rest_error = False
-        except Exception as exc:
-            if self.state.rest_status != "ERROR":
-                self.log("REST", f"error: {exc}")
+            self.state.last_rest_ms = ts; self.state.rest_status = "OK"; self.state.snapshot.bid = bid; self.state.snapshot.ask = ask; self.state.snapshot.updated_ms = ts; self.state.snapshot.source = "REST"
+        except Exception:
             self.state.rest_status = "ERROR"
-            self._had_rest_error = True
 
-    def on_tick(self) -> None:
-        ws_age = self.state.age_ms(self.state.last_ws_ms)
-        if ws_age is not None and ws_age > CONFIG.max_ws_age_ms and not self._ws_lost_logged:
-            self.log("WS", "no BTCU bookTicker stream, running REST-first")
-            self._ws_lost_logged = True
-        self._refresh_ui()
+    def on_tick(self) -> None: self._refresh_ui()
 
     def _refresh_ui(self) -> None:
-        bid = self.state.snapshot.bid
-        ask = self.state.snapshot.ask
-        spread = self.state.snapshot.spread
-        ws_age = self.state.age_ms(self.state.last_ws_ms)
-        rest_age = self.state.age_ms(self.state.last_rest_ms)
-
-        if self.state.ws_status == "CONNECTING":
-            ws_display = "CONNECTING"
-        elif self.state.ws_status == "ERROR":
-            ws_display = "ERROR"
-        elif ws_age is None:
-            ws_display = "LOST"
-        elif ws_age <= CONFIG.max_ws_age_ms:
-            ws_display = "OK"
-        else:
-            ws_display = "STALE"
-
-        ws_conn = "OPTIONAL LOST" if ws_display in {"LOST", "STALE", "ERROR", "CONNECTING"} else "OK"
-        self.conn["WS"].setText(ws_conn)
-        self.conn["REST"].setText(self.state.rest_status)
-        self.conn["Источник"].setText(self.state.snapshot.source)
-        self.conn["Data source"].setText(self.state.snapshot.source)
-        self.conn["Возраст WS ms"].setText("N/A" if ws_age is None else str(ws_age))
-        self.conn["Возраст REST ms"].setText("N/A" if rest_age is None else str(rest_age))
-
-        self.bid_v.setText("N/A" if bid is None else f"{bid:.2f}")
-        self.ask_v.setText("N/A" if ask is None else f"{ask:.2f}")
-        self.spr_v.setText("N/A" if spread is None else f"{spread:.2f}")
-
-        status = "BAD"
-        capture = 0.0
-        if spread is not None:
-            capture = max(spread - CONFIG.entry_offset - CONFIG.exit_offset, 0.0)
-            if spread >= CONFIG.min_spread * 1.5:
-                status = "HOT"
-            elif spread >= CONFIG.min_spread:
-                status = "READY"
-            elif spread > 0:
-                status = "WATCH"
-
-        now_ms = int(time.time() * 1000)
-        if spread is None:
-            self._spread_lifetime_start_ms = now_ms
-            self._spread_value = None
-            self._spread_status = status
-        else:
-            spread_changed = self._spread_value is None or abs(spread - self._spread_value) > max(0.01, 1.0)
-            if status != self._spread_status or spread_changed:
-                if status != self._spread_status:
-                    self.log("SPREAD", f"status changed {self._spread_status} -> {status}")
-                self._spread_lifetime_start_ms = now_ms
-                self._spread_status = status
-                self._spread_value = spread
-                self.log("SPREAD", f"{status} spread={spread:.2f} capture={capture:.2f} source={self.state.snapshot.source}")
-
-        lifetime_ms = max(now_ms - self._spread_lifetime_start_ms, 0)
-        lifetime_txt = self._format_duration(lifetime_ms)
-        self.engine["Статус"].setText(status)
-        self.engine["Спред"].setText("N/A" if spread is None else f"{spread:.2f}")
-        self.engine["Захват"].setText(f"{capture:.2f}")
-        self.engine["Время жизни"].setText(lifetime_txt)
-        self.engine["Источник"].setText(self.state.snapshot.source)
-        self.engine["Последнее обновление"].setText("N/A" if rest_age is None else f"{rest_age} ms")
-
-        runtime_txt = "WATCH" if self.runtime_active else "IDLE"
-        ws_ok = ws_display == "OK"
-        if self.state.rest_status == "OK" and ws_ok:
-            mode_txt = "WS+REST"
-        elif self.state.rest_status == "OK":
-            mode_txt = "REST LIVE"
-        else:
-            mode_txt = "NO DATA"
-        ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
-        rest_txt = f"OK {rest_age}ms" if self.state.rest_status == "OK" and rest_age is not None else self.state.rest_status
-        self.top_status.setText(f"{CONFIG.display_symbol} | REST ● {rest_txt} | WS ● {ws_txt} | {runtime_txt} | {mode_txt}")
-
-    def _format_duration(self, duration_ms: int) -> str:
-        if duration_ms < 1000:
-            return f"{duration_ms} ms"
-        if duration_ms < 10000:
-            return f"{duration_ms / 1000:.1f} s"
-        return f"{duration_ms / 1000:.1f} s"
+        bid = self.state.snapshot.bid; ask = self.state.snapshot.ask; spread = self.state.snapshot.spread
+        self.conn["API"].setText(self.api_status); self.conn["REST"].setText(self.state.rest_status); self.conn["WS"].setText("OPTIONAL LOST" if self.state.ws_status != "CONNECTED" else "OK"); self.conn["Источник"].setText(self.state.snapshot.source); self.conn["Time offset"].setText(f"{self.account.time_offset_ms} ms")
+        self.bid_v.setText("N/A" if bid is None else f"{bid:.2f}"); self.ask_v.setText("N/A" if ask is None else f"{ask:.2f}"); self.spr_v.setText("N/A" if spread is None else f"{spread:.2f}")
+        self.bal["BTC free"].setText(str(self.balances["BTC"]["free"])); self.bal["BTC locked"].setText(str(self.balances["BTC"]["locked"])); self.bal["U free"].setText(str(self.balances["U"]["free"])); self.bal["U locked"].setText(str(self.balances["U"]["locked"]))
+        max_buy = (self.balances["U"]["free"] / ask) if ask and ask > 0 else 0.0; max_sell = self.balances["BTC"]["free"]
+        self.bal["Max buy"].setText(f"{max_buy:.8f} BTC"); self.bal["Max sell"].setText(f"{max_sell:.8f} BTC")
+        self.fil["Filters"].setText("YES" if self.filters["loaded"] else "NO")
+        for k in ["tickSize", "stepSize", "minQty", "minNotional"]: self.fil[k].setText(str(self.filters[k]))
+        self.orders.setRowCount(0)
+        if not self.orders_data:
+            self.orders.setRowCount(1); self.orders.setItem(0, 0, QTableWidgetItem("Нет открытых ордеров")); return
+        now = int(time.time() * 1000)
+        for i, o in enumerate(self.orders_data):
+            self.orders.insertRow(i)
+            age = max((now - int(o.get("time", now))) // 1000, 0)
+            vals = [str(o.get("orderId", "")), o.get("side", ""), str(o.get("price", "")), str(o.get("origQty", "")), str(o.get("executedQty", "")), o.get("status", ""), f"{age}s"]
+            for c, v in enumerate(vals): self.orders.setItem(i, c, QTableWidgetItem(v))
+        self.top_status.setText(f"{CONFIG.display_symbol} | API {self.api_status} | REST {self.state.rest_status} | LIVE OFF")
 
     def log(self, tag: str, message: str) -> None:
         self.logs.appendPlainText(format_log(tag, message))
-        self.logs.verticalScrollBar().setValue(self.logs.verticalScrollBar().maximum())
 
     def closeEvent(self, event) -> None:  # type: ignore[override]
-        self.ws.stop()
-        super().closeEvent(event)
+        self.ws.stop(); super().closeEvent(event)
