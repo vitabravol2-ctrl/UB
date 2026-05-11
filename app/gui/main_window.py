@@ -144,7 +144,7 @@ class MainWindow(QMainWindow):
         self.grid.setRowStretch(0, 0)
         self.grid.setRowStretch(1, 2)
         self.grid.setRowStretch(2, 2)
-        self.grid.setRowStretch(3, 2)
+        self.grid.setRowStretch(3, 1)
         self.grid.setRowStretch(4, 0)
         self.grid.setRowStretch(5, 2)
 
@@ -152,10 +152,6 @@ class MainWindow(QMainWindow):
         conn, self.conn = build_kv_card("CONNECTION", [("API", "NOT SET"), ("REST", "N/A"), ("WS", "OPTIONAL LOST"), ("Source", "NONE"), ("Latency", "0 ms")])
         self.conn_box = conn
         self.grid.addWidget(conn, 1, 0)
-
-        bid_box, self.bid_v = big_value("BID", "N/A"); ask_box, self.ask_v = big_value("ASK", "N/A"); spr_box, self.spr_v = big_value("SPREAD", "N/A")
-        self.bid_box = bid_box; self.ask_box = ask_box; self.spr_box = spr_box
-        self.grid.addWidget(bid_box, 1, 1); self.grid.addWidget(ask_box, 1, 2); self.grid.addWidget(spr_box, 1, 3)
 
         spread, self.spread = build_kv_card("SPREAD ENGINE", [("Status", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Source", "NONE"), ("Latency", "--")], compact=True)
         self.spread_box = spread
@@ -166,11 +162,15 @@ class MainWindow(QMainWindow):
         risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
         bal, self.bal = build_kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")], compact=True)
-        self.grid.addWidget(spread, 2, 0); self.grid.addWidget(plan, 2, 1); self.grid.addWidget(runtime, 2, 2); self.grid.addWidget(bal, 2, 3); self.grid.addWidget(risk, 3, 0, 1, 1)
+        self.grid.addWidget(spread, 2, 0); self.grid.addWidget(plan, 2, 1); self.grid.addWidget(runtime, 2, 2); self.grid.addWidget(bal, 2, 3)
 
         summary_rows = [("Started", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("Exit mode", "NORMAL")]
-        summary, self.summary = build_kv_card("SESSION RESULT", summary_rows, compact=True, label_width=150)
-        self.grid.addWidget(summary, 3, 1, 1, 3)
+        summary, self.summary = build_kv_card("SESSION RESULT", summary_rows, compact=True, label_width=136, columns=3)
+        self.grid.addWidget(summary, 1, 1, 1, 3)
+
+        bid_box, self.bid_v = big_value("BID", "N/A", compact=True); ask_box, self.ask_v = big_value("ASK", "N/A", compact=True); spr_box, self.spr_v = big_value("SPREAD", "N/A", compact=True)
+        self.bid_box = bid_box; self.ask_box = ask_box; self.spr_box = spr_box
+        self.grid.addWidget(risk, 3, 0, 1, 1); self.grid.addWidget(bid_box, 3, 1); self.grid.addWidget(ask_box, 3, 2); self.grid.addWidget(spr_box, 3, 3)
 
 
     def _build_controls(self) -> None:
