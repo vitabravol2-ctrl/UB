@@ -2,16 +2,18 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QGridLayout, QGroupBox, QLabel, QSizePolicy, QVBoxLayout, QWidget
 
 
-def kv_card(title: str, rows: list[tuple[str, str]], *, compact: bool = False) -> tuple[QGroupBox, dict[str, QLabel]]:
+def build_kv_card(title: str, rows: list[tuple[str, str]], *, compact: bool = False, label_width: int = 138) -> tuple[QGroupBox, dict[str, QLabel]]:
     box = QGroupBox(title)
     wrapper = QVBoxLayout()
-    wrapper.setContentsMargins(8, 8, 8, 8)
+    wrapper.setContentsMargins(10, 8, 10, 8)
+    wrapper.setSpacing(0)
 
     content = QWidget()
     layout = QGridLayout(content)
     layout.setContentsMargins(0, 0, 0, 0)
-    layout.setHorizontalSpacing(12)
-    layout.setVerticalSpacing(4 if compact else 6)
+    layout.setHorizontalSpacing(10)
+    row_height = 24 if compact else 26
+    layout.setVerticalSpacing(2)
     layout.setColumnStretch(0, 0)
     layout.setColumnStretch(1, 1)
 
@@ -19,16 +21,17 @@ def kv_card(title: str, rows: list[tuple[str, str]], *, compact: bool = False) -
     for row, (k, v) in enumerate(rows):
         key_label = QLabel(k)
         key_label.setProperty("role", "secondary")
-        key_label.setMinimumHeight(22)
-        key_label.setMinimumWidth(140)
-        key_label.setMaximumWidth(170)
+        key_label.setFixedHeight(row_height)
+        key_label.setFixedWidth(label_width)
         key_label.setWordWrap(False)
+        key_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
 
         val_label = QLabel(v)
         val_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        val_label.setMinimumHeight(22)
+        val_label.setFixedHeight(row_height)
         val_label.setWordWrap(False)
         val_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        val_label.setTextInteractionFlags(Qt.NoTextInteraction)
         refs[k] = val_label
 
         layout.addWidget(key_label, row, 0)
@@ -36,8 +39,15 @@ def kv_card(title: str, rows: list[tuple[str, str]], *, compact: bool = False) -
 
     wrapper.addWidget(content)
     box.setLayout(wrapper)
-    box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+    min_height = 46 + len(rows) * row_height + max(0, len(rows) - 1) * 2
+    box.setMinimumHeight(min_height)
+    box.setMaximumHeight(min_height + 20)
+    box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
     return box, refs
+
+
+def kv_card(title: str, rows: list[tuple[str, str]], *, compact: bool = False) -> tuple[QGroupBox, dict[str, QLabel]]:
+    return build_kv_card(title, rows, compact=compact)
 
 
 def big_value(title: str, value: str) -> tuple[QGroupBox, QLabel]:
@@ -47,7 +57,10 @@ def big_value(title: str, value: str) -> tuple[QGroupBox, QLabel]:
     val = QLabel(value)
     val.setAlignment(Qt.AlignCenter)
     val.setStyleSheet("font-size: 40px; font-weight: 900; font-family: 'JetBrains Mono','Consolas','Segoe UI';")
-    val.setMinimumHeight(96)
+    val.setMinimumHeight(122)
     lay.addWidget(val)
     box.setLayout(lay)
+    box.setMinimumHeight(220)
+    box.setMaximumHeight(250)
+    box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
     return box, val
