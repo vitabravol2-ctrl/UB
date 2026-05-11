@@ -12,7 +12,7 @@ def build_kv_card(title: str, rows: list[tuple[str, str]], *, compact: bool = Fa
     layout = QGridLayout(content)
     layout.setContentsMargins(0, 0, 0, 0)
     layout.setHorizontalSpacing(10)
-    row_height = 24 if compact else 26
+    row_height = 26
     layout.setVerticalSpacing(2)
     layout.setColumnStretch(0, 0)
     layout.setColumnStretch(1, 1)
@@ -21,14 +21,14 @@ def build_kv_card(title: str, rows: list[tuple[str, str]], *, compact: bool = Fa
     for row, (k, v) in enumerate(rows):
         key_label = QLabel(k)
         key_label.setProperty("role", "secondary")
-        key_label.setFixedHeight(row_height)
+        key_label.setMinimumHeight(row_height)
         key_label.setFixedWidth(label_width)
         key_label.setWordWrap(False)
         key_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
 
         val_label = QLabel(v)
         val_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        val_label.setFixedHeight(row_height)
+        val_label.setMinimumHeight(row_height)
         val_label.setWordWrap(False)
         val_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         val_label.setTextInteractionFlags(Qt.NoTextInteraction)
@@ -41,8 +41,7 @@ def build_kv_card(title: str, rows: list[tuple[str, str]], *, compact: bool = Fa
     box.setLayout(wrapper)
     min_height = 46 + len(rows) * row_height + max(0, len(rows) - 1) * 2
     box.setMinimumHeight(min_height)
-    box.setMaximumHeight(min_height + 20)
-    box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+    box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
     return box, refs
 
 
@@ -60,7 +59,6 @@ def big_value(title: str, value: str) -> tuple[QGroupBox, QLabel]:
     val.setMinimumHeight(122)
     lay.addWidget(val)
     box.setLayout(lay)
-    box.setMinimumHeight(220)
-    box.setMaximumHeight(250)
-    box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+    box.setMinimumHeight(180)
+    box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
     return box, val
