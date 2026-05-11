@@ -8,6 +8,7 @@ from app.core.config import CONFIG, SETTINGS_STORE
 from app.core.logger import format_log
 from app.core.market_rest import MarketREST
 from app.core.market_state import MarketState
+from app.core.trade_math import TradeMathEngine
 from app.core.market_ws import MarketWSClient
 from app.gui.styles import main_qss
 from app.gui.widgets import big_value, kv_card
@@ -31,6 +32,8 @@ class MainWindow(QMainWindow):
         self.filters = {"loaded": False, "fallback": False, "tickSize": 0.0, "stepSize": 0.0, "minQty": 0.0, "minNotional": 0.0}
         self.orders_data = []
         self.runtime_active = False
+        self.trade_math = TradeMathEngine()
+        self.last_plan_status = ""
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -54,13 +57,15 @@ class MainWindow(QMainWindow):
 
         spread, self.spread = kv_card("SPREAD ENGINE", [("Статус", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Источник", "NONE"), ("Обновление", "--")])
         self.spread_box = spread
+        plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Reason", "Нет рыночных данных"), ("Entry BUY", "N/A"), ("Exit SELL", "N/A"), ("Stop", "N/A"), ("Capture / BTC", "N/A"), ("Lot", "0"), ("Expected profit U", "N/A"), ("Stop loss U", "N/A"), ("R:R", "N/A")])
+        self.plan_box = plan
         runtime, self.runtime = kv_card("RUNTIME", [("LIVE", "OFF"), ("Треб. подтверждение", "YES"), ("Авто-отмена", "YES")])
         self.runtime_box = runtime
         risk, self.risk = kv_card("RISK", [("lot_size", "0"), ("max_open_lots", "0"), ("max_daily_loss", "0"), ("max_exposure_u", "0"), ("panic_exit", "ON")])
         self.risk_box = risk
         bal, self.bal = kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
         fil, self.fil = kv_card("ФИЛЬТРЫ", [("Filters", "NO"), ("tickSize", "0"), ("stepSize", "0"), ("minQty", "0"), ("minNotional", "0")])
-        self.grid.addWidget(spread, 1, 0); self.grid.addWidget(runtime, 1, 1); self.grid.addWidget(risk, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(fil, 2, 0, 1, 4)
+        self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(risk, 1, 3); self.grid.addWidget(bal, 2, 0); self.grid.addWidget(fil, 2, 1, 1, 3)
 
         self.orders = QTableWidget(0, 7); self.orders.setHorizontalHeaderLabels(["Order ID", "Side", "Price", "Qty", "Filled", "Status", "Age"])
         box = QGroupBox("ORDERS (read-only)"); lay = QVBoxLayout(); lay.addWidget(self.orders); box.setLayout(lay)
@@ -173,15 +178,41 @@ class MainWindow(QMainWindow):
         self.spread["Lifetime"].setText(f"{age_ms}ms" if age_ms < 1000 else f"{age_ms/1000:.1f}s")
         self.spread["Источник"].setText(self.state.snapshot.source); self.spread["Обновление"].setText(time.strftime("%H:%M:%S"))
         self.runtime["LIVE"].setText("ON" if self.settings.live_enabled else "OFF")
+        plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status)
+        self.plan["Status"].setText(plan.status)
+        self.plan["Reason"].setText(plan.reason)
+        self.plan["Entry BUY"].setText("N/A" if plan.entry_price is None else f"{plan.entry_price:.2f}")
+        self.plan["Exit SELL"].setText("N/A" if plan.exit_price is None else f"{plan.exit_price:.2f}")
+        self.plan["Stop"].setText("N/A" if plan.stop_price is None else f"{plan.stop_price:.2f}")
+        self.plan["Capture / BTC"].setText("N/A" if plan.capture_per_btc is None else f"{plan.capture_per_btc:.2f}")
+        self.plan["Lot"].setText(self._fmt(plan.lot_size, 6))
+        self.plan["Expected profit U"].setText("N/A" if plan.expected_profit_u is None else self._fmt(plan.expected_profit_u, 6))
+        self.plan["Stop loss U"].setText("N/A" if plan.stop_loss_u is None else self._fmt(plan.stop_loss_u, 6))
+        self.plan["R:R"].setText("N/A" if plan.risk_reward is None else self._fmt(plan.risk_reward, 4))
 
         self.fil["Filters"].setText("YES fallback" if self.filters.get("fallback") else ("YES" if self.filters["loaded"] else "NO"))
         for k in ["tickSize", "stepSize", "minQty", "minNotional"]: self.fil[k].setText(self._fmt(float(self.filters[k]), 6))
 
         self.conn_box.setProperty("state", "api-ok" if self.api_status == "OK" else ("api-error" if self.api_status == "ERROR" else "api-notset"))
         self.spread_box.setProperty("state", spread_state.lower())
+        plan_state = "danger"
+        if plan.status == "READY":
+            plan_state = "ready"
+        elif plan.status == "HOT":
+            plan_state = "hot"
+        elif plan.status == "WARNING":
+            plan_state = "warning"
+        self.plan_box.setProperty("state", plan_state)
         self.risk_box.setProperty("state", "safe")
         self.spr_v.setStyleSheet("color:#22C55E;" if spread_state == "HOT" else "")
-        for w in [self.conn_box, self.spread_box, self.risk_box]: w.style().unpolish(w); w.style().polish(w)
+        for w in [self.conn_box, self.spread_box, self.plan_box, self.risk_box]: w.style().unpolish(w); w.style().polish(w)
+
+        if plan.status != self.last_plan_status:
+            self.last_plan_status = plan.status
+            if plan.status in {"READY", "HOT"}:
+                self.log("OK", f"[PLAN] {plan.status} entry={plan.entry_price:.2f} exit={plan.exit_price:.2f} profit={plan.expected_profit_u:.6f}")
+            else:
+                self.log("WARNING", f"[PLAN] {plan.status} reason={plan.reason}")
 
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
         ws_txt = "OK" if self.state.ws_status == "CONNECTED" else "OPTIONAL"
