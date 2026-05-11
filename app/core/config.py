@@ -16,11 +16,10 @@ class SettingsData:
     max_open_lots: int = 1
     max_daily_loss: float = 200.0
     max_exposure_u: float = 20.0
-    live_max_exposure_u: float = 20.0
+    max_live_exposure_u: float = 20.0
     panic_exit: bool = True
     live_enabled: bool = False
     require_confirmation: bool = True
-    arm_live: bool = False
     auto_cancel_on_stop: bool = True
     entry_timeout_ms: int = 10000
     exit_timeout_ms: int = 20000
@@ -54,9 +53,13 @@ class SettingsStore:
             legacy_lot = float(payload.get("lot_size", 0.0) or 0.0)
             payload["order_size_u"] = legacy_lot if legacy_lot > 1 else 20.0
             payload["legacy_qty_btc"] = legacy_lot if legacy_lot < 1 else 0.0
+        if "live_max_exposure_u" in payload and "max_live_exposure_u" not in payload:
+            payload["max_live_exposure_u"] = float(payload["live_max_exposure_u"])
         current.update(payload)
         current.pop("lot_size", None)
         current.pop("legacy_qty_btc", None)
+        current.pop("live_max_exposure_u", None)
+        current.pop("arm_live", None)
         return SettingsData(**current)
 
     def save(self, data: SettingsData) -> None:
