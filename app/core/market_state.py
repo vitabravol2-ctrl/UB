@@ -23,8 +23,14 @@ class MarketState:
         self.rest_status = "N/A"
         self.last_ws_ms: int | None = None
         self.last_rest_ms: int | None = None
+        self.last_ws_monotonic: float | None = None
 
     def age_ms(self, timestamp: int | None) -> int | None:
         if timestamp is None:
             return None
         return max(int(time.time() * 1000) - timestamp, 0)
+
+    def monotonic_age_ms(self, monotonic_ts: float | None) -> int | None:
+        if monotonic_ts is None:
+            return None
+        return max(int((time.monotonic() - monotonic_ts) * 1000), 0)

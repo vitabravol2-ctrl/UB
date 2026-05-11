@@ -32,6 +32,7 @@ class MarketWSClient:
         self._no_match_count = 0
         self._last_no_match_log_ms = 0
         self._last_live_log_ms = 0
+        self._last_status = "LOST"
 
     def start(self) -> None:
         if self._running:
@@ -43,6 +44,7 @@ class MarketWSClient:
         self._no_match_count = 0
         self._last_no_match_log_ms = 0
         self._last_live_log_ms = 0
+        self._last_status = "CONNECTING"
         self.exchange_symbol = self._resolve_exchange_symbol()
         self._thread = threading.Thread(target=self._run, daemon=True)
         self._thread.start()
@@ -51,6 +53,13 @@ class MarketWSClient:
         self._running = False
         if self._ws is not None:
             self._ws.close()
+
+    def _emit_status(self, status: str, log_message: str | None = None) -> None:
+        if status != self._last_status:
+            self._last_status = status
+            self.signals.status.emit(status)
+            if log_message:
+                self.signals.log.emit("WS", log_message)
 
     def _resolve_exchange_symbol(self) -> str:
         try:
@@ -87,7 +96,7 @@ class MarketWSClient:
         reconnect_delay = 2
         while self._running:
             url = self._current_url()
-            self.signals.status.emit("CONNECTING")
+            self._emit_status("CONNECTING")
             if self._mode == "primary":
                 self.signals.log.emit("WS", f"primary url={url}")
                 self.signals.log.emit("WS", "connecting primary")
@@ -123,14 +132,12 @@ class MarketWSClient:
                         self._last_live_log_ms = now_ms
                         self.signals.log.emit("WS", f"LIVE bid={bid_f:.2f} ask={ask_f:.2f}")
                 except Exception as exc:
-                    self.signals.status.emit("ERROR")
-                    self.signals.log.emit("WS", f"error {exc}")
+                    self._emit_status("ERROR", f"error {exc}")
 
             def on_open(_ws: websocket.WebSocketApp) -> None:
                 self._connected_at_ms = int(time.time() * 1000)
                 if self._mode == "primary":
-                    self.signals.status.emit("CONNECTED")
-                    self.signals.log.emit("WS", "connected")
+                    self._emit_status("CONNECTED", "connected")
 
                     def switch_if_no_ticks() -> None:
                         time.sleep(self.max_ws_age_ms / 1000)
@@ -147,16 +154,14 @@ class MarketWSClient:
 
                     threading.Thread(target=switch_if_no_ticks, daemon=True).start()
                 else:
-                    self.signals.status.emit("CONNECTED")
-                    self.signals.log.emit("WS", "reconnected")
+                    self._emit_status("CONNECTED", "reconnected")
 
             def on_error(_ws: websocket.WebSocketApp, error: Exception) -> None:
-                self.signals.status.emit("ERROR")
-                self.signals.log.emit("WS", f"error {error}")
+                self._emit_status("ERROR", f"error {error}")
 
             def on_close(_ws: websocket.WebSocketApp, *_args: object) -> None:
-                self.signals.status.emit("LOST")
-                self.signals.log.emit("WS", "stale/lost")
+                if self._running:
+                    self._emit_status("LOST", "stale/lost")
 
             self._ws = websocket.WebSocketApp(url, on_message=on_message, on_open=on_open, on_error=on_error, on_close=on_close)
             self._ws.run_forever(ping_interval=20, ping_timeout=5)
