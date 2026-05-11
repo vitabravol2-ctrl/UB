@@ -452,6 +452,7 @@ class MainWindow(QMainWindow):
             self.log("WARNING", f"[EXEC] STOP with open inventory qty={self.position_qty:.6f}")
         else:
             self.position_state = "FLAT"
+            self._reconcile_position_state("stop")
     def refresh_orders_manual(self) -> None:
         self.sync_active_order(force=True)
 
@@ -642,6 +643,34 @@ class MainWindow(QMainWindow):
         btc_locked = float(self.balances.get("BTC", {}).get("locked", 0.0) or 0.0)
         return (btc_free + btc_locked) <= epsilon
 
+
+    def _reconcile_position_state(self, reason: str) -> bool:
+        epsilon = self._inventory_epsilon_qty()
+        inventory_qty = self._recalc_position_from_chunks()
+        safe_qty = self._safe_sell_qty(self._sync_sell_target_qty())
+        btc_free = float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0)
+        btc_locked = float(self.balances.get("BTC", {}).get("locked", 0.0) or 0.0)
+
+        if inventory_qty <= epsilon and safe_qty <= epsilon:
+            if (btc_free + btc_locked) > epsilon:
+                self.log("WARNING", f"[EXEC] BALANCE_EXTERNAL_BTC free={btc_free:.6f} locked={btc_locked:.6f}")
+            self.inventory_chunks = []
+            self.position_qty = 0.0
+            self.position_entry_avg = 0.0
+            self.position_state = "FLAT"
+            self.active_order = {}
+            self._reset_sell_accounting(f"reconcile_{reason}", reset_panic_order_id=True)
+            self.panic_exit_final = False
+            self.panic_exit_order_id = 0
+            self.panic_exit_price = 0.0
+            self.panic_exit_started_ms = 0
+            self.panic_escalated_once = False
+            self.last_panic_wait_log_ms = 0
+            self.max_hold_exit_triggered = False
+            self.fsm_state = "WAIT_READY" if self.runtime_active else "IDLE"
+            self.log("INFO", "[EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero")
+            return True
+        return False
     def _cleanup_inventory_if_drained(self) -> bool:
         epsilon = self._inventory_epsilon_qty()
         inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
@@ -881,6 +910,7 @@ class MainWindow(QMainWindow):
         sell_qty = self._safe_sell_qty(self.position_qty, refresh_balance=True)
         if sell_qty <= self._inventory_epsilon_qty():
             self._cleanup_inventory_if_drained()
+            self._reconcile_position_state("inferred_by_balance")
             self.log("OK", "[EXEC] EXIT_FILLED inferred_by_balance")
             self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
             return
@@ -1445,6 +1475,7 @@ class MainWindow(QMainWindow):
             if sell_qty <= epsilon_qty or (bid_now > 0 and (sell_qty * bid_now) < min_notional):
                 self.log("INFO", f"[EXEC] SKIP MICRO SELL epsilon={epsilon_qty:.6f}")
                 self._cleanup_inventory_if_drained()
+                self._reconcile_position_state("sell_clamp_or_micro")
                 self._finalize_cycle_if_flat()
                 self.fsm_state = "DONE"
             elif sell_qty <= 0:
@@ -1576,6 +1607,7 @@ class MainWindow(QMainWindow):
                         sell_qty = self._safe_sell_qty(self.position_qty, refresh_balance=True)
                         if sell_qty <= self._inventory_epsilon_qty():
                             self._cleanup_inventory_if_drained()
+                            self._reconcile_position_state("panic_ladder_inferred_by_balance")
                             self.log("OK", "[EXEC] EXIT_FILLED inferred_by_balance")
                             self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
                             return
