@@ -18,7 +18,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.settings = SETTINGS_STORE.load()
-        self.setWindowTitle("UB v0.3.2 / BTCU Trading Cockpit")
+        self.setWindowTitle("UB v0.3.3 / BTCU Trading Cockpit")
         self.resize(1600, 900)
         self.setMinimumSize(1280, 760)
         self.setStyleSheet(main_qss())
@@ -72,7 +72,7 @@ class MainWindow(QMainWindow):
 
         spread, self.spread = kv_card("SPREAD ENGINE", [("Статус", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Источник", "NONE"), ("Обновление", "--")])
         self.spread_box = spread
-        plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Reason", "Нет рыночных данных"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Required U", "N/A"), ("Capture/BTC", "N/A"), ("Profit U", "N/A"), ("Loss U", "N/A"), ("Ready age", "0ms")])
+        plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")])
         plan.setMinimumHeight(320)
         self.plan_box = plan
         runtime, self.runtime = kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Треб. подтверждение", "YES"), ("Авто-отмена", "YES")])
@@ -80,12 +80,15 @@ class MainWindow(QMainWindow):
         risk, self.risk = kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")])
         self.risk_box = risk
         bal, self.bal = kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
-        fil, self.fil = kv_card("ФИЛЬТРЫ", [("Filters", "NO"), ("tickSize", "0"), ("stepSize", "0"), ("minQty", "0"), ("minNotional", "0")])
-        self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(fil, 2, 0, 1, 2); self.grid.addWidget(risk, 2, 2, 1, 2)
+        self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(risk, 2, 0, 1, 1)
 
         self.orders = QTableWidget(0, 8); self.orders.setHorizontalHeaderLabels(["Order ID", "Side", "Price", "Qty", "Filled", "Status", "Age", "Type"])
         box = QGroupBox("REAL LIVE ORDERS"); lay = QVBoxLayout(); lay.addWidget(self.orders); box.setLayout(lay)
-        self.grid.addWidget(box, 3, 0, 1, 4)
+        self.grid.addWidget(box, 2, 1, 1, 3)
+
+        self.compact_status = QLabel("tick: 0 | step: 0 | minNotional: 0 | source: NONE")
+        self.compact_status.setObjectName("topStatus")
+        self.main_layout.addWidget(self.compact_status)
 
     def _build_controls(self) -> None:
         row = QHBoxLayout()
@@ -223,42 +226,34 @@ class MainWindow(QMainWindow):
             ready_age = 0
 
         self.plan["Status"].setText(plan_status)
-        self.plan["Reason"].setText(plan.reason)
         self.plan["Entry"].setText("N/A" if plan.entry_price is None else f"{plan.entry_price:.2f}")
         self.plan["Exit"].setText("N/A" if plan.exit_price is None else f"{plan.exit_price:.2f}")
         self.plan["Qty BTC"].setText(self._fmt(plan.qty_btc, 6))
         self.plan["Order U"].setText(self._fmt(plan.order_size_u, 2))
-        self.plan["Required U"].setText("N/A" if plan.required_u is None else self._fmt(plan.required_u, 6))
-        self.plan["Capture/BTC"].setText("N/A" if plan.capture_per_btc is None else f"{plan.capture_per_btc:.2f}")
-        self.plan["Ready age"].setText(f"{ready_age}ms")
+        self.plan["Age"].setText(f"{ready_age}ms")
         self.plan["Profit U"].setText("N/A" if plan.expected_profit_u is None else self._fmt(plan.expected_profit_u, 6))
-        self.plan["Loss U"].setText("N/A" if plan.stop_loss_u is None else self._fmt(plan.stop_loss_u, 6))
         plan_key = f"{plan.status}:{self._fmt(plan.order_size_u,2)}:{self._fmt(plan.qty_btc,6)}:{self._fmt(plan.required_u or 0.0,2)}"
-        if plan.status in {"READY", "HOT"} and plan_key != self.last_plan_log_key:
-            self.log("INFO", f"[PLAN] order_size={plan.order_size_u:.2f}U qty={plan.qty_btc:.6f} required={(plan.required_u or 0.0):.2f}U")
-            self.last_plan_log_key = plan_key
-        
+        if self.runtime_active and self.fsm_state == "DONE":
+            self.fsm_state = "WAIT_READY"
         if self.runtime_active and self.fsm_state == "IDLE":
             self.log("INFO", f"[EXEC] LIVE {'ON' if self.settings.live_enabled else 'OFF'}")
             self.log("INFO", "[EXEC] WAIT READY")
             self.fsm_state = "WAIT_READY"
-        if self.runtime_active and self.fsm_state == "WAIT_READY" and plan.status in {"READY", "HOT"} and plan.balance_ok and plan.filters_ok and ws_ok:
+        market_valid = ws_ok or self.state.rest_status == "OK"
+        if self.runtime_active and self.fsm_state == "WAIT_READY" and self.settings.live_enabled and plan.status in {"READY", "HOT"} and market_valid and plan.balance_ok and plan.filters_ok and not self.active_order.get("orderId") and (plan.required_u or 0.0) <= self.settings.max_live_exposure_u:
             if self.active_order.get("orderId"):
                 self.log("WARNING", "[EXEC] BLOCK reason=active_order")
                 self.fsm_state = "DONE"
-            elif (plan.order_size_u or 0.0) > self.settings.max_live_exposure_u:
-                self.log("WARNING", f"[EXEC] BLOCK reason=order_size_u_gt_max_live_exposure_u order_size_u={plan.order_size_u:.4f} max_live_exposure_u={self.settings.max_live_exposure_u:.4f}")
+            elif (plan.required_u or 0.0) > self.settings.max_live_exposure_u:
+                self.log("WARNING", f"[EXEC] BLOCK reason=required_u_gt_max_exposure_u required_u={(plan.required_u or 0.0):.4f} max_exposure_u={self.settings.max_live_exposure_u:.4f}")
                 self.fsm_state = "DONE"
-            elif self.settings.live_enabled:
+            else:
                 o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
                 now = int(time.time() * 1000)
                 self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                 self.entry_started_ms = now
-                self.log("OK", f"[EXEC] PLACE BUY id={self.active_order['orderId']} p={plan.entry_price:.2f} q={plan.qty_btc:.6f}")
+                self.log("OK", f"[EXEC] PLACE BUY price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
                 self.fsm_state = "WAIT_BUY_FILL"
-            else:
-                self.log("WARNING", "[EXEC] BLOCK reason=live_off")
-                self.fsm_state = "DONE"
         elif self.runtime_active and self.fsm_state == "WAIT_BUY_FILL" and self.active_order.get("orderId"):
             now = int(time.time() * 1000)
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
@@ -273,11 +268,11 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", "[EXEC] BLOCK reason=buy_timeout")
                 self.fsm_state = "DONE"
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
+            self.log("OK", f"[EXEC] PLACE SELL price={plan.exit_price:.2f} qty={self.position_qty:.6f}")
             o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(plan.exit_price), float(self.position_qty))
             now = int(time.time() * 1000)
             self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(plan.exit_price), "qty": float(self.position_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
             self.exit_started_ms = now
-            self.log("OK", f"[EXEC] PLACE SELL id={self.active_order['orderId']} p={plan.exit_price:.2f} q={self.position_qty:.6f}")
             self.fsm_state = "WAIT_SELL_FILL"
         elif self.runtime_active and self.fsm_state == "WAIT_SELL_FILL" and self.active_order.get("orderId"):
             now = int(time.time() * 1000)
@@ -287,7 +282,8 @@ class MainWindow(QMainWindow):
                 self.avg_exit = float(self.active_order.get("price", 0.0))
                 self.realized_u = (self.avg_exit - self.avg_entry) * self.position_qty
                 self.log("OK", f"[EXEC] SELL FILLED id={self.active_order['orderId']}")
-                self.log("OK", f"[EXEC] REALIZED {self.realized_u:+.6f} U")
+                self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
+                self.active_order = {}
                 self.fsm_state = "DONE"
             elif now - self.exit_started_ms >= self.settings.exit_timeout_ms:
                 self.account.cancel_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
@@ -305,8 +301,8 @@ class MainWindow(QMainWindow):
         self.risk["Max exposure U"].setText(self._fmt(self.settings.max_live_exposure_u, 2))
         self.risk["panic"].setText("ON" if self.settings.panic_exit else "OFF")
 
-        self.fil["Filters"].setText("YES fallback" if self.filters.get("fallback") else ("YES" if self.filters["loaded"] else "NO"))
-        for k in ["tickSize", "stepSize", "minQty", "minNotional"]: self.fil[k].setText(self._fmt(float(self.filters[k]), 6))
+        source_name = "WS" if ws_ok else self.state.snapshot.source
+        self.compact_status.setText(f"tick: {self._fmt(float(self.filters.get('tickSize',0.0)), 5)} | step: {self._fmt(float(self.filters.get('stepSize',0.0)), 5)} | minNotional: {self._fmt(float(self.filters.get('minNotional',0.0)), 2)} | source: {source_name}")
 
         u_free = float(self.balances.get("U", {}).get("free", 0.0))
         btc_free = float(self.balances.get("BTC", {}).get("free", 0.0))
@@ -347,9 +343,7 @@ class MainWindow(QMainWindow):
             if plan_status in {"READY", "HOT"}:
                 self.log("OK", f"[PLAN] {plan_status} entry={plan.entry_price:.2f} exit={plan.exit_price:.2f} profit={plan.expected_profit_u:.6f} age={ready_age}ms")
             elif plan_status in {"BALANCE_LOW", "FILTER_FAIL"}:
-                self.log("WARNING", f"[PLAN] {plan_status} required={self._fmt(plan.required_u or 0.0, 2)} available={self._fmt(float(self.balances.get('U', {}).get('free', 0.0)), 2)} reason={plan.reason}")
-            else:
-                self.log("WARNING", f"[PLAN] {plan_status} reason={plan.reason}")
+                self.log("WARNING", f"[EXEC] BLOCK reason={plan_status.lower()}")
 
         rows = list(self.orders_data)
         if self.active_order:
