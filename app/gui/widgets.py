@@ -1,3 +1,4 @@
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QFormLayout, QGroupBox, QLabel, QVBoxLayout
 
 
@@ -19,7 +20,8 @@ def big_value(title: str, value: str) -> tuple[QGroupBox, QLabel]:
     box = QGroupBox(title)
     lay = QVBoxLayout()
     val = QLabel(value)
-    val.setStyleSheet("font-size: 28px; font-weight: 800;")
+    val.setAlignment(Qt.AlignCenter)
+    val.setStyleSheet("font-size: 42px; font-weight: 900; font-family: 'JetBrains Mono','Consolas','Segoe UI';")
     lay.addWidget(val)
     box.setLayout(lay)
     return box, val
