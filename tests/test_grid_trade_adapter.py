@@ -4,13 +4,13 @@ from app.core.grid_engine import GridEngine
 
 def test_live_locked_blocks_place_limit_buy() -> None:
     adapter = GridTradeAdapter(live_enabled=False)
-    res = adapter.place_limit_buy(100.0, 0.01)
+    res = adapter.place_limit_buy(100.0, 0.01, "UBGRID_x")
     assert res["status"] == "LIVE_LOCKED"
 
 
 def test_live_locked_blocks_place_limit_sell() -> None:
     adapter = GridTradeAdapter(live_enabled=False)
-    res = adapter.place_limit_sell(100.0, 0.01)
+    res = adapter.place_limit_sell(100.0, 0.01, "UBGRID_x")
     assert res["status"] == "LIVE_LOCKED"
 
 

@@ -4,11 +4,13 @@ import threading
 
 from PySide6.QtCore import QTimer, Qt
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import QAbstractItemView, QHBoxLayout, QLabel, QMainWindow, QPushButton, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QHeaderView
+from PySide6.QtWidgets import QAbstractItemView, QHBoxLayout, QLabel, QMainWindow, QMessageBox, QPushButton, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QHeaderView
 
 from app.core.config import CONFIG
 from app.core.grid_config import GRID_SETTINGS_STORE, GridSettings
 from app.core.grid_engine import GridEngine
+from app.core.grid_runtime import GridRuntime
+from app.core.session_logger import SessionLogger
 from app.core.grid_trade_adapter import GridTradeAdapter
 from app.core.market_rest import MarketREST
 from app.core.market_state import MarketState
@@ -32,14 +34,16 @@ class MicroGridWindow(QMainWindow):
         self.settings = GRID_SETTINGS_STORE.load()
         self.rows = []
         self.dry_view_active = False
+        self.grid_runtime = GridRuntime()
+        self.session_logger = SessionLogger(symbol="BTCU")
 
         root = QWidget(); self.setCentralWidget(root); layout = QVBoxLayout(root)
         top = QHBoxLayout(); layout.addLayout(top)
         top.addWidget(QLabel("UB Micro Grid / BTCU")); self.mode_badge = build_status_badge("DRY VIEW", "info"); top.addWidget(self.mode_badge)
         self.live_badge = build_status_badge("LIVE LOCKED", "warn"); top.addWidget(self.live_badge); top.addStretch(1)
-        self.settings_btn = QPushButton("Settings"); self.calculate_btn = QPushButton("Calculate"); self.start_btn = QPushButton("Start Dry"); self.stop_btn = QPushButton("Stop"); self.refresh_btn = QPushButton("Refresh"); self.cancel_btn = QPushButton("Cancel Grid Orders")
+        self.settings_btn = QPushButton("Settings"); self.calculate_btn = QPushButton("Calculate"); self.start_btn = QPushButton("Start Dry"); self.live_start_btn = QPushButton("Start LIVE Small"); self.pause_btn = QPushButton("Pause Grid"); self.stop_btn = QPushButton("Stop"); self.stop_cancel_btn = QPushButton("Stop & Cancel Grid"); self.emergency_btn = QPushButton("Emergency Cancel"); self.refresh_btn = QPushButton("Refresh"); self.cancel_btn = QPushButton("Cancel Grid Orders")
         self.cancel_btn.setEnabled(False)
-        for b in [self.settings_btn,self.calculate_btn,self.start_btn,self.stop_btn,self.refresh_btn,self.cancel_btn]: top.addWidget(b)
+        for b in [self.settings_btn,self.calculate_btn,self.start_btn,self.live_start_btn,self.pause_btn,self.stop_btn,self.stop_cancel_btn,self.emergency_btn,self.refresh_btn,self.cancel_btn]: top.addWidget(b)
 
         cards = QHBoxLayout(); layout.addLayout(cards)
         c1,self.conn = build_terminal_card("Connection",[("WS","LOST"),("REST","N/A"),("API","NOT SET"),("Source","NONE")])
@@ -60,13 +64,17 @@ class MicroGridWindow(QMainWindow):
         right.addWidget(QLabel("Logs")); self.log_box = QTextEdit(); self.log_box.setReadOnly(True); right.addWidget(self.log_box)
         self.status_line = QLabel("WS age | REST age | filters | last action | LIVE locked"); self.statusBar().addWidget(self.status_line,1)
 
-        self.settings_btn.clicked.connect(self.open_settings); self.calculate_btn.clicked.connect(self.on_calculate); self.start_btn.clicked.connect(self.on_start_dry); self.stop_btn.clicked.connect(self.on_stop); self.refresh_btn.clicked.connect(self._refresh_info)
+        self.settings_btn.clicked.connect(self.open_settings); self.calculate_btn.clicked.connect(self.on_calculate); self.start_btn.clicked.connect(self.on_start_dry); self.live_start_btn.clicked.connect(self.on_start_live_small); self.pause_btn.clicked.connect(self.on_pause); self.stop_btn.clicked.connect(self.on_stop); self.stop_cancel_btn.clicked.connect(self.on_stop_cancel); self.emergency_btn.clicked.connect(self.on_emergency_cancel); self.refresh_btn.clicked.connect(self._refresh_info)
         self.market_ws.signals.book.connect(self._on_ws_book); self.market_ws.signals.status.connect(self._on_ws_status); self.market_ws.start()
         self.rest_timer = QTimer(self); self.rest_timer.timeout.connect(self._rest_poll); self.rest_timer.start(3000)
         self.balance_timer = QTimer(self); self.balance_timer.timeout.connect(self._balances_refresh); self.balance_timer.start(7000)
         self._log("[GRID] terminal started"); self._refresh_info()
 
-    def _log(self,msg:str)->None: self.log_box.append(msg)
+    def append_log(self, msg: str) -> None:
+        line = self.session_logger.log("GRID", msg.replace("[GRID] ", ""))
+        self.log_box.setPlainText("\n".join(self.session_logger.get_gui_lines()))
+
+    def _log(self,msg:str)->None: self.append_log(msg)
     def open_settings(self)->None:
         self._log("[GRID] settings dialog opened"); dlg=GridSettingsDialog(self); dlg.apply_settings(self.settings)
         if dlg.exec(): self.settings=dlg.collect_settings(); self._log("[GRID] settings applied")
@@ -140,3 +148,22 @@ class MicroGridWindow(QMainWindow):
 
     def on_start_dry(self)->None: self.dry_view_active=True; self.grid_status["State"].setText("DRY_VIEW"); self._log("[GRID] dry view started"); self._log("[GRID] live locked")
     def on_stop(self)->None: self.dry_view_active=False; self.grid_status["State"].setText("STOPPED")
+    def on_start_live_small(self)->None:
+        details = f"symbol={CONFIG.binance_symbol}\nbudget_u={self.settings.budget_u:.2f}\nlevels={self.settings.levels}\nmax_exposure_u={self.settings.max_exposure_u:.2f}\nestimated order size={self.settings.budget_u/max(self.settings.levels,1):.2f}"
+        msg = f"LIVE Grid will place real Binance orders. Use small budget only.\n\n{details}"
+        if QMessageBox.question(self, "Confirm LIVE", msg) == QMessageBox.StandardButton.Yes:
+            self.grid_runtime.live_enabled = True
+            self.grid_runtime.arm_live(True)
+            self.grid_runtime.start_live()
+            self.grid_status["State"].setText(self.grid_runtime.state)
+            self.summary["LIVE"].setText(self.grid_runtime.state)
+            self._log("[GRID] live start confirmation accepted")
+
+    def on_pause(self)->None:
+        self.grid_runtime.pause(); self.grid_status["State"].setText("PAUSED"); self._log("[GRID] paused")
+
+    def on_stop_cancel(self)->None:
+        self.grid_runtime.stop(); self.trade_adapter.cancel_grid_orders(); self._log("[GRID] stop & cancel grid")
+
+    def on_emergency_cancel(self)->None:
+        self.trade_adapter.cancel_grid_orders(); self._log("[GRID] emergency cancel")
