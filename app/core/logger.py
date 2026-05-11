@@ -8,6 +8,8 @@ class FileLogManager:
         self.base_dir = Path(base_dir)
         self.base_dir.mkdir(parents=True, exist_ok=True)
         self.max_size_bytes = max_size_bytes
+        session_name = datetime.now().strftime("session_%Y-%m-%d_%H-%M-%S.log")
+        self.session_path = self.base_dir / session_name
 
     def _dated_path(self, prefix: str, ext: str) -> Path:
         date_str = datetime.now().strftime("%Y-%m-%d")
@@ -29,6 +31,10 @@ class FileLogManager:
     def write_system(self, line: str) -> None:
         path = self._dated_path("system", "log")
         with path.open("a", encoding="utf-8") as f:
+            f.write(line + "\n")
+
+    def write_session(self, line: str) -> None:
+        with self.session_path.open("a", encoding="utf-8") as f:
             f.write(line + "\n")
 
     def write_cycle(self, row: dict) -> None:
