@@ -123,6 +123,7 @@ class MainWindow(QMainWindow):
         self.panic_exit_started_ms = 0
         self.panic_escalated_once = False
         self.last_panic_wait_log_ms = 0
+        self.max_hold_exit_triggered = False
         self.exit_stage = "EXIT_TP_MAKER"
         self.panic_ladder_step = 0
         self.last_exit_reason = "-"
@@ -442,6 +443,7 @@ class MainWindow(QMainWindow):
             self.panic_exit_started_ms = 0
             self.panic_escalated_once = False
             self.last_panic_wait_log_ms = 0
+            self.max_hold_exit_triggered = False
         self.active_order = {}
         self.fsm_state = "IDLE"
         self.runtime_active = False
@@ -658,6 +660,7 @@ class MainWindow(QMainWindow):
         self.panic_exit_started_ms = 0
         self.panic_escalated_once = False
         self.last_panic_wait_log_ms = 0
+        self.max_hold_exit_triggered = False
         self.log("INFO", f"[EXEC] INVENTORY DRAINED epsilon_cleanup qty={residual_qty:.6f}")
         if self._reconcile_flat_balance():
             self.position_state = "FLAT"
@@ -889,6 +892,40 @@ class MainWindow(QMainWindow):
         self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
         self.fsm_state = "WAIT_SELL_FILL"
 
+
+    def trigger_panic_exit(self, reason: str) -> None:
+        epsilon = self._inventory_epsilon_qty()
+        if self.position_qty <= epsilon:
+            return
+        if self.sell_recovery_in_progress or self.sell_cancel_in_progress:
+            self.log("INFO", "[EXEC] RECOVERY WAIT panic_trigger_in_progress")
+            return
+        now_ms = int(time.time() * 1000)
+        order_id = int(self.active_order.get("orderId", 0) or 0)
+        if self.panic_exit_final and order_id:
+            self.fsm_state = "WAIT_SELL_FILL"
+            return
+        self.log("WARNING", f"[EXEC] EXIT_FAIL reason={reason} force_exit")
+        self.last_exit_reason = reason
+        if order_id and self.active_order.get("side") == "SELL":
+            self.sell_cancel_in_progress = True
+            try:
+                self.log("WARNING", f"[EXEC] CANCEL SELL orderId={order_id} reason={reason}")
+                self.account.cancel_order(CONFIG.binance_symbol, order_id)
+            except Exception as exc:
+                self.log("WARNING", f"[EXEC] CANCEL SELL FAILED reason={exc}")
+            finally:
+                self.sell_cancel_in_progress = False
+            try:
+                final = self.account.get_order(CONFIG.binance_symbol, order_id)
+                self._handle_sell_fill_update(final)
+                if str(final.get("status", "")) == "FILLED" or self.position_qty <= epsilon:
+                    self._handle_sell_filled(final, order_id)
+                    return
+            except Exception as exc:
+                self.log("WARNING", f"[EXEC] SELL FINAL STATUS FAILED reason={exc}")
+        self._panic_exit_final(now_ms, reason)
+
     def _handle_sell_fill_update(self, order: dict[str, object]) -> None:
         epsilon = self._inventory_epsilon_qty()
         executed_qty = float(order.get("executedQty", 0.0) or 0.0)
@@ -947,6 +984,7 @@ class MainWindow(QMainWindow):
                 self.panic_exit_started_ms = 0
                 self.panic_escalated_once = False
                 self.last_panic_wait_log_ms = 0
+                self.max_hold_exit_triggered = False
             self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
         else:
             self.position_qty = remaining
@@ -1432,6 +1470,7 @@ class MainWindow(QMainWindow):
                 self.exit_mode = "NORMAL" if self.sell_reprice_count == 0 else "AGGRESSIVE"
                 self.exit_stage = "EXIT_TP_MAKER"
                 self.panic_ladder_step = 0
+                self.max_hold_exit_triggered = False
                 self.last_exit_reason = "tp_order_placed"
                 self.log("OK", f"[EXEC] SELL ORDER SENT orderId={order_id}")
                 self.exit_started_ms = now
@@ -1473,57 +1512,57 @@ class MainWindow(QMainWindow):
             elif self.position_qty > 0 and now - self.exit_started_ms >= int(self.settings.max_hold_ms):
                 self.last_exit_reason = "max_hold_exceeded"
                 self.exit_stage = "EXIT_CROSS"
-                self.log("WARNING", "[EXEC] EXIT_FAIL reason=max_hold_exceeded force_exit")
-                self.trigger_panic_exit("max_hold_exceeded")
+                if not self.max_hold_exit_triggered:
+                    self.max_hold_exit_triggered = True
+                    self.trigger_panic_exit("max_hold_exceeded")
             elif now - self.exit_started_ms >= int(self.settings.sell_timeout_ms):
                 if self.panic_exit_final:
                     panic_order_id = int(self.active_order.get("orderId", 0) or 0)
+                    panic_interval_ms = int(getattr(self.settings, "panic_ladder_ms", 400))
                     if now - self.last_panic_wait_log_ms >= 3000:
                         self.log("WARNING", f"[EXEC] PANIC WAIT still_open orderId={panic_order_id}")
                         self.last_panic_wait_log_ms = now
-                    panic_started_ms = int(self.panic_exit_started_ms or self.exit_started_ms or now)
-                    panic_stale = (now - panic_started_ms) > panic_stale_ms
-                    if panic_stale:
-                        if self.panic_escalated_once:
-                            self.log("WARNING", f"[EXEC] PANIC HOLD escalated orderId={panic_order_id}")
-                        elif self.position_qty > 0 and bid_now > 0 and bid_now < float(self.panic_exit_price):
-                            self.log("WARNING", f"[EXEC] PANIC STALE detected orderId={panic_order_id}")
-                            self.log("WARNING", f"[EXEC] PANIC ESCALATE old={float(self.panic_exit_price):.2f} new={bid_now:.2f} qty={self.position_qty:.6f}")
-                            if self.sell_recovery_in_progress or self.sell_cancel_in_progress:
-                                self.log("INFO", "[EXEC] RECOVERY WAIT panic_escalation_in_progress")
-                                return
-                            self.sell_recovery_in_progress = True
-                            self.sell_cancel_in_progress = True
-                            try:
-                                self.account.cancel_order(CONFIG.binance_symbol, panic_order_id)
-                                final = self.account.get_order(CONFIG.binance_symbol, panic_order_id)
-                                final_status = str(final.get("status", "UNKNOWN"))
-                                prev_sell_reported_qty = self.sell_reported_qty
-                                self._handle_sell_fill_update(final)
-                                sell_delta = max(self.sell_reported_qty - prev_sell_reported_qty, 0.0)
-                                if sell_delta > 0 and final_status == "PARTIALLY_FILLED":
-                                    self.log("WARNING", f"[EXEC] PANIC PARTIAL filled={sell_delta:.6f} remaining={self.position_qty:.6f}")
-                                if final_status == "FILLED" or self.position_qty <= 0:
-                                    self._handle_sell_filled(final, panic_order_id)
-                                    return
-                                new_price = self._round_price_down(bid_now)
-                                sell_qty = float(Decimal(str(self.position_qty)))
-                                o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
-                                self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
-                                self.position_sell_order_id = int(self.active_order["orderId"])
-                                self.panic_exit_order_id = int(self.active_order["orderId"])
-                                self.panic_exit_price = float(new_price)
-                                self.panic_exit_started_ms = now
-                                self.panic_escalated_once = True
-                                self.exit_started_ms = now
-                                self.log("WARNING", f"[EXEC] PANIC ESCALATE placed orderId={self.panic_exit_order_id}")
-                            finally:
-                                self.sell_cancel_in_progress = False
-                                self.sell_recovery_in_progress = False
-                        elif now - self.last_panic_wait_log_ms >= 3000:
-                            self.log("WARNING", "[EXEC] PANIC STALE hold market_not_worse")
-                    else:
-                        self.log("WARNING", f"[EXEC] PANIC HOLD active orderId={panic_order_id}")
+                    if now - self.last_sell_reprice_ms < panic_interval_ms:
+                        return
+                    if self.sell_recovery_in_progress or self.sell_cancel_in_progress:
+                        self.log("INFO", "[EXEC] RECOVERY WAIT panic_ladder_in_progress")
+                        return
+                    self.sell_recovery_in_progress = True
+                    self.sell_cancel_in_progress = True
+                    try:
+                        try:
+                            self.account.cancel_order(CONFIG.binance_symbol, panic_order_id)
+                        except Exception as exc:
+                            self.log("ERROR", f"[EXEC] EXIT_FAIL reason=panic_replace_failed cancel={exc}")
+                            return
+                        final = self.account.get_order(CONFIG.binance_symbol, panic_order_id)
+                        final_status = str(final.get("status", "UNKNOWN"))
+                        self._handle_sell_fill_update(final)
+                        if final_status == "FILLED" or self.position_qty <= 0:
+                            self._handle_sell_filled(final, panic_order_id)
+                            return
+                        if final_status not in {"CANCELED", "EXPIRED", "NEW", "PARTIALLY_FILLED"}:
+                            self.log("ERROR", "[EXEC] EXIT_FAIL reason=panic_replace_failed")
+                            return
+                        step_ticks = max(int(getattr(self.settings, "panic_ladder_step_ticks", 1)), 1)
+                        self.panic_ladder_step += 1
+                        ladder_ticks = step_ticks * self.panic_ladder_step
+                        new_price = self._round_price_down(max(bid_now - (tick * ladder_ticks), tick))
+                        sell_qty = float(Decimal(str(self.position_qty)))
+                        o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
+                        self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                        self.position_sell_order_id = int(self.active_order["orderId"])
+                        self.panic_exit_order_id = int(self.active_order["orderId"])
+                        self.panic_exit_price = float(new_price)
+                        self.panic_exit_started_ms = now
+                        self.exit_started_ms = now
+                        self.last_sell_reprice_ms = now
+                        self.log("WARNING", f"[EXEC] PANIC ESCALATE placed orderId={self.panic_exit_order_id} step={self.panic_ladder_step}")
+                    except Exception as exc:
+                        self.log("ERROR", f"[EXEC] EXIT_FAIL reason=panic_replace_failed place={exc}")
+                    finally:
+                        self.sell_cancel_in_progress = False
+                        self.sell_recovery_in_progress = False
                 elif self.position_qty > 0:
                     age = now - int(self.active_order.get("create_ms", now))
                     step_ticks = max(int(getattr(self.settings, "exit_reprice_step_ticks", 1)), 1)
