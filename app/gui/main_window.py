@@ -399,22 +399,17 @@ class MainWindow(QMainWindow):
         if side == "BUY":
             self.log("OK", "[SYNC] BUY filled on exchange")
             total_exec = float(order_status.get("executedQty", 0.0) or 0.0)
-            total_quote = float(order_status.get("cummulativeQuoteQty", 0.0) or 0.0)
             if total_exec <= 0:
                 self.log("WARNING", "[EXEC] BLOCK reason=buy_filled_zero_qty")
                 self.position_state = "FLAT"
                 self.fsm_state = "ERROR"
                 self.active_order = {}
                 return
-            self.position_qty += max(total_exec - self.buy_reported_qty, 0.0)
-            self.buy_filled_qty = total_exec
-            self.buy_reported_qty = total_exec
-            self.buy_reported_quote = total_quote
-            self.avg_entry = (total_quote / total_exec) if total_exec > 0 else float(self.active_order.get("price", 0.0))
-            self.position_entry_avg = self.avg_entry
-            self.position_buy_order_id = int(self.active_order.get("orderId", 0) or 0)
-            self.position_state = "POSITION_OPEN"
-            self.fsm_state = "PLACE_SELL"
+            self._handle_buy_fill_update(order_status)
+            self.position_entry_avg = self._recalc_entry_avg_from_chunks()
+            self.position_state = "POSITION_OPEN" if self.position_qty > 0 else "FLAT"
+            if self.position_qty > 0:
+                self.fsm_state = "PLACE_SELL"
         elif side == "SELL":
             self.log("OK", "[SYNC] SELL filled on exchange")
             self._handle_sell_fill_update(order_status)
@@ -677,6 +672,28 @@ class MainWindow(QMainWindow):
         self.sell_reported_qty = executed_qty
         self._finalize_cycle_if_flat()
 
+    def _handle_buy_fill_update(self, order: dict[str, object]) -> None:
+        epsilon = 1e-12
+        executed_qty = float(order.get("executedQty", 0.0) or 0.0)
+        cummulative_quote_qty = float(order.get("cummulativeQuoteQty", 0.0) or 0.0)
+        delta_qty = executed_qty - self.buy_reported_qty
+        if delta_qty <= epsilon:
+            return
+        delta_quote = cummulative_quote_qty - self.buy_reported_quote
+        avg_price = (delta_quote / delta_qty) if delta_qty > epsilon else float(self.active_order.get("price", 0.0))
+        self.log("OK", f"[EXEC] BUY FILL UPDATE delta={delta_qty:.6f} avg={avg_price:.2f}")
+        self._add_inventory_chunk(delta_qty, avg_price, int(time.time() * 1000))
+        self.buy_filled_qty = executed_qty
+        self.buy_reported_qty = executed_qty
+        self.buy_reported_quote = cummulative_quote_qty
+        self.avg_entry = self._recalc_entry_avg_from_chunks()
+        self.position_buy_order_id = int(self.active_order.get("orderId", 0) or 0)
+        self.position_state = "POSITION_OPEN" if self.position_qty > epsilon else "FLAT"
+        self.log("OK", f"[EXEC] INVENTORY qty={self.position_qty:.6f}")
+        if self.position_qty > epsilon and not (self.active_order.get("orderId") and self.active_order.get("side") == "SELL"):
+            self.log("OK", f"[EXEC] SELL REQUIRED inventory={self.position_qty:.6f}")
+            self.fsm_state = "PLACE_SELL"
+
     def _handle_sell_filled(self, st: dict[str, object], order_ref: int) -> None:
         self._handle_sell_fill_update(st)
         sell_qty = float(st.get("executedQty", 0.0) or 0.0)
@@ -910,24 +927,13 @@ class MainWindow(QMainWindow):
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
             self.active_order["state"] = st.get("status", "NEW")
             executed_qty = float(st.get("executedQty", 0.0) or 0.0)
-            cum_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
-            new_chunk = max(executed_qty - self.buy_reported_qty, 0.0)
-            if new_chunk > 0:
-                fill_price = (cum_quote / executed_qty) if executed_qty > 0 else float(self.active_order.get("price", 0.0))
-                self._add_inventory_chunk(new_chunk, fill_price, now)
-                self.buy_filled_qty = executed_qty
-                self.buy_reported_qty = executed_qty
-                self.buy_reported_quote = cum_quote
-                self.avg_entry = self._recalc_entry_avg_from_chunks()
-                self.position_buy_order_id = int(self.active_order["orderId"])
-                self.log("OK", f"[EXEC] BUY PARTIAL delta={new_chunk:.6f} total={executed_qty:.6f}")
+            prev_buy_reported_qty = self.buy_reported_qty
+            self._handle_buy_fill_update(st)
+            buy_delta = max(self.buy_reported_qty - prev_buy_reported_qty, 0.0)
+            if buy_delta > 0:
+                self.log("OK", f"[EXEC] BUY PARTIAL delta={buy_delta:.6f} total={executed_qty:.6f}")
                 self.log("OK", f"[EXEC] BUY REMAINING qty={max(float(self.active_order.get('qty', 0.0)) - executed_qty, 0.0):.6f}")
-                self.log("OK", f"[EXEC] INVENTORY qty={self.position_qty:.6f}")
                 self._sync_sell_target_qty()
-                if self.active_order.get("side") == "SELL" and self.active_order.get("orderId"):
-                    self.fsm_state = "WAIT_SELL_FILL"
-                else:
-                    self.fsm_state = "PLACE_SELL"
             if st.get("status") == "FILLED":
                 buy_qty = float(Decimal(str(executed_qty)))
                 if buy_qty <= 0:
@@ -937,8 +943,7 @@ class MainWindow(QMainWindow):
                     self.active_order = {}
                     return
                 self.buy_filled_qty = buy_qty
-                self.avg_entry = (cum_quote / buy_qty) if buy_qty > 0 else float(self.active_order.get("price", 0.0))
-                self.position_entry_avg = self.avg_entry
+                self.position_entry_avg = self._recalc_entry_avg_from_chunks()
                 self.position_buy_order_id = int(self.active_order["orderId"])
                 self.position_state = "POSITION_OPEN"
                 self.log("OK", f"[EXEC] BUY FILLED id={int(self.active_order['orderId'])}")
@@ -965,9 +970,9 @@ class MainWindow(QMainWindow):
                 final_status = final.get("status", "UNKNOWN")
                 self.log("INFO", f"[EXEC] BUY FINAL STATUS status={final_status} orderId={order_id}")
                 executed_qty = float(final.get("executedQty", 0.0) or 0.0)
+                self._handle_buy_fill_update(final)
                 if final_status == "FILLED":
                     self.buy_filled_qty = executed_qty
-                    self.avg_entry = float(self.active_order.get("price", 0.0))
                     self.log("OK", "[EXEC] BUY FILLED during cancel")
                     self.log("OK", f"[EXEC] BUY FILLED id={int(self.active_order['orderId'])}")
                     self.fsm_state = "PLACE_SELL"
@@ -995,6 +1000,14 @@ class MainWindow(QMainWindow):
             inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
             sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
             self.log("INFO", f"[EXEC] SELL CHECK inventory={inventory_qty:.6f} reported={self.sell_reported_qty:.6f} remaining={sell_qty:.6f} chunks={len(self.inventory_chunks)}")
+            if sell_qty <= 0 and len(self.inventory_chunks) == 0 and self.active_order.get("side") == "BUY" and self.active_order.get("orderId"):
+                buy_state = str(self.active_order.get("state", ""))
+                if buy_state in {"FILLED", "PARTIALLY_FILLED"}:
+                    sync_buy = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
+                    self._handle_buy_fill_update(sync_buy)
+                    inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
+                    sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
+                    self.log("INFO", f"[EXEC] SELL CHECK resync inventory={inventory_qty:.6f} remaining={sell_qty:.6f} chunks={len(self.inventory_chunks)}")
             if inventory_qty > 0 and sell_qty <= 0 and not (self.active_order.get('orderId') and self.active_order.get('side') == "SELL"):
                 self.sell_reported_qty = 0.0
                 self.log("WARNING", "[EXEC] SELL ACCOUNTING STALE RESET")
