@@ -13,7 +13,7 @@ from app.core.market_state import MarketState
 from app.core.trade_math import TradeMathEngine
 from app.core.market_ws import MarketWSClient
 from app.gui.styles import main_qss
-from app.gui.widgets import big_value, kv_card
+from app.gui.widgets import big_value, build_kv_card
 
 
 @dataclass
@@ -126,7 +126,7 @@ class MainWindow(QMainWindow):
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
-        self.grid = QGridLayout(); self.grid.setHorizontalSpacing(10); self.grid.setVerticalSpacing(10); self.grid.setContentsMargins(0, 0, 0, 0); self.main_layout.addLayout(self.grid, 1)
+        self.grid = QGridLayout(); self.grid.setHorizontalSpacing(10); self.grid.setVerticalSpacing(10); self.grid.setContentsMargins(0, 0, 0, 0); self.main_layout.addLayout(self.grid)
         self._build_cards(); self._build_controls(); self._build_logs(); self._configure_grid_layout()
 
         self.ws.signals.book.connect(self.on_ws_book); self.ws.signals.status.connect(self.on_ws_status); self.ws.signals.log.connect(self.log)
@@ -140,13 +140,13 @@ class MainWindow(QMainWindow):
     def _configure_grid_layout(self) -> None:
         for col in range(4):
             self.grid.setColumnStretch(col, 1)
-            self.grid.setColumnMinimumWidth(col, 280)
+            self.grid.setColumnMinimumWidth(col, 260)
         self.grid.setRowStretch(0, 0)
         self.grid.setRowStretch(1, 0)
-        self.grid.setRowStretch(2, 1)
+        self.grid.setRowStretch(2, 0)
 
     def _build_cards(self) -> None:
-        conn, self.conn = kv_card("CONNECTION", [("API", "NOT SET"), ("REST", "N/A"), ("WS", "OPTIONAL LOST"), ("Источник", "NONE"), ("Обновление", "0 ms")])
+        conn, self.conn = build_kv_card("CONNECTION", [("API", "NOT SET"), ("REST", "N/A"), ("WS", "OPTIONAL LOST"), ("Source", "NONE"), ("Latency", "0 ms")])
         self.conn_box = conn
         self.grid.addWidget(conn, 0, 0)
 
@@ -154,19 +154,19 @@ class MainWindow(QMainWindow):
         self.bid_box = bid_box; self.ask_box = ask_box; self.spr_box = spr_box
         self.grid.addWidget(bid_box, 0, 1); self.grid.addWidget(ask_box, 0, 2); self.grid.addWidget(spr_box, 0, 3)
 
-        spread, self.spread = kv_card("SPREAD ENGINE", [("Статус", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Источник", "NONE"), ("Обновление", "--")])
+        spread, self.spread = build_kv_card("SPREAD ENGINE", [("Status", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Source", "NONE"), ("Latency", "--")], compact=True)
         self.spread_box = spread
-        plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")])
+        plan, self.plan = build_kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")], compact=True)
         self.plan_box = plan
-        runtime, self.runtime = kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Active order", "none"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Треб. подтверждение", "YES"), ("Авто-отмена", "YES")])
+        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
         self.runtime_box = runtime
-        risk, self.risk = kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")])
+        risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
-        bal, self.bal = kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
+        bal, self.bal = build_kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")], compact=True)
         self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(risk, 2, 0, 1, 1)
 
-        summary_rows = [("Started at", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("SELL reprices", "0"), ("Current exit mode", "NORMAL"), ("Active order", "none")]
-        summary, self.summary = kv_card("SESSION RESULT", summary_rows)
+        summary_rows = [("Started", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("Exit mode", "NORMAL")]
+        summary, self.summary = build_kv_card("SESSION RESULT", summary_rows, compact=True, label_width=150)
         self.grid.addWidget(summary, 2, 1, 1, 3)
 
         self.compact_status = QLabel("")
@@ -192,7 +192,8 @@ class MainWindow(QMainWindow):
         self.log_tabs.addTab(self.trade_logs, "Торговля")
         self.log_tabs.addTab(self.system_logs, "Система")
         self.log_tabs.setMinimumHeight(220)
-        self.log_tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.log_tabs.setMaximumHeight(280)
+        self.log_tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.main_layout.addWidget(self.log_tabs, 1)
 
     def open_settings_dialog(self) -> None:
@@ -509,24 +510,20 @@ class MainWindow(QMainWindow):
         ws_age = self.state.age_ms(self.state.last_ws_ms)
         ws_ok = ws_age is not None and ws_age <= self.settings.max_ws_age_ms and self.state.ws_status == "CONNECTED"
         ws_text = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
-        self.conn["API"].setText(self.api_status); self.conn["REST"].setText(self.state.rest_status); self.conn["WS"].setText(ws_text); self.conn["Источник"].setText("WS" if ws_ok else self.state.snapshot.source); self.conn["Обновление"].setText(f"{self.account.time_offset_ms} ms")
+        self.conn["API"].setText(self.api_status); self.conn["REST"].setText(self.state.rest_status); self.conn["WS"].setText(ws_text); self.conn["Source"].setText("WS" if ws_ok else self.state.snapshot.source); self.conn["Latency"].setText(f"{self.account.time_offset_ms} ms")
         self.bid_v.setText("N/A" if bid is None else f"{bid:.2f}"); self.ask_v.setText("N/A" if ask is None else f"{ask:.2f}"); self.spr_v.setText("N/A" if spread is None else f"{spread:.2f}")
-        self.spread["Статус"].setText(spread_state); self.spread["Spread"].setText("N/A" if spread is None else f"{spread:.2f}")
+        self.spread["Status"].setText(spread_state); self.spread["Spread"].setText("N/A" if spread is None else f"{spread:.2f}")
         cap = (spread - self.settings.entry_offset - self.settings.exit_offset) if spread is not None else None
         self.spread["Capture"].setText("N/A" if cap is None else f"{cap:.2f}")
         age_ms = max(int(time.time() * 1000) - self.state.snapshot.updated_ms, 0)
         self.spread["Lifetime"].setText(f"{age_ms}ms" if age_ms < 1000 else f"{age_ms/1000:.1f}s")
-        self.spread["Источник"].setText(self.state.snapshot.source); self.spread["Обновление"].setText(time.strftime("%H:%M:%S"))
+        self.spread["Source"].setText(self.state.snapshot.source); self.spread["Latency"].setText(time.strftime("%H:%M:%S"))
         self.runtime["LIVE"].setText("ON" if self.settings.live_enabled else "OFF")
         self.runtime["FSM"].setText(self.fsm_state)
         self.runtime["Mode"].setText("LIVE SINGLE" if self.settings.live_enabled else "ANALYTICS")
         self.runtime["Position state"].setText(self.position_state)
         self.runtime["Position qty"].setText(self._fmt(self.position_qty, 6))
         self.runtime["Entry avg"].setText(self._fmt(self.position_entry_avg, 6))
-        if self.active_order.get("orderId"):
-            self.runtime["Active order"].setText(f"{self.active_order.get('side','-')} {self._fmt(float(self.active_order.get('qty',0.0)),6)} @ {self._fmt(float(self.active_order.get('price',0.0)),2)} {self.active_order.get('state','NEW')}")
-        else:
-            self.runtime["Active order"].setText("none")
         plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status)
         now_ms = int(time.time() * 1000)
         plan_status = plan.status
@@ -754,7 +751,7 @@ class MainWindow(QMainWindow):
         summary_sig = f"{self.position_state}:{self.position_entry_avg:.6f}:{self.closed_cycles}:{self.wins}:{self.losses}:{self.session_realized_pnl:.6f}:{self.last_pnl:.6f}:{winrate:.2f}:{self.canceled_buys}:{self.sell_timeouts}:{self.sell_reprice_count}:{self.exit_mode}:{active_order_text}:{self.position_qty:.6f}"
         if summary_sig != self.summary_signature:
             self.summary_signature = summary_sig
-            self.summary["Started at"].setText(self.session_started_at)
+            self.summary["Started"].setText(self.session_started_at)
             self.summary["Position state"].setText(self.position_state)
             self.summary["Position qty"].setText(self._fmt(self.position_qty, 6))
             self.summary["Entry avg"].setText(self._fmt(self.position_entry_avg, 6))
@@ -766,9 +763,7 @@ class MainWindow(QMainWindow):
             self.summary["Canceled buys"].setText(str(self.canceled_buys))
             self.summary["Last PnL"].setText(f"{self.last_pnl:+.6f}")
             self.summary["Sell timeouts"].setText(str(self.sell_timeouts))
-            self.summary["SELL reprices"].setText(str(self.sell_reprice_count))
-            self.summary["Current exit mode"].setText(self.exit_mode)
-            self.summary["Active order"].setText(active_order_text)
+            self.summary["Exit mode"].setText(self.exit_mode)
 
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
         ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
