@@ -147,6 +147,8 @@ class MainWindow(QMainWindow):
         self.last_position_open_block_log_ms = 0
         self.sell_recovery_in_progress = False
         self.sell_cancel_in_progress = False
+        self.last_sell_place_ms = 0
+        self.last_sell_place_signature = ""
         self.sell_hold_window_ms = 1500
         self.sell_hold_near_ticks = 2
 
@@ -396,6 +398,33 @@ class MainWindow(QMainWindow):
             self._rebuild_live_orders()
         except Exception:
             pass
+
+    def _find_open_sell_order(self) -> dict:
+        for order in self.sync_open_orders:
+            if str(order.get("side", "")).upper() == "SELL":
+                return order
+        return {}
+
+    def _adopt_open_sell_order(self, sell_order: dict) -> None:
+        now = int(time.time() * 1000)
+        order_id = int(sell_order.get("orderId", 0) or 0)
+        if order_id <= 0:
+            return
+        price = float(sell_order.get("price", 0.0) or 0.0)
+        qty = float(sell_order.get("origQty", 0.0) or 0.0)
+        self.active_order = {
+            "orderId": order_id,
+            "side": "SELL",
+            "price": price,
+            "qty": qty,
+            "create_ms": int(sell_order.get("time") or now),
+            "state": str(sell_order.get("status", "NEW")),
+            "type": str(sell_order.get("type", "LIMIT")),
+        }
+        self.position_sell_order_id = order_id
+        self.position_state = "SELL_PENDING"
+        self.fsm_state = "WAIT_SELL_FILL"
+        self.log("INFO", f"[EXEC] ADOPT SELL orderId={order_id} qty={qty:.6f} price={price:.2f}")
 
     def _apply_filled_from_sync(self, order_status: dict) -> None:
         side = self.active_order.get("side")
@@ -1033,9 +1062,16 @@ class MainWindow(QMainWindow):
                     self.log("WARNING", "[EXEC] BLOCK reason=buy_not_filled")
                     self.fsm_state = "DONE"
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
+            if self.sell_recovery_in_progress or self.sell_cancel_in_progress:
+                return
             if self.active_order.get("orderId") and self.active_order.get("side") == "SELL":
                 self.log("WARNING", "[EXEC] BLOCK duplicate_sell_prevented")
                 self.fsm_state = "WAIT_SELL_FILL"
+                return
+            self.sync_active_order(force=True)
+            open_sell = self._find_open_sell_order()
+            if open_sell:
+                self._adopt_open_sell_order(open_sell)
                 return
             inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
             sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
@@ -1053,6 +1089,16 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", "[EXEC] SELL ACCOUNTING STALE RESET")
                 sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
             min_qty = float(self.filters.get("minQty", 0.0) or 0.0)
+            btc_free = float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0)
+            btc_locked = float(self.balances.get("BTC", {}).get("locked", 0.0) or 0.0)
+            if sell_qty > 0 and btc_locked > 0 and btc_free + 1e-12 < sell_qty:
+                self.sync_active_order(force=True)
+                open_sell = self._find_open_sell_order()
+                if open_sell:
+                    self._adopt_open_sell_order(open_sell)
+                else:
+                    self.log("WARNING", "[EXEC] SELL BLOCK locked_balance_no_order")
+                return
             if sell_qty <= 0:
                 if inventory_qty > 0:
                     self.log("WARNING", "[EXEC] SELL ACCOUNTING STALE RESET")
@@ -1070,15 +1116,36 @@ class MainWindow(QMainWindow):
                 min_profit_ticks = max(int(self.settings.min_profit_ticks), 0)
                 tp_floor_price = float(self.position_entry_avg) + (tick * max(tp_ticks, min_profit_ticks))
                 sell_price = max(float(plan.exit_price), tp_floor_price)
-                self.log("OK", f"[EXEC] PLACE SELL price={sell_price:.2f} qty={sell_qty:.6f}")
-                o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(sell_qty))
                 now = int(time.time() * 1000)
-                self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(sell_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
-                self.position_sell_order_id = int(self.active_order["orderId"])
+                place_signature = f"{sell_qty:.8f}@{sell_price:.2f}"
+                if self.last_sell_place_signature == place_signature and now - self.last_sell_place_ms < 1000:
+                    return
+                self.last_sell_place_signature = place_signature
+                self.last_sell_place_ms = now
+                self.log("OK", f"[EXEC] PLACE SELL price={sell_price:.2f} qty={sell_qty:.6f}")
+                try:
+                    o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(sell_qty))
+                except Exception as exc:
+                    self.log("WARNING", f"[EXEC] SELL PLACE FAILED reason={exc}")
+                    self.sync_active_order(force=True)
+                    open_sell = self._find_open_sell_order()
+                    if open_sell:
+                        self._adopt_open_sell_order(open_sell)
+                    return
+                order_id = int(o.get("orderId", 0) or 0) if isinstance(o, dict) else 0
+                if order_id <= 0:
+                    self.log("WARNING", "[EXEC] SELL PLACE FAILED reason=empty_orderId")
+                    self.sync_active_order(force=True)
+                    open_sell = self._find_open_sell_order()
+                    if open_sell:
+                        self._adopt_open_sell_order(open_sell)
+                    return
+                self.active_order = {"orderId": order_id, "side": "SELL", "price": float(sell_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                self.position_sell_order_id = order_id
                 self.position_state = "SELL_PENDING"
                 self.sell_reported_qty = 0.0
                 self.exit_mode = "NORMAL" if self.sell_reprice_count == 0 else "AGGRESSIVE"
-                self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
+                self.log("OK", f"[EXEC] SELL ORDER SENT orderId={order_id}")
                 self.exit_started_ms = now
                 self.fsm_state = "WAIT_SELL_FILL"
         elif self.runtime_active and self.fsm_state == "WAIT_SELL_FILL" and self.active_order.get("orderId"):
