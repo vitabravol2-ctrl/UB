@@ -69,3 +69,30 @@ def big_value(title: str, value: str, *, compact: bool = False) -> tuple[QGroupB
     box.setMinimumHeight(box_min)
     box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
     return box, val
+
+
+BADGE_STYLES = {
+    "ok": "background:#1f5f3a;color:#d8ffe9;border:1px solid #2f9a5d;",
+    "error": "background:#5d1f24;color:#ffd9dc;border:1px solid #a43a45;",
+    "warn": "background:#6a4b1e;color:#ffe9c6;border:1px solid #b8832a;",
+    "info": "background:#1e3f6a;color:#d8e9ff;border:1px solid #2d69aa;",
+    "neutral": "background:#2a313d;color:#dde5f1;border:1px solid #435064;",
+}
+
+
+def build_status_badge(text: str, state: str) -> QLabel:
+    badge = QLabel(text)
+    badge.setAlignment(Qt.AlignCenter)
+    badge.setMinimumHeight(24)
+    update_badge(badge, state, text)
+    return badge
+
+
+def update_badge(widget: QLabel, state: str, text: str) -> None:
+    style = BADGE_STYLES.get(state, BADGE_STYLES["neutral"])
+    widget.setText(text)
+    widget.setStyleSheet(f"padding:2px 8px;border-radius:10px;font-weight:700;{style}")
+
+
+def build_terminal_card(title: str, rows: list[tuple[str, str]]) -> tuple[QGroupBox, dict[str, QLabel]]:
+    return build_kv_card(title, rows, compact=True)
