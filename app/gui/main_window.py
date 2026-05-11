@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.settings = SETTINGS_STORE.load()
-        self.setWindowTitle("UB v0.5.0 / BTCU Trading Cockpit")
+        self.setWindowTitle("UB v0.7.2 / BTCU Trading Cockpit")
         self.resize(1600, 900)
         self.setMinimumSize(1280, 760)
         self.setStyleSheet(main_qss())
@@ -152,6 +152,15 @@ class MainWindow(QMainWindow):
         self.pending_gui_logs = {"trade": [], "system": []}
         self.summary_signature = ""
         self.last_ws_live_log_ms = 0
+        self.ws_tick_count = 0
+        self.ws_tick_window_start_monotonic = time.monotonic()
+        self.ws_ticks_per_sec = 0.0
+        self.last_ws_tick_monotonic = 0.0
+        self.last_ws_bid = 0.0
+        self.last_ws_ask = 0.0
+        self.last_ws_state = "UNKNOWN"
+        self.last_gui_refresh_monotonic = time.monotonic()
+        self.gui_refresh_ms = 0
         self.last_position_open_block_log_ms = 0
         self.sell_recovery_in_progress = False
         self.sell_cancel_in_progress = False
@@ -197,7 +206,7 @@ class MainWindow(QMainWindow):
         self.grid.setRowStretch(5, 2)
 
     def _build_cards(self) -> None:
-        conn, self.conn = build_kv_card("CONNECTION", [("API", "NOT SET"), ("REST", "N/A"), ("WS", "OPTIONAL LOST"), ("Source", "NONE"), ("Latency", "0 ms")])
+        conn, self.conn = build_kv_card("CONNECTION", [("API", "NOT SET"), ("REST", "N/A"), ("WS", "OPTIONAL LOST"), ("Source", "NONE"), ("Latency", "0 ms"), ("WS age", "N/A"), ("WS tps", "0.00"), ("GUI refresh", "0 ms")])
         self.conn_box = conn
         self.grid.addWidget(conn, 1, 0)
 
@@ -501,7 +510,23 @@ class MainWindow(QMainWindow):
         except Exception as exc:
             self.log("ERROR", f"[SYNC] cancel failed orderId={order_id} err={exc}")
 
-    def on_ws_book(self, bid: float, ask: float, ts: int) -> None: self.state.snapshot.bid = bid; self.state.snapshot.ask = ask; self.state.snapshot.updated_ms = ts; self.state.snapshot.source = "WS"; self.state.last_ws_ms = ts
+    def on_ws_book(self, bid: float, ask: float, ts: int) -> None:
+        now_monotonic = time.monotonic()
+        self.state.snapshot.bid = bid
+        self.state.snapshot.ask = ask
+        self.state.snapshot.updated_ms = ts
+        self.state.snapshot.source = "WS"
+        self.state.last_ws_ms = ts
+        self.state.last_ws_monotonic = now_monotonic
+        self.ws_tick_count += 1
+        elapsed = now_monotonic - self.ws_tick_window_start_monotonic
+        if elapsed >= 1.0:
+            self.ws_ticks_per_sec = self.ws_tick_count / elapsed
+            self.ws_tick_count = 0
+            self.ws_tick_window_start_monotonic = now_monotonic
+        self.last_ws_tick_monotonic = now_monotonic
+        self.last_ws_bid = bid
+        self.last_ws_ask = ask
     def on_ws_status(self, status: str) -> None:
         self.state.ws_status = status
 
@@ -963,19 +988,28 @@ class MainWindow(QMainWindow):
             self.sell_recovery_in_progress = False
 
     def _refresh_ui(self) -> None:
+        now_monotonic = time.monotonic()
+        self.gui_refresh_ms = max(int((now_monotonic - self.last_gui_refresh_monotonic) * 1000), 0)
+        self.last_gui_refresh_monotonic = now_monotonic
         bid = self.state.snapshot.bid; ask = self.state.snapshot.ask; spread = self.state.snapshot.spread
         spread_state = "BAD" if spread is None else ("HOT" if spread >= self.settings.min_spread + 0.02 else ("READY" if spread >= self.settings.min_spread else "WATCH"))
-        ws_age = self.state.age_ms(self.state.last_ws_ms)
-        ws_ok = ws_age is not None and ws_age <= self.settings.max_ws_age_ms and self.state.ws_status == "CONNECTED"
+        ws_age = self.state.monotonic_age_ms(self.state.last_ws_monotonic)
+        ws_connected = self.state.ws_status == "CONNECTED"
+        ws_stale = ws_age is None or ws_age > self.settings.max_ws_age_ms
+        ws_ok = ws_connected and not ws_stale
         ws_text = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
-        self.conn["API"].setText(self.api_status); self.conn["REST"].setText(self.state.rest_status); self.conn["WS"].setText(ws_text); self.conn["Source"].setText("WS" if ws_ok else self.state.snapshot.source); self.conn["Latency"].setText(f"{self.account.time_offset_ms} ms")
+        market_snapshot_source = "WS" if ws_ok else self.state.snapshot.source
+        self.conn["API"].setText(self.api_status); self.conn["REST"].setText(self.state.rest_status); self.conn["WS"].setText(ws_text); self.conn["Source"].setText(market_snapshot_source); self.conn["Latency"].setText(f"{self.account.time_offset_ms} ms")
+        self.conn["WS age"].setText("N/A" if ws_age is None else f"{ws_age} ms")
+        self.conn["WS tps"].setText(f"{self.ws_ticks_per_sec:.2f}")
+        self.conn["GUI refresh"].setText(f"{self.gui_refresh_ms} ms")
         self.bid_v.setText("N/A" if bid is None else f"{bid:.2f}"); self.ask_v.setText("N/A" if ask is None else f"{ask:.2f}"); self.spr_v.setText("N/A" if spread is None else f"{spread:.2f}")
         self.spread["Status"].setText(spread_state); self.spread["Spread"].setText("N/A" if spread is None else f"{spread:.2f}")
         cap = (spread - self.settings.entry_offset - self.settings.exit_offset) if spread is not None else None
         self.spread["Capture"].setText("N/A" if cap is None else f"{cap:.2f}")
-        age_ms = max(int(time.time() * 1000) - self.state.snapshot.updated_ms, 0)
+        age_ms = ws_age if ws_ok and ws_age is not None else max(int(time.time() * 1000) - self.state.snapshot.updated_ms, 0)
         self.spread["Lifetime"].setText(f"{age_ms}ms" if age_ms < 1000 else f"{age_ms/1000:.1f}s")
-        self.spread["Source"].setText(self.state.snapshot.source); self.spread["Latency"].setText(time.strftime("%H:%M:%S"))
+        self.spread["Source"].setText(market_snapshot_source); self.spread["Latency"].setText(time.strftime("%H:%M:%S"))
         self.runtime["LIVE"].setText("ON" if self.settings.live_enabled else "OFF")
         self.runtime["FSM"].setText(self.fsm_state)
         self.runtime["Mode"].setText("LIVE SINGLE" if self.settings.live_enabled else "ANALYTICS")
@@ -983,9 +1017,10 @@ class MainWindow(QMainWindow):
         self.runtime["Position qty"].setText(self._fmt(self.position_qty, 6))
         self.runtime["Entry avg"].setText(self._fmt(self.position_entry_avg, 6))
         self.runtime["Market Health"].setText(self.market_health_state)
-        plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status)
+        can_recompute_plan = self.runtime_active or self.position_qty > 0 or bool(self.active_order.get("orderId"))
+        plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status) if can_recompute_plan else None
         now_ms = int(time.time() * 1000)
-        plan_status = plan.status
+        plan_status = plan.status if plan else "STOPPED"
         if plan_status in {"READY", "HOT"}:
             self.plan_ready_streak += 1
             if self.ready_since_ms == 0:
@@ -999,13 +1034,13 @@ class MainWindow(QMainWindow):
             ready_age = 0
 
         self.plan["Status"].setText(plan_status)
-        self.plan["Entry"].setText("N/A" if plan.entry_price is None else f"{plan.entry_price:.2f}")
-        self.plan["Exit"].setText("N/A" if plan.exit_price is None else f"{plan.exit_price:.2f}")
-        self.plan["Qty BTC"].setText(self._fmt(plan.qty_btc, 6))
-        self.plan["Order U"].setText(self._fmt(plan.order_size_u, 2))
+        self.plan["Entry"].setText("N/A" if not plan or plan.entry_price is None else f"{plan.entry_price:.2f}")
+        self.plan["Exit"].setText("N/A" if not plan or plan.exit_price is None else f"{plan.exit_price:.2f}")
+        self.plan["Qty BTC"].setText(self._fmt(plan.qty_btc, 6) if plan else "0")
+        self.plan["Order U"].setText(self._fmt(plan.order_size_u, 2) if plan else "0")
         self.plan["Age"].setText(f"{ready_age}ms")
-        self.plan["Profit U"].setText("N/A" if plan.expected_profit_u is None else self._fmt(plan.expected_profit_u, 6))
-        plan_key = f"{plan.status}:{self._fmt(plan.order_size_u,2)}:{self._fmt(plan.qty_btc,6)}:{self._fmt(plan.required_u or 0.0,2)}"
+        self.plan["Profit U"].setText("N/A" if not plan or plan.expected_profit_u is None else self._fmt(plan.expected_profit_u, 6))
+        plan_key = f"{plan.status}:{self._fmt(plan.order_size_u,2)}:{self._fmt(plan.qty_btc,6)}:{self._fmt(plan.required_u or 0.0,2)}" if plan else "STOPPED"
         self._repair_runtime_state()
         if self.position_qty > 0 and not (self.active_order.get("orderId") and self.active_order.get("side") == "SELL") and self.runtime_active:
             if self.fsm_state != "PLACE_SELL":
@@ -1020,7 +1055,7 @@ class MainWindow(QMainWindow):
             self.log("INFO", "[EXEC] WAIT READY")
             self.fsm_state = "WAIT_READY"
         market_valid = ws_ok or self.state.rest_status == "OK"
-        allow_buy = self.settings.live_enabled and plan.status in {"READY", "HOT"} and market_valid and plan.filters_ok and (plan.required_u or 0.0) <= self.settings.max_live_exposure_u
+        allow_buy = bool(plan) and self.settings.live_enabled and plan.status in {"READY", "HOT"} and market_valid and plan.filters_ok and (plan.required_u or 0.0) <= self.settings.max_live_exposure_u
         if self.runtime_active and self.fsm_state == "WAIT_READY" and allow_buy:
             if now_ms - self._last_health_update_ms >= 250:
                 self._update_market_health(now_ms)
@@ -1345,7 +1380,7 @@ class MainWindow(QMainWindow):
 
         u_free = float(self.balances.get("U", {}).get("free", 0.0))
         btc_free = float(self.balances.get("BTC", {}).get("free", 0.0))
-        max_buy = (u_free / plan.entry_price) if plan.entry_price else 0.0
+        max_buy = (u_free / plan.entry_price) if plan and plan.entry_price else 0.0
         self.bal["BTC свободно"].setText(self._fmt(btc_free, 6))
         self.bal["BTC lock"].setText(self._fmt(float(self.balances.get("BTC", {}).get("locked", 0.0)), 6))
         self.bal["U свободно"].setText(self._fmt(u_free, 6))
@@ -1375,7 +1410,7 @@ class MainWindow(QMainWindow):
             should_log = True
         elif plan_status not in {"READY", "HOT"} and plan.reason != self.last_plan_log_key.split("|", 1)[-1] if self.last_plan_log_key else True:
             should_log = True
-        if should_log and (now_ms - self.last_plan_log_ms >= 2000 or log_key != self.last_plan_log_key):
+        if plan and self.runtime_active and should_log and (now_ms - self.last_plan_log_ms >= 2000 or log_key != self.last_plan_log_key):
             self.last_plan_log_ms = now_ms
             self.last_plan_log_key = log_key
             self.last_plan_status = plan_status
