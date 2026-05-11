@@ -12,6 +12,7 @@ import requests
 from requests import HTTPError
 
 BINANCE_BASE_URL = "https://api.binance.com"
+DEBUG_API_LOGS = False
 
 
 @dataclass
@@ -38,6 +39,8 @@ class BinanceAccountClient:
         self.api_secret = ""
         self.time_offset_ms = 0
         self.session = requests.Session()
+        self.debug_api_logs = DEBUG_API_LOGS
+        self._last_debug_log_ms = 0
 
     @staticmethod
     def _mask_key(key: str) -> str:
@@ -80,7 +83,10 @@ class BinanceAccountClient:
         if not self.api_key or not self.api_secret:
             raise ValueError("API NOT SET")
         query_string, signature = self._build_signed_query(params)
-        print(f"[API] signed {method.upper()} {path} params={query_string}")
+        now_ms = int(time.time() * 1000)
+        if self.debug_api_logs and now_ms - self._last_debug_log_ms >= 5000:
+            print(f"[API] signed {method.upper()} {path} params={query_string}")
+            self._last_debug_log_ms = now_ms
         final_url = f"{BINANCE_BASE_URL}{path}?{query_string}&signature={signature}"
         headers = {"X-MBX-APIKEY": self.api_key}
         if method.upper() == "GET":
