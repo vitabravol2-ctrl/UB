@@ -180,7 +180,12 @@ class BinanceAccountClient:
         )
 
     def cancel_order(self, symbol: str, order_id: int) -> dict[str, Any]:
-        return self.signed_delete("/api/v3/order", {"symbol": symbol, "orderId": order_id})
+        try:
+            return self.signed_delete("/api/v3/order", {"symbol": symbol, "orderId": order_id})
+        except BinanceAPIError as exc:
+            if exc.payload.get("code") == -2011:
+                return {"status": "UNKNOWN_ORDER", "orderId": order_id, "symbol": symbol}
+            raise
 
     def get_order(self, symbol: str, order_id: int) -> dict[str, Any]:
         data = self.signed_get("/api/v3/order", {"symbol": symbol, "orderId": order_id})
