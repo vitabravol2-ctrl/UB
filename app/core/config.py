@@ -21,12 +21,13 @@ class SettingsData:
     live_enabled: bool = False
     require_confirmation: bool = True
     auto_cancel_on_stop: bool = True
-    entry_timeout_ms: int = 15000
-    exit_timeout_ms: int = 20000
+    buy_timeout_ms: int = 5000
+    sell_timeout_ms: int = 7000
+    sell_reprice_cooldown_ms: int = 1000
     panic_reprice_once: bool = True
     aggressive_exit_offset: float = 1.0
-    min_profit_ticks: int = 1
     max_sell_reprices: int = 5
+    min_profit_ticks: int = 1
     rest_poll_ms: int = 2000
     open_orders_poll_ms: int = 2000
     all_orders_poll_ms: int = 9000
@@ -66,6 +67,12 @@ class SettingsStore:
         current.update(payload)
         current.pop("lot_size", None)
         current.pop("legacy_qty_btc", None)
+        if "entry_timeout_ms" in payload and "buy_timeout_ms" not in payload:
+            current["buy_timeout_ms"] = int(payload.get("entry_timeout_ms") or 5000)
+        if "exit_timeout_ms" in payload and "sell_timeout_ms" not in payload:
+            current["sell_timeout_ms"] = int(payload.get("exit_timeout_ms") or 7000)
+        current.pop("entry_timeout_ms", None)
+        current.pop("exit_timeout_ms", None)
         current.pop("live_max_exposure_u", None)
         current.pop("arm_live", None)
         return SettingsData(**current)

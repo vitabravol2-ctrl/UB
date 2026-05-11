@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.settings = SETTINGS_STORE.load()
-        self.setWindowTitle("UB v0.4.0 / BTCU Trading Cockpit")
+        self.setWindowTitle("UB v0.5.0 / BTCU Trading Cockpit")
         self.resize(1600, 900)
         self.setMinimumSize(1280, 760)
         self.setStyleSheet(main_qss())
@@ -126,8 +126,8 @@ class MainWindow(QMainWindow):
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
-        self.grid = QGridLayout(); self.grid.setHorizontalSpacing(8); self.grid.setVerticalSpacing(8); self.main_layout.addLayout(self.grid, 1)
-        self._build_cards(); self._build_controls(); self._build_logs()
+        self.grid = QGridLayout(); self.grid.setHorizontalSpacing(10); self.grid.setVerticalSpacing(10); self.grid.setContentsMargins(0, 0, 0, 0); self.main_layout.addLayout(self.grid, 1)
+        self._build_cards(); self._build_controls(); self._build_logs(); self._configure_grid_layout()
 
         self.ws.signals.book.connect(self.on_ws_book); self.ws.signals.status.connect(self.on_ws_status); self.ws.signals.log.connect(self.log)
         self.timer = QTimer(self); self.timer.timeout.connect(self.on_tick); self.timer.start(300)
@@ -135,6 +135,15 @@ class MainWindow(QMainWindow):
         self.account_timer = QTimer(self); self.account_timer.timeout.connect(self.refresh_account_data); self.account_timer.start(self.settings.balances_poll_ms)
         self.active_sync_timer = QTimer(self); self.active_sync_timer.timeout.connect(self.sync_active_order); self.active_sync_timer.start(self.settings.active_order_poll_ms)
         self.on_test_connection(silent=True)
+
+
+    def _configure_grid_layout(self) -> None:
+        for col in range(4):
+            self.grid.setColumnStretch(col, 1)
+            self.grid.setColumnMinimumWidth(col, 280)
+        self.grid.setRowStretch(0, 1)
+        self.grid.setRowStretch(1, 2)
+        self.grid.setRowStretch(2, 2)
 
     def _build_cards(self) -> None:
         conn, self.conn = kv_card("CONNECTION", [("API", "NOT SET"), ("REST", "N/A"), ("WS", "OPTIONAL LOST"), ("Источник", "NONE"), ("Обновление", "0 ms")])
@@ -148,7 +157,7 @@ class MainWindow(QMainWindow):
         spread, self.spread = kv_card("SPREAD ENGINE", [("Статус", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Источник", "NONE"), ("Обновление", "--")])
         self.spread_box = spread
         plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")])
-        plan.setMinimumHeight(320)
+        plan.setMinimumHeight(280)
         self.plan_box = plan
         runtime, self.runtime = kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Active order", "none"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Треб. подтверждение", "YES"), ("Авто-отмена", "YES")])
         self.runtime_box = runtime
@@ -157,8 +166,9 @@ class MainWindow(QMainWindow):
         bal, self.bal = kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
         self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(risk, 2, 0, 1, 1)
 
-        summary, self.summary = kv_card("SESSION RESULT", [("Started at", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("SELL reprices", "0"), ("Current exit mode", "NORMAL"), ("Active order", "none")])
-        summary.setMinimumHeight(190)
+        summary, self.summary = kv_card("SESSION RESULT", [("Started at", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("SELL reprices", "0"), ("Current exit mode", "NORMAL"), ("Active order", "none")], compact=True)
+        summary.setMinimumHeight(280)
+        summary.setMaximumHeight(420)
         self.grid.addWidget(summary, 2, 1, 1, 3)
 
         self.compact_status = QLabel("")
@@ -187,7 +197,27 @@ class MainWindow(QMainWindow):
         tabs = QTabWidget(); lay.addWidget(tabs)
         self.settings_inputs = {}
 
-        labels = {"order_size_u": "Размер сделки U", "max_exposure_u": "Макс. экспозиция U", "max_daily_loss": "Макс. дневной убыток U", "max_open_lots": "Max open lots", "panic_exit": "Panic exit", "live_enabled": "LIVE enabled", "require_confirmation": "Require confirmation", "auto_cancel_on_stop": "Auto cancel on stop", "max_live_exposure_u": "Live max exposure U", "open_orders_poll_ms": "openOrders interval ms", "all_orders_poll_ms": "allOrders interval ms", "balances_poll_ms": "balances interval ms", "debug_api_logs": "API debug logs", "min_profit_ticks": "Min profit ticks"}
+        labels = {
+            "order_size_u": "Размер сделки U",
+            "max_exposure_u": "Макс. экспозиция U",
+            "max_daily_loss": "Макс. дневной убыток U",
+            "max_open_lots": "Max open lots",
+            "panic_exit": "Panic exit",
+            "live_enabled": "LIVE enabled",
+            "require_confirmation": "Require confirmation",
+            "auto_cancel_on_stop": "Auto cancel on stop",
+            "max_live_exposure_u": "Live max exposure U",
+            "open_orders_poll_ms": "openOrders interval ms",
+            "all_orders_poll_ms": "allOrders interval ms",
+            "balances_poll_ms": "balances interval ms",
+            "debug_api_logs": "API debug logs",
+            "buy_timeout_ms": "BUY timeout ms",
+            "sell_timeout_ms": "SELL timeout ms",
+            "sell_reprice_cooldown_ms": "SELL reprice cooldown ms",
+            "aggressive_exit_offset": "Aggressive exit offset",
+            "max_sell_reprices": "Max sell reprices",
+            "min_profit_ticks": "Min profit ticks",
+        }
 
         account_tab = QWidget(); account_form = QFormLayout(account_tab)
         api_key_input = QLineEdit(); api_secret_input = QLineEdit(); api_secret_input.setEchoMode(QLineEdit.Password)
@@ -198,7 +228,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Safety", ["live_enabled", "require_confirmation", "auto_cancel_on_stop", "entry_timeout_ms", "exit_timeout_ms", "panic_reprice_once", "aggressive_exit_offset", "min_profit_ticks", "max_sell_reprices"])]
+        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Execution", ["buy_timeout_ms", "sell_timeout_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "min_profit_ticks"]), ("Safety", ["live_enabled", "require_confirmation", "auto_cancel_on_stop", "panic_reprice_once"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -417,7 +447,7 @@ class MainWindow(QMainWindow):
             return
         order_id = int(self.active_order.get("orderId", 0) or 0)
         self.log("WARNING", f"[EXEC] SELL TIMEOUT orderId={order_id}")
-        if now_ms - self.last_sell_reprice_ms < 1000:
+        if now_ms - self.last_sell_reprice_ms < int(self.settings.sell_reprice_cooldown_ms):
             self.fsm_state = "WAIT_SELL_FILL"
             return
         if order_id:
@@ -583,7 +613,7 @@ class MainWindow(QMainWindow):
                 self.last_sell_reprice_ms = 0
                 self.exit_mode = "NORMAL"
                 self.fsm_state = "PLACE_SELL"
-            elif now - self.entry_started_ms >= self.settings.entry_timeout_ms:
+            elif now - self.entry_started_ms >= int(self.settings.buy_timeout_ms):
                 order_id = int(self.active_order["orderId"])
                 self.log("WARNING", f"[EXEC] BUY TIMEOUT orderId={order_id}")
                 self.log("WARNING", f"[EXEC] CANCEL BUY orderId={order_id}")
@@ -658,7 +688,7 @@ class MainWindow(QMainWindow):
                     self.position_qty = remaining
                     self.position_state = "POSITION_OPEN"
                     self.fsm_state = "PLACE_SELL"
-            elif now - self.exit_started_ms >= self.settings.exit_timeout_ms:
+            elif now - self.exit_started_ms >= int(self.settings.sell_timeout_ms):
                 if self.position_qty > 0:
                     self.handle_sell_timeout_recovery(now)
                 else:
