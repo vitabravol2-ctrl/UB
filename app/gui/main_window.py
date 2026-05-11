@@ -236,14 +236,14 @@ class MainWindow(QMainWindow):
         self.spread_box = spread
         plan, self.plan = build_kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")], compact=True)
         self.plan_box = plan
-        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Exit stage", "-"), ("SELL age", "0ms"), ("SELL reprices", "0"), ("Panic ladder", "0"), ("Last exit reason", "-"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
+        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Exit stage", "-"), ("SELL age", "0ms"), ("SELL reprices", "0"), ("Panic ladder", "0"), ("Last exit reason", "-"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
         self.runtime_box = runtime
         risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
         bal, self.bal = build_kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")], compact=True)
         self.grid.addWidget(spread, 2, 0); self.grid.addWidget(plan, 2, 1); self.grid.addWidget(runtime, 2, 2); self.grid.addWidget(bal, 2, 3)
 
-        summary_rows = [("Started", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("Exit mode", "NORMAL")]
+        summary_rows = [("Started", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("Exit mode", "NORMAL")]
         summary, self.summary = build_kv_card("SESSION RESULT", summary_rows, compact=True, label_width=136, columns=3)
         self.grid.addWidget(summary, 1, 1, 1, 3)
 
@@ -851,6 +851,20 @@ class MainWindow(QMainWindow):
         self.sell_target_qty = self._remaining_to_sell()
         return self.sell_target_qty
 
+    def _safe_sell_qty(self, candidate_qty: float, *, refresh_balance: bool = False) -> float:
+        if refresh_balance:
+            self.refresh_account_data()
+        inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
+        free_btc = float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0)
+        rounded_qty = max(self._normalize_qty(float(candidate_qty)), 0.0)
+        safe_qty = min(inventory_qty, free_btc, rounded_qty)
+        epsilon = self._inventory_epsilon_qty()
+        if safe_qty <= epsilon:
+            return 0.0
+        if safe_qty + epsilon < rounded_qty or inventory_qty + epsilon < rounded_qty or free_btc + epsilon < rounded_qty:
+            self.log("WARNING", f"[EXEC] SELL_QTY_CLAMP inventory={inventory_qty:.6f} free={free_btc:.6f} final={safe_qty:.6f}")
+        return safe_qty
+
     def _panic_exit_final(self, now_ms: int, reason: str, sl_mode: bool = False) -> None:
         if self.panic_exit_final and self.panic_exit_order_id:
             self.log("WARNING", f"[EXEC] PANIC HOLD active orderId={self.panic_exit_order_id}")
@@ -864,7 +878,12 @@ class MainWindow(QMainWindow):
         else:
             self.log("WARNING", f"[EXEC] PANIC EXIT {reason}")
         new_price = self._force_exit_price(bid_now, ask_now)
-        sell_qty = float(Decimal(str(self.position_qty)))
+        sell_qty = self._safe_sell_qty(self.position_qty, refresh_balance=True)
+        if sell_qty <= self._inventory_epsilon_qty():
+            self._cleanup_inventory_if_drained()
+            self.log("OK", "[EXEC] EXIT_FILLED inferred_by_balance")
+            self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
+            return
         self.log("WARNING", f"[EXEC] FORCE EXIT price={new_price:.2f}")
         self.log("OK", f"[EXEC] PLACE SELL price={new_price:.2f} qty={sell_qty:.6f}")
         try:
@@ -1077,7 +1096,7 @@ class MainWindow(QMainWindow):
                     return
                 candidate_price = max(bid_now + tick, ask_now - aggressive)
             new_price = self._cap_soft_sell_reprice(old_price, candidate_price)
-            sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
+            sell_qty = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
             min_notional = float(self.filters.get("minNotional", 0.0) or 0.0)
             if sell_qty <= self._inventory_epsilon_qty() or (bid_now > 0 and (sell_qty * bid_now) < min_notional):
                 self.log("INFO", f"[EXEC] SKIP MICRO SELL epsilon={self._inventory_epsilon_qty():.6f}")
@@ -1132,6 +1151,12 @@ class MainWindow(QMainWindow):
         self.runtime["Position state"].setText(self.position_state)
         self.runtime["Position qty"].setText(self._fmt(self.position_qty, 6))
         self.runtime["Entry avg"].setText(self._fmt(self.position_entry_avg, 6))
+        free_btc_runtime = float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0)
+        inventory_runtime = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
+        safe_runtime = self._safe_sell_qty(self._sync_sell_target_qty())
+        self.runtime["Free BTC"].setText(self._fmt(free_btc_runtime, 6))
+        self.runtime["Inventory BTC"].setText(self._fmt(inventory_runtime, 6))
+        self.runtime["Safe SELL qty"].setText(self._fmt(safe_runtime, 6))
         self.runtime["Market Health"].setText(self.market_health_state)
         self.runtime["Entry Guard"].setText(self.settings.guard_mode)
         self.runtime["Guard state"].setText(self.entry_guard_state)
@@ -1390,7 +1415,7 @@ class MainWindow(QMainWindow):
                 self._adopt_open_sell_order(open_sell)
                 return
             inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
-            sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
+            sell_qty = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
             bid_now = float(self.state.snapshot.bid or 0.0)
             self.log("INFO", f"[EXEC] SELL CHECK inventory={inventory_qty:.6f} reported={self.sell_reported_qty:.6f} remaining={sell_qty:.6f} chunks={len(self.inventory_chunks)}")
             if sell_qty <= epsilon_qty and len(self.inventory_chunks) == 0 and self.active_order.get("side") == "BUY" and self.active_order.get("orderId"):
@@ -1399,12 +1424,12 @@ class MainWindow(QMainWindow):
                     sync_buy = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
                     self._handle_buy_fill_update(sync_buy)
                     inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
-                    sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
+                    sell_qty = self._safe_sell_qty(self._sync_sell_target_qty())
                     self.log("INFO", f"[EXEC] SELL CHECK resync inventory={inventory_qty:.6f} remaining={sell_qty:.6f} chunks={len(self.inventory_chunks)}")
             if inventory_qty > epsilon_qty and sell_qty <= epsilon_qty and not (self.active_order.get('orderId') and self.active_order.get('side') == "SELL"):
                 self.sell_reported_qty = 0.0
                 self.log("WARNING", "[EXEC] SELL ACCOUNTING STALE RESET")
-                sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
+                sell_qty = self._safe_sell_qty(self._sync_sell_target_qty())
             min_qty = float(self.filters.get("minQty", 0.0) or 0.0)
             btc_free = float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0)
             btc_locked = float(self.balances.get("BTC", {}).get("locked", 0.0) or 0.0)
@@ -1426,7 +1451,7 @@ class MainWindow(QMainWindow):
                 if inventory_qty > 0:
                     self.log("WARNING", "[EXEC] SELL ACCOUNTING STALE RESET")
                     self.sell_reported_qty = 0.0
-                    sell_qty = float(Decimal(str(self._sync_sell_target_qty())))
+                    sell_qty = self._safe_sell_qty(self._sync_sell_target_qty())
                 if sell_qty <= 0:
                     self.log("WARNING", "[EXEC] EXIT RECOVERY waiting inventory_resync")
                     self.fsm_state = "DONE"
@@ -1548,7 +1573,12 @@ class MainWindow(QMainWindow):
                         self.panic_ladder_step += 1
                         ladder_ticks = step_ticks * self.panic_ladder_step
                         new_price = self._round_price_down(max(bid_now - (tick * ladder_ticks), tick))
-                        sell_qty = float(Decimal(str(self.position_qty)))
+                        sell_qty = self._safe_sell_qty(self.position_qty, refresh_balance=True)
+                        if sell_qty <= self._inventory_epsilon_qty():
+                            self._cleanup_inventory_if_drained()
+                            self.log("OK", "[EXEC] EXIT_FILLED inferred_by_balance")
+                            self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
+                            return
                         o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
                         self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                         self.position_sell_order_id = int(self.active_order["orderId"])
