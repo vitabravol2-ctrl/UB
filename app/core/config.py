@@ -12,10 +12,10 @@ class SettingsData:
     target_capture: float = 5.0
     stop_loss: float = 12.0
     max_hold_ms: int = 20000
-    lot_size: float = 0.001
+    order_size_u: float = 20.0
     max_open_lots: int = 1
     max_daily_loss: float = 200.0
-    max_exposure_u: float = 1000.0
+    max_exposure_u: float = 20.0
     live_max_exposure_u: float = 20.0
     panic_exit: bool = True
     live_enabled: bool = False
@@ -50,7 +50,13 @@ class SettingsStore:
             return data
         payload = json.loads(self.path.read_text(encoding="utf-8"))
         current = asdict(SettingsData())
+        if "lot_size" in payload and "order_size_u" not in payload:
+            legacy_lot = float(payload.get("lot_size", 0.0) or 0.0)
+            payload["order_size_u"] = legacy_lot if legacy_lot > 1 else 20.0
+            payload["legacy_qty_btc"] = legacy_lot if legacy_lot < 1 else 0.0
         current.update(payload)
+        current.pop("lot_size", None)
+        current.pop("legacy_qty_btc", None)
         return SettingsData(**current)
 
     def save(self, data: SettingsData) -> None:

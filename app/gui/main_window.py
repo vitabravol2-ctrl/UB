@@ -18,7 +18,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.settings = SETTINGS_STORE.load()
-        self.setWindowTitle("UB v0.3.0 / BTCU Trading Cockpit")
+        self.setWindowTitle("UB v0.3.1 / BTCU Trading Cockpit")
         self.resize(1600, 900)
         self.setMinimumSize(1280, 760)
         self.setStyleSheet(main_qss())
@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
-        self.grid = QGridLayout(); self.main_layout.addLayout(self.grid, 1)
+        self.grid = QGridLayout(); self.grid.setHorizontalSpacing(8); self.grid.setVerticalSpacing(8); self.main_layout.addLayout(self.grid, 1)
         self._build_cards(); self._build_controls(); self._build_logs()
 
         self.ws.signals.book.connect(self.on_ws_book); self.ws.signals.status.connect(self.on_ws_status); self.ws.signals.log.connect(self.log)
@@ -72,16 +72,16 @@ class MainWindow(QMainWindow):
 
         spread, self.spread = kv_card("SPREAD ENGINE", [("Статус", "BAD"), ("Spread", "N/A"), ("Capture", "N/A"), ("Lifetime", "0ms"), ("Источник", "NONE"), ("Обновление", "--")])
         self.spread_box = spread
-        plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Reason", "Нет рыночных данных"), ("Entry BUY", "N/A"), ("Exit SELL", "N/A"), ("Stop", "N/A"), ("Capture/BTC", "N/A"), ("Lot", "0"), ("Required U", "N/A"), ("Balance OK", "NO"), ("Filters OK", "NO"), ("Ready age", "0ms"), ("Profit U", "N/A"), ("Loss U", "N/A"), ("R:R", "N/A")])
+        plan, self.plan = kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Reason", "Нет рыночных данных"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Required U", "N/A"), ("Capture/BTC", "N/A"), ("Profit U", "N/A"), ("Loss U", "N/A"), ("Ready age", "0ms")])
         plan.setMinimumHeight(320)
         self.plan_box = plan
         runtime, self.runtime = kv_card("RUNTIME", [("LIVE", "OFF"), ("ARM", "OFF"), ("FSM", "IDLE"), ("Треб. подтверждение", "YES"), ("Авто-отмена", "YES")])
         self.runtime_box = runtime
-        risk, self.risk = kv_card("RISK", [("lot_size", "0"), ("max_open_lots", "0"), ("max_daily_loss", "0"), ("max_exposure_u", "0"), ("panic_exit", "ON")])
+        risk, self.risk = kv_card("RISK", [("order_size_u", "0"), ("max_exposure_u", "0"), ("max_daily_loss", "0"), ("max_open_lots", "0"), ("panic", "ON")])
         self.risk_box = risk
         bal, self.bal = kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
         fil, self.fil = kv_card("ФИЛЬТРЫ", [("Filters", "NO"), ("tickSize", "0"), ("stepSize", "0"), ("minQty", "0"), ("minNotional", "0")])
-        self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(risk, 1, 3); self.grid.addWidget(bal, 2, 0); self.grid.addWidget(fil, 2, 1, 1, 3)
+        self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(fil, 2, 0, 1, 2); self.grid.addWidget(risk, 2, 2, 1, 2)
 
         self.orders = QTableWidget(0, 8); self.orders.setHorizontalHeaderLabels(["Order ID", "Side", "Price", "Qty", "Filled", "Status", "Age", "Type"])
         box = QGroupBox("REAL LIVE ORDERS"); lay = QVBoxLayout(); lay.addWidget(self.orders); box.setLayout(lay)
@@ -103,6 +103,8 @@ class MainWindow(QMainWindow):
         tabs = QTabWidget(); lay.addWidget(tabs)
         self.settings_inputs = {}
 
+        labels = {"order_size_u": "Размер сделки U", "max_exposure_u": "Макс. экспозиция U", "max_daily_loss": "Макс. дневной убыток U", "max_open_lots": "Max open lots", "panic_exit": "Panic exit", "live_enabled": "LIVE enabled", "arm_live": "ARM LIVE", "require_confirmation": "Require confirmation", "auto_cancel_on_stop": "Auto cancel on stop", "live_max_exposure_u": "Live max exposure U"}
+
         account_tab = QWidget(); account_form = QFormLayout(account_tab)
         api_key_input = QLineEdit(); api_secret_input = QLineEdit(); api_secret_input.setEchoMode(QLineEdit.Password)
         show_secret = QCheckBox("Показать secret")
@@ -112,7 +114,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["lot_size", "max_open_lots", "max_daily_loss", "max_exposure_u", "live_max_exposure_u", "panic_exit"]), ("Data", ["rest_poll_ms", "ws_optional_enabled", "max_ws_age_ms"]), ("Safety", ["live_enabled", "arm_live", "require_confirmation", "auto_cancel_on_stop", "entry_timeout_ms", "exit_timeout_ms", "panic_reprice_once"])]
+        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "live_max_exposure_u"]), ("Data", ["rest_poll_ms", "ws_optional_enabled", "max_ws_age_ms"]), ("Safety", ["live_enabled", "arm_live", "require_confirmation", "auto_cancel_on_stop", "entry_timeout_ms", "exit_timeout_ms", "panic_reprice_once"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -120,7 +122,7 @@ class MainWindow(QMainWindow):
                 inp = QCheckBox() if isinstance(v, bool) else QLineEdit(str(v))
                 if isinstance(inp, QCheckBox): inp.setChecked(v)
                 self.settings_inputs[key] = inp
-                f.addRow(key, inp)
+                f.addRow(labels.get(key, key), inp)
             tabs.addTab(w, title)
 
         btns = QHBoxLayout(); save = QPushButton("SAVE"); close = QPushButton("CLOSE"); save.clicked.connect(lambda: self._save_settings_dialog(d)); close.clicked.connect(d.close); btns.addWidget(save); btns.addWidget(close); lay.addLayout(btns)
@@ -222,34 +224,35 @@ class MainWindow(QMainWindow):
 
         self.plan["Status"].setText(plan_status)
         self.plan["Reason"].setText(plan.reason)
-        self.plan["Entry BUY"].setText("N/A" if plan.entry_price is None else f"{plan.entry_price:.2f}")
-        self.plan["Exit SELL"].setText("N/A" if plan.exit_price is None else f"{plan.exit_price:.2f}")
-        self.plan["Stop"].setText("N/A" if plan.stop_price is None else f"{plan.stop_price:.2f}")
-        self.plan["Capture/BTC"].setText("N/A" if plan.capture_per_btc is None else f"{plan.capture_per_btc:.2f}")
-        self.plan["Lot"].setText(self._fmt(plan.lot_size, 6))
+        self.plan["Entry"].setText("N/A" if plan.entry_price is None else f"{plan.entry_price:.2f}")
+        self.plan["Exit"].setText("N/A" if plan.exit_price is None else f"{plan.exit_price:.2f}")
+        self.plan["Qty BTC"].setText(self._fmt(plan.qty_btc, 6))
+        self.plan["Order U"].setText(self._fmt(plan.order_size_u, 2))
         self.plan["Required U"].setText("N/A" if plan.required_u is None else self._fmt(plan.required_u, 6))
-        self.plan["Balance OK"].setText("YES" if plan.balance_ok else "NO")
-        self.plan["Filters OK"].setText("YES" if plan.filters_ok else "NO")
+        self.plan["Capture/BTC"].setText("N/A" if plan.capture_per_btc is None else f"{plan.capture_per_btc:.2f}")
         self.plan["Ready age"].setText(f"{ready_age}ms")
         self.plan["Profit U"].setText("N/A" if plan.expected_profit_u is None else self._fmt(plan.expected_profit_u, 6))
         self.plan["Loss U"].setText("N/A" if plan.stop_loss_u is None else self._fmt(plan.stop_loss_u, 6))
-        self.plan["R:R"].setText("N/A" if plan.risk_reward is None else self._fmt(plan.risk_reward, 4))
-
+        plan_key = f"{plan.status}:{self._fmt(plan.order_size_u,2)}:{self._fmt(plan.qty_btc,6)}:{self._fmt(plan.required_u or 0.0,2)}"
+        if plan.status in {"READY", "HOT"} and plan_key != self.last_plan_log_key:
+            self.log("INFO", f"[PLAN] order_size={plan.order_size_u:.2f}U qty={plan.qty_btc:.6f} required={(plan.required_u or 0.0):.2f}U")
+            self.last_plan_log_key = plan_key
+        
         if self.runtime_active and self.fsm_state == "IDLE":
             self.fsm_state = "WAIT_READY"
         if self.runtime_active and self.fsm_state == "WAIT_READY" and plan.status in {"READY", "HOT"} and plan.balance_ok and plan.filters_ok and ws_ok:
             if (plan.required_u or 0.0) > self.settings.live_max_exposure_u:
-                self.log("WARNING", f"[EXEC] BLOCK exposure required={plan.required_u:.4f} > {self.settings.live_max_exposure_u:.4f}")
+                self.log("WARNING", f"[EXEC] BLOCK exposure/order_size required={plan.required_u:.4f} > {self.settings.live_max_exposure_u:.4f}")
                 self.fsm_state = "DONE"
             elif self.settings.live_enabled and self.settings.arm_live:
-                o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.lot_size))
+                o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
                 now = int(time.time() * 1000)
-                self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.lot_size), "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                 self.entry_started_ms = now
-                self.log("OK", f"[EXEC] PLACE BUY id={self.active_order['orderId']} p={plan.entry_price:.2f} q={plan.lot_size:.6f}")
+                self.log("OK", f"[EXEC] PLACE BUY id={self.active_order['orderId']} p={plan.entry_price:.2f} q={plan.qty_btc:.6f}")
                 self.fsm_state = "WAIT_BUY_FILL"
             else:
-                self.log("INFO", "[EXEC] analytics only (LIVE OFF or ARM OFF)")
+                self.log("INFO", "[EXEC] ARM OFF analytics only")
                 self.fsm_state = "DONE"
         elif self.runtime_active and self.fsm_state == "WAIT_BUY_FILL" and self.active_order.get("orderId"):
             now = int(time.time() * 1000)
@@ -292,6 +295,12 @@ class MainWindow(QMainWindow):
                 else:
                     self.log("WARNING", "[EXEC] TIMEOUT")
                     self.fsm_state = "DONE"
+
+        self.risk["order_size_u"].setText(self._fmt(self.settings.order_size_u, 2))
+        self.risk["max_exposure_u"].setText(self._fmt(self.settings.max_exposure_u, 2))
+        self.risk["max_daily_loss"].setText(self._fmt(self.settings.max_daily_loss, 2))
+        self.risk["max_open_lots"].setText(str(self.settings.max_open_lots))
+        self.risk["panic"].setText("ON" if self.settings.panic_exit else "OFF")
 
         self.fil["Filters"].setText("YES fallback" if self.filters.get("fallback") else ("YES" if self.filters["loaded"] else "NO"))
         for k in ["tickSize", "stepSize", "minQty", "minNotional"]: self.fil[k].setText(self._fmt(float(self.filters[k]), 6))
