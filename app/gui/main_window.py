@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.settings = SETTINGS_STORE.load()
-        self.setWindowTitle("UB v0.7.5 / BTCU Trading Cockpit")
+        self.setWindowTitle("UB v0.7.6 / BTCU Trading Cockpit")
         self.resize(1600, 900)
         self.setMinimumSize(1280, 760)
         self.setStyleSheet(main_qss())
@@ -122,6 +122,10 @@ class MainWindow(QMainWindow):
         self.panic_exit_started_ms = 0
         self.panic_escalated_once = False
         self.last_panic_wait_log_ms = 0
+        self.entry_exec_state = "ENTRY_WAITING"
+        self.entry_reprice_count = 0
+        self.last_entry_reprice_ms = 0
+        self.entry_last_reason = "-"
         self.trade_math = TradeMathEngine()
         self.last_plan_status = ""
         self.ready_since_ms = 0
@@ -227,7 +231,7 @@ class MainWindow(QMainWindow):
         self.spread_box = spread
         plan, self.plan = build_kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")], compact=True)
         self.plan_box = plan
-        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
+        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
         self.runtime_box = runtime
         risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
@@ -287,6 +291,14 @@ class MainWindow(QMainWindow):
             "balances_poll_ms": "balances interval ms",
             "debug_api_logs": "API debug logs",
             "buy_timeout_ms": "BUY timeout ms",
+            "buy_timeout_ms_fast": "BUY timeout fast ms",
+            "entry_mode": "Entry mode (PASSIVE/BALANCED/AGGRESSIVE)",
+            "entry_reprice_enabled": "Entry reprice enabled",
+            "entry_reprice_cooldown_ms": "Entry reprice cooldown ms",
+            "max_entry_reprices": "Max entry reprices",
+            "entry_chase_ticks": "Entry chase ticks",
+            "entry_cross_if_spread_ticks_above": "Cross entry if spread ticks above",
+            "min_spread_after_entry_ticks": "Min spread after entry ticks",
             "sell_timeout_ms": "SELL timeout ms",
             "sell_reprice_cooldown_ms": "SELL reprice cooldown ms",
             "aggressive_exit_offset": "Aggressive exit offset",
@@ -306,7 +318,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Execution", ["buy_timeout_ms", "sell_timeout_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "min_profit_ticks", "take_profit_ticks", "stop_loss_ticks"]), ("Safety", ["live_enabled", "require_confirmation", "auto_cancel_on_stop", "panic_reprice_once"]), ("Guard", ["guard_mode", "guard_enabled", "require_ws_for_buy", "max_ws_age_for_buy_ms", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"])]
+        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Execution", ["entry_mode", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks", "buy_timeout_ms_fast", "buy_timeout_ms", "sell_timeout_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "min_profit_ticks", "take_profit_ticks", "stop_loss_ticks"]), ("Safety", ["live_enabled", "require_confirmation", "auto_cancel_on_stop", "panic_reprice_once"]), ("Guard", ["guard_mode", "guard_enabled", "require_ws_for_buy", "max_ws_age_for_buy_ms", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -1059,6 +1071,16 @@ class MainWindow(QMainWindow):
         now_ms = int(time.time() * 1000)
         cooldown_left = max(self.entry_guard_cooldown_until_ms - now_ms, 0)
         self.runtime["Cooldown ms"].setText(str(cooldown_left))
+        self.runtime["Entry mode"].setText(str(self.settings.entry_mode))
+        active_buy_age_ms = 0
+        if self.active_order.get("orderId") and self.active_order.get("side") == "BUY":
+            active_buy_age_ms = max(now_ms - int(self.active_order.get("create_ms", now_ms) or now_ms), 0)
+        self.runtime["BUY age"].setText(f"{active_buy_age_ms}ms")
+        self.runtime["Entry reprices"].setText(str(self.entry_reprice_count))
+        spread_ticks = int((float(spread or 0.0) / max(self._tick_size(), 1e-9))) if spread is not None else 0
+        fill_hint = "HIGH" if spread_ticks >= max(int(self.settings.min_spread_after_entry_ticks), 1) + 2 else ("MED" if spread_ticks >= max(int(self.settings.min_spread_after_entry_ticks), 1) else "LOW")
+        self.runtime["Fill hint"].setText(fill_hint)
+        self.runtime["Entry reason"].setText(self.entry_last_reason)
         can_recompute_plan = self.runtime_active or self.position_qty > 0 or bool(self.active_order.get("orderId"))
         if can_recompute_plan and (now_ms - self.last_plan_recompute_ms >= 250):
             self._cached_plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status)
@@ -1138,6 +1160,10 @@ class MainWindow(QMainWindow):
                         o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
                         now = int(time.time() * 1000)
                         self._reset_sell_accounting("new_cycle", reset_panic_order_id=self.position_qty <= 1e-12)
+                        self.entry_exec_state = "ENTRY_PLACED"
+                        self.entry_reprice_count = 0
+                        self.last_entry_reprice_ms = now
+                        self.entry_last_reason = "placed"
                         self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                         self.buy_reported_qty = 0.0
                         self.buy_reported_quote = 0.0
@@ -1185,6 +1211,7 @@ class MainWindow(QMainWindow):
                 self.position_buy_order_id = int(self.active_order["orderId"])
                 self.position_state = "POSITION_OPEN"
                 self.log("OK", f"[EXEC] BUY FILLED id={int(self.active_order['orderId'])}")
+                self.entry_exec_state = "ENTRY_FILLED"
                 self.sell_reprice_count = 0
                 self.last_sell_reprice_ms = 0
                 self.exit_mode = "NORMAL"
@@ -1230,6 +1257,48 @@ class MainWindow(QMainWindow):
                     self.active_order = {}
                     self.log("WARNING", "[EXEC] BLOCK reason=buy_not_filled")
                     self.fsm_state = "DONE"
+            elif st.get("status") in {"NEW", "PARTIALLY_FILLED"}:
+                bid_now = float(self.state.snapshot.bid or 0.0)
+                tick = self._tick_size()
+                spread_now = float(self.state.snapshot.spread or 0.0)
+                spread_ticks = int(spread_now / max(tick, 1e-9))
+                order_price = float(self.active_order.get("price", 0.0) or 0.0)
+                age_ms = now - int(self.active_order.get("create_ms", now) or now)
+                min_spread_ticks = max(int(self.settings.min_spread_after_entry_ticks), 0)
+                if spread_ticks < min_spread_ticks:
+                    self.entry_exec_state = "ENTRY_CANCELLED"
+                    self.entry_last_reason = "spread_dead"
+                    self.log("WARNING", f"[EXEC] ENTRY_CANCEL reason={self.entry_last_reason}")
+                    self.account.cancel_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
+                    self.active_order = {}
+                    self.fsm_state = "DONE"
+                    return
+                if bid_now > 0 and order_price > 0 and bid_now < (order_price - tick):
+                    self.entry_exec_state = "ENTRY_CANCELLED"
+                    self.entry_last_reason = "mid_falling"
+                    self.log("WARNING", f"[EXEC] ENTRY_CANCEL reason={self.entry_last_reason}")
+                    self.account.cancel_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
+                    self.active_order = {}
+                    self.fsm_state = "DONE"
+                    return
+                can_reprice = bool(self.settings.entry_reprice_enabled) and self.entry_reprice_count < int(self.settings.max_entry_reprices)
+                cooldown_ok = now - self.last_entry_reprice_ms >= int(self.settings.entry_reprice_cooldown_ms)
+                if can_reprice and cooldown_ok and bid_now > order_price and age_ms >= int(self.settings.buy_timeout_ms_fast):
+                    self.entry_exec_state = "ENTRY_REPRICE"
+                    self.entry_reprice_count += 1
+                    chase = max(int(self.settings.entry_chase_ticks), 0)
+                    new_price = bid_now + tick * chase
+                    if spread_ticks >= int(self.settings.entry_cross_if_spread_ticks_above):
+                        new_price = min(float(self.state.snapshot.ask or new_price), new_price + tick)
+                        self.entry_last_reason = "wide_spread_cross"
+                    else:
+                        self.entry_last_reason = "bid_moved_up"
+                    self.log("INFO", f"[EXEC] ENTRY_REPRICE reason={self.entry_last_reason} old={order_price:.2f} new={new_price:.2f} count={self.entry_reprice_count}")
+                    self.account.cancel_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
+                    o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(new_price), float(self.active_order.get("qty", 0.0)))
+                    self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(new_price), "qty": float(self.active_order.get("qty", 0.0)), "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                    self.last_entry_reprice_ms = now
+                    self.log("OK", f"[EXEC] ENTRY_PLACE price={new_price:.2f} qty={float(self.active_order.get('qty', 0.0)):.6f}")
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
             epsilon_qty = self._inventory_epsilon_qty()
             if self.sell_recovery_in_progress or self.sell_cancel_in_progress:
