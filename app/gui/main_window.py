@@ -58,6 +58,13 @@ class TradeHistoryRow:
     sell_order_id: int
 
 
+@dataclass
+class InventoryChunk:
+    qty: float
+    entry_price: float
+    created_ms: int
+
+
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
@@ -82,6 +89,7 @@ class MainWindow(QMainWindow):
         self.fsm_state = "IDLE"
         self.active_order = {}
         self.position_qty = 0.0
+        self.inventory_chunks: list[InventoryChunk] = []
         self.position_entry_avg = 0.0
         self.position_buy_order_id = 0
         self.position_sell_order_id = 0
@@ -410,10 +418,10 @@ class MainWindow(QMainWindow):
             sell_qty = float(order_status.get("executedQty", 0.0) or 0.0)
             sell_quote = float(order_status.get("cummulativeQuoteQty", 0.0) or 0.0)
             self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
-            self.realized_u = sell_quote - (self.position_entry_avg * sell_qty)
+            self.realized_u = self._consume_inventory_fifo(sell_qty, self.avg_exit)
             self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
             self._apply_session_pnl(self.realized_u)
-            self.position_qty = max(self.position_qty - sell_qty, 0.0)
+            self._recalc_position_from_chunks()
             self.position_state = "FLAT" if self.position_qty <= 0 else "POSITION_OPEN"
             self.fsm_state = "DONE"
         self.active_order = {}
@@ -534,6 +542,45 @@ class MainWindow(QMainWindow):
     def _remaining_to_sell(self) -> float:
         return max(self.position_qty - self.sell_reported_qty, 0.0)
 
+    def _recalc_position_from_chunks(self) -> float:
+        self.position_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
+        return self.position_qty
+
+    def _recalc_entry_avg_from_chunks(self) -> float:
+        total_qty = self._recalc_position_from_chunks()
+        if total_qty <= 0:
+            self.position_entry_avg = 0.0
+            return 0.0
+        weighted = sum(chunk.qty * chunk.entry_price for chunk in self.inventory_chunks if chunk.qty > 0)
+        self.position_entry_avg = weighted / total_qty
+        return self.position_entry_avg
+
+    def _add_inventory_chunk(self, qty: float, entry_price: float, now_ms: int) -> None:
+        if qty <= 0:
+            return
+        self.inventory_chunks.append(InventoryChunk(qty=qty, entry_price=entry_price, created_ms=now_ms))
+        self.log("OK", f"[EXEC] CHUNK ADD qty={qty:.6f} entry={entry_price:.2f}")
+        self.log("INFO", f"[EXEC] CHUNK COUNT n={len(self.inventory_chunks)}")
+        self._recalc_entry_avg_from_chunks()
+
+    def _consume_inventory_fifo(self, sell_qty: float, sell_price: float) -> float:
+        epsilon = 1e-12
+        remaining = max(sell_qty, 0.0)
+        realized = 0.0
+        while remaining > epsilon and self.inventory_chunks:
+            chunk = self.inventory_chunks[0]
+            taken = min(chunk.qty, remaining)
+            chunk_pnl = (sell_price - chunk.entry_price) * taken
+            realized += chunk_pnl
+            self.log("OK", f"[EXEC] FIFO CLOSE qty={taken:.6f} entry={chunk.entry_price:.2f} exit={sell_price:.2f} pnl={chunk_pnl:+.6f}")
+            chunk.qty -= taken
+            remaining -= taken
+            if chunk.qty <= epsilon:
+                self.log("INFO", f"[EXEC] CHUNK CLOSED entry={chunk.entry_price:.2f}")
+                self.inventory_chunks.pop(0)
+        self._recalc_entry_avg_from_chunks()
+        return realized
+
     def _sync_sell_target_qty(self) -> float:
         self.sell_target_qty = self._remaining_to_sell()
         return self.sell_target_qty
@@ -582,7 +629,7 @@ class MainWindow(QMainWindow):
         sell_qty = float(st.get("executedQty", 0.0) or 0.0)
         sell_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
         self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
-        self.realized_u = sell_quote - (self.position_entry_avg * sell_qty)
+        self.realized_u = self._consume_inventory_fifo(sell_qty, self.avg_exit)
         self.log("OK", f"[EXEC] SELL FILLED id={order_ref}")
         remaining = max(self.position_qty, 0.0)
         self.log("OK", f"[EXEC] SELL FILLED qty={sell_qty:.6f} remaining={remaining:.6f}")
@@ -591,7 +638,7 @@ class MainWindow(QMainWindow):
         self.active_order = {}
         self.buy_filled_qty = 0.0
         self.sell_reported_qty = 0.0
-        if sell_qty >= self.position_qty:
+        if remaining <= 0:
             self.position_qty = 0.0
             self.position_state = "FLAT"
             if self.panic_exit_final:
@@ -660,7 +707,7 @@ class MainWindow(QMainWindow):
                 executed_qty = float(final.get("executedQty", 0.0) or 0.0)
                 sell_delta = max(executed_qty - self.sell_reported_qty, 0.0)
                 if sell_delta > 0:
-                    self.position_qty = max(self.position_qty - sell_delta, 0.0)
+                    self._consume_inventory_fifo(sell_delta, old_price)
                     self.sell_reported_qty = executed_qty
                 if final_status == "PARTIALLY_FILLED" and self.position_qty > 0:
                     self.log("INFO", f"[EXEC] SELL REPLACE remaining={self.position_qty:.6f}")
@@ -818,12 +865,12 @@ class MainWindow(QMainWindow):
             cum_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
             new_chunk = max(executed_qty - self.buy_reported_qty, 0.0)
             if new_chunk > 0:
-                self.position_qty += new_chunk
+                fill_price = (cum_quote / executed_qty) if executed_qty > 0 else float(self.active_order.get("price", 0.0))
+                self._add_inventory_chunk(new_chunk, fill_price, now)
                 self.buy_filled_qty = executed_qty
                 self.buy_reported_qty = executed_qty
                 self.buy_reported_quote = cum_quote
-                self.avg_entry = (cum_quote / executed_qty) if executed_qty > 0 else float(self.active_order.get("price", 0.0))
-                self.position_entry_avg = self.avg_entry
+                self.avg_entry = self._recalc_entry_avg_from_chunks()
                 self.position_buy_order_id = int(self.active_order["orderId"])
                 self.log("OK", f"[EXEC] BUY PARTIAL delta={new_chunk:.6f} total={executed_qty:.6f}")
                 self.log("OK", f"[EXEC] BUY REMAINING qty={max(float(self.active_order.get('qty', 0.0)) - executed_qty, 0.0):.6f}")
@@ -936,7 +983,8 @@ class MainWindow(QMainWindow):
             executed_qty = float(st.get("executedQty", 0.0) or 0.0)
             sell_delta = max(executed_qty - self.sell_reported_qty, 0.0)
             if sell_delta > 0:
-                self.position_qty = max(self.position_qty - sell_delta, 0.0)
+                sell_price = (float(st.get("cummulativeQuoteQty", 0.0) or 0.0) / executed_qty) if executed_qty > 0 else float(self.active_order.get("price", 0.0))
+                self._consume_inventory_fifo(sell_delta, sell_price)
                 self.sell_reported_qty = executed_qty
                 self.log("OK", f"[EXEC] SELL PARTIAL delta={sell_delta:.6f}")
                 self.log("OK", f"[EXEC] INVENTORY remaining={self.position_qty:.6f}")
@@ -982,7 +1030,8 @@ class MainWindow(QMainWindow):
                                 executed_qty = float(final.get("executedQty", 0.0) or 0.0)
                                 sell_delta = max(executed_qty - self.sell_reported_qty, 0.0)
                                 if sell_delta > 0:
-                                    self.position_qty = max(self.position_qty - sell_delta, 0.0)
+                                    final_sell_price = (float(final.get("cummulativeQuoteQty", 0.0) or 0.0) / executed_qty) if executed_qty > 0 else float(self.active_order.get("price", 0.0))
+                                    self._consume_inventory_fifo(sell_delta, final_sell_price)
                                     self.sell_reported_qty = executed_qty
                                     if final_status == "PARTIALLY_FILLED":
                                         self.log("WARNING", f"[EXEC] PANIC PARTIAL filled={sell_delta:.6f} remaining={self.position_qty:.6f}")
