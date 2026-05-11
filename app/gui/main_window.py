@@ -134,6 +134,7 @@ class MainWindow(QMainWindow):
         self.wins = 0
         self.losses = 0
         self.session_realized_pnl = 0.0
+        self.cycle_realized_pnl = 0.0
         self.last_pnl = 0.0
         self.canceled_buys = 0
         self.sell_timeouts = 0
@@ -418,11 +419,10 @@ class MainWindow(QMainWindow):
             sell_qty = float(order_status.get("executedQty", 0.0) or 0.0)
             sell_quote = float(order_status.get("cummulativeQuoteQty", 0.0) or 0.0)
             self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
-            self.realized_u = self._consume_inventory_fifo(sell_qty, self.avg_exit)
-            self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
-            self._apply_session_pnl(self.realized_u)
+            self._consume_inventory_fifo(sell_qty, self.avg_exit)
             self._recalc_position_from_chunks()
             self.position_state = "FLAT" if self.position_qty <= 0 else "POSITION_OPEN"
+            self._finalize_cycle_if_flat()
             self.fsm_state = "DONE"
         self.active_order = {}
 
@@ -457,14 +457,32 @@ class MainWindow(QMainWindow):
     def on_ws_status(self, status: str) -> None:
         self.state.ws_status = status
 
-    def _apply_session_pnl(self, pnl: float) -> None:
-        self.session_realized_pnl += pnl
+    def _apply_fifo_close_result(self, pnl_delta: float) -> None:
+        epsilon = 1e-12
+        if abs(pnl_delta) <= epsilon:
+            return
+        self.session_realized_pnl += pnl_delta
+        self.realized_u = pnl_delta
+        self.cycle_realized_pnl += pnl_delta
+        self.log("OK", f"[EXEC] REALIZED pnl={pnl_delta:+.6f}")
+
+    def _finalize_cycle_if_flat(self, active_sell_qty: float = 0.0) -> None:
+        epsilon = 1e-12
+        no_chunks = len(self.inventory_chunks) == 0
+        inventory_qty = self._recalc_position_from_chunks()
+        is_flat = no_chunks and inventory_qty <= epsilon and active_sell_qty <= epsilon
+        if not is_flat:
+            return
+        cycle_pnl = self.cycle_realized_pnl
         self.closed_cycles += 1
-        self.last_pnl = pnl
-        if pnl > 0:
+        if cycle_pnl > epsilon:
             self.wins += 1
-        elif pnl < 0:
+        elif cycle_pnl < -epsilon:
             self.losses += 1
+        self.last_pnl = cycle_pnl
+        self.log("OK", f"[EXEC] CYCLE CLOSED pnl={cycle_pnl:+.6f}")
+        self.log("INFO", f"[EXEC] SESSION realized={self.session_realized_pnl:+.6f} wins={self.wins} losses={self.losses}")
+        self.cycle_realized_pnl = 0.0
 
     def on_test_connection(self, silent: bool = False) -> None:
         status = self.account.test_account_connection(); self.api_status = status.status
@@ -579,6 +597,7 @@ class MainWindow(QMainWindow):
                 self.log("INFO", f"[EXEC] CHUNK CLOSED entry={chunk.entry_price:.2f}")
                 self.inventory_chunks.pop(0)
         self._recalc_entry_avg_from_chunks()
+        self._apply_fifo_close_result(realized)
         return realized
 
     def _sync_sell_target_qty(self) -> float:
@@ -629,12 +648,10 @@ class MainWindow(QMainWindow):
         sell_qty = float(st.get("executedQty", 0.0) or 0.0)
         sell_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
         self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
-        self.realized_u = self._consume_inventory_fifo(sell_qty, self.avg_exit)
+        self._consume_inventory_fifo(sell_qty, self.avg_exit)
         self.log("OK", f"[EXEC] SELL FILLED id={order_ref}")
         remaining = max(self.position_qty, 0.0)
         self.log("OK", f"[EXEC] SELL FILLED qty={sell_qty:.6f} remaining={remaining:.6f}")
-        self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
-        self._apply_session_pnl(self.realized_u)
         self.active_order = {}
         self.buy_filled_qty = 0.0
         self.sell_reported_qty = 0.0
@@ -655,6 +672,7 @@ class MainWindow(QMainWindow):
             self.position_qty = remaining
             self.position_state = "POSITION_OPEN"
             self.fsm_state = "PLACE_SELL"
+        self._finalize_cycle_if_flat()
 
     def handle_sell_timeout_recovery(self, now_ms: int) -> None:
         if self.sell_recovery_in_progress:
