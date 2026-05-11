@@ -4,7 +4,7 @@ from decimal import Decimal
 from collections import deque
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QColor, QTextCursor, QTextCharFormat
-from PySide6.QtWidgets import QCheckBox, QDialog, QFileDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QProgressBar, QHeaderView, QSizePolicy
+from PySide6.QtWidgets import QCheckBox, QDialog, QFileDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QScrollArea, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QProgressBar, QHeaderView, QSizePolicy
 
 from app.core.binance_account import BinanceAPIError, BinanceAccountClient
 from app.core.config import CONFIG, SETTINGS_STORE
@@ -346,7 +346,10 @@ class MainWindow(QMainWindow):
                 pair_info = QLabel(f"Pair info: tick={self._fmt(float(self.filters.get('tickSize', 0.0)), 5)} | step={self._fmt(float(self.filters.get('stepSize', 0.0)), 5)} | minNotional={self._fmt(float(self.filters.get('minNotional', 0.0)), 2)} | source={source_name}")
                 pair_info.setWordWrap(True)
                 f.addRow("Pair Info", pair_info)
-            tabs.addTab(w, title)
+            scroll = QScrollArea()
+            scroll.setWidgetResizable(True)
+            scroll.setWidget(w)
+            tabs.addTab(scroll, title)
 
         btns = QHBoxLayout(); save = QPushButton("SAVE"); export_btn = QPushButton("Export settings"); import_btn = QPushButton("Import settings"); close = QPushButton("CLOSE"); save.clicked.connect(lambda: self._save_settings_dialog(d)); export_btn.clicked.connect(self._export_settings); import_btn.clicked.connect(self._import_settings); close.clicked.connect(d.close); btns.addWidget(save); btns.addWidget(export_btn); btns.addWidget(import_btn); btns.addWidget(close); lay.addLayout(btns)
         d.exec()
