@@ -93,6 +93,9 @@ class MainWindow(QMainWindow):
         self.entry_started_ms = 0
         self.exit_started_ms = 0
         self.reprice_done = False
+        self.sell_reprice_count = 0
+        self.last_sell_reprice_ms = 0
+        self.exit_mode = "NORMAL"
         self.trade_math = TradeMathEngine()
         self.last_plan_status = ""
         self.ready_since_ms = 0
@@ -154,7 +157,7 @@ class MainWindow(QMainWindow):
         bal, self.bal = kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
         self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(risk, 2, 0, 1, 1)
 
-        summary, self.summary = kv_card("SESSION RESULT", [("Started at", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("Active order", "none")])
+        summary, self.summary = kv_card("SESSION RESULT", [("Started at", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("SELL reprices", "0"), ("Current exit mode", "NORMAL"), ("Active order", "none")])
         summary.setMinimumHeight(190)
         self.grid.addWidget(summary, 2, 1, 1, 3)
 
@@ -195,7 +198,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Safety", ["live_enabled", "require_confirmation", "auto_cancel_on_stop", "entry_timeout_ms", "exit_timeout_ms", "panic_reprice_once"])]
+        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Safety", ["live_enabled", "require_confirmation", "auto_cancel_on_stop", "entry_timeout_ms", "exit_timeout_ms", "panic_reprice_once", "aggressive_exit_offset", "max_sell_reprices"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -511,6 +514,9 @@ class MainWindow(QMainWindow):
                 self.position_buy_order_id = int(self.active_order["orderId"])
                 self.position_state = "POSITION_OPEN"
                 self.log("OK", f"[EXEC] BUY FILLED id={int(self.active_order['orderId'])}")
+                self.sell_reprice_count = 0
+                self.last_sell_reprice_ms = 0
+                self.exit_mode = "NORMAL"
                 self.fsm_state = "PLACE_SELL"
             elif now - self.entry_started_ms >= self.settings.entry_timeout_ms:
                 order_id = int(self.active_order["orderId"])
@@ -559,6 +565,7 @@ class MainWindow(QMainWindow):
                 self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(plan.exit_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                 self.position_sell_order_id = int(self.active_order["orderId"])
                 self.position_state = "SELL_PENDING"
+                self.exit_mode = "NORMAL" if self.sell_reprice_count == 0 else "AGGRESSIVE"
                 self.log("OK", f"[EXEC] SELL ORDER SENT orderId={self.active_order['orderId']}")
                 self.exit_started_ms = now
                 self.fsm_state = "WAIT_SELL_FILL"
@@ -587,16 +594,39 @@ class MainWindow(QMainWindow):
                     self.position_state = "POSITION_OPEN"
                     self.fsm_state = "PLACE_SELL"
             elif now - self.exit_started_ms >= self.settings.exit_timeout_ms:
-                self.account.cancel_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
-                self._inc_canceled_attempt("timeout_sell")
-                self._inc_canceled_attempt("canceled_sell")
-                self.sell_timeouts += 1
-                self.log("WARNING", "[LEDGER] exit failed, position still open")
-                self.log("WARNING", "[EXEC] BLOCK reason=sell_timeout_position_open")
-                self.log("WARNING", f"[EXEC] POSITION STILL OPEN qty={self.position_qty:.6f}")
-                self.active_order = {}
-                self.position_state = "EXIT_FAILED"
-                self.fsm_state = "SELL_TIMEOUT"
+                self.log("WARNING", "[EXEC] SELL TIMEOUT")
+                if now - self.last_sell_reprice_ms < 1000:
+                    self.fsm_state = "WAIT_SELL_FILL"
+                elif self.sell_reprice_count >= int(self.settings.max_sell_reprices):
+                    self.log("ERROR", "[EXEC] EXIT FAILED max_reprices_reached")
+                    self.log("ERROR", "[EXEC] EXIT FAILED")
+                    self.exit_mode = "FAILED"
+                    self.position_state = "EXIT_FAILED"
+                    self.fsm_state = "SELL_TIMEOUT"
+                else:
+                    old_price = float(self.active_order.get("price", 0.0) or 0.0)
+                    order_id = int(self.active_order["orderId"])
+                    self.log("WARNING", f"[EXEC] CANCEL SELL orderId={order_id}")
+                    self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                    self._inc_canceled_attempt("timeout_sell")
+                    self._inc_canceled_attempt("canceled_sell")
+                    self.sell_timeouts += 1
+                    bid_now = float(self.state.snapshot.bid or 0.0)
+                    ask_now = float(self.state.snapshot.ask or 0.0)
+                    aggressive = float(self.settings.aggressive_exit_offset)
+                    new_price = max(bid_now + 0.01, ask_now - aggressive)
+                    sell_qty = float(Decimal(str(self.position_qty)))
+                    self.log("WARNING", f"[EXEC] SELL REPRICE old={old_price:.2f} new={new_price:.2f}")
+                    o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
+                    self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                    self.position_sell_order_id = int(self.active_order["orderId"])
+                    self.sell_reprice_count += 1
+                    self.last_sell_reprice_ms = now
+                    self.exit_started_ms = now
+                    self.exit_mode = "AGGRESSIVE"
+                    self.position_state = "SELL_PENDING"
+                    self.log("WARNING", f"[EXEC] SELL REPRICE count={self.sell_reprice_count}")
+                    self.log("OK", "[EXEC] EXIT RECOVERED")
 
         self.risk["Order size U"].setText(self._fmt(self.settings.order_size_u, 2))
         self.risk["Max exposure U"].setText(self._fmt(self.settings.max_live_exposure_u, 2))
@@ -649,7 +679,7 @@ class MainWindow(QMainWindow):
         active_order_text = "none"
         if self.active_order.get("orderId"):
             active_order_text = f"{self.active_order.get('side','-')}#{self.active_order.get('orderId')}"
-        summary_sig = f"{self.position_state}:{self.position_entry_avg:.6f}:{self.closed_cycles}:{self.wins}:{self.losses}:{self.session_realized_pnl:.6f}:{self.last_pnl:.6f}:{winrate:.2f}:{self.canceled_buys}:{self.sell_timeouts}:{active_order_text}:{self.position_qty:.6f}"
+        summary_sig = f"{self.position_state}:{self.position_entry_avg:.6f}:{self.closed_cycles}:{self.wins}:{self.losses}:{self.session_realized_pnl:.6f}:{self.last_pnl:.6f}:{winrate:.2f}:{self.canceled_buys}:{self.sell_timeouts}:{self.sell_reprice_count}:{self.exit_mode}:{active_order_text}:{self.position_qty:.6f}"
         if summary_sig != self.summary_signature:
             self.summary_signature = summary_sig
             self.summary["Started at"].setText(self.session_started_at)
@@ -664,6 +694,8 @@ class MainWindow(QMainWindow):
             self.summary["Canceled buys"].setText(str(self.canceled_buys))
             self.summary["Last PnL"].setText(f"{self.last_pnl:+.6f}")
             self.summary["Sell timeouts"].setText(str(self.sell_timeouts))
+            self.summary["SELL reprices"].setText(str(self.sell_reprice_count))
+            self.summary["Current exit mode"].setText(self.exit_mode)
             self.summary["Active order"].setText(active_order_text)
 
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
