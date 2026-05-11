@@ -1,5 +1,5 @@
 import time
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QColor, QTextCursor, QTextCharFormat
 from PySide6.QtWidgets import QCheckBox, QDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QProgressBar, QHeaderView
@@ -33,6 +33,24 @@ class LiveOrder:
     source: str
 
 
+@dataclass
+class LedgerCycle:
+    cycle_id: str
+    buy_order_id: int
+    sell_order_id: int
+    buy_time: int
+    sell_time: int
+    buy_avg_price: float
+    sell_avg_price: float
+    qty_filled: float
+    buy_u: float
+    sell_u: float
+    fee_u: float
+    pnl_u: float
+    duration_ms: int
+    status: str
+
+
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
@@ -52,7 +70,8 @@ class MainWindow(QMainWindow):
         self.balances = {"BTC": {"free": 0.0, "locked": 0.0}, "U": {"free": 0.0, "locked": 0.0}}
         self.filters = {"loaded": False, "fallback": False, "tickSize": 0.0, "stepSize": 0.0, "minQty": 0.0, "minNotional": 0.0}
         self.orders_data = []
-        self.closed_cycles_data: list[dict] = []
+        self.trade_ledger: list[LedgerCycle] = []
+        self.canceled_attempts = {"canceled_buy": 0, "canceled_sell": 0, "timeout_buy": 0, "timeout_sell": 0}
         self.runtime_active = False
         self.fsm_state = "IDLE"
         self.active_order = {}
@@ -83,6 +102,7 @@ class MainWindow(QMainWindow):
         self.file_logs = FileLogManager()
         self.pending_gui_logs = {"trade": [], "system": []}
         self.open_cycle = {}
+        self.ledger_seq = 0
         self.summary_signature = ""
         self.last_ws_live_log_ms = 0
 
@@ -120,15 +140,15 @@ class MainWindow(QMainWindow):
         bal, self.bal = kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")])
         self.grid.addWidget(spread, 1, 0); self.grid.addWidget(plan, 1, 1); self.grid.addWidget(runtime, 1, 2); self.grid.addWidget(bal, 1, 3); self.grid.addWidget(risk, 2, 0, 1, 1)
 
-        self.cycles_table = QTableWidget(0, 7)
-        self.cycles_table.setHorizontalHeaderLabels(["Time", "Result", "Buy", "Sell", "Qty", "PnL U", "Duration"])
+        self.cycles_table = QTableWidget(0, 8)
+        self.cycles_table.setHorizontalHeaderLabels(["Time", "Status", "Buy avg", "Sell avg", "Qty", "PnL U", "Duration", "Orders"])
         self.cycles_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         cycles_box = QGroupBox("CLOSED CYCLES / ИСТОРИЯ СДЕЛОК")
         cycles_lay = QVBoxLayout(); cycles_lay.addWidget(self.cycles_table); cycles_box.setLayout(cycles_lay)
         cycles_box.setMinimumHeight(190)
         self.grid.addWidget(cycles_box, 2, 1, 1, 3)
 
-        summary, self.summary = kv_card("EXECUTION SUMMARY", [("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Canceled attempts", "0"), ("Realized PnL", "0"), ("Avg PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Open position", "0")])
+        summary, self.summary = kv_card("EXECUTION SUMMARY", [("PnL", "0"), ("Winrate", "0%"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Break-even", "0"), ("Avg win", "0"), ("Avg loss", "0"), ("Avg cycle", "0"), ("Best win", "0"), ("Worst loss", "0"), ("Canceled attempts", "0"), ("Open position qty", "0")])
         summary.setMinimumHeight(190)
         self.grid.addWidget(summary, 2, 4, 1, 1)
 
@@ -324,24 +344,44 @@ class MainWindow(QMainWindow):
 
 
 
-    def _record_canceled_attempt(self, side: str, price: float, qty: float, started_ms: int, status: str = "CANCELED") -> None:
-        buy_u = price * qty if side == "BUY" else 0.0
-        sell_u = price * qty if side == "SELL" else 0.0
-        cycle = {"time": int(time.time() * 1000), "buy_price": price if side == "BUY" else 0.0, "sell_price": price if side == "SELL" else 0.0, "qty": qty, "buy_u": buy_u, "sell_u": sell_u, "pnl_u": 0.0, "duration_ms": max(int(time.time() * 1000) - started_ms, 0), "status": status}
-        self.closed_cycles_data.insert(0, cycle)
-        self.closed_cycles_data = self.closed_cycles_data[:200]
-        self.file_logs.write_cycle(cycle)
+    def _next_cycle_id(self) -> str:
+        self.ledger_seq += 1
+        return f"C{int(time.time() * 1000)}-{self.ledger_seq}"
 
-    def _record_closed_cycle(self, buy_price: float, sell_price: float, qty: float, started_ms: int, status: str = "WIN") -> None:
-        buy_u = buy_price * qty
-        sell_u = sell_price * qty
-        pnl_u = sell_u - buy_u
-        if status not in {"CANCELED", "ERROR"}:
-            status = "WIN" if pnl_u >= 0 else "LOSS"
-        cycle = {"time": int(time.time() * 1000), "buy_price": buy_price, "sell_price": sell_price, "qty": qty, "buy_u": buy_u, "sell_u": sell_u, "pnl_u": pnl_u, "duration_ms": max(int(time.time() * 1000) - started_ms, 0), "status": status}
-        self.closed_cycles_data.insert(0, cycle)
-        self.closed_cycles_data = self.closed_cycles_data[:200]
-        self.file_logs.write_cycle(cycle)
+    def _inc_canceled_attempt(self, key: str) -> None:
+        self.canceled_attempts[key] = self.canceled_attempts.get(key, 0) + 1
+
+    def _close_ledger_cycle(self, sell_order_id: int, sell_time: int, sell_avg_price: float, qty_filled: float) -> None:
+        if not self.open_cycle:
+            return
+        buy_avg = float(self.open_cycle.get("buy_avg_price", 0.0))
+        qty = min(float(self.open_cycle.get("qty_filled", 0.0)), qty_filled)
+        buy_u = buy_avg * qty
+        sell_u = sell_avg_price * qty
+        fee_u = 0.0
+        pnl_u = sell_u - buy_u - fee_u
+        status = "WIN" if pnl_u > 0 else ("LOSS" if pnl_u < 0 else "BREAK_EVEN")
+        cycle = LedgerCycle(
+            cycle_id=str(self.open_cycle.get("cycle_id")),
+            buy_order_id=int(self.open_cycle.get("buy_order_id", 0)),
+            sell_order_id=sell_order_id,
+            buy_time=int(self.open_cycle.get("buy_time", sell_time)),
+            sell_time=sell_time,
+            buy_avg_price=buy_avg,
+            sell_avg_price=sell_avg_price,
+            qty_filled=qty,
+            buy_u=buy_u,
+            sell_u=sell_u,
+            fee_u=fee_u,
+            pnl_u=pnl_u,
+            duration_ms=max(sell_time - int(self.open_cycle.get("buy_time", sell_time)), 0),
+            status=status,
+        )
+        self.trade_ledger.insert(0, cycle)
+        self.trade_ledger = self.trade_ledger[:200]
+        self.file_logs.write_cycle(asdict(cycle))
+        self.log("OK", f"[LEDGER] cycle closed pnl={cycle.pnl_u:+.6f}")
+        self.open_cycle = {}
 
     def on_test_connection(self, silent: bool = False) -> None:
         status = self.account.test_account_connection(); self.api_status = status.status
@@ -459,9 +499,13 @@ class MainWindow(QMainWindow):
             self.active_order["state"] = st.get("status", "NEW")
             if st.get("status") == "FILLED":
                 self.position_qty = float(st.get("executedQty", 0.0))
-                self.avg_entry = float(self.active_order.get("price", 0.0))
+                buy_qty = float(st.get("executedQty", 0.0) or 0.0)
+                buy_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
+                self.avg_entry = (buy_quote / buy_qty) if buy_qty > 0 else float(self.active_order.get("price", 0.0))
                 self.log("OK", f"[EXEC] BUY FILLED id={self.active_order['orderId']}")
-                self.open_cycle = {"buy_price": self.avg_entry, "qty": self.position_qty, "start_ms": int(self.active_order.get("create_ms", now))}
+                self.open_cycle = {"cycle_id": self._next_cycle_id(), "buy_order_id": int(self.active_order["orderId"]), "buy_time": now, "buy_avg_price": self.avg_entry, "qty_filled": buy_qty}
+                self.log("OK", f"[LEDGER] cycle opened id={self.open_cycle['cycle_id']}")
+                self.log("OK", f"[LEDGER] buy filled avg={self.avg_entry:.8f}")
                 self.fsm_state = "PLACE_SELL"
             elif now - self.entry_started_ms >= self.settings.entry_timeout_ms:
                 order_id = int(self.active_order["orderId"])
@@ -483,7 +527,8 @@ class MainWindow(QMainWindow):
                     self.open_cycle = {"buy_price": self.avg_entry, "qty": self.position_qty, "start_ms": int(self.active_order.get("create_ms", now))}
                     self.fsm_state = "PLACE_SELL"
                 else:
-                    self._record_canceled_attempt("BUY", float(self.active_order.get("price", 0.0)), float(self.active_order.get("qty", 0.0)), self.entry_started_ms, status="CANCELED")
+                    self._inc_canceled_attempt("timeout_buy")
+                    self._inc_canceled_attempt("canceled_buy")
                     self.active_order = {}
                     self.log("WARNING", "[EXEC] BLOCK reason=buy_not_filled")
                     self.fsm_state = "DONE"
@@ -499,13 +544,14 @@ class MainWindow(QMainWindow):
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
             self.active_order["state"] = st.get("status", "NEW")
             if st.get("status") == "FILLED":
-                self.avg_exit = float(self.active_order.get("price", 0.0))
+                sell_qty = float(st.get("executedQty", 0.0) or 0.0)
+                sell_quote = float(st.get("cummulativeQuoteQty", 0.0) or 0.0)
+                self.avg_exit = (sell_quote / sell_qty) if sell_qty > 0 else float(self.active_order.get("price", 0.0))
                 self.realized_u = (self.avg_exit - self.avg_entry) * self.position_qty
                 self.log("OK", f"[EXEC] SELL FILLED id={self.active_order['orderId']}")
                 self.log("OK", f"[EXEC] REALIZED pnl={self.realized_u:+.6f}")
-                if self.open_cycle:
-                    self._record_closed_cycle(float(self.open_cycle.get("buy_price", self.avg_entry)), float(self.active_order.get("price", 0.0)), float(st.get("executedQty", 0.0) or 0.0), int(self.open_cycle.get("start_ms", self.exit_started_ms)))
-                    self.open_cycle = {}
+                self.log("OK", f"[LEDGER] sell filled avg={self.avg_exit:.8f}")
+                self._close_ledger_cycle(int(self.active_order["orderId"]), now, self.avg_exit, sell_qty)
                 self.active_order = {}
                 self.fsm_state = "DONE"
             elif now - self.exit_started_ms >= self.settings.exit_timeout_ms:
@@ -517,6 +563,8 @@ class MainWindow(QMainWindow):
                     self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": p, "qty": float(self.position_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                     self.exit_started_ms = now
                 else:
+                    self._inc_canceled_attempt("timeout_sell")
+                    self._inc_canceled_attempt("canceled_sell")
                     self.log("WARNING", "[EXEC] BLOCK reason=sell_timeout")
                     self.fsm_state = "DONE"
 
@@ -567,23 +615,23 @@ class MainWindow(QMainWindow):
             elif plan_status in {"BALANCE_LOW", "FILTER_FAIL"}:
                 self.log("WARNING", f"[EXEC] BLOCK reason={plan_status.lower()}")
 
-        cycles_sig = "|".join(f"{c['time']}:{c['status']}:{c['pnl_u']:.6f}" for c in self.closed_cycles_data[:200])
+        cycles_sig = "|".join(f"{c.cycle_id}:{c.status}:{c.pnl_u:.6f}" for c in self.trade_ledger[:200])
         if cycles_sig != self.cycles_signature:
             self.cycles_signature = cycles_sig
-            self.cycles_table.setRowCount(len(self.closed_cycles_data[:200]))
-            for i, c in enumerate(self.closed_cycles_data[:200]):
-                result_label = {"WIN": "✅ WIN", "LOSS": "❌ LOSS", "CANCELED": "⚪ CANCELED", "ERROR": "⚪ CANCELED"}.get(c["status"], c["status"])
+            self.cycles_table.setRowCount(len(self.trade_ledger[:200]))
+            for i, c in enumerate(self.trade_ledger[:200]):
                 vals = [
-                    time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(c["time"] / 1000.0)),
-                    result_label,
-                    self._fmt(c["buy_price"], 6),
-                    self._fmt(c["sell_price"], 6),
-                    self._fmt(c["qty"], 6),
-                    f"{c['pnl_u']:+.6f}",
-                    f"{int(c['duration_ms'])}ms",
+                    time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(c.buy_time / 1000.0)),
+                    c.status,
+                    self._fmt(c.buy_avg_price, 8),
+                    self._fmt(c.sell_avg_price, 8),
+                    self._fmt(c.qty_filled, 6),
+                    f"{c.pnl_u:+.6f}",
+                    f"{int(c.duration_ms)}ms",
+                    f"{c.buy_order_id}/{c.sell_order_id}",
                 ]
-                result_color = {"WIN": "#22C55E", "LOSS": "#EF4444", "CANCELED": "#9CA3AF", "ERROR": "#9CA3AF"}.get(c["status"], "#CBD5E1")
-                pnl_color = "#9CA3AF" if c["status"] in {"CANCELED", "ERROR"} else ("#22C55E" if c["pnl_u"] >= 0 else "#EF4444")
+                result_color = {"WIN": "#22C55E", "LOSS": "#EF4444", "BREAK_EVEN": "#CBD5E1", "OPEN_BUY": "#FACC15", "OPEN_POSITION": "#38BDF8", "OPEN_SELL": "#38BDF8", "CANCELED": "#9CA3AF", "ERROR": "#EF4444"}.get(c.status, "#CBD5E1")
+                pnl_color = "#22C55E" if c.pnl_u > 0 else ("#EF4444" if c.pnl_u < 0 else "#CBD5E1")
                 for j, v in enumerate(vals):
                     item = QTableWidgetItem(v)
                     if j == 1:
@@ -592,28 +640,34 @@ class MainWindow(QMainWindow):
                         item.setForeground(QColor(pnl_color))
                     self.cycles_table.setItem(i, j, item)
 
-        closed = [c for c in self.closed_cycles_data if c["status"] in {"WIN", "LOSS"}]
-        canceled_attempts = len([c for c in self.closed_cycles_data if c["status"] in {"CANCELED", "ERROR"}])
-        pnl_values = [c["pnl_u"] for c in closed]
+        closed = [c for c in self.trade_ledger if c.status in {"WIN", "LOSS", "BREAK_EVEN"}]
+        pnl_values = [c.pnl_u for c in closed]
         realized = sum(pnl_values)
-        wins = len([x for x in pnl_values if x >= 0])
-        losses = len([x for x in pnl_values if x < 0])
-        closed_cycles = len(pnl_values)
-        avg_pnl = (realized / closed_cycles) if closed_cycles else 0.0
-        last_pnl = (pnl_values[0] if pnl_values else 0.0)
-        winrate = (wins / closed_cycles * 100.0) if closed_cycles else 0.0
-        summary_sig = f"{closed_cycles}:{wins}:{losses}:{canceled_attempts}:{realized:.6f}:{avg_pnl:.6f}:{last_pnl:.6f}:{self.position_qty:.6f}"
+        wins = [x for x in pnl_values if x > 0]
+        losses_arr = [x for x in pnl_values if x < 0]
+        breakeven = len([x for x in pnl_values if x == 0])
+        wins_n = len(wins)
+        losses_n = len(losses_arr)
+        closed_cycles = len(closed)
+        avg_cycle = (realized / closed_cycles) if closed_cycles else 0.0
+        winrate = (wins_n / closed_cycles * 100.0) if closed_cycles else 0.0
+        canceled_attempts = sum(self.canceled_attempts.values())
+        summary_sig = f"{closed_cycles}:{wins_n}:{losses_n}:{breakeven}:{canceled_attempts}:{realized:.6f}:{self.position_qty:.6f}"
         if summary_sig != self.summary_signature:
             self.summary_signature = summary_sig
-            self.summary["Closed cycles"].setText(str(closed_cycles))
-            self.summary["Wins"].setText(str(wins))
-            self.summary["Losses"].setText(str(losses))
-            self.summary["Canceled attempts"].setText(str(canceled_attempts))
-            self.summary["Realized PnL"].setText(f"{realized:+.6f}")
-            self.summary["Avg PnL"].setText(f"{avg_pnl:+.6f}")
-            self.summary["Last PnL"].setText(f"{last_pnl:+.6f}")
+            self.summary["PnL"].setText(f"{realized:+.6f}")
             self.summary["Winrate"].setText(f"{winrate:.2f}%")
-            self.summary["Open position"].setText(self._fmt(self.position_qty, 6))
+            self.summary["Closed cycles"].setText(str(closed_cycles))
+            self.summary["Wins"].setText(str(wins_n))
+            self.summary["Losses"].setText(str(losses_n))
+            self.summary["Break-even"].setText(str(breakeven))
+            self.summary["Canceled attempts"].setText(str(canceled_attempts))
+            self.summary["Avg win"].setText(f"{(sum(wins)/wins_n if wins_n else 0.0):+.6f}")
+            self.summary["Avg loss"].setText(f"{(sum(losses_arr)/losses_n if losses_n else 0.0):+.6f}")
+            self.summary["Avg cycle"].setText(f"{avg_cycle:+.6f}")
+            self.summary["Best win"].setText(f"{(max(wins) if wins else 0.0):+.6f}")
+            self.summary["Worst loss"].setText(f"{(min(losses_arr) if losses_arr else 0.0):+.6f}")
+            self.summary["Open position qty"].setText(self._fmt(self.position_qty, 6))
 
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
         ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"

@@ -37,7 +37,22 @@ class FileLogManager:
         with path.open("a", encoding="utf-8", newline="") as f:
             writer = csv.DictWriter(
                 f,
-                fieldnames=["time", "buy_price", "sell_price", "qty", "buy_u", "sell_u", "pnl_u", "duration_ms", "status"],
+                fieldnames=[
+                    "cycle_id",
+                    "buy_order_id",
+                    "sell_order_id",
+                    "buy_time",
+                    "sell_time",
+                    "buy_avg_price",
+                    "sell_avg_price",
+                    "qty_filled",
+                    "buy_u",
+                    "sell_u",
+                    "fee_u",
+                    "pnl_u",
+                    "duration_ms",
+                    "status",
+                ],
             )
             if is_new:
                 writer.writeheader()
