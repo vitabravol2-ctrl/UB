@@ -25,6 +25,11 @@ class SettingsData:
     exit_timeout_ms: int = 20000
     panic_reprice_once: bool = True
     rest_poll_ms: int = 2000
+    open_orders_poll_ms: int = 2000
+    all_orders_poll_ms: int = 9000
+    balances_poll_ms: int = 10000
+    active_order_poll_ms: int = 800
+    debug_api_logs: bool = False
     ws_optional_enabled: bool = True
     max_ws_age_ms: int = 5000
     ui_theme: str = "dark"
