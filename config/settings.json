@@ -5,10 +5,9 @@
   "target_capture": 5.0,
   "stop_loss": 12.0,
   "max_hold_ms": 20000,
-  "lot_size": 0.001,
   "max_open_lots": 1,
   "max_daily_loss": 200.0,
-  "max_exposure_u": 1000.0,
+  "max_exposure_u": 20.0,
   "panic_exit": true,
   "live_enabled": false,
   "require_confirmation": true,
@@ -21,5 +20,6 @@
   "arm_live": false,
   "entry_timeout_ms": 10000,
   "exit_timeout_ms": 20000,
-  "panic_reprice_once": true
+  "panic_reprice_once": true,
+  "order_size_u": 20.0
 }

@@ -12,7 +12,8 @@ class TradePlan:
     entry_price: float | None = None
     exit_price: float | None = None
     capture_per_btc: float | None = None
-    lot_size: float = 0.0
+    qty_btc: float = 0.0
+    order_size_u: float = 0.0
     expected_profit_u: float | None = None
     stop_price: float | None = None
     stop_loss_u: float | None = None
@@ -39,10 +40,10 @@ class TradeMathEngine:
     def build_plan(self, market_state, settings, filters: dict, balances: dict, api_status: str = "NOT SET") -> TradePlan:
         bid = market_state.snapshot.bid
         ask = market_state.snapshot.ask
-        lot_size = self._d(settings.lot_size)
+        order_size_u = self._d(settings.order_size_u)
 
         if bid is None or ask is None:
-            return TradePlan(lot_size=lot_size, status="NO_DATA", reason="Нет рыночных данных")
+            return TradePlan(order_size_u=float(order_size_u), status="NO_DATA", reason="Нет рыночных данных")
 
         d_bid = self._d(bid)
         d_ask = self._d(ask)
@@ -53,13 +54,13 @@ class TradeMathEngine:
         step = self._d(filters.get("stepSize", 0.0))
         entry_price = self._round_down_to_step(entry_price, tick)
         exit_price = self._round_down_to_step(exit_price, tick)
-        lot_size = self._round_down_to_step(lot_size, step)
+        qty_btc = self._round_down_to_step(order_size_u / entry_price if entry_price > 0 else Decimal("0"), step)
         capture_per_btc = exit_price - entry_price
-        expected_profit_u = capture_per_btc * lot_size
+        expected_profit_u = capture_per_btc * qty_btc
         stop_price = entry_price - self._d(settings.stop_loss)
-        stop_loss_u = self._d(settings.stop_loss) * lot_size
+        stop_loss_u = self._d(settings.stop_loss) * qty_btc
         risk_reward = (expected_profit_u / stop_loss_u) if stop_loss_u > 0 else None
-        required_u = entry_price * lot_size
+        required_u = entry_price * qty_btc
 
         plan = TradePlan(
             bid=float(d_bid),
@@ -68,7 +69,8 @@ class TradeMathEngine:
             entry_price=float(entry_price),
             exit_price=float(exit_price),
             capture_per_btc=float(capture_per_btc),
-            lot_size=float(lot_size),
+            qty_btc=float(qty_btc),
+            order_size_u=float(order_size_u),
             expected_profit_u=float(expected_profit_u),
             stop_price=float(stop_price),
             stop_loss_u=float(stop_loss_u),
@@ -110,7 +112,7 @@ class TradeMathEngine:
         min_notional = self._d(filters.get("minNotional", 0.0))
         entry_price = self._d(plan.entry_price)
         exit_price = self._d(plan.exit_price)
-        lot_size = self._d(plan.lot_size)
+        qty_btc = self._d(plan.qty_btc)
 
         if not fallback_filters and all(v > 0 for v in [tick, step, min_qty, min_notional]):
             if plan.entry_price is not None and (entry_price % tick) != 0:
@@ -121,15 +123,15 @@ class TradeMathEngine:
                 plan.status = "FILTER_FAIL"
                 plan.reason = "Exit price не проходит tickSize"
                 return
-            if (lot_size % step) != 0:
+            if (qty_btc % step) != 0:
                 plan.status = "FILTER_FAIL"
-                plan.reason = "Лот не проходит stepSize"
+                plan.reason = "Qty не проходит stepSize"
                 return
-            if lot_size < min_qty:
+            if qty_btc < min_qty:
                 plan.status = "FILTER_FAIL"
-                plan.reason = "Лот меньше minQty"
+                plan.reason = "Qty меньше minQty"
                 return
-            if entry_price * lot_size < min_notional:
+            if entry_price * qty_btc < min_notional:
                 plan.status = "FILTER_FAIL"
                 plan.reason = "Notional меньше minNotional"
                 return
@@ -138,7 +140,7 @@ class TradeMathEngine:
             plan.reason = "План готов (Filters fallback)"
             plan.filters_ok = True
 
-        required_u = entry_price * lot_size
+        required_u = entry_price * qty_btc
         plan.required_u = float(required_u)
         u_free = self._d(balances.get("U", {}).get("free", 0.0))
         if api_status == "OK":

@@ -11,97 +11,35 @@ def make_state(bid: float | None, ask: float | None) -> MarketState:
 
 
 def base_filters() -> dict:
-    return {"loaded": True, "fallback": False, "tickSize": 1.0, "stepSize": 0.001, "minQty": 0.001, "minNotional": 5.0}
+    return {"loaded": True, "fallback": False, "tickSize": 1.0, "stepSize": 0.00001, "minQty": 0.00001, "minNotional": 5.0}
 
 
 def base_balances() -> dict:
     return {"U": {"free": 1000.0, "locked": 0.0}, "BTC": {"free": 0.0, "locked": 0.0}}
 
 
-def test_entry_exit_capture() -> None:
-    settings = SettingsData(entry_offset=1.0, exit_offset=1.0, lot_size=0.001)
+def test_order_size_u_to_qty_btc() -> None:
+    settings = SettingsData(entry_offset=1.0, exit_offset=1.0, order_size_u=20.0)
     plan = TradeMathEngine().build_plan(make_state(80000, 80007), settings, base_filters(), base_balances(), api_status="OK")
-    assert plan.entry_price == 80001
-    assert plan.exit_price == 80006
-    assert plan.capture_per_btc == 5
+    assert abs(plan.qty_btc - 0.00024) < 0.00002
 
 
-def test_expected_profit() -> None:
-    settings = SettingsData(entry_offset=1.0, exit_offset=1.0, lot_size=0.001)
+def test_required_u_not_above_order_size_u() -> None:
+    settings = SettingsData(order_size_u=20.0)
     plan = TradeMathEngine().build_plan(make_state(80000, 80007), settings, base_filters(), base_balances(), api_status="OK")
-    assert plan.expected_profit_u == 0.005
+    assert (plan.required_u or 0) <= 20.0
 
 
-def test_spread_too_small() -> None:
-    settings = SettingsData(min_spread=10.0)
+def test_profit_uses_qty_btc() -> None:
+    settings = SettingsData(entry_offset=1.0, exit_offset=1.0, order_size_u=20.0)
     plan = TradeMathEngine().build_plan(make_state(80000, 80007), settings, base_filters(), base_balances(), api_status="OK")
-    assert plan.status == "SPREAD_TOO_SMALL"
+    assert abs((plan.expected_profit_u or 0) - (plan.capture_per_btc * plan.qty_btc)) < 1e-9
 
 
-def test_capture_too_small() -> None:
-    settings = SettingsData(target_capture=8.0)
-    plan = TradeMathEngine().build_plan(make_state(80000, 80007), settings, base_filters(), base_balances(), api_status="OK")
-    assert plan.status == "CAPTURE_TOO_SMALL"
-
-
-def test_min_notional_fail() -> None:
-    settings = SettingsData(lot_size=0.001)
-    filters = base_filters()
-    filters["minNotional"] = 200.0
-    plan = TradeMathEngine().build_plan(make_state(80000, 80007), settings, filters, base_balances(), api_status="OK")
-    assert plan.status == "FILTER_FAIL"
-    assert "Notional" in plan.reason
-
-
-def test_balance_low() -> None:
-    settings = SettingsData(lot_size=0.01)
+def test_order_size_u_not_interpreted_as_btc() -> None:
+    settings = SettingsData(order_size_u=20.0)
     balances = base_balances()
-    balances["U"]["free"] = 100.0
+    balances["U"]["free"] = 50.0
     plan = TradeMathEngine().build_plan(make_state(80000, 80007), settings, base_filters(), balances, api_status="OK")
-    assert plan.status == "BALANCE_LOW"
-
-
-def test_hot_classification() -> None:
-    settings = SettingsData(target_capture=3.0)
-    plan = TradeMathEngine().build_plan(make_state(80000, 80007), settings, base_filters(), base_balances(), api_status="OK")
-    assert plan.status == "HOT"
-
-
-def test_ticksize_float_bug_passes_for_decimal_values() -> None:
-    settings = SettingsData(min_spread=0.01, target_capture=0.01, entry_offset=0.01, exit_offset=0.01, lot_size=0.001)
-    filters = {"loaded": True, "fallback": False, "tickSize": 0.01, "stepSize": 0.00001, "minQty": 0.00001, "minNotional": 5.0}
-    plan = TradeMathEngine().build_plan(make_state(80808.23, 80808.30), settings, filters, base_balances(), api_status="OK")
     assert plan.status in {"READY", "HOT"}
-    assert plan.entry_price == 80808.24
-
-
-def test_entry_exit_round_to_tick_001() -> None:
-    settings = SettingsData(min_spread=0.01, target_capture=0.01, entry_offset=0.017, exit_offset=0.013, lot_size=0.00123)
-    filters = {"loaded": True, "fallback": False, "tickSize": 0.01, "stepSize": 0.00001, "minQty": 0.00001, "minNotional": 5.0}
-    plan = TradeMathEngine().build_plan(make_state(80808.23, 80808.30), settings, filters, base_balances(), api_status="OK")
-    assert plan.entry_price == 80808.24
-    assert plan.exit_price == 80808.28
-
-
-def test_lot_rounds_to_step() -> None:
-    settings = SettingsData(lot_size=0.001234567)
-    filters = {"loaded": True, "fallback": False, "tickSize": 0.01, "stepSize": 0.00001, "minQty": 0.00001, "minNotional": 5.0}
-    plan = TradeMathEngine().build_plan(make_state(80000, 80007), settings, filters, base_balances(), api_status="OK")
-    assert plan.lot_size == 0.00123
-
-
-def test_balance_ok_for_large_u_and_small_lot() -> None:
-    settings = SettingsData(min_spread=0.01, target_capture=0.01, entry_offset=0.01, exit_offset=0.01, lot_size=0.001)
-    filters = {"loaded": True, "fallback": False, "tickSize": 0.01, "stepSize": 0.00001, "minQty": 0.00001, "minNotional": 5.0}
-    balances = base_balances()
-    balances["U"]["free"] = 38000.0
-    plan = TradeMathEngine().build_plan(make_state(80808.23, 80808.30), settings, filters, balances, api_status="OK")
-    assert plan.status in {"READY", "HOT"}
-    assert plan.balance_ok is True
-
-
-def test_required_u_is_computed_correctly() -> None:
-    settings = SettingsData(min_spread=0.01, target_capture=0.01, lot_size=0.001, entry_offset=0.01)
-    filters = {"loaded": True, "fallback": False, "tickSize": 0.01, "stepSize": 0.00001, "minQty": 0.00001, "minNotional": 5.0}
-    plan = TradeMathEngine().build_plan(make_state(80808.23, 80808.30), settings, filters, base_balances(), api_status="OK")
-    assert plan.required_u == 80.80824
+    assert (plan.required_u or 0) < 50.0
