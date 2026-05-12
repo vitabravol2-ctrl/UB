@@ -66,6 +66,9 @@ class InventoryChunk:
     entry_price: float
     created_ms: int
     grid_level_id: int | None = None
+    entry_order_id: int | None = None
+    sell_order_id: int | None = None
+    state: str = "OPEN"
 
 
 class MarketHealthState:
@@ -1981,6 +1984,8 @@ class MainWindow(QMainWindow):
                         buy_price = float(plan.entry_price)
                         buy_qty = float(plan.qty_btc)
                         active_level_id = None
+                        if self.settings.micro_grid_enabled:
+                            self.log("INFO", "[EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY")
                         if self.settings.micro_grid_enabled and self.grid_runtime.levels:
                             free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
                             bid_now = float(self.state.snapshot.bid or 0.0)
@@ -1994,6 +1999,9 @@ class MainWindow(QMainWindow):
                             self.grid_buy_paused = False
                             if bool(getattr(self.settings, "micro_grid_sell_first", True)) and (inventory_u > 0.0 or has_active_sell):
                                 self.grid_buy_paused = True
+                                unsold = next((c for c in self.inventory_chunks if c.qty > 0 and c.sell_order_id is None), None)
+                                if unsold is not None:
+                                    self.log("INFO", f"[EXEC] GRID_SELL_FIRST_PENDING chunk_id={id(unsold)} level_id={unsold.grid_level_id}")
                             if inventory_u > float(getattr(self.settings, "micro_grid_pause_buy_if_inventory_u_above", 800.0)):
                                 self.grid_buy_paused = True
                                 self.log("WARNING", f"[EXEC] GRID_BUY_PAUSED_INVENTORY inventory_u={inventory_u:.2f}")
