@@ -193,6 +193,9 @@ class MainWindow(QMainWindow):
         self.last_exit_recovery_log_ms = 0
         self.runtime_halt_manual_check = False
         self.sell_hold_window_ms = 1500
+        self.exit_blocked_no_sellable_count = 0
+        self.phantom_reconcile_count = 0
+        self.last_phantom_log_ms = 0
         self.sell_hold_near_ticks = 2
         self.market_health_state = MarketHealthState.GOOD
         self.market_health_bid_window_ms = self.settings.stable_snapshot_window_ms
@@ -267,7 +270,7 @@ class MainWindow(QMainWindow):
         bal, self.bal = build_kv_card("BALANCES", [("BTC свободно", "0"), ("BTC lock", "0"), ("U свободно", "0"), ("U lock", "0"), ("Max buy", "0 BTC"), ("Max sell", "0 BTC")], compact=True)
         self.grid.addWidget(spread, 2, 0); self.grid.addWidget(plan, 2, 1); self.grid.addWidget(runtime, 2, 2); self.grid.addWidget(bal, 2, 3)
 
-        summary_rows = [("Started", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("Exit mode", "NORMAL")]
+        summary_rows = [("Started", self.session_started_at), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Closed cycles", "0"), ("Wins", "0"), ("Losses", "0"), ("Realized PnL", "0"), ("Last PnL", "0"), ("Winrate", "0%"), ("Canceled buys", "0"), ("Sell timeouts", "0"), ("Exit mode", "NORMAL"), ("Phantom reconcile count", "0")]
         summary, self.summary = build_kv_card("SESSION RESULT", summary_rows, compact=True, label_width=136, columns=3)
         self.grid.addWidget(summary, 1, 1, 1, 3)
 
@@ -472,14 +475,14 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", "START_BLOCKED reason=api_not_ready")
                 self.runtime_active = False
             else:
-                self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.log("OK", "START")
+                self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.exit_blocked_no_sellable_count = 0; self.log("OK", "START")
                 self.log("OK", "START_OK runtime_started")
                 self._repair_runtime_state()
                 if self.position_qty > 0:
                     self.log("WARNING", f"[EXEC] START_RESUME_EXIT qty={self.position_qty:.6f}")
                     self.fsm_state = "PLACE_SELL"
         else:
-            self.ws.stop(); self.start_stop_btn.setText("START"); self.start_stop_btn.setProperty("kind", "start"); self.cancel_all(); self.log("WARNING", "STOP")
+            self.ws.stop(); self.start_stop_btn.setText("START"); self.start_stop_btn.setProperty("kind", "start"); self.exit_blocked_no_sellable_count = 0; self.cancel_all(); self.log("WARNING", "STOP")
         self.start_stop_btn.setEnabled(True)
         self.start_stop_btn.style().polish(self.start_stop_btn)
 
@@ -770,6 +773,49 @@ class MainWindow(QMainWindow):
             self.log("INFO", "[EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero")
             return True
         return False
+
+    def _maybe_reconcile_phantom_inventory(self, inventory_qty: float, sell_qty: float, btc_free: float, btc_locked: float, open_sell: dict | None = None) -> bool:
+        epsilon = self._inventory_epsilon_qty()
+        if inventory_qty <= epsilon or self.exit_blocked_no_sellable_count < 3:
+            return False
+        if not (btc_free <= epsilon or sell_qty <= epsilon):
+            return False
+        now = int(time.time() * 1000)
+        if btc_locked > epsilon:
+            self.position_state = "WAIT_EXCHANGE_UNLOCK"
+            self.fsm_state = "WAIT_SELL_ORDER_STATUS"
+            if now - self.last_phantom_log_ms >= 3000:
+                self.log("WARNING", f"[EXEC] PHANTOM_RECONCILE_SKIPPED reason=locked_btc locked={btc_locked:.6f}")
+                self.last_phantom_log_ms = now
+            return False
+        self.sync_active_order(force=True)
+        open_sell = open_sell or self._find_open_sell_order()
+        if open_sell or (self.active_order.get("orderId") and self.active_order.get("side") == "SELL"):
+            if now - self.last_phantom_log_ms >= 3000:
+                order_id = int((open_sell or {}).get("orderId", self.active_order.get("orderId", 0)) or 0)
+                self.log("WARNING", f"[EXEC] PHANTOM_RECONCILE_SKIPPED reason=open_sell_exists orderId={order_id}")
+                self.last_phantom_log_ms = now
+            return False
+        self.inventory_chunks = []
+        self.position_qty = 0.0
+        self.position_entry_avg = 0.0
+        self.position_state = "FLAT"
+        self.active_order = {}
+        self._reset_sell_accounting("phantom_inventory_reconcile", reset_panic_order_id=True)
+        self.panic_exit_final = False
+        self.panic_exit_order_id = 0
+        self.panic_exit_price = 0.0
+        self.panic_exit_started_ms = 0
+        self.panic_escalated_once = False
+        self.last_panic_wait_log_ms = 0
+        self.max_hold_exit_triggered = False
+        self.fsm_state = "WAIT_READY" if self.runtime_active else "IDLE"
+        self.phantom_reconcile_count += 1
+        if now - self.last_phantom_log_ms >= 3000:
+            self.log("WARNING", f"[EXEC] PHANTOM_INVENTORY_RECONCILE inventory={inventory_qty:.6f} free={btc_free:.6f} locked={btc_locked:.6f} safe={sell_qty:.6f} reason=exchange_no_sellable_btc")
+            self.last_phantom_log_ms = now
+        return True
+
     def _cleanup_inventory_if_drained(self) -> bool:
         epsilon = self._inventory_epsilon_qty()
         inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
@@ -946,6 +992,7 @@ class MainWindow(QMainWindow):
             self.log("WARNING", f"[EXEC] SELL_HOLD_RECOVERY entry={float(self.position_entry_avg):.2f} floor={floor_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
         else:
             self.sell_hold_recovery_started_ms = 0
+        self.exit_blocked_no_sellable_count = 0
         return {"is_floor_protected": is_floor_protected, "is_hold_recovery": should_hold, "hold_source": source}
 
     def _is_protected_sell_order(self, order_price: float) -> bool:
@@ -998,6 +1045,7 @@ class MainWindow(QMainWindow):
         self.sell_recovery_in_progress = False
         self.sell_cancel_in_progress = False
         self.sell_hold_recovery_started_ms = 0
+        self.exit_blocked_no_sellable_count = 0
         if reset_panic_order_id:
             self.panic_exit_order_id = 0
         self.log("INFO", f"[EXEC] SELL ACCOUNTING RESET {reason}")
@@ -1294,6 +1342,7 @@ class MainWindow(QMainWindow):
         self.log("OK", f"[EXEC] BUY FILL UPDATE delta={delta_qty:.6f} avg={avg_price:.2f}")
         self._add_inventory_chunk(delta_qty, avg_price, int(time.time() * 1000))
         self.buy_filled_qty = executed_qty
+        self.exit_blocked_no_sellable_count = 0
         self.buy_reported_qty = executed_qty
         self.buy_reported_quote = cummulative_quote_qty
         self.avg_entry = self._recalc_entry_avg_from_chunks()
@@ -1306,6 +1355,7 @@ class MainWindow(QMainWindow):
 
     def _handle_sell_filled(self, st: dict[str, object], order_ref: int) -> None:
         self._handle_sell_fill_update(st)
+        self.exit_blocked_no_sellable_count = 0
         sell_qty = float(st.get("executedQty", 0.0) or 0.0)
         self.log("OK", f"[EXEC] SELL FILLED id={order_ref}")
         remaining = max(self.position_qty, 0.0)
@@ -1705,6 +1755,7 @@ class MainWindow(QMainWindow):
                 self._handle_buy_fill_update(final)
                 if final_status == "FILLED":
                     self.buy_filled_qty = executed_qty
+        self.exit_blocked_no_sellable_count = 0
                     self.log("OK", "[EXEC] BUY FILLED during cancel")
                     self.log("OK", f"[EXEC] BUY FILLED id={int(self.active_order['orderId'])}")
                     self.fsm_state = "PLACE_SELL"
@@ -1861,8 +1912,12 @@ class MainWindow(QMainWindow):
                         self.runtime_halt_manual_check = True
                     return
                 if btc_free <= min_sellable_qty:
+                    self.exit_blocked_no_sellable_count += 1
                     self.log("WARNING", f"[EXEC] EXIT_BLOCKED_NO_SELLABLE_QTY inventory={inventory_qty:.6f} free={btc_free:.6f} safe={sell_qty:.6f} reason=dust_or_locked_balance")
                     self.position_state = "EXIT_BLOCKED_NO_SELLABLE_QTY"
+                    if self._maybe_reconcile_phantom_inventory(inventory_qty, sell_qty, btc_free, btc_locked):
+                        self._finalize_cycle_if_flat()
+                        return
                     self.fsm_state = "WAIT_MANUAL"
                     return
             if sell_qty <= epsilon_qty or sell_qty < min_sellable_qty:
@@ -2023,6 +2078,7 @@ class MainWindow(QMainWindow):
                         return
             prev_sell_reported_qty = self.sell_reported_qty
             self._handle_sell_fill_update(st)
+        self.exit_blocked_no_sellable_count = 0
             sell_delta = max(self.sell_reported_qty - prev_sell_reported_qty, 0.0)
             if sell_delta > 0:
                 self.log("OK", f"[EXEC] SELL PARTIAL delta={sell_delta:.6f}")
@@ -2236,7 +2292,7 @@ class MainWindow(QMainWindow):
         active_order_text = "none"
         if self.active_order.get("orderId"):
             active_order_text = f"{self.active_order.get('side','-')}#{self.active_order.get('orderId')}"
-        summary_sig = f"{self.position_state}:{self.position_entry_avg:.6f}:{self.closed_cycles}:{self.wins}:{self.losses}:{self.session_realized_pnl:.6f}:{self.last_pnl:.6f}:{winrate:.2f}:{self.canceled_buys}:{self.sell_timeouts}:{self.sell_reprice_count}:{self.exit_mode}:{active_order_text}:{self.position_qty:.6f}"
+        summary_sig = f"{self.position_state}:{self.position_entry_avg:.6f}:{self.closed_cycles}:{self.wins}:{self.losses}:{self.session_realized_pnl:.6f}:{self.last_pnl:.6f}:{winrate:.2f}:{self.canceled_buys}:{self.sell_timeouts}:{self.sell_reprice_count}:{self.exit_mode}:{self.phantom_reconcile_count}:{active_order_text}:{self.position_qty:.6f}"
         if summary_sig != self.summary_signature:
             self.summary_signature = summary_sig
             self.summary["Started"].setText(self.session_started_at)
@@ -2252,6 +2308,7 @@ class MainWindow(QMainWindow):
             self.summary["Last PnL"].setText(f"{self.last_pnl:+.6f}")
             self.summary["Sell timeouts"].setText(str(self.sell_timeouts))
             self.summary["Exit mode"].setText(self.exit_mode)
+            self.summary["Phantom reconcile count"].setText(str(self.phantom_reconcile_count))
 
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
         ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
