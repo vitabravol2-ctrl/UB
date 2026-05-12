@@ -64,6 +64,8 @@ class SettingsData:
     taker_exit_min_expected_profit_ticks: int = 0
     taker_exit_max_slippage_ticks: int = 2
     taker_exit_force_flat_after_ms: int = 1800
+    taker_status_poll_ms: int = 300
+    taker_status_timeout_ms: int = 1500
     exit_ioc_enabled: bool = False
     min_profit_ticks: int = 1
     take_profit_ticks: int = 2
