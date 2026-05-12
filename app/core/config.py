@@ -36,7 +36,9 @@ class SettingsData:
     sell_watchdog_ms: int = 3000
     place_sell_stuck_ms: int = 1500
     far_sell_ticks: int = 10
+    panic_far_sell_multiplier: int = 5
     sell_reprice_cooldown_ms: int = 700
+    place_sell_recovery_cooldown_ms: int = 2500
     panic_reprice_once: bool = True
     aggressive_exit_offset: float = 1.0
     max_sell_reprices: int = 2

@@ -221,6 +221,7 @@ class MainWindow(QMainWindow):
         self.last_sell_price = 0.0
         self.force_reprice_sell_next = False
         self.last_sell_far_cancel_price = 0.0
+        self.last_sell_recovery_attempt_ms = 0
         self.last_watchdog_sync_ms_by_order: dict[int, int] = {}
         self.place_sell_entered_ms = 0
 
@@ -900,7 +901,10 @@ class MainWindow(QMainWindow):
         if tick <= 0 or order_price <= 0 or ask_now <= 0:
             return False, 0
         dist_ticks = int((order_price - ask_now) / tick)
-        return dist_ticks > int(getattr(self.settings, "far_sell_ticks", 10)), dist_ticks
+        far_ticks = int(getattr(self.settings, "far_sell_ticks", 10))
+        if self.panic_exit_final:
+            far_ticks *= max(int(getattr(self.settings, "panic_far_sell_multiplier", 5)), 1)
+        return dist_ticks > far_ticks, dist_ticks
 
     def _is_far_buy(self, order_price: float, bid_now: float) -> tuple[bool, int]:
         tick = self._tick_size()
@@ -915,6 +919,20 @@ class MainWindow(QMainWindow):
             return candidate_price
         soft_floor = old_price - tick
         return max(candidate_price, soft_floor)
+
+    def _build_fresh_sell_price_after_far_cancel(self, ask_now: float, bid_now: float) -> tuple[float, int]:
+        tick = self._tick_size()
+        if tick <= 0 or ask_now <= 0:
+            return 0.0, 0
+        offset = max(float(getattr(self.settings, "exit_offset", 1.0)), 0.0)
+        offset_ticks = int(round(offset / tick)) if tick > 0 else 0
+        allow_ticks = max(2, offset_ticks)
+        if self.taker_exit_triggered or self.exit_stage != "EXIT_TP_MAKER":
+            panic_step = max(float(getattr(self.settings, "aggressive_exit_offset", 1.0)), tick)
+            target_price = ask_now - panic_step
+        else:
+            target_price = ask_now - (tick * min(allow_ticks, 2))
+        return self._round_price_down(max(target_price, tick)), allow_ticks
 
     def _remaining_to_sell(self) -> float:
         inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
@@ -1055,6 +1073,10 @@ class MainWindow(QMainWindow):
         self.log("ERROR", "[EXEC] SELL_FAR_CANCEL_UNSTICK action=wait_manual")
 
     def _handle_place_sell_stuck(self, now_ms: int) -> None:
+        cooldown_ms = int(getattr(self.settings, "place_sell_recovery_cooldown_ms", 2500))
+        if now_ms - self.last_sell_recovery_attempt_ms < cooldown_ms:
+            return
+        self.last_sell_recovery_attempt_ms = now_ms
         inv = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
         self.log("WARNING", f"[EXEC] PLACE_SELL_STUCK_RECOVERY qty={inv:.6f}")
         if inv <= self._inventory_epsilon_qty():
@@ -1134,7 +1156,9 @@ class MainWindow(QMainWindow):
             self.log("WARNING", "[EXEC] PANIC EXIT sl_mode")
         else:
             self.log("WARNING", f"[EXEC] PANIC EXIT {reason}")
-        new_price = self._force_exit_price(bid_now, ask_now)
+        tick = self._tick_size()
+        panic_step = max(float(getattr(self.settings, "aggressive_exit_offset", 1.0)), tick)
+        new_price = self._round_price_down(max(ask_now - panic_step, tick))
         sell_qty = self._safe_sell_qty(self.position_qty, refresh_balance=True)
         if sell_qty <= self._inventory_epsilon_qty():
             self._cleanup_inventory_if_drained()
@@ -1840,13 +1864,16 @@ class MainWindow(QMainWindow):
                         self.fetch_rest()
                         ask_now = float(self.state.snapshot.ask or 0.0)
                         bid_now = float(self.state.snapshot.bid or 0.0)
-                    maker_cap = ask_now - tick if ask_now > 0 else target_exit
-                    market_exit_price = min(target_exit, maker_cap) if maker_cap > 0 else target_exit
-                    if self.taker_exit_triggered or self.exit_stage != "EXIT_TP_MAKER":
-                        market_exit_price = self._force_exit_price(bid_now, ask_now)
-                    sell_price = max(market_exit_price, tp_floor_price)
+                    sell_price, allow_ticks = self._build_fresh_sell_price_after_far_cancel(ask_now, bid_now)
                     old_price = float(self.last_sell_far_cancel_price or self.last_sell_price or plan_exit_price)
                     self.log("INFO", f"[EXEC] SELL_REPRICE_FRESH_APPLIED old={old_price:.2f} new={sell_price:.2f} ask={ask_now:.2f} bid={bid_now:.2f}")
+                    dist_ticks = int(abs(sell_price - ask_now) / max(tick, 1e-9)) if ask_now > 0 and sell_price > 0 else 0
+                    self.log("INFO", f"[EXEC] SELL_REPRICE_VALIDATION old={old_price:.2f} new={sell_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks} source=fresh_snapshot")
+                    if sell_price <= 0 or dist_ticks > allow_ticks:
+                        self.log("ERROR", f"[EXEC] SELL_REPRICE_FRESH_FAILED old={old_price:.2f} new={sell_price:.2f} ask={ask_now:.2f} reason=validation_failed")
+                        self.force_reprice_sell_next = False
+                        self._sell_far_cancel_unstick(int(time.time() * 1000), "fresh_reprice_validation_failed")
+                        return
                     if old_price > 0 and abs(sell_price - old_price) < (tick * 0.5):
                         self.log("ERROR", f"[EXEC] SELL_REPRICE_FRESH_FAILED old={old_price:.2f} new={sell_price:.2f} reason=same_as_old")
                         self.force_reprice_sell_next = False
@@ -2030,7 +2057,10 @@ class MainWindow(QMainWindow):
                         step_ticks = max(int(getattr(self.settings, "panic_ladder_step_ticks", 1)), 1)
                         self.panic_ladder_step += 1
                         ladder_ticks = step_ticks * self.panic_ladder_step
-                        new_price = self._round_price_down(max(bid_now - (tick * ladder_ticks), tick))
+                        ask_now = float(self.state.snapshot.ask or 0.0)
+                        panic_step = max(float(getattr(self.settings, "aggressive_exit_offset", 1.0)), tick)
+                        dynamic_step = panic_step + (tick * ladder_ticks)
+                        new_price = self._round_price_down(max(ask_now - dynamic_step, tick))
                         sell_qty = self._safe_sell_qty(self.position_qty, refresh_balance=True)
                         if sell_qty <= self._inventory_epsilon_qty():
                             self._cleanup_inventory_if_drained()
