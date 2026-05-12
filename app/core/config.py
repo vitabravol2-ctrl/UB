@@ -121,6 +121,12 @@ class SettingsData:
     micro_grid_size_ticks: int = 400
     micro_grid_step_ticks: int = 10
     micro_grid_budget_u: float = 5000.0
+    micro_grid_max_active_buys: int = 8
+    micro_grid_place_batch_size: int = 3
+    micro_grid_place_interval_ms: int = 500
+    micro_grid_max_inventory_u: float = 1000.0
+    micro_grid_pause_buy_if_inventory_u_above: float = 800.0
+    micro_grid_sell_first: bool = True
 
 
 @dataclass(frozen=True)
