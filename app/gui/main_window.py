@@ -128,6 +128,9 @@ class MainWindow(QMainWindow):
         self.panic_ladder_step = 0
         self.last_exit_reason = "-"
         self.taker_exit_state = "IDLE"
+        self.taker_exit_triggered = False
+        self.taker_exit_order_id = 0
+        self.last_taker_exit_reason = "-"
         self.last_taker_reason = "-"
         self.last_taker_qty = 0.0
         self.last_taker_price = 0.0
@@ -820,6 +823,10 @@ class MainWindow(QMainWindow):
         self.sell_target_qty = 0.0
         self.position_sell_order_id = 0
         self.sell_reprice_count = 0
+        self.taker_exit_triggered = False
+        self.taker_exit_state = "IDLE"
+        self.taker_exit_order_id = 0
+        self.last_taker_exit_reason = "-"
         self.sell_recovery_in_progress = False
         self.sell_cancel_in_progress = False
         if reset_panic_order_id:
@@ -924,12 +931,30 @@ class MainWindow(QMainWindow):
     def _trigger_taker_exit(self, now_ms: int, reason: str) -> bool:
         if not bool(getattr(self.settings, "taker_exit_enabled", True)) or self.panic_exit_final:
             return False
+        if self.taker_exit_triggered and self.taker_exit_state in {"TRIGGERED", "ORDER_SENT"}:
+            return False
         order_id = int(self.active_order.get("orderId", 0) or 0)
         if order_id <= 0 or self.active_order.get("side") != "SELL":
             return False
-        sell_qty = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
+        age_ms = max(now_ms - int(self.active_order.get("create_ms", now_ms) or now_ms), 0)
+        self.log("WARNING", f"[EXEC] TAKER_EXIT_TRIGGER reason={reason} age={age_ms} qty={self.position_qty:.6f}")
+        self.log("WARNING", f"[EXEC] TAKER_EXIT_CANCEL_MAKER orderId={order_id}")
+        self.account.cancel_order(CONFIG.binance_symbol, order_id)
+        final = self.account.get_order(CONFIG.binance_symbol, order_id)
+        self._handle_sell_fill_update(final)
+        if str(final.get("status", "")) == "FILLED" or self.position_qty <= self._inventory_epsilon_qty():
+            self._handle_sell_filled(final, order_id)
+            return True
+        self.refresh_account_data()
+        sell_qty = self._safe_sell_qty(self._sync_sell_target_qty())
         if sell_qty <= self._inventory_epsilon_qty() or sell_qty < self._min_sellable_qty():
+            self.sync_active_order(force=True)
+            open_sell = self._find_open_sell_order()
+            if open_sell:
+                self._adopt_open_sell_order(open_sell)
+                return False
             self.log("WARNING", f"[EXEC] TAKER_EXIT_FAILED reason=qty_not_sellable qty={sell_qty:.6f}")
+            self.last_taker_exit_reason = "qty_not_sellable"
             return False
         bid_now = float(self.state.snapshot.bid or 0.0)
         tick = self._tick_size()
@@ -938,22 +963,24 @@ class MainWindow(QMainWindow):
         tif = "IOC" if bool(getattr(self.settings, "taker_exit_ioc", True)) else "GTC"
         self.taker_exit_state = "TRIGGERED"
         self.last_taker_reason = reason
+        self.last_taker_exit_reason = reason
         self.last_taker_qty = sell_qty
         self.last_taker_price = taker_price
-        self.log("WARNING", f"[EXEC] TAKER_EXIT reason={reason} qty={sell_qty:.6f} price={taker_price:.2f}")
+        self.taker_exit_triggered = True
         try:
-            self.account.cancel_order(CONFIG.binance_symbol, order_id)
             o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(taker_price), float(sell_qty), time_in_force=tif)
             new_id = int(o.get("orderId", 0) or 0)
             self.active_order = {"orderId": new_id, "side": "SELL", "price": float(taker_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
+            self.taker_exit_order_id = new_id
             self.position_sell_order_id = new_id
             self.exit_started_ms = now_ms
             self.exit_mode = "TAKER"
             self.taker_exit_state = "ORDER_SENT"
-            self.log("WARNING", f"[EXEC] TAKER_EXIT_ORDER_SENT id={new_id}")
+            self.log("WARNING", f"[EXEC] TAKER_EXIT_ORDER_SENT id={new_id} price={taker_price:.2f} qty={sell_qty:.6f}")
             return True
         except Exception as exc:
             self.taker_exit_state = "FAILED"
+            self.last_taker_exit_reason = f"failed:{exc}"
             self.log("ERROR", f"[EXEC] TAKER_EXIT_FAILED reason={exc}")
             return False
 
@@ -1641,8 +1668,6 @@ class MainWindow(QMainWindow):
             bid_now = float(self.state.snapshot.bid or 0.0)
             sl_ticks = max(int(getattr(self.settings, "stop_loss_ticks", 6)), 0)
             sl_price = float(self.position_entry_avg) - (tick * sl_ticks)
-            if not self.panic_exit_final and self.position_qty > 0 and bid_now > 0 and bid_now <= sl_price:
-                self.log("INFO", "[EXEC] RECOVERY WAIT hard_sl_pending_recovery (exit_not_blocked)")
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
             self.active_order["state"] = st.get("status", "NEW")
             prev_sell_reported_qty = self.sell_reported_qty
@@ -1690,6 +1715,9 @@ class MainWindow(QMainWindow):
                     self.max_hold_exit_triggered = True
                     self.trigger_panic_exit("max_hold_exceeded")
             elif now - self.exit_started_ms >= int(self.settings.sell_timeout_ms):
+                if self.position_qty > 0 and not self.panic_exit_final and self.taker_exit_state not in {"ORDER_SENT"}:
+                    if self._trigger_taker_exit(now, "sell_timeout_pre_panic"):
+                        return
                 if self.panic_exit_final:
                     panic_order_id = int(self.active_order.get("orderId", 0) or 0)
                     panic_interval_ms = int(getattr(self.settings, "panic_ladder_ms", 400))
