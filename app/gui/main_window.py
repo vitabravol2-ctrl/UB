@@ -177,6 +177,10 @@ class MainWindow(QMainWindow):
         self.sell_cancel_in_progress = False
         self.last_sell_place_ms = 0
         self.last_sell_place_signature = ""
+        self.last_sell_qty_clamp_sig = ""
+        self.last_sell_qty_clamp_log_ms = 0
+        self.last_exit_recovery_log_ms = 0
+        self.runtime_halt_manual_check = False
         self.sell_hold_window_ms = 1500
         self.sell_hold_near_ticks = 2
         self.market_health_state = MarketHealthState.GOOD
@@ -846,7 +850,7 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", "[EXEC] STATE REPAIR reason=buy_pending_with_inventory")
                 self.position_state = "POSITION_OPEN"
             if self.fsm_state == "WAIT_READY" and not (has_active_order and active_side == "SELL"):
-                self.log("INFO", f"[EXEC] EXIT RECOVERY inventory_no_sell qty={inventory_qty:.6f}")
+                self._log_exit_recovery_throttled(inventory_qty)
                 self.fsm_state = "PLACE_SELL"
 
     def _add_inventory_chunk(self, qty: float, entry_price: float, now_ms: int) -> None:
@@ -891,8 +895,19 @@ class MainWindow(QMainWindow):
         if safe_qty <= epsilon:
             return 0.0
         if safe_qty + epsilon < rounded_qty or inventory_qty + epsilon < rounded_qty or free_btc + epsilon < rounded_qty:
-            self.log("WARNING", f"[EXEC] SELL_QTY_CLAMP inventory={inventory_qty:.6f} free={free_btc:.6f} final={safe_qty:.6f}")
+            now = int(time.time() * 1000)
+            clamp_sig = f"{inventory_qty:.8f}:{free_btc:.8f}:{safe_qty:.8f}"
+            if clamp_sig != self.last_sell_qty_clamp_sig or now - self.last_sell_qty_clamp_log_ms >= 3000:
+                self.log("WARNING", f"[EXEC] SELL_QTY_CLAMP inventory={inventory_qty:.6f} free={free_btc:.6f} final={safe_qty:.6f}")
+                self.last_sell_qty_clamp_sig = clamp_sig
+                self.last_sell_qty_clamp_log_ms = now
         return safe_qty
+
+    def _log_exit_recovery_throttled(self, qty: float) -> None:
+        now = int(time.time() * 1000)
+        if now - self.last_exit_recovery_log_ms >= 3000:
+            self.log("INFO", f"[EXEC] EXIT RECOVERY inventory_no_sell qty={qty:.6f}")
+            self.last_exit_recovery_log_ms = now
 
     def _panic_exit_final(self, now_ms: int, reason: str, sl_mode: bool = False) -> None:
         if self.panic_exit_final and self.panic_exit_order_id:
@@ -1242,7 +1257,7 @@ class MainWindow(QMainWindow):
         self._repair_runtime_state()
         if self.position_qty > 0 and not (self.active_order.get("orderId") and self.active_order.get("side") == "SELL") and self.runtime_active:
             if self.fsm_state != "PLACE_SELL":
-                self.log("INFO", f"[EXEC] EXIT RECOVERY inventory_no_sell qty={self.position_qty:.6f}")
+                self._log_exit_recovery_throttled(self.position_qty)
             self.fsm_state = "PLACE_SELL"
         if self.runtime_active and self.fsm_state == "DONE":
             self.fsm_state = "WAIT_READY"
@@ -1432,6 +1447,8 @@ class MainWindow(QMainWindow):
                     self.last_entry_reprice_ms = now
                     self.log("OK", f"[EXEC] ENTRY_PLACE price={new_price:.2f} qty={float(self.active_order.get('qty', 0.0)):.6f}")
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
+            if self.runtime_halt_manual_check:
+                return
             epsilon_qty = self._inventory_epsilon_qty()
             if self.sell_recovery_in_progress or self.sell_cancel_in_progress:
                 return
@@ -1472,7 +1489,40 @@ class MainWindow(QMainWindow):
                     self.log("WARNING", "[EXEC] SELL BLOCK locked_balance_no_order")
                 return
             min_notional = float(self.filters.get("minNotional", 0.0) or 0.0)
-            if sell_qty <= epsilon_qty or (bid_now > 0 and (sell_qty * bid_now) < min_notional):
+            min_sellable_qty = max(epsilon_qty, min_qty)
+            blocked_by_notional = bid_now > 0 and (sell_qty * bid_now) < min_notional
+            blocked_by_dust = sell_qty <= min_sellable_qty or blocked_by_notional
+            if inventory_qty > epsilon_qty and blocked_by_dust:
+                if btc_locked > epsilon_qty and btc_free <= min_sellable_qty:
+                    self.sync_active_order(force=True)
+                    open_sell = self._find_open_sell_order()
+                    if open_sell:
+                        self._adopt_open_sell_order(open_sell)
+                        self.fsm_state = "WAIT_SELL_ORDER_STATUS"
+                        self.position_state = "WAIT_SELL_ORDER_STATUS"
+                    else:
+                        self.log("ERROR", f"[EXEC] BTC_LOCKED_WITHOUT_TRACKED_ORDER qty={btc_locked:.6f}")
+                        self.position_state = "WAIT_EXCHANGE_UNLOCK"
+                        self.fsm_state = "WAIT_MANUAL"
+                        self.runtime_halt_manual_check = True
+                    return
+                if btc_free <= min_sellable_qty:
+                    self.log("WARNING", f"[EXEC] EXIT_BLOCKED_NO_SELLABLE_QTY inventory={inventory_qty:.6f} free={btc_free:.6f} safe={sell_qty:.6f} reason=dust_or_locked_balance")
+                    self.position_state = "EXIT_BLOCKED_NO_SELLABLE_QTY"
+                    self.fsm_state = "WAIT_MANUAL"
+                    return
+            if sell_qty <= epsilon_qty or blocked_by_notional:
+                if len(self.inventory_chunks) > 0 and btc_free <= epsilon_qty and btc_locked > epsilon_qty:
+                    self.position_state = "WAIT_EXCHANGE_UNLOCK"
+                    self.fsm_state = "WAIT_SELL_ORDER_STATUS"
+                    return
+                if len(self.inventory_chunks) > 0 and btc_free <= epsilon_qty and btc_locked <= epsilon_qty:
+                    self.log("INFO", "[EXEC] RECONCILE_FLAT reason=phantom_inventory_no_balance")
+                    self._cleanup_inventory_if_drained()
+                    self._reconcile_position_state("phantom_inventory_no_balance")
+                    self._finalize_cycle_if_flat()
+                    self.fsm_state = "DONE"
+                    return
                 self.log("INFO", f"[EXEC] SKIP MICRO SELL epsilon={epsilon_qty:.6f}")
                 self._cleanup_inventory_if_drained()
                 self._reconcile_position_state("sell_clamp_or_micro")
