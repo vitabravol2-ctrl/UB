@@ -34,6 +34,7 @@ class SettingsData:
     min_spread_after_entry_ticks: int = 3
     sell_timeout_ms: int = 5000
     sell_watchdog_ms: int = 3000
+    place_sell_stuck_ms: int = 1500
     far_sell_ticks: int = 10
     sell_reprice_cooldown_ms: int = 700
     panic_reprice_once: bool = True
