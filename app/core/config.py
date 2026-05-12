@@ -132,7 +132,10 @@ class SettingsData:
     conveyor_stream_sell_first: bool = True
     conveyor_stream_target_ticks: int = 80
     conveyor_stream_min_profit_ticks: int = 30
-    conveyor_stream_sell_timeout_ms: int = 5000
+    conveyor_stream_sell_timeout_ms: int = 12000
+    conveyor_stream_sell_retry_max: int = 3
+    conveyor_stream_sell_retry_step_ticks: int = 20
+    conveyor_stream_loss_cooldown_ms: int = 5000
     conveyor_stream_order_error_cooldown_ms: int = 1500
     conveyor_stream_max_order_errors: int = 5
     # legacy compatibility (hidden in GUI)
