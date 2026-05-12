@@ -229,6 +229,7 @@ class MainWindow(QMainWindow):
         self.sell_hold_recovery_started_ms = 0
         self.floor_hold_timeout_triggered = False
         self._floor_hold_disabled_logged = False
+        self.smart_exit_active = False
         self.last_sell_recovery_attempt_ms = 0
         self.last_watchdog_sync_ms_by_order: dict[int, int] = {}
         self.protected_sell_ignore_last_log_ms_by_order: dict[int, int] = {}
@@ -699,6 +700,8 @@ class MainWindow(QMainWindow):
         is_flat = no_chunks and inventory_qty <= epsilon and active_sell_qty <= epsilon
         if not is_flat:
             return
+        if self.smart_exit_active:
+            self.log("OK", "[EXEC] SMART_EXIT_DONE_FLAT")
         self._reset_sell_accounting("flat", reset_panic_order_id=True)
         cycle_pnl = self.cycle_realized_pnl
         if abs(cycle_pnl) <= epsilon and not self.cycle_has_fifo_close:
@@ -840,6 +843,8 @@ class MainWindow(QMainWindow):
         below_min_sellable = inventory_qty < min_sellable_qty
         below_min_notional = min_notional > 0 and notional < min_notional
         if inventory_qty <= max_qty and (below_min_sellable or below_min_notional):
+            if self.smart_exit_active:
+                self.log("INFO", f"[EXEC] SMART_EXIT_DUST_RECONCILE qty={inventory_qty:.6f} reason={reason}")
             self.inventory_chunks = []
             self.position_qty = 0.0
             self.position_entry_avg = 0.0
@@ -1012,6 +1017,8 @@ class MainWindow(QMainWindow):
         return float(self.position_entry_avg) + (tick * min_profit_ticks)
 
     def _apply_sell_floor(self, candidate_price: float, reason: str) -> float:
+        if self.smart_exit_active:
+            return candidate_price
         if self.floor_hold_timeout_triggered:
             if not getattr(self, "_floor_hold_disabled_logged", False):
                 self.log("WARNING", "[EXEC] FLOOR_HOLD_DISABLED_AFTER_TIMEOUT")
@@ -1029,6 +1036,9 @@ class MainWindow(QMainWindow):
         return order_price > 0 and floor_price > 0 and abs(order_price - floor_price) <= max(tick * 0.5, 1e-9)
 
     def _update_sell_protection_meta(self, sell_price: float, ask_now: float, source: str) -> dict:
+        if self.smart_exit_active:
+            self.sell_hold_recovery_started_ms = 0
+            return {"is_floor_protected": False, "is_hold_recovery": False, "hold_source": source}
         tick = self._tick_size()
         floor_price = self._min_allowed_sell_price()
         is_floor_protected = self._is_floor_protected_sell(sell_price)
@@ -1049,6 +1059,8 @@ class MainWindow(QMainWindow):
         return bool(meta.get("is_floor_protected")) or bool(meta.get("is_hold_recovery")) or self._is_floor_protected_sell(order_price)
 
     def _should_block_protected_sell_escalation(self, now_ms: int, reason: str) -> bool:
+        if self.smart_exit_active:
+            return False
         if not isinstance(self.active_order, dict):
             return False
         if self.active_order.get("side") != "SELL":
@@ -1146,6 +1158,7 @@ class MainWindow(QMainWindow):
         self.sell_hold_recovery_started_ms = 0
         self.floor_hold_timeout_triggered = False
         self._floor_hold_disabled_logged = False
+        self.smart_exit_active = False
         self.protected_sell_ignore_last_log_ms_by_order = {}
         self.exit_blocked_no_sellable_count = 0
         if reset_panic_order_id:
@@ -1294,6 +1307,8 @@ class MainWindow(QMainWindow):
             return False
         age_ms = max(now_ms - int(self.active_order.get("create_ms", now_ms) or now_ms), 0)
         self.log("WARNING", f"[EXEC] TAKER_EXIT_TRIGGER reason={reason} age={age_ms} qty={self.position_qty:.6f}")
+        if self.smart_exit_active:
+            self.log("WARNING", f"[EXEC] SMART_EXIT_TO_TAKER reason={reason}")
         self.log("WARNING", f"[EXEC] TAKER_EXIT_CANCEL_MAKER orderId={order_id}")
         self.account.cancel_order(CONFIG.binance_symbol, order_id)
         final = self.account.get_order(CONFIG.binance_symbol, order_id)
@@ -1351,7 +1366,7 @@ class MainWindow(QMainWindow):
     def _sync_taker_exit_status(self, now_ms: int) -> None:
         order_id = int(self.taker_exit_order_id or 0)
         if order_id <= 0:
-            self.fsm_state = "PLACE_SELL"
+            self.fsm_state = "PLACE_SELL" if not self.smart_exit_active else "WAIT_MANUAL"
             return
         poll_ms = int(getattr(self.settings, "taker_status_poll_ms", 300))
         timeout_ms = int(getattr(self.settings, "taker_status_timeout_ms", 1500))
@@ -1390,6 +1405,14 @@ class MainWindow(QMainWindow):
             self.log("WARNING", f"[EXEC] TAKER_STATUS_PARTIAL orderId={order_id} filled={sell_delta:.6f} remaining={remaining:.6f}")
             self._consume_fifo(sell_delta)
             if remaining > self._min_sellable_qty():
+                if self.smart_exit_active:
+                    self.log("WARNING", f"[EXEC] SMART_EXIT_TAKER_PARTIAL_REMAINING qty={remaining:.6f}")
+                    self.log("WARNING", "[EXEC] SMART_EXIT_TO_PANIC reason=taker_partial_remaining")
+                    self.active_order = {}
+                    self.taker_exit_order_id = 0
+                    self.taker_exit_state = "IDLE"
+                    self.trigger_panic_exit("smart_exit_taker_partial_remaining")
+                    return
                 self.active_order = {}
                 self.taker_exit_order_id = 0
                 self.taker_exit_state = "IDLE"
@@ -1430,6 +1453,14 @@ class MainWindow(QMainWindow):
             self.log("WARNING", f"[EXEC] TAKER_STATUS_PARTIAL orderId={order_id} filled={delta:.6f} remaining={remaining:.6f}")
             self._consume_fifo(delta)
             if remaining > self._min_sellable_qty():
+                if self.smart_exit_active:
+                    self.log("WARNING", f"[EXEC] SMART_EXIT_TAKER_PARTIAL_REMAINING qty={remaining:.6f}")
+                    self.log("WARNING", "[EXEC] SMART_EXIT_TO_PANIC reason=taker_partial_timeout_remaining")
+                    self.active_order = {}
+                    self.taker_exit_order_id = 0
+                    self.taker_exit_state = "IDLE"
+                    self.trigger_panic_exit("smart_exit_taker_partial_timeout_remaining")
+                    return
                 self.active_order = {}
                 self.taker_exit_order_id = 0
                 self.taker_exit_state = "IDLE"
@@ -1445,7 +1476,11 @@ class MainWindow(QMainWindow):
         remaining = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
         btc_locked = float(self.balances.get("BTC", {}).get("locked", 0.0) or 0.0)
         if remaining > self._min_sellable_qty():
-            self.fsm_state = "PLACE_SELL"
+            if self.smart_exit_active:
+                self.log("WARNING", f"[EXEC] SMART_EXIT_TO_PANIC reason={timeout_reason}")
+                self.trigger_panic_exit(f"smart_exit_{timeout_reason}")
+            else:
+                self.fsm_state = "PLACE_SELL"
             return
         if remaining <= self._inventory_epsilon_qty() and btc_locked <= self._inventory_epsilon_qty():
             self._maybe_reconcile_phantom_inventory(self.position_qty, remaining, float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0), btc_locked)
@@ -1838,6 +1873,12 @@ class MainWindow(QMainWindow):
         plan_key = f"{plan.status}:{self._fmt(plan.order_size_u,2)}:{self._fmt(plan.qty_btc,6)}:{self._fmt(plan.required_u or 0.0,2)}" if plan else "STOPPED"
         self._repair_runtime_state()
         if self.position_qty > 0 and not (self.active_order.get("orderId") and self.active_order.get("side") == "SELL") and self.runtime_active:
+            if self.smart_exit_active:
+                self._log_taker_guard_skip("smart_exit_wait_taker_or_panic")
+                if not self._trigger_taker_exit(now_ms, "smart_exit_inventory_no_sell"):
+                    self.log("WARNING", "[EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell")
+                    self.trigger_panic_exit("smart_exit_inventory_no_sell")
+                return
             if self.fsm_state != "PLACE_SELL":
                 self._log_exit_recovery_throttled(self.position_qty)
             self.fsm_state = "PLACE_SELL"
@@ -2056,7 +2097,7 @@ class MainWindow(QMainWindow):
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
             now_ms = int(time.time() * 1000)
             if self._is_taker_exit_active():
-                self._log_taker_guard_skip("place_sell")
+                self._log_taker_guard_skip("smart_exit_wait_taker" if self.smart_exit_active else "place_sell")
                 self.fsm_state = "WAIT_TAKER_EXIT_STATUS"
                 return
             if self.place_sell_entered_ms <= 0:
@@ -2205,6 +2246,12 @@ class MainWindow(QMainWindow):
                 ask_now = float(self.state.snapshot.ask or 0.0)
                 bid_now = float(self.state.snapshot.bid or 0.0)
                 place_sell_source = "plan"
+                if self.smart_exit_active:
+                    self.log("WARNING", "[EXEC] SMART_EXIT_BLOCKED_PLAN_SELL")
+                    if not self._trigger_taker_exit(int(time.time() * 1000), "smart_exit_blocked_plan_sell"):
+                        self.log("WARNING", "[EXEC] SMART_EXIT_TO_PANIC reason=blocked_plan_sell")
+                        self.trigger_panic_exit("smart_exit_blocked_plan_sell")
+                    return
                 if self.force_reprice_sell_next:
                     place_sell_source = "fresh_after_far_cancel"
                     if ask_now <= 0 or bid_now <= 0:
@@ -2325,6 +2372,8 @@ class MainWindow(QMainWindow):
                             should_break, break_reason, hold_age_ms = self._should_break_protected_hold(now, dist_ticks)
                             if should_break:
                                 self.floor_hold_timeout_triggered = True
+                                self.smart_exit_active = True
+                                self.log("WARNING", "[EXEC] SMART_EXIT_ACTIVE")
                                 meta = self.active_order.get("active_sell_meta", {}) if isinstance(self.active_order, dict) else {}
                                 if isinstance(meta, dict):
                                     meta["is_hold_recovery"] = False
@@ -2337,6 +2386,7 @@ class MainWindow(QMainWindow):
                                     self._handle_sell_filled(final, order_id)
                                     return
                                 if not self._trigger_taker_exit(now, f"smart_break_hold_{break_reason}"):
+                                    self.log("WARNING", "[EXEC] SMART_EXIT_TO_PANIC reason=taker_trigger_failed_after_break_hold")
                                     self.trigger_panic_exit(f"smart_break_hold_{break_reason}_failed")
                                 return
                             self._log_protected_sell_ignore(order_id, dist_ticks)
@@ -2391,16 +2441,18 @@ class MainWindow(QMainWindow):
                 self.log("OK", "[EXEC] EXIT_FILLED")
                 self._handle_sell_filled(st, int(self.active_order["orderId"]))
             elif self.position_qty > 0 and now - self.exit_started_ms >= int(getattr(self.settings, "taker_exit_force_flat_after_ms", 1800)):
-                if self._should_block_protected_sell_escalation(now, "force_flat_after_ms"):
+                if self._should_block_protected_sell_escalation(now, "force_flat_after_ms") and not self.smart_exit_active:
                     return
                 if not self._trigger_taker_exit(now, "force_flat_after_ms"):
+                    if self.smart_exit_active:
+                        self.log("WARNING", "[EXEC] SMART_EXIT_TO_PANIC reason=taker_force_flat_failed")
                     self.trigger_panic_exit("taker_force_flat_failed")
             elif self.position_qty > 0 and collapse_ticks >= int(getattr(self.settings, "taker_exit_spread_collapse_ticks", 3)):
                 self._trigger_taker_exit(now, "spread_collapse")
             elif self.position_qty > 0 and mid_delta <= float(getattr(self.settings, "taker_exit_mid_negative_threshold", -40.0)):
                 self._trigger_taker_exit(now, "mid_negative")
             elif self.position_qty > 0 and now - self.exit_started_ms >= int(getattr(self.settings, "taker_exit_after_ms", 900)):
-                if self._should_block_protected_sell_escalation(now, "timeout_after_ms"):
+                if self._should_block_protected_sell_escalation(now, "timeout_after_ms") and not self.smart_exit_active:
                     return
                 self._trigger_taker_exit(now, "timeout_after_ms")
             elif self.position_qty > 0 and now - self.exit_started_ms >= int(self.settings.max_hold_ms):
