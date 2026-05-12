@@ -233,6 +233,9 @@ class MainWindow(QMainWindow):
         self.last_watchdog_sync_ms_by_order: dict[int, int] = {}
         self.protected_sell_ignore_last_log_ms_by_order: dict[int, int] = {}
         self.place_sell_entered_ms = 0
+        self.last_taker_guard_skip_log_ms_by_reason: dict[str, int] = {}
+        self.last_taker_status_wait_log_ms = 0
+        self.taker_status_error_count = 0
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -1220,7 +1223,7 @@ class MainWindow(QMainWindow):
 
     def _log_exit_recovery_throttled(self, qty: float) -> None:
         if self._is_taker_exit_active():
-            self.log("INFO", "[EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell")
+            self._log_taker_guard_skip("exit_recovery_inventory_no_sell")
             return
         now = int(time.time() * 1000)
         if now - self.last_exit_recovery_log_ms >= 3000:
@@ -1244,7 +1247,7 @@ class MainWindow(QMainWindow):
 
     def _handle_place_sell_stuck(self, now_ms: int) -> None:
         if self._is_taker_exit_active():
-            self.log("INFO", "[EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell_stuck_recovery")
+            self._log_taker_guard_skip("place_sell_stuck_recovery")
             return
         cooldown_ms = int(getattr(self.settings, "place_sell_recovery_cooldown_ms", 2500))
         if now_ms - self.last_sell_recovery_attempt_ms < cooldown_ms:
@@ -1332,12 +1335,27 @@ class MainWindow(QMainWindow):
             return
         poll_ms = int(getattr(self.settings, "taker_status_poll_ms", 300))
         timeout_ms = int(getattr(self.settings, "taker_status_timeout_ms", 1500))
+        sent_ms = int(self.taker_exit_sent_ms or now_ms)
+        elapsed = max(now_ms - sent_ms, 0)
+        if now_ms - int(self.last_taker_status_wait_log_ms or 0) >= 1000:
+            self.log("INFO", f"[EXEC] TAKER_STATUS_WAIT orderId={order_id}")
+            self.last_taker_status_wait_log_ms = now_ms
         if self.last_taker_status_poll_ms and now_ms - self.last_taker_status_poll_ms < poll_ms:
             return
         self.taker_exit_state = "WAIT_STATUS"
         self.last_taker_status_poll_ms = now_ms
-        self.log("INFO", f"[EXEC] TAKER_STATUS_WAIT orderId={order_id}")
-        st = self.account.get_order(CONFIG.binance_symbol, order_id)
+        try:
+            st = self.account.get_order(CONFIG.binance_symbol, order_id)
+            self.taker_status_error_count = 0
+        except Exception as exc:
+            self.taker_status_error_count += 1
+            self.log("ERROR", f"[EXEC] TAKER_STATUS_ERROR error={exc}")
+            if elapsed >= timeout_ms:
+                self._handle_taker_status_timeout(now_ms, order_id, timeout_reason="error_timeout")
+            if self.taker_status_error_count >= 3:
+                self.log("ERROR", f"[EXEC] TAKER_STATUS_FAILED_MANUAL orderId={order_id} errors={self.taker_status_error_count}")
+                self.fsm_state = "WAIT_MANUAL"
+            return
         status = str(st.get("status", "UNKNOWN"))
         self.log("INFO", f"[EXEC] TAKER_STATUS_SYNC orderId={order_id} status={status}")
         prev_sell_reported_qty = self.sell_reported_qty
@@ -1362,25 +1380,61 @@ class MainWindow(QMainWindow):
             return
         if status in {"CANCELED", "EXPIRED", "REJECTED"}:
             self.log("WARNING", f"[EXEC] TAKER_STATUS_FAILED status={status}")
+            self._handle_taker_status_timeout(now_ms, order_id, timeout_reason=f"status_{status.lower()}")
+            return
+        if status == "NEW" and elapsed >= timeout_ms:
+            self._handle_taker_status_timeout(now_ms, order_id, timeout_reason="new_timeout")
+            return
+
+    def _handle_taker_status_timeout(self, now_ms: int, order_id: int, timeout_reason: str = "timeout") -> None:
+        self.log("ERROR", f"[EXEC] TAKER_STATUS_TIMEOUT orderId={order_id}")
+        self.refresh_account_data()
+        self.sync_active_order(force=True)
+        try:
+            latest = self.account.get_order(CONFIG.binance_symbol, order_id)
+            latest_status = str(latest.get("status", "UNKNOWN"))
+        except Exception as exc:
+            latest = {}
+            latest_status = "UNKNOWN"
+            self.log("ERROR", f"[EXEC] TAKER_STATUS_ERROR error={exc}")
+        if latest_status in {"FILLED", "PARTIALLY_FILLED"}:
+            prev = self.sell_reported_qty
+            self._handle_sell_fill_update(latest)
+            delta = max(self.sell_reported_qty - prev, 0.0)
+            if latest_status == "FILLED":
+                self.log("OK", f"[EXEC] TAKER_STATUS_FILLED orderId={order_id}")
+                self._handle_sell_filled(latest, order_id)
+                return
+            remaining = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
+            self.log("WARNING", f"[EXEC] TAKER_STATUS_PARTIAL orderId={order_id} filled={delta:.6f} remaining={remaining:.6f}")
             if remaining > self._min_sellable_qty():
                 self.active_order = {}
                 self.taker_exit_order_id = 0
                 self.taker_exit_state = "IDLE"
                 self.fsm_state = "PLACE_SELL"
                 return
-            btc_locked = float(self.balances.get("BTC", {}).get("locked", 0.0) or 0.0)
-            if remaining <= self._inventory_epsilon_qty() and btc_locked <= self._inventory_epsilon_qty():
-                self._maybe_reconcile_phantom_inventory(self.position_qty, remaining, float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0), btc_locked)
-            self.active_order = {}
-            self.taker_exit_order_id = 0
-            self.taker_exit_state = "IDLE"
+            self._maybe_reconcile_micro_partial_dust(remaining, reason="taker_partial_timeout_remaining")
+            self._finalize_cycle_if_flat()
+            self.fsm_state = "DONE"
+            return
+        self.active_order = {}
+        self.taker_exit_order_id = 0
+        self.taker_exit_state = "IDLE"
+        remaining = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
+        btc_locked = float(self.balances.get("BTC", {}).get("locked", 0.0) or 0.0)
+        if remaining > self._min_sellable_qty():
             self.fsm_state = "PLACE_SELL"
             return
-        if status == "NEW":
-            if now_ms - int(self.taker_exit_sent_ms or now_ms) >= timeout_ms:
-                self.log("ERROR", f"[EXEC] TAKER_STATUS_TIMEOUT orderId={order_id}")
-                self.account.cancel_order(CONFIG.binance_symbol, order_id)
+        if remaining <= self._inventory_epsilon_qty() and btc_locked <= self._inventory_epsilon_qty():
+            self._maybe_reconcile_phantom_inventory(self.position_qty, remaining, float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0), btc_locked)
+            self._finalize_cycle_if_flat()
+            self.fsm_state = "DONE"
             return
+        if btc_locked > self._inventory_epsilon_qty():
+            self.fsm_state = "WAIT_EXCHANGE_UNLOCK"
+            return
+        self.log("ERROR", f"[EXEC] TAKER_STATUS_FAILED_MANUAL orderId={order_id} reason={timeout_reason}")
+        self.fsm_state = "WAIT_MANUAL"
 
     def _panic_exit_final(self, now_ms: int, reason: str, sl_mode: bool = False) -> None:
         if self.panic_exit_final and self.panic_exit_order_id:
@@ -1704,6 +1758,9 @@ class MainWindow(QMainWindow):
         self.runtime["Guard reason"].setText(self.entry_guard_reason)
         self.runtime["Stable snaps"].setText(f"{self.entry_guard_stable_count}/{self.settings.stable_snapshots_required}")
         now_ms = int(time.time() * 1000)
+        if self.runtime_active and self.fsm_state == "WAIT_TAKER_EXIT_STATUS":
+            self._sync_taker_exit_status(now_ms)
+            return
         cooldown_left = max(self.entry_guard_cooldown_until_ms - now_ms, 0)
         self.runtime["Cooldown ms"].setText(str(cooldown_left))
         self.runtime["Entry mode"].setText(str(self.settings.entry_mode))
@@ -1977,14 +2034,14 @@ class MainWindow(QMainWindow):
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
             now_ms = int(time.time() * 1000)
             if self._is_taker_exit_active():
-                self.log("INFO", "[EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell")
+                self._log_taker_guard_skip("place_sell")
                 self.fsm_state = "WAIT_TAKER_EXIT_STATUS"
                 return
             if self.place_sell_entered_ms <= 0:
                 self.place_sell_entered_ms = now_ms
             if self.position_state == "SELL_PENDING" and not self.active_order.get("orderId"):
                 if self._is_taker_exit_active():
-                    self.log("INFO", "[EXEC] TAKER_STATUS_GUARD_SKIP reason=sell_pending_without_order_fix")
+                    self._log_taker_guard_skip("sell_pending_without_order_fix")
                     self.fsm_state = "WAIT_TAKER_EXIT_STATUS"
                     return
                 self.position_state = "POSITION_OPEN"
@@ -2708,3 +2765,9 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event) -> None:  # type: ignore[override]
         self.ws.stop(); super().closeEvent(event)
+    def _log_taker_guard_skip(self, reason: str) -> None:
+        now = int(time.time() * 1000)
+        last_ms = int(self.last_taker_guard_skip_log_ms_by_reason.get(reason, 0) or 0)
+        if now - last_ms >= 3000:
+            self.log("INFO", f"[EXEC] TAKER_STATUS_GUARD_SKIP reason={reason}")
+            self.last_taker_guard_skip_log_ms_by_reason[reason] = now
