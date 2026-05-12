@@ -79,34 +79,43 @@ class GridRuntime:
 
     def configure_micro_grid(self, bid: float, tick_size: float, step_size: float, min_qty: float, min_notional: float, settings, *, free_u: float | None = None) -> list[GridLevel]:
         self.levels = []
-        if not settings.micro_grid_enabled:
+        streams_enabled = bool(getattr(settings, "conveyor_streams_enabled", False))
+        if not settings.micro_grid_enabled and not streams_enabled:
             self._log("GRID_LEVEL_DISABLED")
             return self.levels
-        levels_count = int(settings.micro_grid_size_ticks / settings.micro_grid_step_ticks)
-        if levels_count <= 0:
-            self._log("GRID_LEVEL_SKIP reason=INVALID_LEVELS")
-            return self.levels
+        if streams_enabled:
+            levels_count = max(int(getattr(settings, "conveyor_stream_count", 20)), 0)
+            total_range_ticks = max(int(getattr(settings, "conveyor_stream_range_ticks", 200)), 0)
+            step_ticks = int(total_range_ticks / levels_count) if levels_count > 0 else 0
+            if levels_count <= 0 or step_ticks <= 0:
+                self._log("STREAM_SKIP reason=INVALID_STREAMS")
+                return self.levels
+            self._log(f"STREAMS_ENABLED count={levels_count} range_ticks={total_range_ticks} step_ticks={step_ticks}")
+        else:
+            levels_count = int(settings.micro_grid_size_ticks / settings.micro_grid_step_ticks)
+            step_ticks = int(settings.micro_grid_step_ticks)
+            if levels_count <= 0:
+                self._log("GRID_LEVEL_SKIP reason=INVALID_LEVELS")
+                return self.levels
+
         available_u = float(free_u if free_u is not None else settings.max_exposure_u)
         grid_budget_u = min(float(settings.max_exposure_u), float(settings.max_live_exposure_u), available_u)
         if float(getattr(settings, "micro_grid_budget_u", 0.0) or 0.0) > 0:
             self._log("GRID_BUDGET_DEPRECATED_USING_MAX_EXPOSURE")
         budget_per_level = grid_budget_u / levels_count
         self._log(f"GRID_BUDGET_SOURCE source=max_exposure_u budget={grid_budget_u:.2f}")
-        self._log(f"GRID_PARALLEL_START levels={levels_count} budget={grid_budget_u:.2f}")
-        self._log(f"GRID_BUDGET_ALLOC levels={levels_count} budget={grid_budget_u:.2f} per_level={budget_per_level:.2f}")
         for idx in range(1, levels_count + 1):
-            price = sub_ticks(bid, settings.micro_grid_step_ticks * idx, tick_size)
+            price = sub_ticks(bid, step_ticks * idx, tick_size)
             qty = self._round_down((budget_per_level / price) if price > 0 else 0.0, step_size)
             notional = qty * price
             if qty < min_qty or notional < min_notional:
-                self._log(f"GRID_LEVEL_SKIP_INVALID_QTY level_id={idx} price={price:.8f} qty={qty:.8f}")
+                self._log(f"STREAM_SKIP stream_id={idx} reason=INVALID_QTY price={price:.8f} qty={qty:.8f}")
                 continue
             level = GridLevel(level_id=idx, target_buy_price=price, budget_u=budget_per_level, qty=qty)
             self.levels.append(level)
-        self._log(
-            f"GRID_LEVELS_CREATED count={len(self.levels)} budget={grid_budget_u:.2f} "
-            f"step={settings.micro_grid_step_ticks} size={settings.micro_grid_size_ticks}"
-        )
+            if streams_enabled:
+                self._log(f"STREAM_CREATE stream_id={idx} buy_price={price:.8f} budget={budget_per_level:.2f} qty={qty:.8f}")
+        self._log(f"STREAM_CREATE_DONE count={len(self.levels)} budget={grid_budget_u:.2f} step_ticks={step_ticks}")
         return self.levels
 
     def mark_buy_placed(self, level_id: int, order_id: int) -> None:
@@ -115,7 +124,7 @@ class GridRuntime:
             return
         level.state = "WAIT_BUY_FILL"
         level.active_buy_order_id = order_id
-        self._log(f"GRID_BUY_PLACED level_id={level_id} order_id={order_id}")
+        self._log(f"STREAM_BUY_PLACED level_id={level_id} order_id={order_id}")
 
     def mark_buy_filled(self, level_id: int) -> None:
         level = next((x for x in self.levels if x.level_id == level_id), None)
@@ -124,7 +133,7 @@ class GridRuntime:
         level.state = "BUY_FILLED"
         level.active_buy_order_id = None
         level.last_fill_ts = int(time.time() * 1000)
-        self._log(f"GRID_BUY_FILLED level_id={level_id}")
+        self._log(f"STREAM_BUY_FILLED level_id={level_id}")
 
     def recycle_level(self, level_id: int) -> None:
         level = next((x for x in self.levels if x.level_id == level_id), None)
@@ -133,7 +142,7 @@ class GridRuntime:
         level.state = "WAIT_BUY"
         level.active_buy_order_id = None
         level.linked_inventory_chunk_ids.clear()
-        self._log(f"GRID_LEVEL_RECYCLED level_id={level_id}")
+        self._log(f"STREAM_RECYCLED level_id={level_id}")
 
     def grid_telemetry(self, inventory_u: float = 0.0, buy_paused: bool = False, placement_queue: int = 0, last_batch_size: int = 0) -> dict[str, float | int | str]:
         active = len(self.levels)
