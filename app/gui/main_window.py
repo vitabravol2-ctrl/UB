@@ -1078,6 +1078,7 @@ class MainWindow(QMainWindow):
         self.last_taker_price = taker_price
         self.taker_exit_triggered = True
         try:
+            self.log("INFO", f"[EXEC] PLACE_SELL_SOURCE source=taker price={taker_price:.2f}")
             o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(taker_price), float(sell_qty), time_in_force=tif)
             new_id = int(o.get("orderId", 0) or 0)
             self.active_order = {"orderId": new_id, "side": "SELL", "price": float(taker_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
@@ -1115,6 +1116,7 @@ class MainWindow(QMainWindow):
             self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
             return
         self.log("WARNING", f"[EXEC] FORCE EXIT price={new_price:.2f}")
+        self.log("INFO", f"[EXEC] PLACE_SELL_SOURCE source=panic price={new_price:.2f}")
         self.log("OK", f"[EXEC] PLACE SELL price={new_price:.2f} qty={sell_qty:.6f}")
         try:
             o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
@@ -1343,6 +1345,7 @@ class MainWindow(QMainWindow):
             self.sell_reprice_count += 1
             self.log("WARNING", f"[EXEC] SELL REPRICE old={old_price:.2f} new={new_price:.2f} count={self.sell_reprice_count}")
             self.log("INFO", f"[EXEC] SELL REPLACE remaining={sell_qty:.6f}")
+            self.log("INFO", f"[EXEC] PLACE_SELL_SOURCE source=plan price={new_price:.2f}")
             self.log("OK", f"[EXEC] PLACE SELL price={new_price:.2f} qty={sell_qty:.6f}")
             o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
             self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
@@ -1776,7 +1779,9 @@ class MainWindow(QMainWindow):
                 target_exit = max(plan_exit_price, tp_floor_price)
                 ask_now = float(self.state.snapshot.ask or 0.0)
                 bid_now = float(self.state.snapshot.bid or 0.0)
+                place_sell_source = "plan"
                 if self.force_reprice_sell_next:
+                    place_sell_source = "fresh_after_far_cancel"
                     if ask_now <= 0 or bid_now <= 0:
                         self.fetch_rest()
                         ask_now = float(self.state.snapshot.ask or 0.0)
@@ -1787,7 +1792,14 @@ class MainWindow(QMainWindow):
                         market_exit_price = self._force_exit_price(bid_now, ask_now)
                     sell_price = max(market_exit_price, tp_floor_price)
                     old_price = float(self.last_sell_far_cancel_price or self.last_sell_price or plan_exit_price)
-                    self.log("INFO", f"[EXEC] SELL_REPRICE_FRESH_AFTER_FAR_CANCEL old={old_price:.2f} new={sell_price:.2f} ask={ask_now:.2f} bid={bid_now:.2f}")
+                    self.log("INFO", f"[EXEC] SELL_REPRICE_FRESH_APPLIED old={old_price:.2f} new={sell_price:.2f} ask={ask_now:.2f} bid={bid_now:.2f}")
+                    if old_price > 0 and abs(sell_price - old_price) < (tick * 0.5):
+                        self.log("ERROR", f"[EXEC] SELL_REPRICE_FRESH_FAILED old={old_price:.2f} new={sell_price:.2f} reason=same_as_old")
+                        self.force_reprice_sell_next = False
+                        if not self._trigger_taker_exit(int(time.time() * 1000), "fresh_reprice_same_as_old"):
+                            self.fsm_state = "WAIT_MANUAL"
+                            self.runtime_halt_manual_check = True
+                        return
                     self.force_reprice_sell_next = False
                     still_far, dist_ticks = self._is_far_sell(sell_price, ask_now)
                     if still_far:
@@ -1804,6 +1816,7 @@ class MainWindow(QMainWindow):
                     return
                 self.last_sell_place_signature = place_signature
                 self.last_sell_place_ms = now
+                self.log("INFO", f"[EXEC] PLACE_SELL_SOURCE source={place_sell_source} price={sell_price:.2f}")
                 self.log("OK", f"[EXEC] PLACE SELL price={sell_price:.2f} qty={sell_qty:.6f}")
                 try:
                     o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(sell_qty))
@@ -1968,6 +1981,7 @@ class MainWindow(QMainWindow):
                             self.log("OK", "[EXEC] EXIT_FILLED inferred_by_balance")
                             self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
                             return
+                        self.log("INFO", f"[EXEC] PLACE_SELL_SOURCE source=panic price={new_price:.2f}")
                         o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))
                         self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                         self.position_sell_order_id = int(self.active_order["orderId"])
