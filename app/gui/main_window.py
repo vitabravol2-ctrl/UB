@@ -182,6 +182,11 @@ class MainWindow(QMainWindow):
         self.cycle_realized_pnl = 0.0
         self.cycle_has_fifo_close = False
         self.last_pnl = 0.0
+        self.stream_wins = 0
+        self.stream_losses = 0
+        self.stream_closed_cycles = 0
+        self.stream_realized_pnl = 0.0
+        self.stream_last_pnl = 0.0
         self.canceled_buys = 0
         self.sell_timeouts = 0
         self.file_logs = FileLogManager()
@@ -1240,7 +1245,7 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", "[EXEC] STATE REPAIR reason=buy_pending_with_inventory")
                 self.position_state = "POSITION_OPEN"
             if self.fsm_state == "WAIT_READY" and not (has_active_order and active_side == "SELL"):
-                if self._has_stream_owned_inventory():
+                if self._has_stream_owned_chunks_or_orders():
                     self.log("INFO", "[EXEC] STREAM_GLOBAL_SELL_SKIP reason=stream_owned_inventory")
                 else:
                     self._log_exit_recovery_throttled(inventory_qty)
@@ -1253,10 +1258,21 @@ class MainWindow(QMainWindow):
         eps = self._inventory_epsilon_qty()
         return any(self._is_stream_owned_chunk(chunk) and chunk.qty > eps for chunk in self.inventory_chunks)
 
+    def _has_stream_owned_orders(self) -> bool:
+        if not bool(getattr(self.settings, "conveyor_streams_enabled", False)):
+            return False
+        if any(int(order_id) > 0 for order_id in self.grid_sell_order_meta):
+            return True
+        active_order_id = int(self.active_order.get("orderId", 0) or 0)
+        return self._is_stream_sell_order_id(active_order_id)
+
+    def _has_stream_owned_chunks_or_orders(self) -> bool:
+        return self._has_stream_owned_inventory() or self._has_stream_owned_orders()
+
     def _should_skip_global_sell_engine(self, reason: str) -> bool:
         if not bool(getattr(self.settings, "conveyor_streams_enabled", False)):
             return False
-        if not self._has_stream_owned_inventory():
+        if not self._has_stream_owned_chunks_or_orders():
             return False
         self.log("INFO", f"[EXEC] STREAM_GLOBAL_SELL_SKIP reason={reason}")
         return True
@@ -1347,7 +1363,14 @@ class MainWindow(QMainWindow):
                     pnl = (fill_price - chunk.entry_price) * qty_to_close
                     self.log("OK", f"[EXEC] FIFO CLOSE qty={qty_to_close:.6f} entry={chunk.entry_price:.2f} exit={fill_price:.2f} pnl={pnl:+.6f}")
                     self.log("INFO", f"[EXEC] STREAM_PNL stream_id={level_id} pnl={pnl:+.6f}")
-                    self._apply_fifo_close_result(pnl)
+                    self.stream_realized_pnl += pnl
+                    self.stream_last_pnl = pnl
+                    eps = self._inventory_epsilon_qty()
+                    if pnl > eps:
+                        self.stream_wins += 1
+                    elif pnl < -eps:
+                        self.stream_losses += 1
+                    self.stream_closed_cycles = self.stream_wins + self.stream_losses
                 self.inventory_chunks.pop(idx)
                 self._recalc_entry_avg_from_chunks()
                 self.grid_runtime.recycle_level(level_id)
@@ -2869,24 +2892,30 @@ class MainWindow(QMainWindow):
             elif plan_status in {"BALANCE_LOW", "FILTER_FAIL"}:
                 self.log("WARNING", f"[EXEC] BLOCK reason={plan_status.lower()}")
 
-        winrate = (self.wins / self.closed_cycles * 100.0) if self.closed_cycles else 0.0
+        use_stream_stats = bool(getattr(self.settings, "conveyor_streams_enabled", False))
+        closed_cycles = self.stream_closed_cycles if use_stream_stats else self.closed_cycles
+        wins = self.stream_wins if use_stream_stats else self.wins
+        losses = self.stream_losses if use_stream_stats else self.losses
+        realized_pnl = self.stream_realized_pnl if use_stream_stats else self.session_realized_pnl
+        last_pnl = self.stream_last_pnl if use_stream_stats else self.last_pnl
+        winrate = (wins / closed_cycles * 100.0) if closed_cycles else 0.0
         active_order_text = "none"
         if self.active_order.get("orderId"):
             active_order_text = f"{self.active_order.get('side','-')}#{self.active_order.get('orderId')}"
-        summary_sig = f"{self.position_state}:{self.position_entry_avg:.6f}:{self.closed_cycles}:{self.wins}:{self.losses}:{self.session_realized_pnl:.6f}:{self.last_pnl:.6f}:{winrate:.2f}:{self.canceled_buys}:{self.sell_timeouts}:{self.sell_reprice_count}:{self.exit_mode}:{self.phantom_reconcile_count}:{active_order_text}:{self.position_qty:.6f}"
+        summary_sig = f"{self.position_state}:{self.position_entry_avg:.6f}:{closed_cycles}:{wins}:{losses}:{realized_pnl:.6f}:{last_pnl:.6f}:{winrate:.2f}:{self.canceled_buys}:{self.sell_timeouts}:{self.sell_reprice_count}:{self.exit_mode}:{self.phantom_reconcile_count}:{active_order_text}:{self.position_qty:.6f}"
         if summary_sig != self.summary_signature:
             self.summary_signature = summary_sig
             self.summary["Started"].setText(self.session_started_at)
             self.summary["Position state"].setText(self.position_state)
             self.summary["Position qty"].setText(self._fmt(self.position_qty, 6))
             self.summary["Entry avg"].setText(self._fmt(self.position_entry_avg, 6))
-            self.summary["Realized PnL"].setText(f"{self.session_realized_pnl:+.6f}")
+            self.summary["Realized PnL"].setText(f"{realized_pnl:+.6f}")
             self.summary["Winrate"].setText(f"{winrate:.2f}%")
-            self.summary["Closed cycles"].setText(str(self.closed_cycles))
-            self.summary["Wins"].setText(str(self.wins))
-            self.summary["Losses"].setText(str(self.losses))
+            self.summary["Closed cycles"].setText(str(closed_cycles))
+            self.summary["Wins"].setText(str(wins))
+            self.summary["Losses"].setText(str(losses))
             self.summary["Canceled buys"].setText(str(self.canceled_buys))
-            self.summary["Last PnL"].setText(f"{self.last_pnl:+.6f}")
+            self.summary["Last PnL"].setText(f"{last_pnl:+.6f}")
             self.summary["Sell timeouts"].setText(str(self.sell_timeouts))
             self.summary["Exit mode"].setText(self.exit_mode)
             self.summary["Phantom reconcile count"].setText(str(self.phantom_reconcile_count))
@@ -2930,14 +2959,23 @@ class MainWindow(QMainWindow):
         self.entry_guard_stable_count = stable_n
 
         reason = ""
+        stream_ws_stale_bypass = bool(
+            getattr(self.settings, "conveyor_streams_enabled", False)
+            and getattr(self.settings, "ws_optional_enabled", False)
+            and source == "REST"
+            and self.state.rest_status == "OK"
+            and self.api_status == "OK"
+        )
         if self.settings.require_ws_for_buy and (ws_age is None or ws_age > self.settings.max_ws_age_for_buy_ms):
-            allow_rest_for_streams = bool(getattr(self.settings, "conveyor_streams_enabled", False) and getattr(self.settings, "ws_optional_enabled", False) and source == "REST")
-            if allow_rest_for_streams:
-                self.log("INFO", "[EXEC] STREAM_WS_STALE_ALLOW_REST")
+            if stream_ws_stale_bypass:
+                self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
             else:
                 reason = "ws_stale"
         elif self.settings.live_enabled and self.settings.ws_optional_enabled and source != "WS":
-            reason = "rest_source_live_ws_required"
+            if stream_ws_stale_bypass:
+                self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
+            else:
+                reason = "rest_source_live_ws_required"
         elif spread >= self.settings.min_spread and self.last_spread_good_since_ms > 0 and (now_ms - self.last_spread_good_since_ms) < self.settings.min_spread_lifetime_ms:
             reason = "spread_too_young"
         elif self.settings.block_on_bid_unstable and bid_delta <= self.settings.max_negative_bid_delta:
