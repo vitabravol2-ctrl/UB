@@ -3,6 +3,8 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass, field
 from decimal import Decimal, ROUND_DOWN
+
+from app.core.price_ticks import sub_ticks
 from typing import Callable
 
 from app.core.grid_order_registry import GridOrderRegistry
@@ -85,14 +87,14 @@ class GridRuntime:
             self._log("GRID_LEVEL_SKIP reason=INVALID_LEVELS")
             return self.levels
         budget_per_level = settings.micro_grid_budget_u / levels_count
+        self._log(f"GRID_PARALLEL_START levels={levels_count} budget={settings.micro_grid_budget_u:.2f}")
         self._log(f"GRID_BUDGET_ALLOC levels={levels_count} budget={settings.micro_grid_budget_u:.2f} per_level={budget_per_level:.2f}")
         for idx in range(1, levels_count + 1):
-            price = bid - (settings.micro_grid_step_ticks * idx * tick_size)
-            price = self._round_down(price, tick_size)
+            price = sub_ticks(bid, settings.micro_grid_step_ticks * idx, tick_size)
             qty = self._round_down((budget_per_level / price) if price > 0 else 0.0, step_size)
             notional = qty * price
             if qty < min_qty or notional < min_notional:
-                self._log(f"GRID_LEVEL_SKIP level_id={idx} price={price:.8f}")
+                self._log(f"GRID_LEVEL_SKIP_INVALID_QTY level_id={idx} price={price:.8f} qty={qty:.8f}")
                 continue
             level = GridLevel(level_id=idx, target_buy_price=price, budget_u=budget_per_level, qty=qty)
             self.levels.append(level)
@@ -138,6 +140,7 @@ class GridRuntime:
             "GRID FILLED LEVELS": filled,
             "GRID BUDGET USED": used,
             "GRID BUDGET FREE": max(total - used, 0.0),
+            "GRID MODE": "PARALLEL" if self.levels else "OFF",
         }
 
     def validate_inputs(self, levels=None, market=None, balances=None, filters=None) -> tuple[str, str]:

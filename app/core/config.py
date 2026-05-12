@@ -7,10 +7,15 @@ from typing import Any
 @dataclass
 class SettingsData:
     min_spread: float = 7.0
+    min_spread_ticks: int = 7
     entry_offset: float = 1.0
+    entry_offset_ticks: int = 1
     exit_offset: float = 0.5
+    exit_offset_ticks: int = 1
     target_capture: float = 3.0
+    target_capture_ticks: int = 3
     stop_loss: float = 6.0
+    stop_loss_ticks: int = 3
     max_hold_ms: int = 3500
     order_size_u: float = 4000.0
     max_open_lots: int = 1
@@ -74,7 +79,6 @@ class SettingsData:
     exit_ioc_enabled: bool = False
     min_profit_ticks: int = 1
     take_profit_ticks: int = 2
-    stop_loss_ticks: int = 3
     rest_poll_ms: int = 700
     open_orders_poll_ms: int = 250
     all_orders_poll_ms: int = 9000
@@ -150,6 +154,19 @@ class SettingsStore:
         for key, value in payload.items():
             if key in known_keys:
                 current[key] = value
+
+        migrated_tick_keys: list[str] = []
+        legacy_map = {
+            "min_spread": "min_spread_ticks",
+            "entry_offset": "entry_offset_ticks",
+            "exit_offset": "exit_offset_ticks",
+            "target_capture": "target_capture_ticks",
+            "stop_loss": "stop_loss_ticks",
+        }
+        for legacy_key, tick_key in legacy_map.items():
+            if tick_key not in payload and legacy_key in payload:
+                current[tick_key] = int(float(payload[legacy_key]))
+                migrated_tick_keys.append(tick_key)
         current.pop("lot_size", None)
         current.pop("legacy_qty_btc", None)
         if "entry_timeout_ms" in payload and "buy_timeout_ms" not in payload:
@@ -164,6 +181,8 @@ class SettingsStore:
         self.last_merge_missing_added = missing_added
         self.last_merge_existing_preserved = True
         data = SettingsData(**current)
+        if migrated_tick_keys:
+            print("SETTINGS_MIGRATE_TICKS " + ",".join(sorted(migrated_tick_keys)))
         if missing_added > 0:
             self.save(data)
         return data
