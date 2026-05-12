@@ -222,6 +222,7 @@ class MainWindow(QMainWindow):
         self.force_reprice_sell_next = False
         self.last_sell_far_cancel_price = 0.0
         self.last_watchdog_sync_ms_by_order: dict[int, int] = {}
+        self.place_sell_entered_ms = 0
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -328,6 +329,7 @@ class MainWindow(QMainWindow):
             "min_spread_after_entry_ticks": "Min spread after entry ticks",
             "sell_timeout_ms": "SELL timeout ms",
             "sell_watchdog_ms": "SELL watchdog ms",
+            "place_sell_stuck_ms": "PLACE_SELL stuck ms",
             "far_sell_ticks": "SELL far ticks",
             "sell_reprice_cooldown_ms": "SELL reprice cooldown ms",
             "aggressive_exit_offset": "Aggressive exit offset",
@@ -380,7 +382,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "far_sell_ticks", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
+        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -1037,6 +1039,31 @@ class MainWindow(QMainWindow):
             self.log("INFO", f"[EXEC] EXIT RECOVERY inventory_no_sell qty={qty:.6f}")
             self.last_exit_recovery_log_ms = now
 
+    def _sell_far_cancel_unstick(self, now_ms: int, reason: str) -> None:
+        action = "taker"
+        if self._trigger_taker_exit(now_ms, reason):
+            self.log("WARNING", f"[EXEC] SELL_FAR_CANCEL_UNSTICK action={action}")
+            return
+        action = "panic"
+        if self.position_qty > self._inventory_epsilon_qty():
+            self.trigger_panic_exit(reason)
+            if self.fsm_state != "WAIT_MANUAL":
+                self.log("WARNING", f"[EXEC] SELL_FAR_CANCEL_UNSTICK action={action}")
+                return
+        self.runtime_halt_manual_check = True
+        self.fsm_state = "WAIT_MANUAL"
+        self.log("ERROR", "[EXEC] SELL_FAR_CANCEL_UNSTICK action=wait_manual")
+
+    def _handle_place_sell_stuck(self, now_ms: int) -> None:
+        inv = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
+        self.log("WARNING", f"[EXEC] PLACE_SELL_STUCK_RECOVERY qty={inv:.6f}")
+        if inv <= self._inventory_epsilon_qty():
+            return
+        if self.active_order.get("orderId"):
+            self.sync_active_order(force=True)
+            return
+        self.force_reprice_sell_next = True
+
     def _trigger_taker_exit(self, now_ms: int, reason: str) -> bool:
         if not bool(getattr(self.settings, "taker_exit_enabled", True)) or self.panic_exit_final:
             return False
@@ -1114,6 +1141,7 @@ class MainWindow(QMainWindow):
             self._reconcile_position_state("inferred_by_balance")
             self.log("OK", "[EXEC] EXIT_FILLED inferred_by_balance")
             self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
+            self.place_sell_entered_ms = 0
             return
         self.log("WARNING", f"[EXEC] FORCE EXIT price={new_price:.2f}")
         self.log("INFO", f"[EXEC] PLACE_SELL_SOURCE source=panic price={new_price:.2f}")
@@ -1225,6 +1253,7 @@ class MainWindow(QMainWindow):
         self.sell_reported_qty = 0.0
         if remaining <= self._inventory_epsilon_qty() and self._cleanup_inventory_if_drained():
             self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
+            self.place_sell_entered_ms = 0
         elif remaining <= 0:
             self.position_qty = 0.0
             self.position_state = "FLAT"
@@ -1239,6 +1268,7 @@ class MainWindow(QMainWindow):
                 self.last_panic_wait_log_ms = 0
                 self.max_hold_exit_triggered = False
             self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
+            self.place_sell_entered_ms = 0
         else:
             self.position_qty = remaining
             self.position_state = "POSITION_OPEN"
@@ -1260,6 +1290,7 @@ class MainWindow(QMainWindow):
             if self.panic_exit_final:
                 self.log("WARNING", f"[EXEC] PANIC HOLD active orderId={order_id}")
                 self.fsm_state = "WAIT_SELL_FILL"
+                self.place_sell_entered_ms = 0
                 return
             old_price = float(self.active_order.get("price", 0.0) or 0.0)
             bid_now = float(self.state.snapshot.bid or 0.0)
@@ -1331,6 +1362,7 @@ class MainWindow(QMainWindow):
                 self.log("INFO", f"[EXEC] PANIC SKIP no_hard_sl bid={bid_now:.2f} entry={float(self.position_entry_avg):.2f}")
                 if self.sell_reprice_count >= int(self.settings.max_sell_reprices):
                     self.fsm_state = "WAIT_SELL_FILL"
+                    self.place_sell_entered_ms = 0
                     return
                 candidate_price = max(bid_now + tick, ask_now - aggressive)
             new_price = self._cap_soft_sell_reprice(old_price, candidate_price)
@@ -1670,14 +1702,28 @@ class MainWindow(QMainWindow):
                     self.last_entry_reprice_ms = now
                     self.log("OK", f"[EXEC] ENTRY_PLACE price={new_price:.2f} qty={float(self.active_order.get('qty', 0.0)):.6f}")
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
+            now_ms = int(time.time() * 1000)
+            if self.place_sell_entered_ms <= 0:
+                self.place_sell_entered_ms = now_ms
+            if self.position_state == "SELL_PENDING" and not self.active_order.get("orderId"):
+                self.position_state = "POSITION_OPEN"
+                self.log("WARNING", "[EXEC] SELL_PENDING_WITHOUT_ORDER_FIXED")
             if self.runtime_halt_manual_check:
                 return
+            place_sell_stuck_ms = int(getattr(self.settings, "place_sell_stuck_ms", 1500))
+            if now_ms - self.place_sell_entered_ms >= place_sell_stuck_ms:
+                if self.active_order.get("orderId"):
+                    self.sync_active_order(force=True)
+                elif self.position_qty > self._inventory_epsilon_qty():
+                    self._handle_place_sell_stuck(now_ms)
+                self.place_sell_entered_ms = now_ms
             epsilon_qty = self._inventory_epsilon_qty()
             if self.sell_recovery_in_progress or self.sell_cancel_in_progress:
                 return
             if self.active_order.get("orderId") and self.active_order.get("side") == "SELL":
                 self.log("WARNING", "[EXEC] BLOCK duplicate_sell_prevented")
                 self.fsm_state = "WAIT_SELL_FILL"
+                self.place_sell_entered_ms = 0
                 return
             self.sync_active_order(force=True)
             open_sell = self._find_open_sell_order()
@@ -1689,7 +1735,15 @@ class MainWindow(QMainWindow):
                     order_id = int(open_sell.get("orderId", 0) or 0)
                     self.log("WARNING", f"[EXEC] SELL_WATCHDOG_FAR_CANCEL orderId={order_id} price={open_sell_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
                     self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                    final = self.account.get_order(CONFIG.binance_symbol, order_id)
+                    final_status = str(final.get("status", "UNKNOWN"))
+                    self.log("INFO", f"[EXEC] SELL_FAR_CANCEL_FINAL_STATUS status={final_status}")
                     self._reset_sell_price_cache_after_far_cancel(open_sell_price)
+                    if final_status == "CANCELED":
+                        self.active_order = {}
+                        if self.position_qty > self._inventory_epsilon_qty():
+                            self.position_state = "POSITION_OPEN"
+                            self.fsm_state = "PLACE_SELL"
                     self.sync_active_order(force=True)
                 else:
                     self._adopt_open_sell_order(open_sell)
@@ -1796,17 +1850,13 @@ class MainWindow(QMainWindow):
                     if old_price > 0 and abs(sell_price - old_price) < (tick * 0.5):
                         self.log("ERROR", f"[EXEC] SELL_REPRICE_FRESH_FAILED old={old_price:.2f} new={sell_price:.2f} reason=same_as_old")
                         self.force_reprice_sell_next = False
-                        if not self._trigger_taker_exit(int(time.time() * 1000), "fresh_reprice_same_as_old"):
-                            self.fsm_state = "WAIT_MANUAL"
-                            self.runtime_halt_manual_check = True
+                        self._sell_far_cancel_unstick(int(time.time() * 1000), "fresh_reprice_same_as_old")
                         return
                     self.force_reprice_sell_next = False
                     still_far, dist_ticks = self._is_far_sell(sell_price, ask_now)
                     if still_far:
                         self.log("WARNING", f"[EXEC] SELL_SKIP_STILL_FAR_AFTER_REPRICE price={sell_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
-                        if not self._trigger_taker_exit(int(time.time() * 1000), "still_far_after_reprice"):
-                            self.fsm_state = "WAIT_MANUAL"
-                            self.runtime_halt_manual_check = True
+                        self._sell_far_cancel_unstick(int(time.time() * 1000), "still_far_after_reprice")
                         return
                 else:
                     sell_price = target_exit
@@ -1848,6 +1898,7 @@ class MainWindow(QMainWindow):
                 self.log("OK", f"[EXEC] SELL ORDER SENT orderId={order_id}")
                 self.exit_started_ms = now
                 self.fsm_state = "WAIT_SELL_FILL"
+                self.place_sell_entered_ms = 0
         elif self.runtime_active and self.fsm_state == "WAIT_SELL_FILL" and self.active_order.get("orderId"):
             now = int(time.time() * 1000)
             panic_stale_ms = 20000
@@ -1876,7 +1927,13 @@ class MainWindow(QMainWindow):
                     if is_far:
                         self.log("WARNING", f"[EXEC] SELL_WATCHDOG_FAR_CANCEL orderId={order_id} price={order_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
                         self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                        final = self.account.get_order(CONFIG.binance_symbol, order_id)
+                        final_status = str(final.get("status", "UNKNOWN"))
+                        self.log("INFO", f"[EXEC] SELL_FAR_CANCEL_FINAL_STATUS status={final_status}")
                         self._reset_sell_price_cache_after_far_cancel(order_price)
+                        if final_status == "CANCELED":
+                            self.active_order = {}
+                            self.position_state = "POSITION_OPEN" if self.position_qty > self._inventory_epsilon_qty() else "FLAT"
                         self.fsm_state = "PLACE_SELL" if self.position_qty > self._inventory_epsilon_qty() else "DONE"
                         return
             prev_sell_reported_qty = self.sell_reported_qty
@@ -1980,6 +2037,7 @@ class MainWindow(QMainWindow):
                             self._reconcile_position_state("panic_ladder_inferred_by_balance")
                             self.log("OK", "[EXEC] EXIT_FILLED inferred_by_balance")
                             self.fsm_state = "WAIT_READY" if self.runtime_active else "DONE"
+                            self.place_sell_entered_ms = 0
                             return
                         self.log("INFO", f"[EXEC] PLACE_SELL_SOURCE source=panic price={new_price:.2f}")
                         o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(sell_qty))

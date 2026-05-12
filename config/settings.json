@@ -74,5 +74,6 @@
   "entry_chase_ticks": 1,
   "entry_cross_if_spread_ticks_above": 1000,
   "min_spread_after_entry_ticks": 3,
-  "buy_timeout_ms_fast": 1200
+  "buy_timeout_ms_fast": 1200,
+  "place_sell_stuck_ms": 1500
 }
