@@ -626,6 +626,9 @@ class MainWindow(QMainWindow):
         order_id = int(sell_order.get("orderId", 0) or 0)
         if order_id <= 0:
             return
+        if self._is_stream_sell_order_id(order_id):
+            self.log("INFO", f"[EXEC] STREAM_GLOBAL_SELL_SKIP reason=adopt_stream_sell orderId={order_id}")
+            return
         price = float(sell_order.get("price", 0.0) or 0.0)
         qty = float(sell_order.get("origQty", 0.0) or 0.0)
         self.active_order = {
@@ -1250,6 +1253,17 @@ class MainWindow(QMainWindow):
         eps = self._inventory_epsilon_qty()
         return any(self._is_stream_owned_chunk(chunk) and chunk.qty > eps for chunk in self.inventory_chunks)
 
+    def _should_skip_global_sell_engine(self, reason: str) -> bool:
+        if not bool(getattr(self.settings, "conveyor_streams_enabled", False)):
+            return False
+        if not self._has_stream_owned_inventory():
+            return False
+        self.log("INFO", f"[EXEC] STREAM_GLOBAL_SELL_SKIP reason={reason}")
+        return True
+
+    def _is_stream_sell_order_id(self, order_id: int) -> bool:
+        return bool(order_id > 0 and int(order_id) in self.grid_sell_order_meta)
+
     def _add_inventory_chunk(self, qty: float, entry_price: float, now_ms: int) -> None:
         if qty <= 0:
             return
@@ -1301,6 +1315,23 @@ class MainWindow(QMainWindow):
             self.log("INFO", f"[EXEC] STREAM_SELL_STATUS stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
             if status in {"CANCELED", "EXPIRED", "REJECTED"}:
                 self.log("WARNING", f"[EXEC] STREAM_SELL_RETRY stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
+                best_ask = float(self.state.snapshot.ask or 0.0)
+                for chunk in self.inventory_chunks:
+                    if id(chunk) != chunk_id:
+                        continue
+                    retry_ticks = max(int(getattr(self.settings, "conveyor_stream_target_ticks", 80)), 0)
+                    retry_price = add_ticks(chunk.entry_price, retry_ticks, tick)
+                    if best_ask > 0:
+                        retry_price = max(retry_price, max(best_ask - tick, tick))
+                    retry_price = self._round_price_up(retry_price)
+                    retry_order = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(retry_price), float(chunk.qty))
+                    retry_order_id = int(retry_order.get("orderId", 0) or 0)
+                    if retry_order_id > 0:
+                        chunk.sell_order_id = retry_order_id
+                        chunk.state = "STREAM_SELL_PLACED"
+                        self.grid_sell_order_meta[retry_order_id] = (level_id, chunk_id)
+                        self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={retry_order_id} price={retry_price:.2f} qty={chunk.qty:.6f}")
+                    break
                 self.grid_sell_order_meta.pop(sell_order_id, None)
                 continue
             if status != "FILLED":
@@ -1370,6 +1401,8 @@ class MainWindow(QMainWindow):
         return safe_qty
 
     def _log_exit_recovery_throttled(self, qty: float) -> None:
+        if self._should_skip_global_sell_engine("exit_recovery_inventory_no_sell"):
+            return
         if self._is_taker_exit_active():
             self._log_taker_guard_skip("exit_recovery_inventory_no_sell")
             return
@@ -1394,6 +1427,8 @@ class MainWindow(QMainWindow):
         self.log("ERROR", "[EXEC] SELL_FAR_CANCEL_UNSTICK action=wait_manual")
 
     def _handle_place_sell_stuck(self, now_ms: int) -> None:
+        if self._should_skip_global_sell_engine("place_sell_stuck_recovery"):
+            return
         if self._is_taker_exit_active():
             self._log_taker_guard_skip("place_sell_stuck_recovery")
             return
@@ -1411,6 +1446,8 @@ class MainWindow(QMainWindow):
         self.force_reprice_sell_next = True
 
     def _trigger_taker_exit(self, now_ms: int, reason: str) -> bool:
+        if self._should_skip_global_sell_engine(f"taker_{reason}"):
+            return False
         if not bool(getattr(self.settings, "taker_exit_enabled", True)) or self.panic_exit_final:
             return False
         if self.taker_exit_triggered and self.taker_exit_state in {"TRIGGERED", "ORDER_SENT"}:
@@ -2063,7 +2100,7 @@ class MainWindow(QMainWindow):
                         active_level_id = None
                         if self.settings.conveyor_streams_enabled:
                             if now_ms - self.last_grid_skip_single_entry_log_ms >= 4000:
-                                self.log("INFO", "[EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY")
+                                self.log("INFO", "[EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY")
                                 self.last_grid_skip_single_entry_log_ms = now_ms
                         if self.settings.conveyor_streams_enabled:
                             if not self.grid_runtime.levels:
@@ -2293,8 +2330,7 @@ class MainWindow(QMainWindow):
                     self.last_entry_reprice_ms = now
                     self.log("OK", f"[EXEC] ENTRY_PLACE price={new_price:.2f} qty={float(self.active_order.get('qty', 0.0)):.6f}")
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
-            if self._has_stream_owned_inventory():
-                self.log("INFO", "[EXEC] STREAM_GLOBAL_SELL_SKIP reason=stream_owned_inventory")
+            if self._should_skip_global_sell_engine("place_sell"):
                 self.fsm_state = "DONE"
                 return
             now_ms = int(time.time() * 1000)
@@ -2336,6 +2372,9 @@ class MainWindow(QMainWindow):
                 is_far, dist_ticks = self._is_far_sell(open_sell_price, ask_now)
                 if is_far:
                     order_id = int(open_sell.get("orderId", 0) or 0)
+                    if self._is_stream_sell_order_id(order_id):
+                        self.log("INFO", f"[EXEC] STREAM_GLOBAL_SELL_SKIP reason=sell_watchdog_far_cancel orderId={order_id}")
+                        return
                     if self._is_protected_sell_order(open_sell_price):
                         self._log_protected_sell_ignore(order_id, dist_ticks)
                         self._adopt_open_sell_order(open_sell)
@@ -2572,6 +2611,9 @@ class MainWindow(QMainWindow):
                             return
                     is_far, dist_ticks = self._is_far_sell(order_price, ask_now)
                     if is_far:
+                        if self._is_stream_sell_order_id(order_id):
+                            self.log("INFO", f"[EXEC] STREAM_GLOBAL_SELL_SKIP reason=sell_watchdog_far_cancel orderId={order_id}")
+                            return
                         if self._is_protected_sell_order(order_price):
                             should_break, break_reason, hold_age_ms = self._should_break_protected_hold(now, dist_ticks)
                             if should_break:
@@ -2889,7 +2931,11 @@ class MainWindow(QMainWindow):
 
         reason = ""
         if self.settings.require_ws_for_buy and (ws_age is None or ws_age > self.settings.max_ws_age_for_buy_ms):
-            reason = "ws_stale"
+            allow_rest_for_streams = bool(getattr(self.settings, "conveyor_streams_enabled", False) and getattr(self.settings, "ws_optional_enabled", False) and source == "REST")
+            if allow_rest_for_streams:
+                self.log("INFO", "[EXEC] STREAM_WS_STALE_ALLOW_REST")
+            else:
+                reason = "ws_stale"
         elif self.settings.live_enabled and self.settings.ws_optional_enabled and source != "WS":
             reason = "rest_source_live_ws_required"
         elif spread >= self.settings.min_spread and self.last_spread_good_since_ms > 0 and (now_ms - self.last_spread_good_since_ms) < self.settings.min_spread_lifetime_ms:

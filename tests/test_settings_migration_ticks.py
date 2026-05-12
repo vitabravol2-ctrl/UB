@@ -12,4 +12,4 @@ def test_legacy_tick_fields_are_migrated(tmp_path) -> None:
     assert data.exit_offset_ticks == 3
     assert data.target_capture_ticks == 4
     assert data.stop_loss_ticks == 5
-    assert data.conveyor_stream_target_ticks == 30
+    assert data.conveyor_stream_target_ticks == 80
