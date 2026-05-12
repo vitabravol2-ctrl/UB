@@ -154,7 +154,7 @@ class BinanceAccountClient:
         assert isinstance(data, dict)
         return data
 
-    def place_limit_order(self, symbol: str, side: str, price: float, qty: float) -> dict[str, Any]:
+    def place_limit_order(self, symbol: str, side: str, price: float, qty: float, time_in_force: str = "GTC") -> dict[str, Any]:
         symbol_filters = self._symbol_filters_cache.get(symbol)
         if symbol_filters is None:
             try:
@@ -173,7 +173,7 @@ class BinanceAccountClient:
                 "symbol": symbol,
                 "side": side,
                 "type": "LIMIT",
-                "timeInForce": "GTC",
+                "timeInForce": time_in_force,
                 "quantity": format(qty_decimal, "f"),
                 "price": format(price_decimal, "f"),
             },
