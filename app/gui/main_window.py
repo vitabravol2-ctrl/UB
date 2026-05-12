@@ -241,6 +241,7 @@ class MainWindow(QMainWindow):
         self.entry_guard_state = "WARMING"
         self.entry_guard_reason = "boot"
         self.entry_guard_last_block_log_ms = 0
+        self.last_stream_global_sell_skip_log_ms_by_reason: dict[str, int] = {}
         self.entry_guard_stable_count = 0
         self.last_plan_recompute_ms = 0
         self._cached_plan = None
@@ -1240,6 +1241,9 @@ class MainWindow(QMainWindow):
     def _repair_runtime_state(self) -> None:
         inventory_qty = self._recalc_position_from_chunks()
         self._recalc_entry_avg_from_chunks()
+        if bool(getattr(self.settings, "conveyor_streams_enabled", False)) and self._has_stream_owned_chunks_or_orders():
+            self.log("INFO", "[EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory")
+            return
         active_side = str(self.active_order.get("side", ""))
         has_active_order = bool(self.active_order.get("orderId"))
         if inventory_qty <= self._inventory_epsilon_qty():
@@ -1286,7 +1290,11 @@ class MainWindow(QMainWindow):
             return False
         if not self._has_stream_owned_chunks_or_orders():
             return False
-        self.log("INFO", f"[EXEC] STREAM_GLOBAL_SELL_SKIP reason={reason}")
+        now = int(time.time() * 1000)
+        last_ms = int(self.last_stream_global_sell_skip_log_ms_by_reason.get(reason, 0) or 0)
+        if now - last_ms >= 2500:
+            self.log("INFO", f"[EXEC] STREAM_GLOBAL_SELL_SKIP reason={reason}")
+            self.last_stream_global_sell_skip_log_ms_by_reason[reason] = now
         return True
 
     def _is_stream_sell_order_id(self, order_id: int) -> bool:
@@ -1331,6 +1339,7 @@ class MainWindow(QMainWindow):
                 if chunk is None or fill_qty <= 0:
                     continue
                 sell_price = add_ticks(fill_price, target_ticks, tick)
+                self.log("INFO", f"[EXEC] STREAM_TARGET_USED ticks={target_ticks} sell_price={sell_price:.2f}")
                 try:
                     sell_o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(fill_qty))
                 except (BinanceAPIError, RequestException, Exception) as exc:
@@ -1368,6 +1377,7 @@ class MainWindow(QMainWindow):
                     if best_ask > 0:
                         retry_price = max(retry_price, max(best_ask - tick, tick))
                     retry_price = self._round_price_up(retry_price)
+                    self.log("INFO", f"[EXEC] STREAM_TARGET_USED ticks={retry_ticks} sell_price={retry_price:.2f}")
                     try:
                         retry_order = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(retry_price), float(chunk.qty))
                     except (BinanceAPIError, RequestException, Exception) as exc:
@@ -3012,7 +3022,7 @@ class MainWindow(QMainWindow):
         self.entry_guard_stable_count = stable_n
 
         reason = ""
-        stream_ws_stale_bypass = bool(
+        stream_guard_bypass = bool(
             getattr(self.settings, "conveyor_streams_enabled", False)
             and getattr(self.settings, "ws_optional_enabled", False)
             and source == "REST"
@@ -3020,12 +3030,12 @@ class MainWindow(QMainWindow):
             and self.api_status == "OK"
         )
         if self.settings.require_ws_for_buy and (ws_age is None or ws_age > self.settings.max_ws_age_for_buy_ms):
-            if stream_ws_stale_bypass:
+            if stream_guard_bypass:
                 self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
             else:
                 reason = "ws_stale"
         elif self.settings.live_enabled and self.settings.ws_optional_enabled and source != "WS":
-            if stream_ws_stale_bypass:
+            if stream_guard_bypass:
                 self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
             else:
                 reason = "rest_source_live_ws_required"
@@ -3040,7 +3050,10 @@ class MainWindow(QMainWindow):
         elif now_ms < self.entry_guard_cooldown_until_ms:
             reason = f"cooldown_{self.entry_guard_cooldown_reason or 'active'}"
         elif self.market_health_state not in {MarketHealthState.GOOD, MarketHealthState.EXCELLENT}:
-            reason = "market_health_bad"
+            if stream_guard_bypass and "stale_market_source" in str(self.market_health_reason):
+                self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
+            else:
+                reason = "market_health_bad"
         elif free_u < need_u:
             reason = "balance_low_preflight"
 
