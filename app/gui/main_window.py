@@ -3022,42 +3022,66 @@ class MainWindow(QMainWindow):
         self.entry_guard_stable_count = stable_n
 
         reason = ""
+        stream_mode = bool(getattr(self.settings, "conveyor_streams_enabled", False))
         stream_guard_bypass = bool(
-            getattr(self.settings, "conveyor_streams_enabled", False)
+            stream_mode
             and getattr(self.settings, "ws_optional_enabled", False)
             and source == "REST"
             and self.state.rest_status == "OK"
             and self.api_status == "OK"
         )
-        if self.settings.require_ws_for_buy and (ws_age is None or ws_age > self.settings.max_ws_age_for_buy_ms):
-            if stream_guard_bypass:
-                self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
-            else:
-                reason = "ws_stale"
-        elif self.settings.live_enabled and self.settings.ws_optional_enabled and source != "WS":
-            if stream_guard_bypass:
-                self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
-            else:
-                reason = "rest_source_live_ws_required"
-        elif spread >= self.settings.min_spread and self.last_spread_good_since_ms > 0 and (now_ms - self.last_spread_good_since_ms) < self.settings.min_spread_lifetime_ms:
-            reason = "spread_too_young"
-        elif self.settings.block_on_bid_unstable and bid_delta <= self.settings.max_negative_bid_delta:
-            reason = "bid_unstable"
-        elif self.settings.block_on_mid_negative and mid_delta <= self.settings.max_negative_mid_delta:
-            reason = "mid_momentum_negative"
-        elif self.settings.block_on_snapshots_insufficient and stable_n < self.settings.stable_snapshots_required:
-            reason = "snapshots_insufficient"
-        elif now_ms < self.entry_guard_cooldown_until_ms:
-            reason = f"cooldown_{self.entry_guard_cooldown_reason or 'active'}"
-        elif self.market_health_state not in {MarketHealthState.GOOD, MarketHealthState.EXCELLENT}:
-            if stream_guard_bypass and "stale_market_source" in str(self.market_health_reason):
-                self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
-            else:
-                reason = "market_health_bad"
-        elif free_u < need_u:
-            reason = "balance_low_preflight"
+        if stream_mode:
+            spread_ticks = spread / max(self._tick_size(), 1e-12)
+            max_inventory_u = float(getattr(self.settings, "conveyor_stream_max_inventory_u", 1000.0))
+            max_active_buys = max(int(getattr(self.settings, "conveyor_stream_max_active_buys", 8)), 1)
+            bid_now = float(self.state.snapshot.bid or 0.0)
+            inventory_u = float(self.position_qty or 0.0) * bid_now
+            active_buys = len(self.active_buy_orders)
+
+            if self.api_status != "OK" or self.state.rest_status != "OK":
+                reason = "api_or_rest_unavailable"
+            elif spread_ticks < float(self.settings.min_spread_ticks):
+                reason = "min_spread_ticks"
+            elif inventory_u > max_inventory_u:
+                reason = "max_inventory_u"
+            elif active_buys >= max_active_buys:
+                reason = "max_active_buys"
+            elif now_ms < self.entry_guard_cooldown_until_ms:
+                reason = f"cooldown_{self.entry_guard_cooldown_reason or 'active'}"
+            elif free_u < need_u:
+                reason = "balance_low_preflight"
+        else:
+            if self.settings.require_ws_for_buy and (ws_age is None or ws_age > self.settings.max_ws_age_for_buy_ms):
+                if stream_guard_bypass:
+                    self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
+                else:
+                    reason = "ws_stale"
+            elif self.settings.live_enabled and self.settings.ws_optional_enabled and source != "WS":
+                if stream_guard_bypass:
+                    self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
+                else:
+                    reason = "rest_source_live_ws_required"
+            elif spread >= self.settings.min_spread and self.last_spread_good_since_ms > 0 and (now_ms - self.last_spread_good_since_ms) < self.settings.min_spread_lifetime_ms:
+                reason = "spread_too_young"
+            elif self.settings.block_on_bid_unstable and bid_delta <= self.settings.max_negative_bid_delta:
+                reason = "bid_unstable"
+            elif self.settings.block_on_mid_negative and mid_delta <= self.settings.max_negative_mid_delta:
+                reason = "mid_momentum_negative"
+            elif self.settings.block_on_snapshots_insufficient and stable_n < self.settings.stable_snapshots_required:
+                reason = "snapshots_insufficient"
+            elif now_ms < self.entry_guard_cooldown_until_ms:
+                reason = f"cooldown_{self.entry_guard_cooldown_reason or 'active'}"
+            elif self.market_health_state not in {MarketHealthState.GOOD, MarketHealthState.EXCELLENT}:
+                if stream_guard_bypass and "stale_market_source" in str(self.market_health_reason):
+                    self.log("INFO", "[EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok")
+                else:
+                    reason = "market_health_bad"
+            elif free_u < need_u:
+                reason = "balance_low_preflight"
 
         if reason:
+            if stream_mode:
+                self.log("INFO", f"[EXEC] STREAM_GUARD_SIMPLE_BLOCK reason={reason}")
             prev_reason = self.entry_guard_reason
             prev_state = self.entry_guard_state
             self.entry_guard_state = "BLOCKED"
@@ -3069,6 +3093,8 @@ class MainWindow(QMainWindow):
             return False, reason
         self.entry_guard_state = "READY"
         self.entry_guard_reason = "ok"
+        if stream_mode:
+            self.log("INFO", "[EXEC] STREAM_GUARD_SIMPLE_PASS")
         return True, ""
 
     def _update_market_health(self, now_ms: int) -> None:
