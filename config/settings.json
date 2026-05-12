@@ -96,5 +96,7 @@
   "sell_qty_clamp_log_throttle_ms": 2000,
   "exit_recovery_log_throttle_ms": 2000,
   "compact_logs": true,
-  "runtime_diag_enabled": true
+  "runtime_diag_enabled": true,
+  "micro_partial_reconcile_enabled": true,
+  "micro_partial_max_qty": 0.0001
 }
