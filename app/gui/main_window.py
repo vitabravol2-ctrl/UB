@@ -1024,6 +1024,25 @@ class MainWindow(QMainWindow):
         except Exception:
             return value
 
+    def _round_price_up(self, price: object) -> float:
+        tick = float(self.filters.get("tickSize", 0.0) or 0.0)
+        if tick <= 0:
+            tick = 0.01
+        try:
+            value = float(price)
+        except (TypeError, ValueError):
+            return 0.0
+        if value <= 0:
+            return 0.0
+        try:
+            steps = int(value / tick)
+            rounded = steps * tick
+            if rounded < value:
+                rounded = (steps + 1) * tick
+            return float(rounded)
+        except Exception:
+            return value
+
     def _force_exit_price(self, bid_now: float, ask_now: float) -> float:
         tick = self._tick_size()
         aggressive = float(self.settings.aggressive_exit_offset)
