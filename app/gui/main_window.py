@@ -13,6 +13,7 @@ from app.core.market_rest import MarketREST
 from app.core.market_state import MarketState
 from app.core.trade_math import TradeMathEngine
 from app.core.market_ws import MarketWSClient
+from app.core.grid_runtime import GridRuntime
 from app.gui.styles import main_qss
 from app.gui.widgets import big_value, build_kv_card
 
@@ -64,6 +65,7 @@ class InventoryChunk:
     qty: float
     entry_price: float
     created_ms: int
+    grid_level_id: int | None = None
 
 
 class MarketHealthState:
@@ -86,6 +88,8 @@ class MainWindow(QMainWindow):
         self.ws = MarketWSClient(CONFIG.stream_symbol, CONFIG.binance_symbol, self.settings.max_ws_age_ms)
         self.account = BinanceAccountClient()
         self.account.debug_api_logs = self.settings.debug_api_logs
+        self.grid_runtime = GridRuntime(log_callback=lambda m: self.log("INFO", f"[EXEC] {m}"))
+        self.grid_level_by_order_id: dict[int, int] = {}
         self.api_status = "NOT SET"
         self.api_ready = False
         self.last_log_line = ""
@@ -275,7 +279,7 @@ class MainWindow(QMainWindow):
         self.spread_box = spread
         plan, self.plan = build_kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")], compact=True)
         self.plan_box = plan
-        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Exit stage", "-"), ("SELL age", "0ms"), ("SELL reprices", "0"), ("Panic ladder", "0"), ("Panic age", "0ms"), ("Panic holds", "0"), ("Exit blocked", "-"), ("Taker exit", "OFF"), ("Taker reason", "-"), ("Taker qty/price", "-"), ("Last exit reason", "-"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
+        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Exit stage", "-"), ("SELL age", "0ms"), ("SELL reprices", "0"), ("Panic ladder", "0"), ("Panic age", "0ms"), ("Panic holds", "0"), ("Exit blocked", "-"), ("Taker exit", "OFF"), ("Taker reason", "-"), ("Taker qty/price", "-"), ("Last exit reason", "-"), ("GRID LEVELS", "0"), ("GRID ACTIVE BUYS", "0"), ("GRID ACTIVE SELLS", "0"), ("GRID FILLED LEVELS", "0"), ("GRID BUDGET USED", "0"), ("GRID BUDGET FREE", "0"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
         self.runtime_box = runtime
         risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
@@ -493,6 +497,15 @@ class MainWindow(QMainWindow):
             else:
                 self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.exit_blocked_no_sellable_count = 0; self.log("OK", "START")
                 self.log("OK", "START_OK runtime_started")
+                if self.settings.micro_grid_enabled and self.filters.get("loaded") and float(self.state.snapshot.bid or 0.0) > 0:
+                    self.grid_runtime.configure_micro_grid(
+                        float(self.state.snapshot.bid),
+                        float(self.filters.get("tickSize", 0.0) or 0.0),
+                        float(self.filters.get("stepSize", 0.0) or 0.0),
+                        float(self.filters.get("minQty", 0.0) or 0.0),
+                        float(self.filters.get("minNotional", 0.0) or 0.0),
+                        self.settings,
+                    )
                 self._repair_runtime_state()
                 if self.position_qty > 0:
                     self.log("WARNING", f"[EXEC] START_RESUME_EXIT qty={self.position_qty:.6f}")
@@ -1214,7 +1227,10 @@ class MainWindow(QMainWindow):
     def _add_inventory_chunk(self, qty: float, entry_price: float, now_ms: int) -> None:
         if qty <= 0:
             return
-        self.inventory_chunks.append(InventoryChunk(qty=qty, entry_price=entry_price, created_ms=now_ms))
+        grid_level_id = None
+        if self.settings.micro_grid_enabled and self.active_order.get("orderId"):
+            grid_level_id = self.grid_level_by_order_id.get(int(self.active_order["orderId"]))
+        self.inventory_chunks.append(InventoryChunk(qty=qty, entry_price=entry_price, created_ms=now_ms, grid_level_id=grid_level_id))
         self.log("OK", f"[EXEC] CHUNK ADD qty={qty:.6f} entry={entry_price:.2f}")
         self.log("INFO", f"[EXEC] CHUNK COUNT n={len(self.inventory_chunks)}")
         self._recalc_entry_avg_from_chunks()
@@ -1233,7 +1249,10 @@ class MainWindow(QMainWindow):
             remaining -= taken
             if chunk.qty <= epsilon:
                 self.log("INFO", "[EXEC] CHUNK DRAINED")
+                drained_level_id = chunk.grid_level_id
                 self.inventory_chunks.pop(0)
+                if drained_level_id is not None and not any(c.grid_level_id == drained_level_id for c in self.inventory_chunks):
+                    self.grid_runtime.recycle_level(drained_level_id)
         self._recalc_entry_avg_from_chunks()
         self._apply_fifo_close_result(realized)
         return realized
@@ -1859,6 +1878,11 @@ class MainWindow(QMainWindow):
         self.runtime["Taker reason"].setText(self.last_taker_reason)
         self.runtime["Taker qty/price"].setText(f"{self.last_taker_qty:.6f}@{self.last_taker_price:.2f}" if self.last_taker_qty > 0 else "-")
         self.runtime["Last exit reason"].setText(self.last_exit_reason)
+        grid_stats = self.grid_runtime.grid_telemetry() if self.settings.micro_grid_enabled else {}
+        for key in ("GRID LEVELS", "GRID ACTIVE BUYS", "GRID ACTIVE SELLS", "GRID FILLED LEVELS"):
+            self.runtime[key].setText(str(int(grid_stats.get(key, 0))))
+        self.runtime["GRID BUDGET USED"].setText(self._fmt(float(grid_stats.get("GRID BUDGET USED", 0.0) or 0.0), 2))
+        self.runtime["GRID BUDGET FREE"].setText(self._fmt(float(grid_stats.get("GRID BUDGET FREE", 0.0) or 0.0), 2))
         can_recompute_plan = self.runtime_active or self.position_qty > 0 or bool(self.active_order.get("orderId"))
         if can_recompute_plan and (now_ms - self.last_plan_recompute_ms >= 250):
             self._cached_plan = self.trade_math.build_plan(self.state, self.settings, self.filters, self.balances, self.api_status)
@@ -1940,20 +1964,44 @@ class MainWindow(QMainWindow):
                     self.fsm_state = "DONE"
                 else:
                     try:
-                        o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(plan.entry_price), float(plan.qty_btc))
+                        buy_price = float(plan.entry_price)
+                        buy_qty = float(plan.qty_btc)
+                        active_level_id = None
+                        if self.settings.micro_grid_enabled and self.grid_runtime.levels:
+                            free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
+                            for level in self.grid_runtime.levels:
+                                if level.state != "WAIT_BUY":
+                                    self.log("INFO", f"[EXEC] GRID_LEVEL_SKIP level_id={level.level_id} reason=state_{level.state}")
+                                    continue
+                                self.log("INFO", f"[EXEC] GRID_LEVEL_WAIT_BUY level_id={level.level_id} price={level.target_buy_price:.2f} qty={level.qty:.6f}")
+                                if level.active_buy_order_id is not None:
+                                    self.log("INFO", f"[EXEC] GRID_LEVEL_ALREADY_ACTIVE level_id={level.level_id}")
+                                    continue
+                                if free_u + 1e-12 < level.budget_u:
+                                    self.log("INFO", f"[EXEC] GRID_LEVEL_SKIP level_id={level.level_id} reason=budget_free")
+                                    continue
+                                active_level_id = level.level_id
+                                buy_price = float(level.target_buy_price)
+                                buy_qty = float(level.qty)
+                                break
+                        o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", buy_price, buy_qty)
                         now = int(time.time() * 1000)
                         self._reset_sell_accounting("new_cycle", reset_panic_order_id=self.position_qty <= 1e-12)
                         self.entry_exec_state = "ENTRY_PLACED"
                         self.entry_reprice_count = 0
                         self.last_entry_reprice_ms = now
                         self.entry_last_reason = "placed"
-                        self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": float(plan.entry_price), "qty": float(plan.qty_btc), "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                        self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": buy_price, "qty": buy_qty, "create_ms": now, "state": "NEW", "type": "LIMIT"}
+                        if active_level_id is not None and self.active_order.get("orderId"):
+                            buy_order_id = int(self.active_order["orderId"])
+                            self.grid_level_by_order_id[buy_order_id] = active_level_id
+                            self.grid_runtime.mark_buy_placed(active_level_id, buy_order_id)
                         self.buy_reported_qty = 0.0
                         self.buy_reported_quote = 0.0
                         self.position_state = "BUY_PENDING"
                         self.entry_started_ms = now
-                        self.log("OK", f"[EXEC] BUY ORDER SENT orderId={self.active_order['orderId']} price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
-                        self.log("OK", f"[EXEC] PLACE BUY price={plan.entry_price:.2f} qty={plan.qty_btc:.6f}")
+                        self.log("OK", f"[EXEC] BUY ORDER SENT orderId={self.active_order['orderId']} price={buy_price:.2f} qty={buy_qty:.6f}")
+                        self.log("OK", f"[EXEC] PLACE BUY price={buy_price:.2f} qty={buy_qty:.6f}")
                         self.fsm_state = "WAIT_BUY_FILL"
                     except BinanceAPIError as exc:
                         code = exc.binance_code
@@ -2016,6 +2064,9 @@ class MainWindow(QMainWindow):
                 self.position_buy_order_id = int(self.active_order["orderId"])
                 self.position_state = "POSITION_OPEN"
                 self.log("OK", f"[EXEC] BUY FILLED id={int(self.active_order['orderId'])}")
+                filled_level_id = self.grid_level_by_order_id.get(int(self.active_order["orderId"]))
+                if filled_level_id is not None:
+                    self.grid_runtime.mark_buy_filled(filled_level_id)
                 self.entry_exec_state = "ENTRY_FILLED"
                 self.sell_reprice_count = 0
                 self.last_sell_reprice_ms = 0
