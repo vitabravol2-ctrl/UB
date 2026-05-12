@@ -121,5 +121,6 @@
   "conveyor_stream_max_inventory_u": 1000.0,
   "conveyor_stream_pause_buy_inventory_u": 800.0,
   "conveyor_stream_sell_first": true,
-  "conveyor_stream_target_ticks": 30
+  "conveyor_stream_target_ticks": 80,
+  "conveyor_stream_min_profit_ticks": 30
 }
