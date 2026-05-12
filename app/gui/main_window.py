@@ -1061,13 +1061,19 @@ class MainWindow(QMainWindow):
             return False
         if self.floor_hold_timeout_triggered:
             return False
-        hold_max_ms = int(getattr(self.settings, "sell_floor_hold_max_ms", 30000))
         hold_started_ms = int(self.sell_hold_recovery_started_ms or self.active_order.get("create_ms", now_ms) or now_ms)
         hold_age_ms = max(now_ms - hold_started_ms, 0)
-        if hold_age_ms >= hold_max_ms:
+        hard_ms = int(getattr(self.settings, "protected_hold_hard_ms", getattr(self.settings, "sell_floor_hold_max_ms", 12000)))
+        soft_ms = int(getattr(self.settings, "protected_hold_soft_ms", 5000))
+        if hold_age_ms >= hard_ms:
             self.floor_hold_timeout_triggered = True
+            self.log("WARNING", f"[EXEC] SMART_EXIT_BREAK_HOLD reason=hard_timeout age={hold_age_ms}")
             return False
-        self.log("INFO", f"[EXEC] HOLD_PROTECTED_SKIP_EXIT_ESCALATION reason={reason} orderId={order_id} hold_age={hold_age_ms} max={hold_max_ms}")
+        throttle_ms = 3000
+        last_ms = int(getattr(self, "last_hold_skip_log_ms", 0) or 0)
+        if now_ms - last_ms >= throttle_ms:
+            self.log("INFO", f"[EXEC] HOLD_PROTECTED_SKIP_EXIT_ESCALATION reason={reason} orderId={order_id} hold_age={hold_age_ms} soft={soft_ms} hard={hard_ms}")
+            self.last_hold_skip_log_ms = now_ms
         return True
 
     def _log_protected_sell_ignore(self, order_id: int, dist_ticks: int) -> None:
@@ -1077,6 +1083,20 @@ class MainWindow(QMainWindow):
         if now - last_log_ms >= max(throttle_ms, 0):
             self.log("INFO", f"[EXEC] SELL_WATCHDOG_FAR_IGNORE orderId={order_id} reason=protected_sell dist_ticks={dist_ticks}")
             self.protected_sell_ignore_last_log_ms_by_order[order_id] = now
+
+    def _should_break_protected_hold(self, now_ms: int, dist_ticks: int) -> tuple[bool, str, int]:
+        if not bool(getattr(self.settings, "smart_exit_enabled", True)):
+            return False, "", 0
+        hold_started_ms = int(self.sell_hold_recovery_started_ms or self.active_order.get("create_ms", now_ms) or now_ms)
+        hold_age_ms = max(now_ms - hold_started_ms, 0)
+        soft_ms = int(getattr(self.settings, "protected_hold_soft_ms", 5000))
+        hard_ms = int(getattr(self.settings, "protected_hold_hard_ms", getattr(self.settings, "sell_floor_hold_max_ms", 12000)))
+        max_dist_ticks = max(int(getattr(self.settings, "protected_hold_max_dist_ticks", 1200)), 0)
+        if hold_age_ms >= hard_ms:
+            return True, "hard_timeout", hold_age_ms
+        if hold_age_ms >= soft_ms and dist_ticks > max_dist_ticks:
+            return True, "too_far", hold_age_ms
+        return False, "", hold_age_ms
 
     def _cap_soft_sell_reprice(self, old_price: float, candidate_price: float) -> float:
         tick = self._tick_size()
@@ -1368,6 +1388,7 @@ class MainWindow(QMainWindow):
             return
         if status == "PARTIALLY_FILLED":
             self.log("WARNING", f"[EXEC] TAKER_STATUS_PARTIAL orderId={order_id} filled={sell_delta:.6f} remaining={remaining:.6f}")
+            self._consume_fifo(sell_delta)
             if remaining > self._min_sellable_qty():
                 self.active_order = {}
                 self.taker_exit_order_id = 0
@@ -1407,6 +1428,7 @@ class MainWindow(QMainWindow):
                 return
             remaining = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
             self.log("WARNING", f"[EXEC] TAKER_STATUS_PARTIAL orderId={order_id} filled={delta:.6f} remaining={remaining:.6f}")
+            self._consume_fifo(delta)
             if remaining > self._min_sellable_qty():
                 self.active_order = {}
                 self.taker_exit_order_id = 0
@@ -2300,6 +2322,23 @@ class MainWindow(QMainWindow):
                     is_far, dist_ticks = self._is_far_sell(order_price, ask_now)
                     if is_far:
                         if self._is_protected_sell_order(order_price):
+                            should_break, break_reason, hold_age_ms = self._should_break_protected_hold(now, dist_ticks)
+                            if should_break:
+                                self.floor_hold_timeout_triggered = True
+                                meta = self.active_order.get("active_sell_meta", {}) if isinstance(self.active_order, dict) else {}
+                                if isinstance(meta, dict):
+                                    meta["is_hold_recovery"] = False
+                                    meta["is_floor_protected"] = False
+                                self.log("WARNING", f"[EXEC] SMART_EXIT_BREAK_HOLD reason={break_reason} age={hold_age_ms} dist_ticks={dist_ticks}")
+                                self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                                final = self.account.get_order(CONFIG.binance_symbol, order_id)
+                                self._handle_sell_fill_update(final)
+                                if str(final.get("status", "")) == "FILLED" or self.position_qty <= self._inventory_epsilon_qty():
+                                    self._handle_sell_filled(final, order_id)
+                                    return
+                                if not self._trigger_taker_exit(now, f"smart_break_hold_{break_reason}"):
+                                    self.trigger_panic_exit(f"smart_break_hold_{break_reason}_failed")
+                                return
                             self._log_protected_sell_ignore(order_id, dist_ticks)
                             return
                         self.log("WARNING", f"[EXEC] SELL_WATCHDOG_FAR_CANCEL orderId={order_id} price={order_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")

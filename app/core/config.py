@@ -37,7 +37,11 @@ class SettingsData:
     place_sell_stuck_ms: int = 1500
     far_sell_ticks: int = 30
     sell_floor_hold_enabled: bool = True
-    sell_floor_hold_max_ms: int = 30000
+    sell_floor_hold_max_ms: int = 12000
+    smart_exit_enabled: bool = True
+    protected_hold_soft_ms: int = 5000
+    protected_hold_hard_ms: int = 12000
+    protected_hold_max_dist_ticks: int = 1200
     protected_sell_ignore_log_throttle_ms: int = 5000
     panic_far_sell_multiplier: int = 5
     sell_reprice_cooldown_ms: int = 120
@@ -63,9 +67,9 @@ class SettingsData:
     taker_exit_mid_negative_threshold: float = -80.0
     taker_exit_min_expected_profit_ticks: int = 0
     taker_exit_max_slippage_ticks: int = 2
-    taker_exit_force_flat_after_ms: int = 1800
+    taker_exit_force_flat_after_ms: int = 1600
     taker_status_poll_ms: int = 300
-    taker_status_timeout_ms: int = 1500
+    taker_status_timeout_ms: int = 1200
     exit_ioc_enabled: bool = False
     min_profit_ticks: int = 1
     take_profit_ticks: int = 2
