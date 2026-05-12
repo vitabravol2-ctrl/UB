@@ -121,6 +121,9 @@ class SettingsData:
     micro_grid_size_ticks: int = 400
     micro_grid_step_ticks: int = 10
     micro_grid_budget_u: float = 5000.0
+    conveyor_streams_enabled: bool = False
+    conveyor_stream_count: int = 20
+    conveyor_stream_range_ticks: int = 200
     micro_grid_max_active_buys: int = 8
     micro_grid_place_batch_size: int = 3
     micro_grid_place_interval_ms: int = 500
