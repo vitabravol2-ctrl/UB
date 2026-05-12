@@ -218,6 +218,7 @@ class MainWindow(QMainWindow):
         self._cached_plan = None
         self.rest_fallback_count = 0
         self.stale_reason = ""
+        self.last_watchdog_sync_ms_by_order: dict[int, int] = {}
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
         self.top_status = QLabel(); self.top_status.setObjectName("topStatus"); self.main_layout.addWidget(self.top_status)
@@ -313,6 +314,8 @@ class MainWindow(QMainWindow):
             "debug_api_logs": "API debug logs",
             "buy_timeout_ms": "BUY timeout ms",
             "buy_timeout_ms_fast": "BUY timeout fast ms",
+            "buy_watchdog_ms": "BUY watchdog ms",
+            "far_buy_ticks": "BUY far ticks",
             "entry_mode": "Entry mode (PASSIVE/BALANCED/AGGRESSIVE)",
             "entry_reprice_enabled": "Entry reprice enabled",
             "entry_reprice_cooldown_ms": "Entry reprice cooldown ms",
@@ -321,6 +324,8 @@ class MainWindow(QMainWindow):
             "entry_cross_if_spread_ticks_above": "Cross entry if spread ticks above",
             "min_spread_after_entry_ticks": "Min spread after entry ticks",
             "sell_timeout_ms": "SELL timeout ms",
+            "sell_watchdog_ms": "SELL watchdog ms",
+            "far_sell_ticks": "SELL far ticks",
             "sell_reprice_cooldown_ms": "SELL reprice cooldown ms",
             "aggressive_exit_offset": "Aggressive exit offset",
             "max_sell_reprices": "Max sell reprices",
@@ -372,7 +377,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
+        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "far_sell_ticks", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -461,7 +466,7 @@ class MainWindow(QMainWindow):
                 self.log("OK", "START_OK runtime_started")
                 self._repair_runtime_state()
                 if self.position_qty > 0:
-                    self.log("WARNING", f"[EXEC] START resume exit qty={self.position_qty:.6f}")
+                    self.log("WARNING", f"[EXEC] START_RESUME_EXIT qty={self.position_qty:.6f}")
                     self.fsm_state = "PLACE_SELL"
         else:
             self.ws.stop(); self.start_stop_btn.setText("START"); self.start_stop_btn.setProperty("kind", "start"); self.cancel_all(); self.log("WARNING", "STOP")
@@ -470,7 +475,13 @@ class MainWindow(QMainWindow):
 
     def cancel_all(self) -> None:
         self.log("WARNING", "cancel all requested")
-        if self.active_order.get("orderId"):
+        if self.active_order.get("orderId") and self.active_order.get("side") == "BUY":
+            try:
+                self.account.cancel_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
+            except Exception:
+                pass
+            self.sync_active_order(force=True)
+        elif self.active_order.get("orderId"):
             try:
                 if self.panic_exit_final and self.active_order.get("side") == "SELL":
                     self.log("WARNING", "[EXEC] STOP canceled panic order, position remains open")
@@ -478,6 +489,13 @@ class MainWindow(QMainWindow):
             except Exception:
                 pass
             self.sync_active_order(force=True)
+        if self.position_qty <= self._inventory_epsilon_qty():
+            open_sell = self._find_open_sell_order()
+            if open_sell:
+                try:
+                    self.account.cancel_order(CONFIG.binance_symbol, int(open_sell.get("orderId", 0)))
+                except Exception:
+                    pass
         if self.panic_exit_final:
             self.panic_exit_final = False
             self.panic_exit_order_id = 0
@@ -850,6 +868,29 @@ class MainWindow(QMainWindow):
     def _is_market_near_sell_target(self, bid_now: float, target_price: float) -> bool:
         tick = self._tick_size()
         return bid_now > 0 and target_price > 0 and (target_price - bid_now) <= (tick * self.sell_hold_near_ticks)
+
+    def _watchdog_ready(self, order_id: int, now_ms: int) -> bool:
+        if order_id <= 0:
+            return False
+        last_ms = int(self.last_watchdog_sync_ms_by_order.get(order_id, 0) or 0)
+        if now_ms - last_ms < 1000:
+            return False
+        self.last_watchdog_sync_ms_by_order[order_id] = now_ms
+        return True
+
+    def _is_far_sell(self, order_price: float, ask_now: float) -> tuple[bool, int]:
+        tick = self._tick_size()
+        if tick <= 0 or order_price <= 0 or ask_now <= 0:
+            return False, 0
+        dist_ticks = int((order_price - ask_now) / tick)
+        return dist_ticks > int(getattr(self.settings, "far_sell_ticks", 10)), dist_ticks
+
+    def _is_far_buy(self, order_price: float, bid_now: float) -> tuple[bool, int]:
+        tick = self._tick_size()
+        if tick <= 0 or order_price <= 0 or bid_now <= 0:
+            return False, 0
+        dist_ticks = int((bid_now - order_price) / tick)
+        return dist_ticks > int(getattr(self.settings, "far_buy_ticks", 10)), dist_ticks
 
     def _cap_soft_sell_reprice(self, old_price: float, candidate_price: float) -> float:
         tick = self._tick_size()
@@ -1479,6 +1520,28 @@ class MainWindow(QMainWindow):
             now = int(time.time() * 1000)
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
             self.active_order["state"] = st.get("status", "NEW")
+            order_id = int(self.active_order["orderId"])
+            order_age_ms = now - int(self.active_order.get("create_ms", now) or now)
+            if order_age_ms >= int(getattr(self.settings, "buy_watchdog_ms", 2500)) and self._watchdog_ready(order_id, now):
+                wd_status = str(st.get("status", "UNKNOWN"))
+                self.log("INFO", f"[EXEC] BUY_WATCHDOG_SYNC orderId={order_id} status={wd_status}")
+                if wd_status == "CANCELED":
+                    self.active_order = {}
+                    self.fsm_state = "DONE"
+                    return
+                if wd_status == "FILLED":
+                    self._apply_filled_from_sync(st)
+                    return
+                if wd_status == "NEW":
+                    bid_now = float(self.state.snapshot.bid or 0.0)
+                    order_price = float(self.active_order.get("price", 0.0) or 0.0)
+                    is_far, dist_ticks = self._is_far_buy(order_price, bid_now)
+                    if is_far:
+                        self.log("WARNING", f"[EXEC] BUY_WATCHDOG_FAR_CANCEL orderId={order_id} price={order_price:.2f} bid={bid_now:.2f} dist_ticks={dist_ticks}")
+                        self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                        self.active_order = {}
+                        self.fsm_state = "DONE"
+                        return
             executed_qty = float(st.get("executedQty", 0.0) or 0.0)
             prev_buy_reported_qty = self.buy_reported_qty
             self._handle_buy_fill_update(st)
@@ -1601,7 +1664,16 @@ class MainWindow(QMainWindow):
             self.sync_active_order(force=True)
             open_sell = self._find_open_sell_order()
             if open_sell:
-                self._adopt_open_sell_order(open_sell)
+                ask_now = float(self.state.snapshot.ask or 0.0)
+                open_sell_price = float(open_sell.get("price", 0.0) or 0.0)
+                is_far, dist_ticks = self._is_far_sell(open_sell_price, ask_now)
+                if is_far:
+                    order_id = int(open_sell.get("orderId", 0) or 0)
+                    self.log("WARNING", f"[EXEC] SELL_WATCHDOG_FAR_CANCEL orderId={order_id} price={open_sell_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
+                    self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                    self.sync_active_order(force=True)
+                else:
+                    self._adopt_open_sell_order(open_sell)
                 return
             inventory_qty = max(sum(max(chunk.qty, 0.0) for chunk in self.inventory_chunks), 0.0)
             sell_qty = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
@@ -1730,6 +1802,28 @@ class MainWindow(QMainWindow):
             sl_price = float(self.position_entry_avg) - (tick * sl_ticks)
             st = self.account.get_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
             self.active_order["state"] = st.get("status", "NEW")
+            order_id = int(self.active_order["orderId"])
+            order_age_ms = now - int(self.active_order.get("create_ms", now) or now)
+            if order_age_ms >= int(getattr(self.settings, "sell_watchdog_ms", 3000)) and self._watchdog_ready(order_id, now):
+                wd_status = str(st.get("status", "UNKNOWN"))
+                self.log("INFO", f"[EXEC] SELL_WATCHDOG_SYNC orderId={order_id} status={wd_status}")
+                if wd_status == "FILLED":
+                    self._handle_sell_filled(st, order_id)
+                    return
+                if wd_status in {"CANCELED", "EXPIRED", "REJECTED"}:
+                    self.active_order = {}
+                    self.fsm_state = "PLACE_SELL" if self.position_qty > self._inventory_epsilon_qty() else "DONE"
+                    return
+                if wd_status in {"NEW", "PARTIALLY_FILLED"}:
+                    ask_now = float(self.state.snapshot.ask or 0.0)
+                    order_price = float(self.active_order.get("price", 0.0) or 0.0)
+                    is_far, dist_ticks = self._is_far_sell(order_price, ask_now)
+                    if is_far:
+                        self.log("WARNING", f"[EXEC] SELL_WATCHDOG_FAR_CANCEL orderId={order_id} price={order_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
+                        self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                        self.active_order = {}
+                        self.fsm_state = "PLACE_SELL" if self.position_qty > self._inventory_epsilon_qty() else "DONE"
+                        return
             prev_sell_reported_qty = self.sell_reported_qty
             self._handle_sell_fill_update(st)
             sell_delta = max(self.sell_reported_qty - prev_sell_reported_qty, 0.0)

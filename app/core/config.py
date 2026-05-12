@@ -23,6 +23,8 @@ class SettingsData:
     auto_cancel_on_stop: bool = True
     buy_timeout_ms: int = 4500
     buy_timeout_ms_fast: int = 1200
+    buy_watchdog_ms: int = 2500
+    far_buy_ticks: int = 10
     entry_mode: str = "BALANCED"
     entry_reprice_enabled: bool = True
     entry_reprice_cooldown_ms: int = 300
@@ -31,6 +33,8 @@ class SettingsData:
     entry_cross_if_spread_ticks_above: int = 1000
     min_spread_after_entry_ticks: int = 3
     sell_timeout_ms: int = 5000
+    sell_watchdog_ms: int = 3000
+    far_sell_ticks: int = 10
     sell_reprice_cooldown_ms: int = 700
     panic_reprice_once: bool = True
     aggressive_exit_offset: float = 1.0
