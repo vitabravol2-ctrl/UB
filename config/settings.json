@@ -57,6 +57,7 @@
   "panic_ladder_enabled": true,
   "panic_ladder_step_ticks": 2,
   "panic_ladder_ms": 400,
+  "panic_hold_max_ms": 2500,
   "panic_cross_after_ms": 3500,
   "taker_exit_enabled": true,
   "taker_exit_after_ms": 900,

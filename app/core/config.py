@@ -44,6 +44,7 @@ class SettingsData:
     panic_ladder_enabled: bool = True
     panic_ladder_step_ticks: int = 2
     panic_ladder_ms: int = 400
+    panic_hold_max_ms: int = 2500
     panic_cross_after_ms: int = 3500
     taker_exit_enabled: bool = True
     taker_exit_after_ms: int = 900
