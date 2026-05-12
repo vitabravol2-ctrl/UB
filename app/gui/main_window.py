@@ -91,6 +91,9 @@ class MainWindow(QMainWindow):
         self.grid_runtime = GridRuntime(log_callback=lambda m: self.log("INFO", f"[EXEC] {m}"))
         self.grid_level_by_order_id: dict[int, int] = {}
         self.grid_order_ids: set[int] = set()
+        self.grid_last_place_batch_ms = 0
+        self.grid_buy_paused = False
+        self.grid_last_batch_size = 0
         self.api_status = "NOT SET"
         self.api_ready = False
         self.last_log_line = ""
@@ -280,7 +283,7 @@ class MainWindow(QMainWindow):
         self.spread_box = spread
         plan, self.plan = build_kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")], compact=True)
         self.plan_box = plan
-        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Exit stage", "-"), ("SELL age", "0ms"), ("SELL reprices", "0"), ("Panic ladder", "0"), ("Panic age", "0ms"), ("Panic holds", "0"), ("Exit blocked", "-"), ("Taker exit", "OFF"), ("Taker reason", "-"), ("Taker qty/price", "-"), ("Last exit reason", "-"), ("GRID LEVELS", "0"), ("GRID ACTIVE BUYS", "0"), ("GRID ACTIVE SELLS", "0"), ("GRID FILLED LEVELS", "0"), ("GRID BUDGET USED", "0"), ("GRID BUDGET FREE", "0"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
+        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Exit stage", "-"), ("SELL age", "0ms"), ("SELL reprices", "0"), ("Panic ladder", "0"), ("Panic age", "0ms"), ("Panic holds", "0"), ("Exit blocked", "-"), ("Taker exit", "OFF"), ("Taker reason", "-"), ("Taker qty/price", "-"), ("Last exit reason", "-"), ("GRID LEVELS", "0"), ("GRID ACTIVE BUYS", "0"), ("GRID ACTIVE SELLS", "0"), ("GRID FILLED LEVELS", "0"), ("GRID INVENTORY U", "0"), ("GRID BUY PAUSED", "NO"), ("GRID PLACEMENT QUEUE", "0"), ("GRID LAST BATCH SIZE", "0"), ("GRID BUDGET USED", "0"), ("GRID BUDGET FREE", "0"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
         self.runtime_box = runtime
         risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
@@ -399,6 +402,12 @@ class MainWindow(QMainWindow):
             "micro_grid_size_ticks": "Grid size ticks",
             "micro_grid_step_ticks": "Grid step ticks",
             "micro_grid_budget_u": "Grid budget U",
+            "micro_grid_max_active_buys": "Grid max active buys",
+            "micro_grid_place_batch_size": "Grid batch size",
+            "micro_grid_place_interval_ms": "Grid place interval ms",
+            "micro_grid_max_inventory_u": "Grid max inventory U",
+            "micro_grid_pause_buy_if_inventory_u_above": "Grid pause buy inventory U",
+            "micro_grid_sell_first": "Grid sell-first mode",
         }
 
         account_tab = QWidget(); account_form = QFormLayout(account_tab)
@@ -410,7 +419,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("MICRO GRID", ["micro_grid_enabled", "micro_grid_size_ticks", "micro_grid_step_ticks", "micro_grid_budget_u"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "micro_partial_reconcile_enabled", "micro_partial_max_qty", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
+        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("MICRO GRID", ["micro_grid_enabled", "micro_grid_size_ticks", "micro_grid_step_ticks", "micro_grid_budget_u", "micro_grid_max_active_buys", "micro_grid_place_batch_size", "micro_grid_place_interval_ms", "micro_grid_max_inventory_u", "micro_grid_pause_buy_if_inventory_u_above", "micro_grid_sell_first"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "micro_partial_reconcile_enabled", "micro_partial_max_qty", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -1879,9 +1888,13 @@ class MainWindow(QMainWindow):
         self.runtime["Taker reason"].setText(self.last_taker_reason)
         self.runtime["Taker qty/price"].setText(f"{self.last_taker_qty:.6f}@{self.last_taker_price:.2f}" if self.last_taker_qty > 0 else "-")
         self.runtime["Last exit reason"].setText(self.last_exit_reason)
-        grid_stats = self.grid_runtime.grid_telemetry() if self.settings.micro_grid_enabled else {}
-        for key in ("GRID LEVELS", "GRID ACTIVE BUYS", "GRID ACTIVE SELLS", "GRID FILLED LEVELS"):
+        inventory_u = inventory_runtime * float(self.state.snapshot.bid or 0.0)
+        grid_queue = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY" and lvl.active_buy_order_id is None)
+        grid_stats = self.grid_runtime.grid_telemetry(inventory_u=inventory_u, buy_paused=self.grid_buy_paused, placement_queue=grid_queue, last_batch_size=self.grid_last_batch_size) if self.settings.micro_grid_enabled else {}
+        for key in ("GRID LEVELS", "GRID ACTIVE BUYS", "GRID ACTIVE SELLS", "GRID FILLED LEVELS", "GRID PLACEMENT QUEUE", "GRID LAST BATCH SIZE"):
             self.runtime[key].setText(str(int(grid_stats.get(key, 0))))
+        self.runtime["GRID INVENTORY U"].setText(self._fmt(float(grid_stats.get("GRID INVENTORY U", 0.0) or 0.0), 2))
+        self.runtime["GRID BUY PAUSED"].setText(str(grid_stats.get("GRID BUY PAUSED", "NO")))
         self.runtime["GRID BUDGET USED"].setText(self._fmt(float(grid_stats.get("GRID BUDGET USED", 0.0) or 0.0), 2))
         self.runtime["GRID BUDGET FREE"].setText(self._fmt(float(grid_stats.get("GRID BUDGET FREE", 0.0) or 0.0), 2))
         can_recompute_plan = self.runtime_active or self.position_qty > 0 or bool(self.active_order.get("orderId"))
@@ -1970,8 +1983,31 @@ class MainWindow(QMainWindow):
                         active_level_id = None
                         if self.settings.micro_grid_enabled and self.grid_runtime.levels:
                             free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
+                            bid_now = float(self.state.snapshot.bid or 0.0)
+                            inventory_u = self.position_qty * bid_now
+                            active_buys = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY_FILL" and lvl.active_buy_order_id is not None)
+                            has_active_sell = bool(self.active_order.get("orderId") and self.active_order.get("side") == "SELL")
+                            max_active_buys = max(int(getattr(self.settings, "micro_grid_max_active_buys", 8)), 1)
+                            batch_size = max(int(getattr(self.settings, "micro_grid_place_batch_size", 3)), 1)
+                            place_interval_ms = max(int(getattr(self.settings, "micro_grid_place_interval_ms", 500)), 0)
+                            self.grid_last_batch_size = 0
+                            self.grid_buy_paused = False
+                            if bool(getattr(self.settings, "micro_grid_sell_first", True)) and (inventory_u > 0.0 or has_active_sell):
+                                self.grid_buy_paused = True
+                            if inventory_u > float(getattr(self.settings, "micro_grid_pause_buy_if_inventory_u_above", 800.0)):
+                                self.grid_buy_paused = True
+                                self.log("WARNING", f"[EXEC] GRID_BUY_PAUSED_INVENTORY inventory_u={inventory_u:.2f}")
+                            if inventory_u > float(getattr(self.settings, "micro_grid_max_inventory_u", 1000.0)):
+                                self.grid_buy_paused = True
+                                self.log("WARNING", f"[EXEC] GRID_SELL_FIRST_MODE inventory_u={inventory_u:.2f}")
+                            if self.grid_buy_paused or active_buys >= max_active_buys or now_ms - self.grid_last_place_batch_ms < place_interval_ms:
+                                self.fsm_state = "DONE"
+                                return
                             placed_any = False
+                            placed_count = 0
                             for level in self.grid_runtime.levels:
+                                if placed_count >= batch_size or active_buys >= max_active_buys:
+                                    break
                                 if level.state != "WAIT_BUY" or level.active_buy_order_id is not None:
                                     continue
                                 if free_u + 1e-12 < level.budget_u:
@@ -1982,9 +2018,13 @@ class MainWindow(QMainWindow):
                                 self.grid_order_ids.add(buy_order_id)
                                 self.grid_runtime.mark_buy_placed(level.level_id, buy_order_id)
                                 free_u -= level.budget_u
+                                active_buys += 1
+                                placed_count += 1
                                 placed_any = True
                                 self.log("OK", f"[EXEC] PLACE BUY price={float(level.target_buy_price):.2f} qty={float(level.qty):.6f}")
                             if placed_any:
+                                self.grid_last_place_batch_ms = now_ms
+                                self.grid_last_batch_size = placed_count
                                 self.fsm_state = "DONE"
                             else:
                                 self.log("INFO", "[EXEC] GRID_NO_VALID_LEVELS_FOR_BUY")

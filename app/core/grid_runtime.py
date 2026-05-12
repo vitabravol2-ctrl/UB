@@ -98,7 +98,10 @@ class GridRuntime:
                 continue
             level = GridLevel(level_id=idx, target_buy_price=price, budget_u=budget_per_level, qty=qty)
             self.levels.append(level)
-            self._log(f"GRID_LEVEL_CREATE level_id={level.level_id} buy={level.target_buy_price:.8f} qty={level.qty:.8f}")
+        self._log(
+            f"GRID_LEVELS_CREATED count={len(self.levels)} budget={settings.micro_grid_budget_u:.2f} "
+            f"step={settings.micro_grid_step_ticks} size={settings.micro_grid_size_ticks}"
+        )
         return self.levels
 
     def mark_buy_placed(self, level_id: int, order_id: int) -> None:
@@ -127,7 +130,7 @@ class GridRuntime:
         level.linked_inventory_chunk_ids.clear()
         self._log(f"GRID_LEVEL_RECYCLED level_id={level_id}")
 
-    def grid_telemetry(self) -> dict[str, float | int]:
+    def grid_telemetry(self, inventory_u: float = 0.0, buy_paused: bool = False, placement_queue: int = 0, last_batch_size: int = 0) -> dict[str, float | int | str]:
         active = len(self.levels)
         open_buys = sum(1 for lvl in self.levels if lvl.state == "WAIT_BUY_FILL" and lvl.active_buy_order_id is not None)
         filled = sum(1 for lvl in self.levels if lvl.state == "BUY_FILLED")
@@ -137,6 +140,10 @@ class GridRuntime:
             "GRID LEVELS": active,
             "GRID ACTIVE BUYS": open_buys,
             "GRID ACTIVE SELLS": filled,
+            "GRID INVENTORY U": max(inventory_u, 0.0),
+            "GRID BUY PAUSED": "YES" if buy_paused else "NO",
+            "GRID PLACEMENT QUEUE": max(placement_queue, 0),
+            "GRID LAST BATCH SIZE": max(last_batch_size, 0),
             "GRID FILLED LEVELS": filled,
             "GRID BUDGET USED": used,
             "GRID BUDGET FREE": max(total - used, 0.0),
