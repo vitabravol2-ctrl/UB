@@ -404,19 +404,15 @@ class MainWindow(QMainWindow):
             "compact_logs": "compact logs",
             "runtime_diag_enabled": "runtime diagnostics enabled",
             "ui_theme": "UI theme",
-            "micro_grid_enabled": "Micro grid enabled",
-            "micro_grid_size_ticks": "Grid size ticks",
-            "micro_grid_step_ticks": "Grid step ticks",
-            "micro_grid_budget_u": "Grid budget U",
             "conveyor_streams_enabled": "Conveyor streams enabled",
             "conveyor_stream_count": "Conveyor streams count",
             "conveyor_stream_range_ticks": "Conveyor streams range ticks",
-            "micro_grid_max_active_buys": "Grid max active buys",
-            "micro_grid_place_batch_size": "Grid batch size",
-            "micro_grid_place_interval_ms": "Grid place interval ms",
-            "micro_grid_max_inventory_u": "Grid max inventory U",
-            "micro_grid_pause_buy_if_inventory_u_above": "Grid pause buy inventory U",
-            "micro_grid_sell_first": "Grid sell-first mode",
+            "conveyor_stream_max_active_buys": "Conveyor streams max active buys",
+            "conveyor_stream_place_batch_size": "Conveyor streams batch size",
+            "conveyor_stream_place_interval_ms": "Conveyor streams place interval ms",
+            "conveyor_stream_max_inventory_u": "Conveyor streams max inventory U",
+            "conveyor_stream_pause_buy_inventory_u": "Conveyor streams pause buy inventory U",
+            "conveyor_stream_sell_first": "Conveyor streams sell-first mode",
         }
 
         account_tab = QWidget(); account_form = QFormLayout(account_tab)
@@ -428,7 +424,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("MICRO GRID", ["micro_grid_enabled", "conveyor_streams_enabled", "conveyor_stream_count", "conveyor_stream_range_ticks", "micro_grid_size_ticks", "micro_grid_step_ticks", "micro_grid_budget_u", "micro_grid_max_active_buys", "micro_grid_place_batch_size", "micro_grid_place_interval_ms", "micro_grid_max_inventory_u", "micro_grid_pause_buy_if_inventory_u_above", "micro_grid_sell_first"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "micro_partial_reconcile_enabled", "micro_partial_max_qty", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
+        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("MICRO GRID", ["conveyor_streams_enabled", "conveyor_stream_count", "conveyor_stream_range_ticks", "conveyor_stream_max_active_buys", "conveyor_stream_place_batch_size", "conveyor_stream_place_interval_ms", "conveyor_stream_max_inventory_u", "conveyor_stream_pause_buy_inventory_u", "conveyor_stream_sell_first"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "micro_partial_reconcile_enabled", "micro_partial_max_qty", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -516,7 +512,7 @@ class MainWindow(QMainWindow):
             else:
                 self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.exit_blocked_no_sellable_count = 0; self.log("OK", "START")
                 self.log("OK", "START_OK runtime_started")
-                if self.settings.micro_grid_enabled and self.filters.get("loaded") and float(self.state.snapshot.bid or 0.0) > 0:
+                if self.settings.conveyor_streams_enabled and self.filters.get("loaded") and float(self.state.snapshot.bid or 0.0) > 0:
                     self.grid_runtime.configure_micro_grid(
                         float(self.state.snapshot.bid),
                         float(self.filters.get("tickSize", 0.0) or 0.0),
@@ -1247,7 +1243,7 @@ class MainWindow(QMainWindow):
         if qty <= 0:
             return
         grid_level_id = None
-        if self.settings.micro_grid_enabled and self.active_order.get("orderId"):
+        if self.settings.conveyor_streams_enabled and self.active_order.get("orderId"):
             grid_level_id = self.grid_level_by_order_id.get(int(self.active_order["orderId"]))
         self.inventory_chunks.append(InventoryChunk(qty=qty, entry_price=entry_price, created_ms=now_ms, grid_level_id=grid_level_id))
         self.log("OK", f"[EXEC] CHUNK ADD qty={qty:.6f} entry={entry_price:.2f}")
@@ -1257,7 +1253,7 @@ class MainWindow(QMainWindow):
         self._recalc_entry_avg_from_chunks()
 
     def _poll_grid_orders(self, now_ms: int) -> None:
-        if not self.runtime_active or not self.settings.micro_grid_enabled:
+        if not self.runtime_active or not self.settings.conveyor_streams_enabled:
             return
         tick = self._tick_size()
         target_ticks = max(int(getattr(self.settings, "target_capture_ticks", 1)), 0)
@@ -1956,7 +1952,7 @@ class MainWindow(QMainWindow):
         self.runtime["Last exit reason"].setText(self.last_exit_reason)
         inventory_u = inventory_runtime * float(self.state.snapshot.bid or 0.0)
         grid_queue = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY" and lvl.active_buy_order_id is None)
-        grid_stats = self.grid_runtime.grid_telemetry(inventory_u=inventory_u, buy_paused=self.grid_buy_paused, placement_queue=grid_queue, last_batch_size=self.grid_last_batch_size) if self.settings.micro_grid_enabled else {}
+        grid_stats = self.grid_runtime.grid_telemetry(inventory_u=inventory_u, buy_paused=self.grid_buy_paused, placement_queue=grid_queue, last_batch_size=self.grid_last_batch_size) if self.settings.conveyor_streams_enabled else {}
         for key in ("GRID LEVELS", "GRID ACTIVE BUYS", "GRID ACTIVE SELLS", "GRID FILLED LEVELS", "GRID PLACEMENT QUEUE", "GRID LAST BATCH SIZE"):
             self.runtime[key].setText(str(int(grid_stats.get(key, 0))))
         self.runtime["GRID INVENTORY U"].setText(self._fmt(float(grid_stats.get("GRID INVENTORY U", 0.0) or 0.0), 2))
@@ -2047,30 +2043,34 @@ class MainWindow(QMainWindow):
                         buy_price = float(plan.entry_price)
                         buy_qty = float(plan.qty_btc)
                         active_level_id = None
-                        if self.settings.micro_grid_enabled:
+                        if self.settings.conveyor_streams_enabled:
                             if now_ms - self.last_grid_skip_single_entry_log_ms >= 4000:
                                 self.log("INFO", "[EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY")
                                 self.last_grid_skip_single_entry_log_ms = now_ms
-                        if self.settings.micro_grid_enabled and self.grid_runtime.levels:
+                        if self.settings.conveyor_streams_enabled:
+                            if not self.grid_runtime.levels:
+                                self.log("WARNING", "[EXEC] STREAM_SKIP reason=NO_STREAM_LEVELS")
+                                self.fsm_state = "DONE"
+                                return
                             free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
                             bid_now = float(self.state.snapshot.bid or 0.0)
                             inventory_u = self.position_qty * bid_now
                             active_buys = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY_FILL" and lvl.active_buy_order_id is not None)
                             has_active_sell = bool(self.active_order.get("orderId") and self.active_order.get("side") == "SELL")
-                            max_active_buys = max(int(getattr(self.settings, "conveyor_stream_count", 20 if getattr(self.settings, "conveyor_streams_enabled", False) else getattr(self.settings, "micro_grid_max_active_buys", 8))), 1)
-                            batch_size = max(int(getattr(self.settings, "micro_grid_place_batch_size", 3)), 1)
-                            place_interval_ms = max(int(getattr(self.settings, "micro_grid_place_interval_ms", 500)), 0)
+                            max_active_buys = max(int(getattr(self.settings, "conveyor_stream_count", 20 if getattr(self.settings, "conveyor_streams_enabled", False) else getattr(self.settings, "conveyor_stream_max_active_buys", 8))), 1)
+                            batch_size = max(int(getattr(self.settings, "conveyor_stream_place_batch_size", 3)), 1)
+                            place_interval_ms = max(int(getattr(self.settings, "conveyor_stream_place_interval_ms", 500)), 0)
                             self.grid_last_batch_size = 0
                             self.grid_buy_paused = False
-                            if bool(getattr(self.settings, "micro_grid_sell_first", True)) and (inventory_u > 0.0 or has_active_sell):
+                            if bool(getattr(self.settings, "conveyor_stream_sell_first", True)) and (inventory_u > 0.0 or has_active_sell):
                                 self.grid_buy_paused = True
                                 unsold = next((c for c in self.inventory_chunks if c.qty > 0 and c.sell_order_id is None), None)
                                 if unsold is not None:
                                     self.log("INFO", f"[EXEC] GRID_SELL_FIRST_PENDING chunk_id={id(unsold)} level_id={unsold.grid_level_id}")
-                            if inventory_u > float(getattr(self.settings, "micro_grid_pause_buy_if_inventory_u_above", 800.0)):
+                            if inventory_u > float(getattr(self.settings, "conveyor_stream_pause_buy_inventory_u", 800.0)):
                                 self.grid_buy_paused = True
                                 self.log("WARNING", f"[EXEC] GRID_BUY_PAUSED_INVENTORY inventory_u={inventory_u:.2f}")
-                            if inventory_u > float(getattr(self.settings, "micro_grid_max_inventory_u", 1000.0)):
+                            if inventory_u > float(getattr(self.settings, "conveyor_stream_max_inventory_u", 1000.0)):
                                 self.grid_buy_paused = True
                                 self.log("WARNING", f"[EXEC] GRID_SELL_FIRST_MODE inventory_u={inventory_u:.2f}")
                             if self.grid_buy_paused or active_buys >= max_active_buys or now_ms - self.grid_last_place_batch_ms < place_interval_ms:
