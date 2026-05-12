@@ -98,6 +98,8 @@ class SettingsData:
     exit_block_manual_enabled: bool = True
     inventory_epsilon_qty: float = 0.000001
     min_sellable_qty_fallback: float = 0.0001
+    micro_partial_reconcile_enabled: bool = True
+    micro_partial_max_qty: float = 0.0001
     dust_cleanup_enabled: bool = True
     dust_cleanup_threshold_qty: float = 0.0
     sell_qty_clamp_log_throttle_ms: int = 2000

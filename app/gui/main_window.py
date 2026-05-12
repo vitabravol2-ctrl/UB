@@ -392,7 +392,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
+        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "micro_partial_reconcile_enabled", "micro_partial_max_qty", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -818,6 +818,40 @@ class MainWindow(QMainWindow):
             self.log("WARNING", f"[EXEC] PHANTOM_INVENTORY_RECONCILE inventory={inventory_qty:.6f} free={btc_free:.6f} locked={btc_locked:.6f} safe={sell_qty:.6f} reason=exchange_no_sellable_btc")
             self.last_phantom_log_ms = now
         return True
+
+    def _maybe_reconcile_micro_partial_dust(self, inventory_qty: float, reason: str = "below_min_sellable") -> bool:
+        if not bool(getattr(self.settings, "micro_partial_reconcile_enabled", True)):
+            return False
+        epsilon = self._inventory_epsilon_qty()
+        if inventory_qty <= epsilon:
+            return False
+        max_qty = max(float(getattr(self.settings, "micro_partial_max_qty", 0.0001) or 0.0001), epsilon)
+        min_sellable_qty = self._min_sellable_qty()
+        bid_now = float(self.state.snapshot.bid or 0.0)
+        ask_now = float(self.state.snapshot.ask or 0.0)
+        current_price = bid_now if bid_now > 0 else ask_now
+        min_notional = float(self.filters.get("minNotional", 0.0) or 0.0)
+        notional = inventory_qty * current_price if current_price > 0 else 0.0
+        below_min_sellable = inventory_qty < min_sellable_qty
+        below_min_notional = min_notional > 0 and notional < min_notional
+        if inventory_qty <= max_qty and (below_min_sellable or below_min_notional):
+            self.inventory_chunks = []
+            self.position_qty = 0.0
+            self.position_entry_avg = 0.0
+            self.active_order = {}
+            self.position_state = "FLAT"
+            self._reset_sell_accounting("micro_partial_dust_reconcile", reset_panic_order_id=True)
+            self.panic_exit_final = False
+            self.panic_exit_order_id = 0
+            self.panic_exit_price = 0.0
+            self.panic_exit_started_ms = 0
+            self.panic_escalated_once = False
+            self.last_panic_wait_log_ms = 0
+            self.max_hold_exit_triggered = False
+            self.fsm_state = "WAIT_READY" if self.runtime_active else "IDLE"
+            self.log("INFO", f"[EXEC] MICRO_PARTIAL_DUST_RECONCILE qty={inventory_qty:.6f} notional={notional:.6f} min_sellable={min_sellable_qty:.6f} reason={reason}")
+            return True
+        return False
 
     def _cleanup_inventory_if_drained(self) -> bool:
         epsilon = self._inventory_epsilon_qty()
@@ -1811,6 +1845,9 @@ class MainWindow(QMainWindow):
                 elif executed_qty > 0:
                     self.log("WARNING", "[EXEC] BUY REMAINDER CANCELLED")
                     self.log("INFO", f"[EXEC] SELL CONTINUES inventory={self.position_qty:.6f}")
+                    if self._maybe_reconcile_micro_partial_dust(float(self.position_qty), reason="below_min_sellable"):
+                        self.active_order = {}
+                        return
                     self.active_order = {}
                     self.position_state = "POSITION_OPEN" if self.position_qty > 0 else "FLAT"
                     if self.position_qty > 0 and not (self.active_order.get("side") == "SELL"):
@@ -1947,6 +1984,9 @@ class MainWindow(QMainWindow):
             min_sellable_qty = self._min_sellable_qty()
             blocked_by_dust = sell_qty <= min_sellable_qty
             if inventory_qty > epsilon_qty and blocked_by_dust:
+                if self._maybe_reconcile_micro_partial_dust(inventory_qty, reason="below_min_sellable"):
+                    self._finalize_cycle_if_flat()
+                    return
                 if btc_locked > epsilon_qty and btc_free <= min_sellable_qty:
                     self.sync_active_order(force=True)
                     open_sell = self._find_open_sell_order()
