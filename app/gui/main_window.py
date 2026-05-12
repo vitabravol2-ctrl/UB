@@ -1,4 +1,5 @@
 import time
+import re
 from dataclasses import dataclass
 from decimal import Decimal
 from collections import deque
@@ -196,7 +197,8 @@ class MainWindow(QMainWindow):
         self.canceled_buys = 0
         self.sell_timeouts = 0
         self.file_logs = FileLogManager()
-        self.gui_log_limit = 500
+        self.gui_log_limit = 200
+        self.gui_log_mode = "IMPORTANT"
         self.pending_gui_logs = {"trade": [], "system": []}
         self.summary_signature = ""
         self.last_ws_live_log_ms = 0
@@ -276,6 +278,7 @@ class MainWindow(QMainWindow):
 
         self.ws.signals.book.connect(self.on_ws_book); self.ws.signals.status.connect(self.on_ws_status); self.ws.signals.log.connect(self.log)
         self.timer = QTimer(self); self.timer.timeout.connect(self.on_tick); self.timer.start(250)
+        self.stats_timer = QTimer(self); self.stats_timer.timeout.connect(self._update_session_summary); self.stats_timer.start(500)
         self.rest_timer = QTimer(self); self.rest_timer.timeout.connect(self.fetch_rest); self.rest_timer.start(self.settings.rest_poll_ms)
         self.account_timer = QTimer(self); self.account_timer.timeout.connect(self.refresh_account_data); self.account_timer.start(self.settings.balances_poll_ms)
         self.active_sync_timer = QTimer(self); self.active_sync_timer.timeout.connect(self.sync_active_order); self.active_sync_timer.start(max(self.settings.active_order_poll_ms, 1200))
@@ -326,7 +329,8 @@ class MainWindow(QMainWindow):
         self.settings_btn = QPushButton("НАСТРОЙКИ"); self.settings_btn.setProperty("kind", "neutral"); self.settings_btn.clicked.connect(self.open_settings_dialog); row.addWidget(self.settings_btn)
         self.start_stop_btn = QPushButton("START"); self.start_stop_btn.setProperty("kind", "start"); self.start_stop_btn.clicked.connect(self.toggle_runtime); row.addWidget(self.start_stop_btn)
         self.cancel_btn = QPushButton("ОТМЕНИТЬ ВСЁ"); self.cancel_btn.setProperty("kind", "danger"); self.cancel_btn.clicked.connect(self.cancel_all); row.addWidget(self.cancel_btn)
-        for btn in (self.settings_btn, self.start_stop_btn, self.cancel_btn):
+        self.load_session_log_btn = QPushButton("LOAD SESSION LOG"); self.load_session_log_btn.setProperty("kind", "neutral"); self.load_session_log_btn.clicked.connect(self.load_session_log_summary); row.addWidget(self.load_session_log_btn)
+        for btn in (self.settings_btn, self.start_stop_btn, self.cancel_btn, self.load_session_log_btn):
             btn.setMinimumHeight(54)
             btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.controls_row = row
@@ -417,6 +421,7 @@ class MainWindow(QMainWindow):
             "exit_recovery_log_throttle_ms": "exit recovery log throttle ms",
             "compact_logs": "compact logs",
             "runtime_diag_enabled": "runtime diagnostics enabled",
+            "gui_log_mode": "GUI log mode (FULL/IMPORTANT/OFF)",
             "ui_theme": "UI theme",
             "conveyor_streams_enabled": "Conveyor streams enabled",
             "conveyor_stream_count": "Conveyor streams count",
@@ -438,7 +443,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("MICRO GRID", ["conveyor_streams_enabled", "conveyor_stream_count", "conveyor_stream_range_ticks", "conveyor_stream_max_active_buys", "conveyor_stream_place_batch_size", "conveyor_stream_place_interval_ms", "conveyor_stream_max_inventory_u", "conveyor_stream_pause_buy_inventory_u", "conveyor_stream_sell_first"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "micro_partial_reconcile_enabled", "micro_partial_max_qty", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
+        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("MICRO GRID", ["conveyor_streams_enabled", "conveyor_stream_count", "conveyor_stream_range_ticks", "conveyor_stream_max_active_buys", "conveyor_stream_place_batch_size", "conveyor_stream_place_interval_ms", "conveyor_stream_max_inventory_u", "conveyor_stream_pause_buy_inventory_u", "conveyor_stream_sell_first"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "micro_partial_reconcile_enabled", "micro_partial_max_qty", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled", "gui_log_mode"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -490,6 +495,12 @@ class MainWindow(QMainWindow):
         self.market_health_min_spread_lifetime_ms = self.settings.min_spread_lifetime_ms
         self.last_sell_qty_clamp_log_ms = 0
         self.last_exit_recovery_log_ms = 0
+        self.gui_log_mode = str(getattr(self.settings, "gui_log_mode", "IMPORTANT") or "IMPORTANT").upper()
+        if self.gui_log_mode not in {"FULL", "IMPORTANT", "OFF"}:
+            self.gui_log_mode = "IMPORTANT"
+        self.gui_log_limit = 0 if self.gui_log_mode == "OFF" else (200 if self.gui_log_mode == "IMPORTANT" else 500)
+        for widget in (self.trade_logs, self.system_logs):
+            widget.document().setMaximumBlockCount(self.gui_log_limit)
 
     def _export_settings(self) -> None:
         path, _ = QFileDialog.getSaveFileName(self, "Export settings", "settings_export.json", "JSON (*.json)")
@@ -3041,41 +3052,7 @@ class MainWindow(QMainWindow):
             elif plan_status in {"BALANCE_LOW", "FILTER_FAIL"}:
                 self.log("WARNING", f"[EXEC] BLOCK reason={plan_status.lower()}")
 
-        use_stream_stats = bool(getattr(self.settings, "conveyor_streams_enabled", False))
-        closed_cycles = self.stream_closed_cycles if use_stream_stats else self.closed_cycles
-        wins = self.stream_wins if use_stream_stats else self.wins
-        losses = self.stream_losses if use_stream_stats else self.losses
-        realized_pnl = self.stream_realized_pnl if use_stream_stats else self.session_realized_pnl
-        last_pnl = self.stream_last_pnl if use_stream_stats else self.last_pnl
-        if use_stream_stats:
-            self.stream_winrate = (self.stream_wins / self.stream_closed_cycles * 100.0) if self.stream_closed_cycles else 0.0
-            winrate = self.stream_winrate
-        else:
-            winrate = (wins / closed_cycles * 100.0) if closed_cycles else 0.0
-        if use_stream_stats and (now_ms - self.last_stream_stats_ui_log_ms >= 5000):
-            self.last_stream_stats_ui_log_ms = now_ms
-            self.log("INFO", f"[EXEC] STREAM_STATS_UI cycles={closed_cycles} wins={wins} losses={losses} pnl={realized_pnl:+.6f} winrate={winrate:.2f}%")
-
-        active_order_text = "none"
-        if self.active_order.get("orderId"):
-            active_order_text = f"{self.active_order.get('side','-')}#{self.active_order.get('orderId')}"
-        summary_sig = f"{self.position_state}:{self.position_entry_avg:.6f}:{closed_cycles}:{wins}:{losses}:{realized_pnl:.6f}:{last_pnl:.6f}:{winrate:.2f}:{self.canceled_buys}:{self.sell_timeouts}:{self.sell_reprice_count}:{self.exit_mode}:{self.phantom_reconcile_count}:{active_order_text}:{self.position_qty:.6f}"
-        if summary_sig != self.summary_signature:
-            self.summary_signature = summary_sig
-            self.summary["Started"].setText(self.session_started_at)
-            self.summary["Position state"].setText(self.position_state)
-            self.summary["Position qty"].setText(self._fmt(self.position_qty, 6))
-            self.summary["Entry avg"].setText(self._fmt(self.position_entry_avg, 6))
-            self.summary["Realized PnL"].setText(f"{realized_pnl:+.6f}")
-            self.summary["Winrate"].setText(f"{winrate:.2f}%")
-            self.summary["Closed cycles"].setText(str(closed_cycles))
-            self.summary["Wins"].setText(str(wins))
-            self.summary["Losses"].setText(str(losses))
-            self.summary["Canceled buys"].setText(str(self.canceled_buys))
-            self.summary["Last PnL"].setText(f"{last_pnl:+.6f}")
-            self.summary["Sell timeouts"].setText(str(self.sell_timeouts))
-            self.summary["Exit mode"].setText(self.exit_mode)
-            self.summary["Phantom reconcile count"].setText(str(self.phantom_reconcile_count))
+        self._update_session_summary(now_ms)
 
         rest_txt = "OK" if self.state.rest_status == "OK" else "ERROR"
         ws_txt = f"OK {ws_age}ms" if ws_ok and ws_age is not None else "LOST"
@@ -3086,6 +3063,41 @@ class MainWindow(QMainWindow):
         cooldown_ms = self.settings.panic_cooldown_ms if reason == "panic_exit" else self.settings.loss_cooldown_ms
         self.entry_guard_cooldown_until_ms = max(self.entry_guard_cooldown_until_ms, now_ms + cooldown_ms)
         self.entry_guard_cooldown_reason = reason
+
+    def _update_session_summary(self, now_ms: int | None = None) -> None:
+        if now_ms is None:
+            now_ms = int(time.time() * 1000)
+        use_stream_stats = bool(getattr(self.settings, "conveyor_streams_enabled", False))
+        closed_cycles = self.stream_closed_cycles if use_stream_stats else self.closed_cycles
+        wins = self.stream_wins if use_stream_stats else self.wins
+        losses = self.stream_losses if use_stream_stats else self.losses
+        realized_pnl = self.stream_realized_pnl if use_stream_stats else self.session_realized_pnl
+        last_pnl = self.stream_last_pnl if use_stream_stats else self.last_pnl
+        winrate = (wins / closed_cycles * 100.0) if closed_cycles else 0.0
+        if use_stream_stats:
+            self.stream_winrate = winrate
+            if now_ms - self.last_stream_stats_ui_log_ms >= 5000:
+                self.last_stream_stats_ui_log_ms = now_ms
+                self.log("INFO", f"[EXEC] STREAM_STATS_UI cycles={closed_cycles} wins={wins} losses={losses} pnl={realized_pnl:+.6f} winrate={winrate:.2f}%")
+        active_order_text = "none" if not self.active_order.get("orderId") else f"{self.active_order.get('side','-')}#{self.active_order.get('orderId')}"
+        summary_sig = f"{self.position_state}:{self.position_entry_avg:.6f}:{closed_cycles}:{wins}:{losses}:{realized_pnl:.6f}:{last_pnl:.6f}:{winrate:.2f}:{self.canceled_buys}:{self.sell_timeouts}:{self.sell_reprice_count}:{self.exit_mode}:{self.phantom_reconcile_count}:{active_order_text}:{self.position_qty:.6f}"
+        if summary_sig == self.summary_signature:
+            return
+        self.summary_signature = summary_sig
+        self.summary["Started"].setText(self.session_started_at)
+        self.summary["Position state"].setText(self.position_state)
+        self.summary["Position qty"].setText(self._fmt(self.position_qty, 6))
+        self.summary["Entry avg"].setText(self._fmt(self.position_entry_avg, 6))
+        self.summary["Realized PnL"].setText(f"{realized_pnl:+.6f}")
+        self.summary["Winrate"].setText(f"{winrate:.2f}%")
+        self.summary["Closed cycles"].setText(str(closed_cycles))
+        self.summary["Wins"].setText(str(wins))
+        self.summary["Losses"].setText(str(losses))
+        self.summary["Canceled buys"].setText(str(self.canceled_buys))
+        self.summary["Last PnL"].setText(f"{last_pnl:+.6f}")
+        self.summary["Sell timeouts"].setText(str(self.sell_timeouts))
+        self.summary["Exit mode"].setText(self.exit_mode)
+        self.summary["Phantom reconcile count"].setText(str(self.phantom_reconcile_count))
 
     def _mid_delta_ticks(self) -> float:
         tick = self._tick_size()
@@ -3288,6 +3300,18 @@ class MainWindow(QMainWindow):
                 widget.setTextCursor(cursor)
 
     def _should_show_in_gui(self, tag: str, message: str) -> bool:
+        if self.gui_log_mode == "OFF":
+            return False
+        if self.gui_log_mode == "FULL":
+            return True
+        important_exec = ("STREAM_PNL", "STREAM_SELL_FILLED", "STREAM_STOP_LOSS_EXIT", "STREAM_ORDER_API_ERROR")
+        important_system = ("LIVE ON", "STOP", "CANCEL ALL", "SESSION RESULT")
+        if "[EXEC]" in message and any(k in message for k in important_exec):
+            return True
+        if tag in {"ERROR", "WARNING"} and ("Binance" in message or "API" in message or "[EXEC]" in message):
+            return True
+        if any(k in message for k in important_system):
+            return True
         if "[EXEC]" in message or tag in {"ERROR", "WARNING"}:
             return True
         if message in {"START", "STOP"} or "[SETTINGS]" in message:
@@ -3310,11 +3334,31 @@ class MainWindow(QMainWindow):
         trade_keys = ("[EXEC]", "REALIZED", "PLACE BUY", "BUY FILLED", "PLACE SELL", "SELL FILLED", "CANCEL", "TIMEOUT")
         bucket = "trade" if any(k in message for k in trade_keys) else "system"
         self.pending_gui_logs[bucket].append((color, line))
-        self._flush_gui_logs()
+        if self.gui_log_mode != "OFF":
+            self._flush_gui_logs()
         if bucket == "trade":
             self.file_logs.write_trade(line.replace(f"[{tag}]", "[EXEC]"))
         else:
             self.file_logs.write_system(line)
+
+    def load_session_log_summary(self) -> None:
+        path = self.file_logs.session_path
+        if not path.exists():
+            self.log("WARNING", f"SESSION LOG NOT FOUND path={path}")
+            return
+        text = path.read_text(encoding="utf-8")
+        pnl_values = [float(v) for v in re.findall(r"STREAM_PNL .*?pnl=([+-]?\d+(?:\.\d+)?)", text)]
+        wins = sum(1 for v in pnl_values if v > 0)
+        losses = sum(1 for v in pnl_values if v < 0)
+        cycles = len(pnl_values)
+        realized = sum(pnl_values)
+        avg = (realized / cycles) if cycles else 0.0
+        max_loss = min(pnl_values) if pnl_values else 0.0
+        max_win = max(pnl_values) if pnl_values else 0.0
+        stop_loss_count = len(re.findall(r"STREAM_STOP_LOSS_EXIT", text))
+        api_errors = len(re.findall(r"STREAM_ORDER_API_ERROR|BinanceAPIError|RequestException|\\[ERROR\\].*API", text))
+        winrate = (wins / cycles * 100.0) if cycles else 0.0
+        self.log("OK", f"SESSION RESULT cycles={cycles} wins={wins} losses={losses} winrate={winrate:.2f}% realized={realized:+.6f} avg={avg:+.6f} max_loss={max_loss:+.6f} max_win={max_win:+.6f} stop_loss_count={stop_loss_count} api_errors={api_errors}")
 
 
     def _apply_guard_mode_preset(self) -> None:
