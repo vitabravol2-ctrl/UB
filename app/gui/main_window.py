@@ -72,6 +72,7 @@ class InventoryChunk:
     entry_order_id: int | None = None
     sell_order_id: int | None = None
     sell_placed_ms: int = 0
+    sell_retry_count: int = 0
     state: str = "OPEN"
 
 
@@ -1391,7 +1392,7 @@ class MainWindow(QMainWindow):
             self.log("INFO", f"[EXEC] STREAM_SELL_STATUS stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
             if status == "NEW":
                 timeout_handled = False
-                timeout_ms = max(int(getattr(self.settings, "conveyor_stream_sell_timeout_ms", 5000)), 1)
+                timeout_ms = max(int(getattr(self.settings, "conveyor_stream_sell_timeout_ms", 12000)), 1)
                 for chunk in self.inventory_chunks:
                     if id(chunk) != chunk_id:
                         continue
@@ -1411,18 +1412,21 @@ class MainWindow(QMainWindow):
                     best_ask = float(self.state.snapshot.ask or 0.0)
                     stop_loss_ticks = max(int(getattr(self.settings, "stop_loss_ticks", 0)), 0)
                     min_profit_ticks = max(int(getattr(self.settings, "conveyor_stream_min_profit_ticks", 0)), 0)
+                    retry_max = max(int(getattr(self.settings, "conveyor_stream_sell_retry_max", 3)), 0)
+                    retry_step_ticks = max(int(getattr(self.settings, "conveyor_stream_sell_retry_step_ticks", 20)), 0)
                     stop_loss_price = self._round_price_down(max(chunk.entry_price - tick * stop_loss_ticks, tick))
-                    min_profit_price = self._round_price_up(chunk.entry_price + tick * min_profit_ticks)
-                    can_stop = stop_loss_ticks > 0 and best_bid > 0 and best_bid <= stop_loss_price
+                    market_below_stop = stop_loss_ticks > 0 and best_bid > 0 and best_bid <= stop_loss_price
+                    can_stop = chunk.sell_retry_count >= retry_max or market_below_stop or (not self.runtime_active)
                     if can_stop:
                         new_price = self._round_price_down(max(best_bid, tick))
-                        self.log("WARNING", f"[EXEC] STREAM_STOP_LOSS_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} stop_price={new_price:.2f}")
+                        self.log("WARNING", f"[EXEC] STREAM_STOP_LOSS_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} stop_price={new_price:.2f} retry_count={chunk.sell_retry_count} retry_max={retry_max}")
                     else:
-                        target_price = min_profit_price
+                        retry_price = self._round_price_up(chunk.entry_price + tick * min_profit_ticks)
                         if best_ask > 0:
-                            target_price = max(target_price, max(best_ask - tick, tick))
-                        new_price = self._round_price_up(target_price)
-                        self.log("INFO", f"[EXEC] STREAM_SELL_REPRICE_PLACED stream_id={level_id} chunk_id={chunk_id} prev_order_id={sell_order_id} price={new_price:.2f} qty={chunk.qty:.6f}")
+                            retry_price = max(retry_price, max(best_ask - tick * retry_step_ticks, tick))
+                        new_price = self._round_price_up(retry_price)
+                        chunk.sell_retry_count += 1
+                        self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} prev_order_id={sell_order_id} retry_count={chunk.sell_retry_count} price={new_price:.2f} qty={chunk.qty:.6f}")
                     try:
                         repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(chunk.qty))
                     except (BinanceAPIError, RequestException, Exception) as exc:
@@ -1492,6 +1496,10 @@ class MainWindow(QMainWindow):
                         self.stream_wins += 1
                     elif pnl < -eps:
                         self.stream_losses += 1
+                        cooldown_ms = max(int(getattr(self.settings, "conveyor_stream_loss_cooldown_ms", 5000)), 0)
+                        if cooldown_ms > 0:
+                            self.entry_guard_cooldown_until_ms = max(self.entry_guard_cooldown_until_ms, now_ms + cooldown_ms)
+                            self.log("WARNING", f"[EXEC] STREAM_LOSS_COOLDOWN stream_id={level_id} cooldown_ms={cooldown_ms}")
                     self.stream_winrate = (self.stream_wins / self.stream_closed_cycles * 100.0) if self.stream_closed_cycles else 0.0
                 self.inventory_chunks.pop(idx)
                 self._recalc_entry_avg_from_chunks()
