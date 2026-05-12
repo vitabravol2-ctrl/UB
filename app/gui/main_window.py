@@ -3036,7 +3036,7 @@ class MainWindow(QMainWindow):
             max_active_buys = max(int(getattr(self.settings, "conveyor_stream_max_active_buys", 8)), 1)
             bid_now = float(self.state.snapshot.bid or 0.0)
             inventory_u = float(self.position_qty or 0.0) * bid_now
-            active_buys = len(self.active_buy_orders)
+            active_buys = 1 if (self.active_order.get("orderId") and self.active_order.get("side") == "BUY") else 0
 
             if self.api_status != "OK" or self.state.rest_status != "OK":
                 reason = "api_or_rest_unavailable"
