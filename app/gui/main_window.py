@@ -67,6 +67,7 @@ class InventoryChunk:
     entry_price: float
     created_ms: int
     grid_level_id: int | None = None
+    stream_id: int | None = None
     entry_order_id: int | None = None
     sell_order_id: int | None = None
     state: str = "OPEN"
@@ -1236,8 +1237,18 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", "[EXEC] STATE REPAIR reason=buy_pending_with_inventory")
                 self.position_state = "POSITION_OPEN"
             if self.fsm_state == "WAIT_READY" and not (has_active_order and active_side == "SELL"):
-                self._log_exit_recovery_throttled(inventory_qty)
-                self.fsm_state = "PLACE_SELL"
+                if self._has_stream_owned_inventory():
+                    self.log("INFO", "[EXEC] STREAM_GLOBAL_SELL_SKIP reason=stream_owned_inventory")
+                else:
+                    self._log_exit_recovery_throttled(inventory_qty)
+                    self.fsm_state = "PLACE_SELL"
+
+    def _is_stream_owned_chunk(self, chunk: InventoryChunk) -> bool:
+        return bool(self.settings.conveyor_streams_enabled and chunk.stream_id is not None)
+
+    def _has_stream_owned_inventory(self) -> bool:
+        eps = self._inventory_epsilon_qty()
+        return any(self._is_stream_owned_chunk(chunk) and chunk.qty > eps for chunk in self.inventory_chunks)
 
     def _add_inventory_chunk(self, qty: float, entry_price: float, now_ms: int) -> None:
         if qty <= 0:
@@ -1245,7 +1256,7 @@ class MainWindow(QMainWindow):
         grid_level_id = None
         if self.settings.conveyor_streams_enabled and self.active_order.get("orderId"):
             grid_level_id = self.grid_level_by_order_id.get(int(self.active_order["orderId"]))
-        self.inventory_chunks.append(InventoryChunk(qty=qty, entry_price=entry_price, created_ms=now_ms, grid_level_id=grid_level_id))
+        self.inventory_chunks.append(InventoryChunk(qty=qty, entry_price=entry_price, created_ms=now_ms, grid_level_id=grid_level_id, stream_id=grid_level_id))
         self.log("OK", f"[EXEC] CHUNK ADD qty={qty:.6f} entry={entry_price:.2f}")
         if grid_level_id is not None:
             self.log("INFO", f"[EXEC] GRID_CHUNK_ADD level_id={grid_level_id} chunk_id={id(self.inventory_chunks[-1])}")
@@ -1256,7 +1267,7 @@ class MainWindow(QMainWindow):
         if not self.runtime_active or not self.settings.conveyor_streams_enabled:
             return
         tick = self._tick_size()
-        target_ticks = max(int(getattr(self.settings, "target_capture_ticks", 1)), 0)
+        target_ticks = max(int(getattr(self.settings, "conveyor_stream_target_ticks", 30)), 0)
         for level in self.grid_runtime.levels:
             order_id = int(level.active_buy_order_id or 0)
             if level.state != "WAIT_BUY_FILL" or order_id <= 0:
@@ -1274,8 +1285,9 @@ class MainWindow(QMainWindow):
                 sell_price = add_ticks(fill_price, target_ticks, tick)
                 sell_o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(fill_qty))
                 sell_order_id = int(sell_o.get("orderId"))
+                chunk.entry_order_id = order_id
                 chunk.sell_order_id = sell_order_id
-                chunk.state = "SELL_PLACED"
+                chunk.state = "STREAM_SELL_PLACED"
                 self.grid_sell_order_meta[sell_order_id] = (level.level_id, id(chunk))
                 self.log("INFO", f"[EXEC] STREAM_SELL_PLACED stream_id={level.level_id} chunk_id={id(chunk)} order_id={sell_order_id} price={sell_price:.2f} qty={fill_qty:.6f}")
             elif status in {"CANCELED", "EXPIRED", "REJECTED"}:
@@ -1285,7 +1297,13 @@ class MainWindow(QMainWindow):
                 self.grid_runtime.recycle_level(level.level_id)
         for sell_order_id, (level_id, chunk_id) in list(self.grid_sell_order_meta.items()):
             st = self.account.get_order(CONFIG.binance_symbol, int(sell_order_id))
-            if str(st.get("status", "NEW")) != "FILLED":
+            status = str(st.get("status", "NEW"))
+            self.log("INFO", f"[EXEC] STREAM_SELL_STATUS stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
+            if status in {"CANCELED", "EXPIRED", "REJECTED"}:
+                self.log("WARNING", f"[EXEC] STREAM_SELL_RETRY stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
+                self.grid_sell_order_meta.pop(sell_order_id, None)
+                continue
+            if status != "FILLED":
                 continue
             executed_qty = float(st.get("executedQty", 0.0) or 0.0)
             fill_price = float(st.get("price", 0.0) or 0.0)
@@ -2275,6 +2293,10 @@ class MainWindow(QMainWindow):
                     self.last_entry_reprice_ms = now
                     self.log("OK", f"[EXEC] ENTRY_PLACE price={new_price:.2f} qty={float(self.active_order.get('qty', 0.0)):.6f}")
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
+            if self._has_stream_owned_inventory():
+                self.log("INFO", "[EXEC] STREAM_GLOBAL_SELL_SKIP reason=stream_owned_inventory")
+                self.fsm_state = "DONE"
+                return
             now_ms = int(time.time() * 1000)
             if self._is_taker_exit_active():
                 self._log_taker_guard_skip("smart_exit_wait_taker" if self.smart_exit_active else "place_sell")
