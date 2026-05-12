@@ -463,7 +463,8 @@ class MainWindow(QMainWindow):
         if self.runtime_active:
             self.settings.live_enabled = True
             self.log("INFO", f"START_SETTINGS live_enabled={self.settings.live_enabled} guard_mode={self.settings.guard_mode} entry_mode={self.settings.entry_mode} exit_engine={self.settings.exit_engine_enabled} order_size={self.settings.order_size_u}")
-            self.log("INFO", f"START_PROFILE guard={self.settings.guard_mode}/{self.settings.guard_enabled} entry={self.settings.entry_mode}/repr={self.settings.entry_reprice_enabled} exit=eng:{self.settings.exit_engine_enabled},timeout:{self.settings.sell_timeout_ms} taker={self.settings.taker_exit_enabled}/{self.settings.taker_exit_after_ms} order={self.settings.order_size_u} spread=min:{self.settings.min_spread},target:{self.settings.target_capture}")
+            self.log("INFO", f"START_PROFILE order_size={self.settings.order_size_u} min_spread={self.settings.min_spread} guard_mode={self.settings.guard_mode} entry_mode={self.settings.entry_mode} sell_timeout={self.settings.sell_timeout_ms} far_sell_ticks={self.settings.far_sell_ticks} taker_exit_after_ms={self.settings.taker_exit_after_ms}")
+            self.log("INFO", f"SETTINGS_MERGE_PRESERVE existing_values=true missing_added={getattr(SETTINGS_STORE, 'last_merge_missing_added', 0)}")
             if not self.api_ready:
                 self.log("WARNING", "START_BLOCKED reason=api_not_ready")
                 self.runtime_active = False
@@ -912,6 +913,18 @@ class MainWindow(QMainWindow):
             return False, 0
         dist_ticks = int((bid_now - order_price) / tick)
         return dist_ticks > int(getattr(self.settings, "far_buy_ticks", 10)), dist_ticks
+
+    def _min_allowed_sell_price(self) -> float:
+        tick = self._tick_size()
+        min_profit_ticks = max(int(getattr(self.settings, "min_profit_ticks", 1)), 0)
+        return float(self.position_entry_avg) + (tick * min_profit_ticks)
+
+    def _apply_sell_floor(self, candidate_price: float, reason: str) -> float:
+        floor_price = self._min_allowed_sell_price()
+        if candidate_price < floor_price:
+            self.log("WARNING", f"[EXEC] SELL_FLOOR_BLOCKED price={candidate_price:.2f} floor={floor_price:.2f} entry={float(self.position_entry_avg):.2f} reason=below_min_profit source={reason}")
+            return floor_price
+        return candidate_price
 
     def _cap_soft_sell_reprice(self, old_price: float, candidate_price: float) -> float:
         tick = self._tick_size()
@@ -1389,6 +1402,7 @@ class MainWindow(QMainWindow):
                     self.place_sell_entered_ms = 0
                     return
                 candidate_price = max(bid_now + tick, ask_now - aggressive)
+            candidate_price = self._apply_sell_floor(float(candidate_price), "watchdog_reprice")
             new_price = self._cap_soft_sell_reprice(old_price, candidate_price)
             sell_qty = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
             min_sellable_qty = self._min_sellable_qty()
@@ -1887,6 +1901,7 @@ class MainWindow(QMainWindow):
                         return
                 else:
                     sell_price = target_exit
+                sell_price = self._apply_sell_floor(float(sell_price), place_sell_source)
                 now = int(time.time() * 1000)
                 place_signature = f"{sell_qty:.8f}@{sell_price:.2f}"
                 if self.last_sell_place_signature == place_signature and now - self.last_sell_place_ms < 1000:

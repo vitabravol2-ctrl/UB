@@ -8,86 +8,86 @@ from typing import Any
 class SettingsData:
     min_spread: float = 7.0
     entry_offset: float = 1.0
-    exit_offset: float = 1.0
-    target_capture: float = 5.0
-    stop_loss: float = 12.0
-    max_hold_ms: int = 20000
-    order_size_u: float = 20.0
+    exit_offset: float = 0.5
+    target_capture: float = 3.0
+    stop_loss: float = 6.0
+    max_hold_ms: int = 3500
+    order_size_u: float = 4000.0
     max_open_lots: int = 1
     max_daily_loss: float = 200.0
-    max_exposure_u: float = 20.0
-    max_live_exposure_u: float = 20.0
+    max_exposure_u: float = 5000.0
+    max_live_exposure_u: float = 5000.0
     panic_exit: bool = True
     live_enabled: bool = True
     require_confirmation: bool = False
     auto_cancel_on_stop: bool = True
-    buy_timeout_ms: int = 4500
-    buy_timeout_ms_fast: int = 1200
-    buy_watchdog_ms: int = 2500
-    far_buy_ticks: int = 10
-    entry_mode: str = "BALANCED"
+    buy_timeout_ms: int = 1200
+    buy_timeout_ms_fast: int = 500
+    buy_watchdog_ms: int = 1200
+    far_buy_ticks: int = 6
+    entry_mode: str = "AGGRESSIVE"
     entry_reprice_enabled: bool = True
-    entry_reprice_cooldown_ms: int = 300
-    max_entry_reprices: int = 3
+    entry_reprice_cooldown_ms: int = 120
+    max_entry_reprices: int = 8
     entry_chase_ticks: int = 1
-    entry_cross_if_spread_ticks_above: int = 1000
-    min_spread_after_entry_ticks: int = 3
-    sell_timeout_ms: int = 5000
-    sell_watchdog_ms: int = 3000
+    entry_cross_if_spread_ticks_above: int = 500
+    min_spread_after_entry_ticks: int = 1
+    sell_timeout_ms: int = 2200
+    sell_watchdog_ms: int = 1800
     place_sell_stuck_ms: int = 1500
-    far_sell_ticks: int = 10
+    far_sell_ticks: int = 30
     panic_far_sell_multiplier: int = 5
-    sell_reprice_cooldown_ms: int = 700
+    sell_reprice_cooldown_ms: int = 120
     place_sell_recovery_cooldown_ms: int = 2500
-    panic_reprice_once: bool = True
-    aggressive_exit_offset: float = 1.0
-    max_sell_reprices: int = 2
+    panic_reprice_once: bool = False
+    aggressive_exit_offset: float = -0.5
+    max_sell_reprices: int = 12
     exit_engine_enabled: bool = True
-    exit_stage1_ms: int = 700
-    exit_stage2_ms: int = 1200
-    exit_stage3_ms: int = 1800
+    exit_stage1_ms: int = 400
+    exit_stage2_ms: int = 900
+    exit_stage3_ms: int = 1400
     exit_reprice_step_ticks: int = 1
-    exit_max_reprices: int = 8
+    exit_max_reprices: int = 14
     panic_ladder_enabled: bool = True
-    panic_ladder_step_ticks: int = 2
-    panic_ladder_ms: int = 400
-    panic_hold_max_ms: int = 2500
-    panic_cross_after_ms: int = 3500
+    panic_ladder_step_ticks: int = 1
+    panic_ladder_ms: int = 180
+    panic_hold_max_ms: int = 1200
+    panic_cross_after_ms: int = 1600
     taker_exit_enabled: bool = True
-    taker_exit_after_ms: int = 900
+    taker_exit_after_ms: int = 1600
     taker_exit_ioc: bool = True
-    taker_exit_spread_collapse_ticks: int = 3
-    taker_exit_mid_negative_threshold: float = -40.0
+    taker_exit_spread_collapse_ticks: int = 4
+    taker_exit_mid_negative_threshold: float = -80.0
     taker_exit_min_expected_profit_ticks: int = 0
-    taker_exit_max_slippage_ticks: int = 10
+    taker_exit_max_slippage_ticks: int = 2
     taker_exit_force_flat_after_ms: int = 1800
     exit_ioc_enabled: bool = False
     min_profit_ticks: int = 1
-    take_profit_ticks: int = 3
-    stop_loss_ticks: int = 6
-    rest_poll_ms: int = 2000
-    open_orders_poll_ms: int = 2000
+    take_profit_ticks: int = 2
+    stop_loss_ticks: int = 3
+    rest_poll_ms: int = 700
+    open_orders_poll_ms: int = 250
     all_orders_poll_ms: int = 9000
-    balances_poll_ms: int = 10000
-    active_order_poll_ms: int = 800
+    balances_poll_ms: int = 6000
+    active_order_poll_ms: int = 100
     debug_api_logs: bool = False
     ws_optional_enabled: bool = True
-    max_ws_age_ms: int = 5000
+    max_ws_age_ms: int = 3000
     ui_theme: str = "dark"
-    guard_mode: str = "BALANCED"
+    guard_mode: str = "FAST"
     guard_enabled: bool = True
     require_ws_for_buy: bool = True
-    max_ws_age_for_buy_ms: int = 1500
-    min_spread_lifetime_ms: int = 300
-    stable_snapshots_required: int = 3
-    stable_snapshot_window_ms: int = 1000
-    max_negative_mid_delta: float = -3.0
-    max_negative_bid_delta: float = -5.0
+    max_ws_age_for_buy_ms: int = 2000
+    min_spread_lifetime_ms: int = 150
+    stable_snapshots_required: int = 1
+    stable_snapshot_window_ms: int = 500
+    max_negative_mid_delta: float = -50.0
+    max_negative_bid_delta: float = -80.0
     block_on_mid_negative: bool = True
     block_on_bid_unstable: bool = True
-    block_on_snapshots_insufficient: bool = True
-    loss_cooldown_ms: int = 2000
-    panic_cooldown_ms: int = 3000
+    block_on_snapshots_insufficient: bool = False
+    loss_cooldown_ms: int = 800
+    panic_cooldown_ms: int = 800
     balance_safety_buffer_u: float = 10.0
     block_log_throttle_ms: int = 2000
     health_log_throttle_ms: int = 2000
@@ -99,7 +99,7 @@ class SettingsData:
     dust_cleanup_threshold_qty: float = 0.0
     sell_qty_clamp_log_throttle_ms: int = 2000
     exit_recovery_log_throttle_ms: int = 2000
-    compact_logs: bool = False
+    compact_logs: bool = True
     runtime_diag_enabled: bool = True
 
 
@@ -114,6 +114,8 @@ class UBConfig:
 class SettingsStore:
     def __init__(self, path: str = "config/settings.json") -> None:
         self.path = Path(path)
+        self.last_merge_missing_added = 0
+        self.last_merge_existing_preserved = True
 
     def load(self) -> SettingsData:
         if not self.path.exists():
@@ -142,7 +144,13 @@ class SettingsStore:
         current.pop("exit_timeout_ms", None)
         current.pop("live_max_exposure_u", None)
         current.pop("arm_live", None)
-        return SettingsData(**current)
+        missing_added = sum(1 for key in known_keys if key not in payload)
+        self.last_merge_missing_added = missing_added
+        self.last_merge_existing_preserved = True
+        data = SettingsData(**current)
+        if missing_added > 0:
+            self.save(data)
+        return data
 
     def save(self, data: SettingsData) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
