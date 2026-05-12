@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from decimal import Decimal, ROUND_DOWN
 
+from app.core.price_ticks import add_ticks, spread_ticks, sub_ticks, ticks_to_price
+
 
 @dataclass
 class TradePlan:
@@ -47,18 +49,19 @@ class TradeMathEngine:
 
         d_bid = self._d(bid)
         d_ask = self._d(ask)
-        spread = d_ask - d_bid
-        entry_price = d_bid + self._d(settings.entry_offset)
-        exit_price = d_ask - self._d(settings.exit_offset)
-        tick = self._d(filters.get("tickSize", 0.0))
+        tick_size = float(filters.get("tickSize", 0.0) or 0.0)
+        spread = self._d(ticks_to_price(spread_ticks(float(d_bid), float(d_ask), tick_size), tick_size))
+        entry_price = self._d(add_ticks(float(d_bid), int(settings.entry_offset_ticks), tick_size))
+        exit_price = self._d(sub_ticks(float(d_ask), int(settings.exit_offset_ticks), tick_size))
+        tick = self._d(tick_size)
         step = self._d(filters.get("stepSize", 0.0))
         entry_price = self._round_down_to_step(entry_price, tick)
         exit_price = self._round_down_to_step(exit_price, tick)
         qty_btc = self._round_down_to_step(order_size_u / entry_price if entry_price > 0 else Decimal("0"), step)
         capture_per_btc = exit_price - entry_price
         expected_profit_u = capture_per_btc * qty_btc
-        stop_price = entry_price - self._d(settings.stop_loss)
-        stop_loss_u = self._d(settings.stop_loss) * qty_btc
+        stop_price = self._d(sub_ticks(float(entry_price), int(settings.stop_loss_ticks), tick_size))
+        stop_loss_u = self._d(ticks_to_price(int(settings.stop_loss_ticks), tick_size)) * qty_btc
         risk_reward = (expected_profit_u / stop_loss_u) if stop_loss_u > 0 else None
         required_u = entry_price * qty_btc
 
@@ -90,7 +93,7 @@ class TradeMathEngine:
             plan.reason = "Нет рыночных данных"
             return
 
-        if plan.spread < float(settings.min_spread):
+        if plan.spread < float(ticks_to_price(int(settings.min_spread_ticks), float(filters.get("tickSize", 0.0) or 0.0))):
             plan.status = "SPREAD_TOO_SMALL"
             plan.reason = "SPREAD_TOO_SMALL"
             return
@@ -100,7 +103,7 @@ class TradeMathEngine:
             plan.reason = "CAPTURE_TOO_SMALL"
             return
 
-        if plan.capture_per_btc < float(settings.target_capture):
+        if plan.capture_per_btc < float(ticks_to_price(int(settings.target_capture_ticks), float(filters.get("tickSize", 0.0) or 0.0))):
             plan.status = "CAPTURE_TOO_SMALL"
             plan.reason = "CAPTURE_TOO_SMALL"
             return
@@ -160,7 +163,7 @@ class TradeMathEngine:
             return
         if plan.capture_per_btc is None:
             return
-        if plan.capture_per_btc >= float(settings.target_capture) * 1.5:
+        if plan.capture_per_btc >= float(settings.target_capture_ticks) * 1.5:
             plan.status = "HOT"
             plan.reason = "HOT"
         elif plan.status == "READY":
