@@ -123,6 +123,10 @@ class MainWindow(QMainWindow):
         self.panic_exit_started_ms = 0
         self.panic_escalated_once = False
         self.last_panic_wait_log_ms = 0
+        self.last_panic_wait_order_id = 0
+        self.panic_hold_count = 0
+        self.exit_block_reason = "-"
+        self.sell_upsize_skip_logged = False
         self.max_hold_exit_triggered = False
         self.exit_stage = "EXIT_TP_MAKER"
         self.panic_ladder_step = 0
@@ -247,7 +251,7 @@ class MainWindow(QMainWindow):
         self.spread_box = spread
         plan, self.plan = build_kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")], compact=True)
         self.plan_box = plan
-        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Exit stage", "-"), ("SELL age", "0ms"), ("SELL reprices", "0"), ("Panic ladder", "0"), ("Taker exit", "OFF"), ("Taker reason", "-"), ("Taker qty/price", "-"), ("Last exit reason", "-"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
+        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Exit stage", "-"), ("SELL age", "0ms"), ("SELL reprices", "0"), ("Panic ladder", "0"), ("Panic age", "0ms"), ("Panic holds", "0"), ("Exit blocked", "-"), ("Taker exit", "OFF"), ("Taker reason", "-"), ("Taker qty/price", "-"), ("Last exit reason", "-"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
         self.runtime_box = runtime
         risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
@@ -467,8 +471,10 @@ class MainWindow(QMainWindow):
         self.fsm_state = "IDLE"
         self.runtime_active = False
         if self.position_qty > 0:
-            self.position_state = "EXIT_FAILED"
-            self.log("WARNING", f"[EXEC] STOP with open inventory qty={self.position_qty:.6f}")
+            self.position_state = "EXIT_BLOCKED_OPEN_INVENTORY"
+            self.exit_block_reason = "stop_open_inventory"
+            self.fsm_state = "WAIT_MANUAL"
+            self.log("WARNING", f"[EXEC] STOP_SAFE_MANUAL inventory={self.position_qty:.6f} active_order={self.active_order.get('orderId', 0)}")
         else:
             self.position_state = "FLAT"
             self._reconcile_position_state("stop")
@@ -853,6 +859,8 @@ class MainWindow(QMainWindow):
         self.taker_exit_state = "IDLE"
         self.taker_exit_order_id = 0
         self.last_taker_exit_reason = "-"
+        self.sell_upsize_skip_logged = False
+        self.exit_block_reason = "-"
         self.sell_recovery_in_progress = False
         self.sell_cancel_in_progress = False
         if reset_panic_order_id:
@@ -1230,6 +1238,10 @@ class MainWindow(QMainWindow):
             self.log("INFO", "[EXEC] SELL TIMEOUT check fast_exit")
             if safe_exit_price >= min_exit_price:
                 self.log("INFO", f"[EXEC] FAST SAFE EXIT price={safe_exit_price:.2f} entry={float(self.position_entry_avg):.2f} bid={bid_now:.2f}")
+                self.log("WARNING", f"[EXEC] FAST_SAFE_EXIT_EXECUTE price={safe_exit_price:.2f} qty={self.position_qty:.6f}")
+                self.sell_upsize_skip_logged = True
+                if self._trigger_taker_exit(now_ms, "fast_safe_exit"):
+                    return
                 candidate_price = safe_exit_price
             elif (bid_now + tick) >= float(self.position_entry_avg):
                 candidate_price = max(bid_now + tick, float(self.position_entry_avg))
@@ -1331,6 +1343,10 @@ class MainWindow(QMainWindow):
         self.runtime["SELL age"].setText(f"{active_sell_age_ms}ms")
         self.runtime["SELL reprices"].setText(str(self.sell_reprice_count))
         self.runtime["Panic ladder"].setText(str(self.panic_ladder_step))
+        panic_age_ms = max(now_ms - int(self.panic_exit_started_ms), 0) if self.panic_exit_final and self.panic_exit_started_ms else 0
+        self.runtime["Panic age"].setText(f"{panic_age_ms}ms")
+        self.runtime["Panic holds"].setText(str(self.panic_hold_count))
+        self.runtime["Exit blocked"].setText(self.exit_block_reason)
         self.runtime["Taker exit"].setText("ON" if self.settings.taker_exit_enabled else "OFF")
         self.runtime["Taker reason"].setText(self.last_taker_reason)
         self.runtime["Taker qty/price"].setText(f"{self.last_taker_qty:.6f}@{self.last_taker_price:.2f}" if self.last_taker_qty > 0 else "-")
@@ -1711,16 +1727,24 @@ class MainWindow(QMainWindow):
             if len(self.recent_mids) >= 2:
                 mid_delta = self.recent_mids[-1][1] - self.recent_mids[0][1]
             active_sell_qty = float(self.active_order.get("qty", 0.0) or 0.0)
-            if (
-                st.get("status") in {"NEW", "PARTIALLY_FILLED"}
-                and not self.panic_exit_final
-                and remaining_to_sell > (active_sell_qty + 1e-9)
-                and not self.sell_recovery_in_progress
-                and not self.sell_cancel_in_progress
-            ):
-                self.log("INFO", f"[EXEC] SELL UPSIZE old={active_sell_qty:.6f} new={remaining_to_sell:.6f}")
-                self.handle_sell_timeout_recovery(now)
-                return
+            if st.get("status") in {"NEW", "PARTIALLY_FILLED"} and remaining_to_sell > (active_sell_qty + 1e-9):
+                upsize_blocked = (
+                    self.exit_stage != "EXIT_TP_MAKER"
+                    or self.panic_exit_final
+                    or self.max_hold_exit_triggered
+                    or self.taker_exit_triggered
+                    or (now - self.exit_started_ms >= int(self.settings.sell_timeout_ms))
+                    or self.sell_recovery_in_progress
+                    or self.sell_cancel_in_progress
+                )
+                if upsize_blocked:
+                    if not self.sell_upsize_skip_logged:
+                        self.log("INFO", "[EXEC] SELL_UPSIZE_SKIPPED reason=exit_or_panic_active")
+                        self.sell_upsize_skip_logged = True
+                else:
+                    self.log("INFO", f"[EXEC] SELL UPSIZE old={active_sell_qty:.6f} new={remaining_to_sell:.6f}")
+                    self.handle_sell_timeout_recovery(now)
+                    return
             if st.get("status") == "FILLED":
                 self.log("OK", "[EXEC] EXIT_FILLED")
                 self._handle_sell_filled(st, int(self.active_order["orderId"]))
@@ -1746,10 +1770,17 @@ class MainWindow(QMainWindow):
                 if self.panic_exit_final:
                     panic_order_id = int(self.active_order.get("orderId", 0) or 0)
                     panic_interval_ms = int(getattr(self.settings, "panic_ladder_ms", 400))
-                    if now - self.last_panic_wait_log_ms >= 3000:
+                    panic_hold_max_ms = int(getattr(self.settings, "panic_hold_max_ms", 2500))
+                    panic_age_ms = max(now - int(self.panic_exit_started_ms or now), 0)
+                    if panic_order_id != self.last_panic_wait_order_id:
+                        self.last_panic_wait_order_id = panic_order_id
+                        self.last_panic_wait_log_ms = 0
+                    if now - self.last_panic_wait_log_ms >= 2000:
                         self.log("WARNING", f"[EXEC] PANIC WAIT still_open orderId={panic_order_id}")
                         self.last_panic_wait_log_ms = now
-                    if now - self.last_sell_reprice_ms < panic_interval_ms:
+                    if panic_age_ms >= panic_hold_max_ms:
+                        self.log("ERROR", f"[EXEC] PANIC_HOLD_MAX_REACHED orderId={panic_order_id} age_ms={panic_age_ms}")
+                    if now - self.last_sell_reprice_ms < panic_interval_ms and panic_age_ms < panic_hold_max_ms:
                         return
                     if self.sell_recovery_in_progress or self.sell_cancel_in_progress:
                         self.log("INFO", "[EXEC] RECOVERY WAIT panic_ladder_in_progress")
@@ -1788,11 +1819,15 @@ class MainWindow(QMainWindow):
                         self.panic_exit_order_id = int(self.active_order["orderId"])
                         self.panic_exit_price = float(new_price)
                         self.panic_exit_started_ms = now
+                        self.panic_hold_count += 1
                         self.exit_started_ms = now
                         self.last_sell_reprice_ms = now
                         self.log("WARNING", f"[EXEC] PANIC ESCALATE placed orderId={self.panic_exit_order_id} step={self.panic_ladder_step}")
                     except Exception as exc:
                         self.log("ERROR", f"[EXEC] EXIT_FAIL reason=panic_replace_failed place={exc}")
+                        self.exit_block_reason = f"panic_replace_failed:{exc}"
+                        self.position_state = "EXIT_BLOCKED"
+                        self.fsm_state = "WAIT_MANUAL"
                     finally:
                         self.sell_cancel_in_progress = False
                         self.sell_recovery_in_progress = False
