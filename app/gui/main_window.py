@@ -190,6 +190,7 @@ class MainWindow(QMainWindow):
         self.stream_closed_cycles = 0
         self.stream_realized_pnl = 0.0
         self.stream_last_pnl = 0.0
+        self.stream_winrate = 0.0
         self.canceled_buys = 0
         self.sell_timeouts = 0
         self.file_logs = FileLogManager()
@@ -242,6 +243,7 @@ class MainWindow(QMainWindow):
         self.entry_guard_reason = "boot"
         self.entry_guard_last_block_log_ms = 0
         self.last_stream_global_sell_skip_log_ms_by_reason: dict[str, int] = {}
+        self.last_stream_stats_ui_log_ms = 0
         self.entry_guard_stable_count = 0
         self.last_plan_recompute_ms = 0
         self._cached_plan = None
@@ -1410,11 +1412,12 @@ class MainWindow(QMainWindow):
                     self.stream_realized_pnl += pnl
                     self.stream_last_pnl = pnl
                     eps = self._inventory_epsilon_qty()
+                    self.stream_closed_cycles += 1
                     if pnl > eps:
                         self.stream_wins += 1
                     elif pnl < -eps:
                         self.stream_losses += 1
-                    self.stream_closed_cycles = self.stream_wins + self.stream_losses
+                    self.stream_winrate = (self.stream_wins / self.stream_closed_cycles * 100.0) if self.stream_closed_cycles else 0.0
                 self.inventory_chunks.pop(idx)
                 self._recalc_entry_avg_from_chunks()
                 self.grid_runtime.recycle_level(level_id)
@@ -2961,7 +2964,15 @@ class MainWindow(QMainWindow):
         losses = self.stream_losses if use_stream_stats else self.losses
         realized_pnl = self.stream_realized_pnl if use_stream_stats else self.session_realized_pnl
         last_pnl = self.stream_last_pnl if use_stream_stats else self.last_pnl
-        winrate = (wins / closed_cycles * 100.0) if closed_cycles else 0.0
+        if use_stream_stats:
+            self.stream_winrate = (self.stream_wins / self.stream_closed_cycles * 100.0) if self.stream_closed_cycles else 0.0
+            winrate = self.stream_winrate
+        else:
+            winrate = (wins / closed_cycles * 100.0) if closed_cycles else 0.0
+        if use_stream_stats and (now_ms - self.last_stream_stats_ui_log_ms >= 5000):
+            self.last_stream_stats_ui_log_ms = now_ms
+            self.log("INFO", f"[EXEC] STREAM_STATS_UI cycles={closed_cycles} wins={wins} losses={losses} pnl={realized_pnl:+.6f} winrate={winrate:.2f}%")
+
         active_order_text = "none"
         if self.active_order.get("orderId"):
             active_order_text = f"{self.active_order.get('side','-')}#{self.active_order.get('orderId')}"
