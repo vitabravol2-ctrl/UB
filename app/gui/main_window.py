@@ -656,6 +656,32 @@ class MainWindow(QMainWindow):
         step = float(self.filters.get("stepSize", 0.0) or 0.0)
         return max(step * 1.5, 0.000001)
 
+    def _min_sellable_qty(self) -> float:
+        epsilon = self._inventory_epsilon_qty()
+        step = float(self.filters.get("stepSize", 0.0) or 0.0)
+        min_qty = float(self.filters.get("minQty", 0.0) or 0.0)
+        min_notional = float(self.filters.get("minNotional", 0.0) or 0.0)
+        filters_loaded = bool(self.filters.get("loaded"))
+        bid_now = float(self.state.snapshot.bid or 0.0)
+        ask_now = float(self.state.snapshot.ask or 0.0)
+        current_price = bid_now if bid_now > 0 else ask_now
+
+        reason = ""
+        if not filters_loaded:
+            reason = "filters_not_loaded"
+        elif current_price <= 0:
+            reason = "price_not_available"
+
+        if reason:
+            now = int(time.time() * 1000)
+            if now - int(getattr(self, "last_min_sellable_fallback_log_ms", 0) or 0) >= 3000:
+                self.log("WARNING", f"[EXEC] MIN_SELLABLE_FALLBACK reason={reason}")
+                self.last_min_sellable_fallback_log_ms = now
+            return max(epsilon, step, min_qty)
+
+        min_qty_by_notional = (min_notional / current_price) if min_notional > 0 else 0.0
+        return max(min_qty, min_qty_by_notional, step, epsilon)
+
     def _reconcile_flat_balance(self) -> bool:
         epsilon = self._inventory_epsilon_qty()
         btc_free = float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0)
@@ -947,14 +973,15 @@ class MainWindow(QMainWindow):
             return True
         self.refresh_account_data()
         sell_qty = self._safe_sell_qty(self._sync_sell_target_qty())
-        if sell_qty <= self._inventory_epsilon_qty() or sell_qty < self._min_sellable_qty():
+        min_sellable_qty = self._min_sellable_qty()
+        if sell_qty <= self._inventory_epsilon_qty() or sell_qty < min_sellable_qty:
             self.sync_active_order(force=True)
             open_sell = self._find_open_sell_order()
             if open_sell:
                 self._adopt_open_sell_order(open_sell)
                 return False
-            self.log("WARNING", f"[EXEC] TAKER_EXIT_FAILED reason=qty_not_sellable qty={sell_qty:.6f}")
-            self.last_taker_exit_reason = "qty_not_sellable"
+            self.log("WARNING", f"[EXEC] TAKER_EXIT_FAILED reason=qty_below_min_sellable qty={sell_qty:.6f} min={min_sellable_qty:.6f}")
+            self.last_taker_exit_reason = "qty_below_min_sellable"
             return False
         bid_now = float(self.state.snapshot.bid or 0.0)
         tick = self._tick_size()
@@ -1219,8 +1246,8 @@ class MainWindow(QMainWindow):
                 candidate_price = max(bid_now + tick, ask_now - aggressive)
             new_price = self._cap_soft_sell_reprice(old_price, candidate_price)
             sell_qty = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
-            min_notional = float(self.filters.get("minNotional", 0.0) or 0.0)
-            if sell_qty <= self._inventory_epsilon_qty() or (bid_now > 0 and (sell_qty * bid_now) < min_notional):
+            min_sellable_qty = self._min_sellable_qty()
+            if sell_qty <= self._inventory_epsilon_qty() or sell_qty < min_sellable_qty:
                 self.log("INFO", f"[EXEC] SKIP MICRO SELL epsilon={self._inventory_epsilon_qty():.6f}")
                 self._cleanup_inventory_if_drained()
                 self._finalize_cycle_if_flat()
@@ -1568,10 +1595,8 @@ class MainWindow(QMainWindow):
                 else:
                     self.log("WARNING", "[EXEC] SELL BLOCK locked_balance_no_order")
                 return
-            min_notional = float(self.filters.get("minNotional", 0.0) or 0.0)
-            min_sellable_qty = max(epsilon_qty, min_qty)
-            blocked_by_notional = bid_now > 0 and (sell_qty * bid_now) < min_notional
-            blocked_by_dust = sell_qty <= min_sellable_qty or blocked_by_notional
+            min_sellable_qty = self._min_sellable_qty()
+            blocked_by_dust = sell_qty <= min_sellable_qty
             if inventory_qty > epsilon_qty and blocked_by_dust:
                 if btc_locked > epsilon_qty and btc_free <= min_sellable_qty:
                     self.sync_active_order(force=True)
@@ -1591,7 +1616,7 @@ class MainWindow(QMainWindow):
                     self.position_state = "EXIT_BLOCKED_NO_SELLABLE_QTY"
                     self.fsm_state = "WAIT_MANUAL"
                     return
-            if sell_qty <= epsilon_qty or blocked_by_notional:
+            if sell_qty <= epsilon_qty or sell_qty < min_sellable_qty:
                 if len(self.inventory_chunks) > 0 and btc_free <= epsilon_qty and btc_locked > epsilon_qty:
                     self.position_state = "WAIT_EXCHANGE_UNLOCK"
                     self.fsm_state = "WAIT_SELL_ORDER_STATUS"
