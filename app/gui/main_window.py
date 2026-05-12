@@ -225,8 +225,11 @@ class MainWindow(QMainWindow):
         self.force_reprice_sell_next = False
         self.last_sell_far_cancel_price = 0.0
         self.sell_hold_recovery_started_ms = 0
+        self.floor_hold_timeout_triggered = False
+        self._floor_hold_disabled_logged = False
         self.last_sell_recovery_attempt_ms = 0
         self.last_watchdog_sync_ms_by_order: dict[int, int] = {}
+        self.protected_sell_ignore_last_log_ms_by_order: dict[int, int] = {}
         self.place_sell_entered_ms = 0
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
@@ -592,7 +595,7 @@ class MainWindow(QMainWindow):
             "state": str(sell_order.get("status", "NEW")),
             "type": str(sell_order.get("type", "LIMIT")),
         }
-        self.active_order["active_sell_meta"] = {"is_floor_protected": self._is_floor_protected_sell(price), "is_hold_recovery": False}
+        self.active_order["active_sell_meta"] = self._update_sell_protection_meta(price, float(self.state.snapshot.ask or 0.0), "adopt_open_sell")
         self.position_sell_order_id = order_id
         self.position_state = "SELL_PENDING"
         self.fsm_state = "WAIT_SELL_FILL"
@@ -970,6 +973,11 @@ class MainWindow(QMainWindow):
         return float(self.position_entry_avg) + (tick * min_profit_ticks)
 
     def _apply_sell_floor(self, candidate_price: float, reason: str) -> float:
+        if self.floor_hold_timeout_triggered:
+            if not getattr(self, "_floor_hold_disabled_logged", False):
+                self.log("WARNING", "[EXEC] FLOOR_HOLD_DISABLED_AFTER_TIMEOUT")
+                self._floor_hold_disabled_logged = True
+            return candidate_price
         floor_price = self._min_allowed_sell_price()
         if candidate_price < floor_price:
             self.log("WARNING", f"[EXEC] SELL_FLOOR_BLOCKED price={candidate_price:.2f} floor={floor_price:.2f} entry={float(self.position_entry_avg):.2f} reason=below_min_profit source={reason}")
@@ -986,10 +994,12 @@ class MainWindow(QMainWindow):
         floor_price = self._min_allowed_sell_price()
         is_floor_protected = self._is_floor_protected_sell(sell_price)
         dist_ticks = int((sell_price - ask_now) / tick) if tick > 0 and ask_now > 0 and sell_price > 0 else 0
-        should_hold = bool(getattr(self.settings, "sell_floor_hold_enabled", True)) and is_floor_protected and (not self.panic_exit_final) and dist_ticks > int(getattr(self.settings, "far_sell_ticks", 10))
+        should_hold = bool(getattr(self.settings, "sell_floor_hold_enabled", True)) and is_floor_protected and (not self.panic_exit_final)
         if should_hold:
-            self.sell_hold_recovery_started_ms = int(time.time() * 1000)
-            self.log("WARNING", f"[EXEC] SELL_HOLD_RECOVERY entry={float(self.position_entry_avg):.2f} floor={floor_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
+            if not self.sell_hold_recovery_started_ms:
+                self.sell_hold_recovery_started_ms = int(time.time() * 1000)
+                order_id = int(self.active_order.get("orderId", 0) or 0) if isinstance(self.active_order, dict) else 0
+                self.log("WARNING", f"[EXEC] SELL_HOLD_RECOVERY_START orderId={order_id} entry={float(self.position_entry_avg):.2f} floor={floor_price:.2f} ask={ask_now:.2f}")
         else:
             self.sell_hold_recovery_started_ms = 0
         self.exit_blocked_no_sellable_count = 0
@@ -998,6 +1008,14 @@ class MainWindow(QMainWindow):
     def _is_protected_sell_order(self, order_price: float) -> bool:
         meta = self.active_order.get("active_sell_meta", {}) if isinstance(self.active_order, dict) else {}
         return bool(meta.get("is_floor_protected")) or bool(meta.get("is_hold_recovery")) or self._is_floor_protected_sell(order_price)
+
+    def _log_protected_sell_ignore(self, order_id: int, dist_ticks: int) -> None:
+        now = int(time.time() * 1000)
+        throttle_ms = int(getattr(self.settings, "protected_sell_ignore_log_throttle_ms", 5000))
+        last_log_ms = int(self.protected_sell_ignore_last_log_ms_by_order.get(order_id, 0) or 0)
+        if now - last_log_ms >= max(throttle_ms, 0):
+            self.log("INFO", f"[EXEC] SELL_WATCHDOG_FAR_IGNORE orderId={order_id} reason=protected_sell dist_ticks={dist_ticks}")
+            self.protected_sell_ignore_last_log_ms_by_order[order_id] = now
 
     def _cap_soft_sell_reprice(self, old_price: float, candidate_price: float) -> float:
         tick = self._tick_size()
@@ -1045,6 +1063,9 @@ class MainWindow(QMainWindow):
         self.sell_recovery_in_progress = False
         self.sell_cancel_in_progress = False
         self.sell_hold_recovery_started_ms = 0
+        self.floor_hold_timeout_triggered = False
+        self._floor_hold_disabled_logged = False
+        self.protected_sell_ignore_last_log_ms_by_order = {}
         self.exit_blocked_no_sellable_count = 0
         if reset_panic_order_id:
             self.panic_exit_order_id = 0
@@ -1755,7 +1776,6 @@ class MainWindow(QMainWindow):
                 self._handle_buy_fill_update(final)
                 if final_status == "FILLED":
                     self.buy_filled_qty = executed_qty
-        self.exit_blocked_no_sellable_count = 0
                     self.log("OK", "[EXEC] BUY FILLED during cancel")
                     self.log("OK", f"[EXEC] BUY FILLED id={int(self.active_order['orderId'])}")
                     self.fsm_state = "PLACE_SELL"
@@ -1850,7 +1870,7 @@ class MainWindow(QMainWindow):
                 if is_far:
                     order_id = int(open_sell.get("orderId", 0) or 0)
                     if self._is_protected_sell_order(open_sell_price):
-                        self.log("INFO", f"[EXEC] SELL_WATCHDOG_FAR_IGNORE orderId={order_id} reason=protected_sell dist_ticks={dist_ticks}")
+                        self._log_protected_sell_ignore(order_id, dist_ticks)
                         self._adopt_open_sell_order(open_sell)
                         return
                     self.log("WARNING", f"[EXEC] SELL_WATCHDOG_FAR_CANCEL orderId={order_id} price={open_sell_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
@@ -2053,17 +2073,29 @@ class MainWindow(QMainWindow):
                     ask_now = float(self.state.snapshot.ask or 0.0)
                     order_price = float(self.active_order.get("price", 0.0) or 0.0)
                     meta = self.active_order.get("active_sell_meta", {}) if isinstance(self.active_order, dict) else {}
-                    if bool(meta.get("is_hold_recovery")) and not self.panic_exit_final:
+                    if bool(meta.get("is_floor_protected")) and bool(meta.get("is_hold_recovery")) and not self.panic_exit_final:
                         hold_max_ms = int(getattr(self.settings, "sell_floor_hold_max_ms", 30000))
-                        hold_age_ms = max(now - int(self.sell_hold_recovery_started_ms or self.active_order.get("create_ms", now)), 0)
+                        hold_started_ms = int(self.sell_hold_recovery_started_ms or self.active_order.get("create_ms", now))
+                        hold_age_ms = max(now - hold_started_ms, 0)
                         if hold_age_ms >= hold_max_ms:
-                            self.log("ERROR", f"[EXEC] SELL_HOLD_TIMEOUT_PANIC orderId={order_id} age_ms={hold_age_ms}")
+                            self.floor_hold_timeout_triggered = True
+                            self.log("ERROR", f"[EXEC] SELL_HOLD_TIMEOUT_PANIC orderId={order_id} hold_age={hold_age_ms} max={hold_max_ms}")
+                            self.log("WARNING", "[EXEC] FLOOR_HOLD_DISABLED_AFTER_TIMEOUT")
+                            self._floor_hold_disabled_logged = True
+                            self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                            final = self.account.get_order(CONFIG.binance_symbol, order_id)
+                            final_status = str(final.get("status", "UNKNOWN"))
+                            self.log("INFO", f"[EXEC] SELL_HOLD_TIMEOUT_FINAL_STATUS status={final_status}")
+                            if final_status == "FILLED":
+                                self._handle_sell_filled(final, order_id)
+                                return
+                            self.active_order = {}
                             self.trigger_panic_exit("sell_hold_timeout")
                             return
                     is_far, dist_ticks = self._is_far_sell(order_price, ask_now)
                     if is_far:
                         if self._is_protected_sell_order(order_price):
-                            self.log("INFO", f"[EXEC] SELL_WATCHDOG_FAR_IGNORE orderId={order_id} reason=protected_sell dist_ticks={dist_ticks}")
+                            self._log_protected_sell_ignore(order_id, dist_ticks)
                             return
                         self.log("WARNING", f"[EXEC] SELL_WATCHDOG_FAR_CANCEL orderId={order_id} price={order_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
                         self.account.cancel_order(CONFIG.binance_symbol, order_id)
@@ -2078,7 +2110,7 @@ class MainWindow(QMainWindow):
                         return
             prev_sell_reported_qty = self.sell_reported_qty
             self._handle_sell_fill_update(st)
-        self.exit_blocked_no_sellable_count = 0
+            self.exit_blocked_no_sellable_count = 0
             sell_delta = max(self.sell_reported_qty - prev_sell_reported_qty, 0.0)
             if sell_delta > 0:
                 self.log("OK", f"[EXEC] SELL PARTIAL delta={sell_delta:.6f}")
