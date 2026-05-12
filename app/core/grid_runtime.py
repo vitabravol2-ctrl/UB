@@ -93,8 +93,6 @@ class GridRuntime:
 
         available_u = float(free_u if free_u is not None else settings.max_exposure_u)
         grid_budget_u = min(float(settings.max_exposure_u), float(settings.max_live_exposure_u), available_u)
-        if float(getattr(settings, "micro_grid_budget_u", 0.0) or 0.0) > 0:
-            self._log("GRID_BUDGET_DEPRECATED_USING_MAX_EXPOSURE")
         budget_per_level = grid_budget_u / levels_count
         self._log(f"GRID_BUDGET_SOURCE source=max_exposure_u budget={grid_budget_u:.2f}")
         for idx in range(1, levels_count + 1):
