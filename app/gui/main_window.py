@@ -71,6 +71,7 @@ class InventoryChunk:
     stream_id: int | None = None
     entry_order_id: int | None = None
     sell_order_id: int | None = None
+    sell_placed_ms: int = 0
     state: str = "OPEN"
 
 
@@ -1353,6 +1354,7 @@ class MainWindow(QMainWindow):
                 chunk.entry_order_id = order_id
                 chunk.sell_order_id = sell_order_id
                 chunk.state = "STREAM_SELL_PLACED"
+                chunk.sell_placed_ms = now_ms
                 self.grid_sell_order_meta[sell_order_id] = (level.level_id, id(chunk))
                 self.log("INFO", f"[EXEC] STREAM_SELL_PLACED stream_id={level.level_id} chunk_id={id(chunk)} order_id={sell_order_id} price={sell_price:.2f} qty={fill_qty:.6f}")
             elif status in {"CANCELED", "EXPIRED", "REJECTED"}:
@@ -1368,6 +1370,59 @@ class MainWindow(QMainWindow):
                 continue
             status = str(st.get("status", "NEW"))
             self.log("INFO", f"[EXEC] STREAM_SELL_STATUS stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
+            if status == "NEW":
+                timeout_handled = False
+                timeout_ms = max(int(getattr(self.settings, "conveyor_stream_sell_timeout_ms", 5000)), 1)
+                for chunk in self.inventory_chunks:
+                    if id(chunk) != chunk_id:
+                        continue
+                    placed_ms = int(chunk.sell_placed_ms or chunk.created_ms or now_ms)
+                    age_ms = max(now_ms - placed_ms, 0)
+                    if age_ms < timeout_ms:
+                        break
+                    self.log("WARNING", f"[EXEC] STREAM_SELL_TIMEOUT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} age_ms={age_ms} timeout_ms={timeout_ms}")
+                    try:
+                        self.account.cancel_order(CONFIG.binance_symbol, int(sell_order_id))
+                        self.log("INFO", f"[EXEC] STREAM_SELL_CANCEL_OLD stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
+                    except (BinanceAPIError, RequestException, Exception) as exc:
+                        self._mark_stream_order_api_error("SELL", level_id, exc)
+                        timeout_handled = True
+                        break
+                    best_bid = float(self.state.snapshot.bid or 0.0)
+                    best_ask = float(self.state.snapshot.ask or 0.0)
+                    stop_loss_ticks = max(int(getattr(self.settings, "stop_loss_ticks", 0)), 0)
+                    min_profit_ticks = max(int(getattr(self.settings, "conveyor_stream_min_profit_ticks", 0)), 0)
+                    stop_loss_price = self._round_price_down(max(chunk.entry_price - tick * stop_loss_ticks, tick))
+                    min_profit_price = self._round_price_up(chunk.entry_price + tick * min_profit_ticks)
+                    can_stop = stop_loss_ticks > 0 and best_bid > 0 and best_bid <= stop_loss_price
+                    if can_stop:
+                        new_price = self._round_price_down(max(best_bid, tick))
+                        self.log("WARNING", f"[EXEC] STREAM_STOP_LOSS_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} stop_price={new_price:.2f}")
+                    else:
+                        target_price = min_profit_price
+                        if best_ask > 0:
+                            target_price = max(target_price, max(best_ask - tick, tick))
+                        new_price = self._round_price_up(target_price)
+                        self.log("INFO", f"[EXEC] STREAM_SELL_REPRICE_PLACED stream_id={level_id} chunk_id={chunk_id} prev_order_id={sell_order_id} price={new_price:.2f} qty={chunk.qty:.6f}")
+                    try:
+                        repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(chunk.qty))
+                    except (BinanceAPIError, RequestException, Exception) as exc:
+                        chunk.state = "STREAM_WAIT_SELL"
+                        self._mark_stream_order_api_error("SELL", level_id, exc)
+                        timeout_handled = True
+                        break
+                    new_id = int(repl.get("orderId", 0) or 0)
+                    if new_id > 0:
+                        chunk.sell_order_id = new_id
+                        chunk.sell_placed_ms = now_ms
+                        chunk.state = "STREAM_SELL_PLACED"
+                        self.grid_sell_order_meta[new_id] = (level_id, chunk_id)
+                    self.grid_sell_order_meta.pop(sell_order_id, None)
+                    timeout_handled = True
+                    break
+                if timeout_handled:
+                    continue
+
             if status in {"CANCELED", "EXPIRED", "REJECTED"}:
                 self.log("WARNING", f"[EXEC] STREAM_SELL_RETRY stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
                 best_ask = float(self.state.snapshot.ask or 0.0)
@@ -1391,6 +1446,7 @@ class MainWindow(QMainWindow):
                     if retry_order_id > 0:
                         chunk.sell_order_id = retry_order_id
                         chunk.state = "STREAM_SELL_PLACED"
+                        chunk.sell_placed_ms = now_ms
                         self.grid_sell_order_meta[retry_order_id] = (level_id, chunk_id)
                         self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={retry_order_id} price={retry_price:.2f} qty={chunk.qty:.6f}")
                     break
