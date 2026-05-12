@@ -80,23 +80,16 @@ class GridRuntime:
     def configure_micro_grid(self, bid: float, tick_size: float, step_size: float, min_qty: float, min_notional: float, settings, *, free_u: float | None = None) -> list[GridLevel]:
         self.levels = []
         streams_enabled = bool(getattr(settings, "conveyor_streams_enabled", False))
-        if not settings.micro_grid_enabled and not streams_enabled:
+        if not streams_enabled:
             self._log("GRID_LEVEL_DISABLED")
             return self.levels
-        if streams_enabled:
-            levels_count = max(int(getattr(settings, "conveyor_stream_count", 20)), 0)
-            total_range_ticks = max(int(getattr(settings, "conveyor_stream_range_ticks", 200)), 0)
-            step_ticks = int(total_range_ticks / levels_count) if levels_count > 0 else 0
-            if levels_count <= 0 or step_ticks <= 0:
-                self._log("STREAM_SKIP reason=INVALID_STREAMS")
-                return self.levels
-            self._log(f"STREAMS_ENABLED count={levels_count} range_ticks={total_range_ticks} step_ticks={step_ticks}")
-        else:
-            levels_count = int(settings.micro_grid_size_ticks / settings.micro_grid_step_ticks)
-            step_ticks = int(settings.micro_grid_step_ticks)
-            if levels_count <= 0:
-                self._log("GRID_LEVEL_SKIP reason=INVALID_LEVELS")
-                return self.levels
+        levels_count = max(int(getattr(settings, "conveyor_stream_count", 20)), 0)
+        total_range_ticks = max(int(getattr(settings, "conveyor_stream_range_ticks", 200)), 0)
+        step_ticks = int(total_range_ticks / levels_count) if levels_count > 0 else 0
+        if levels_count <= 0 or step_ticks <= 0:
+            self._log("STREAM_SKIP reason=INVALID_STREAMS")
+            return self.levels
+        self._log(f"STREAMS_ENABLED count={levels_count} range_ticks={total_range_ticks} step_ticks={step_ticks}")
 
         available_u = float(free_u if free_u is not None else settings.max_exposure_u)
         grid_budget_u = min(float(settings.max_exposure_u), float(settings.max_live_exposure_u), available_u)
@@ -113,8 +106,7 @@ class GridRuntime:
                 continue
             level = GridLevel(level_id=idx, target_buy_price=price, budget_u=budget_per_level, qty=qty)
             self.levels.append(level)
-            if streams_enabled:
-                self._log(f"STREAM_CREATE stream_id={idx} buy_price={price:.8f} budget={budget_per_level:.2f} qty={qty:.8f}")
+            self._log(f"STREAM_CREATE stream_id={idx} buy_price={price:.8f} budget={budget_per_level:.2f} qty={qty:.8f}")
         self._log(f"STREAM_CREATE_DONE count={len(self.levels)} budget={grid_budget_u:.2f} step_ticks={step_ticks}")
         return self.levels
 

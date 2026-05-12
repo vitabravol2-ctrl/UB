@@ -124,6 +124,13 @@ class SettingsData:
     conveyor_streams_enabled: bool = False
     conveyor_stream_count: int = 20
     conveyor_stream_range_ticks: int = 200
+    conveyor_stream_max_active_buys: int = 8
+    conveyor_stream_place_batch_size: int = 3
+    conveyor_stream_place_interval_ms: int = 500
+    conveyor_stream_max_inventory_u: float = 1000.0
+    conveyor_stream_pause_buy_inventory_u: float = 800.0
+    conveyor_stream_sell_first: bool = True
+    # legacy compatibility (hidden in GUI)
     micro_grid_max_active_buys: int = 8
     micro_grid_place_batch_size: int = 3
     micro_grid_place_interval_ms: int = 500
@@ -160,6 +167,17 @@ class SettingsStore:
             payload["legacy_qty_btc"] = legacy_lot if legacy_lot < 1 else 0.0
         if "live_max_exposure_u" in payload and "max_live_exposure_u" not in payload:
             payload["max_live_exposure_u"] = float(payload["live_max_exposure_u"])
+        stream_legacy_map = {
+            "micro_grid_max_active_buys": "conveyor_stream_max_active_buys",
+            "micro_grid_place_batch_size": "conveyor_stream_place_batch_size",
+            "micro_grid_place_interval_ms": "conveyor_stream_place_interval_ms",
+            "micro_grid_max_inventory_u": "conveyor_stream_max_inventory_u",
+            "micro_grid_pause_buy_if_inventory_u_above": "conveyor_stream_pause_buy_inventory_u",
+            "micro_grid_sell_first": "conveyor_stream_sell_first",
+        }
+        for old_key, new_key in stream_legacy_map.items():
+            if new_key not in payload and old_key in payload:
+                payload[new_key] = payload[old_key]
         for key, value in payload.items():
             if key in known_keys:
                 current[key] = value
@@ -214,7 +232,7 @@ class SettingsStore:
     def export_settings_json(self, export_path: str) -> None:
         data = asdict(self.load())
         safe = self._sanitize_payload(data, include_secrets=False)
-        safe["settings_schema_version"] = "0.7.16"
+        safe["settings_schema_version"] = "0.8.8-streams-clean"
         Path(export_path).write_text(json.dumps(safe, indent=2), encoding="utf-8")
 
     def import_settings_json(self, import_path: str) -> SettingsData:
