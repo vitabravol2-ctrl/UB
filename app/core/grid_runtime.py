@@ -1,10 +1,24 @@
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass, field
+from decimal import Decimal, ROUND_DOWN
 from typing import Callable
 
 from app.core.grid_order_registry import GridOrderRegistry
 from app.core.grid_risk_guard import GridRiskGuard
+
+
+@dataclass
+class GridLevel:
+    level_id: int
+    target_buy_price: float
+    budget_u: float
+    qty: float
+    state: str = "WAIT_BUY"
+    active_buy_order_id: int | None = None
+    linked_inventory_chunk_ids: list[str] = field(default_factory=list)
+    last_fill_ts: int = 0
 
 
 @dataclass
@@ -17,6 +31,7 @@ class GridRuntime:
     registry: GridOrderRegistry = field(default_factory=GridOrderRegistry)
     risk: GridRiskGuard = field(default_factory=GridRiskGuard)
     log_callback: Callable[[str], None] | None = None
+    levels: list[GridLevel] = field(default_factory=list)
 
     def _log(self, message: str) -> None:
         if self.log_callback:
@@ -51,6 +66,76 @@ class GridRuntime:
 
     def can_place_level(self, level_id: int, side: str) -> bool:
         return not self.registry.has_active_level_order(level_id, side)
+
+    @staticmethod
+    def _round_down(value: float, step: float) -> float:
+        if step <= 0:
+            return value
+        dec_value = Decimal(str(value))
+        dec_step = Decimal(str(step))
+        return float((dec_value / dec_step).to_integral_value(rounding=ROUND_DOWN) * dec_step)
+
+    def configure_micro_grid(self, bid: float, tick_size: float, step_size: float, min_qty: float, min_notional: float, settings) -> list[GridLevel]:
+        self.levels = []
+        if not settings.micro_grid_enabled:
+            self._log("GRID_LEVEL_DISABLED")
+            return self.levels
+        levels_count = int(settings.micro_grid_size_ticks / settings.micro_grid_step_ticks)
+        if levels_count <= 0:
+            self._log("GRID_LEVEL_SKIP reason=INVALID_LEVELS")
+            return self.levels
+        budget_per_level = settings.micro_grid_budget_u / levels_count
+        self._log(f"GRID_BUDGET_ALLOC levels={levels_count} budget={settings.micro_grid_budget_u:.2f} per_level={budget_per_level:.2f}")
+        for idx in range(1, levels_count + 1):
+            price = bid - (settings.micro_grid_step_ticks * idx * tick_size)
+            price = self._round_down(price, tick_size)
+            qty = self._round_down((budget_per_level / price) if price > 0 else 0.0, step_size)
+            notional = qty * price
+            if qty < min_qty or notional < min_notional:
+                self._log(f"GRID_LEVEL_SKIP level_id={idx} price={price:.8f}")
+                continue
+            level = GridLevel(level_id=idx, target_buy_price=price, budget_u=budget_per_level, qty=qty)
+            self.levels.append(level)
+            self._log(f"GRID_LEVEL_CREATE level_id={level.level_id} buy={level.target_buy_price:.8f} qty={level.qty:.8f}")
+        return self.levels
+
+    def mark_buy_placed(self, level_id: int, order_id: int) -> None:
+        level = next((x for x in self.levels if x.level_id == level_id), None)
+        if not level:
+            return
+        level.active_buy_order_id = order_id
+        self._log(f"GRID_BUY_PLACED level_id={level_id} order_id={order_id}")
+
+    def mark_buy_filled(self, level_id: int) -> None:
+        level = next((x for x in self.levels if x.level_id == level_id), None)
+        if not level:
+            return
+        level.state = "BUY_FILLED"
+        level.last_fill_ts = int(time.time() * 1000)
+        self._log(f"GRID_BUY_FILLED level_id={level_id}")
+
+    def recycle_level(self, level_id: int) -> None:
+        level = next((x for x in self.levels if x.level_id == level_id), None)
+        if not level:
+            return
+        level.state = "WAIT_BUY"
+        level.active_buy_order_id = None
+        level.linked_inventory_chunk_ids.clear()
+        self._log(f"GRID_LEVEL_RECYCLED level_id={level_id}")
+
+    def grid_telemetry(self) -> dict[str, float | int]:
+        active = len(self.levels)
+        open_buys = sum(1 for lvl in self.levels if lvl.state == "WAIT_BUY" and lvl.active_buy_order_id is not None)
+        filled = sum(1 for lvl in self.levels if lvl.state == "BUY_FILLED")
+        used = sum(lvl.budget_u for lvl in self.levels if lvl.state == "BUY_FILLED")
+        total = sum(lvl.budget_u for lvl in self.levels)
+        return {
+            "GRID LEVELS ACTIVE": active,
+            "GRID OPEN BUYS": open_buys,
+            "GRID FILLED LEVELS": filled,
+            "GRID BUDGET USED": used,
+            "GRID BUDGET FREE": max(total - used, 0.0),
+        }
 
     def validate_inputs(self, levels=None, market=None, balances=None, filters=None) -> tuple[str, str]:
         if not levels:
