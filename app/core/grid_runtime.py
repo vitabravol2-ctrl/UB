@@ -77,7 +77,7 @@ class GridRuntime:
         dec_step = Decimal(str(step))
         return float((dec_value / dec_step).to_integral_value(rounding=ROUND_DOWN) * dec_step)
 
-    def configure_micro_grid(self, bid: float, tick_size: float, step_size: float, min_qty: float, min_notional: float, settings) -> list[GridLevel]:
+    def configure_micro_grid(self, bid: float, tick_size: float, step_size: float, min_qty: float, min_notional: float, settings, *, free_u: float | None = None) -> list[GridLevel]:
         self.levels = []
         if not settings.micro_grid_enabled:
             self._log("GRID_LEVEL_DISABLED")
@@ -86,9 +86,14 @@ class GridRuntime:
         if levels_count <= 0:
             self._log("GRID_LEVEL_SKIP reason=INVALID_LEVELS")
             return self.levels
-        budget_per_level = settings.micro_grid_budget_u / levels_count
-        self._log(f"GRID_PARALLEL_START levels={levels_count} budget={settings.micro_grid_budget_u:.2f}")
-        self._log(f"GRID_BUDGET_ALLOC levels={levels_count} budget={settings.micro_grid_budget_u:.2f} per_level={budget_per_level:.2f}")
+        available_u = float(free_u if free_u is not None else settings.max_exposure_u)
+        grid_budget_u = min(float(settings.max_exposure_u), float(settings.max_live_exposure_u), available_u)
+        if float(getattr(settings, "micro_grid_budget_u", 0.0) or 0.0) > 0:
+            self._log("GRID_BUDGET_DEPRECATED_USING_MAX_EXPOSURE")
+        budget_per_level = grid_budget_u / levels_count
+        self._log(f"GRID_BUDGET_SOURCE source=max_exposure_u budget={grid_budget_u:.2f}")
+        self._log(f"GRID_PARALLEL_START levels={levels_count} budget={grid_budget_u:.2f}")
+        self._log(f"GRID_BUDGET_ALLOC levels={levels_count} budget={grid_budget_u:.2f} per_level={budget_per_level:.2f}")
         for idx in range(1, levels_count + 1):
             price = sub_ticks(bid, settings.micro_grid_step_ticks * idx, tick_size)
             qty = self._round_down((budget_per_level / price) if price > 0 else 0.0, step_size)
@@ -99,7 +104,7 @@ class GridRuntime:
             level = GridLevel(level_id=idx, target_buy_price=price, budget_u=budget_per_level, qty=qty)
             self.levels.append(level)
         self._log(
-            f"GRID_LEVELS_CREATED count={len(self.levels)} budget={settings.micro_grid_budget_u:.2f} "
+            f"GRID_LEVELS_CREATED count={len(self.levels)} budget={grid_budget_u:.2f} "
             f"step={settings.micro_grid_step_ticks} size={settings.micro_grid_size_ticks}"
         )
         return self.levels
