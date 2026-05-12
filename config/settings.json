@@ -31,6 +31,7 @@
   "far_sell_ticks": 30,
   "sell_floor_hold_enabled": true,
   "sell_floor_hold_max_ms": 30000,
+  "protected_sell_ignore_log_throttle_ms": 5000,
   "panic_far_sell_multiplier": 5,
   "sell_reprice_cooldown_ms": 120,
   "place_sell_recovery_cooldown_ms": 2500,
