@@ -127,6 +127,10 @@ class MainWindow(QMainWindow):
         self.exit_stage = "EXIT_TP_MAKER"
         self.panic_ladder_step = 0
         self.last_exit_reason = "-"
+        self.taker_exit_state = "IDLE"
+        self.last_taker_reason = "-"
+        self.last_taker_qty = 0.0
+        self.last_taker_price = 0.0
         self.entry_exec_state = "ENTRY_WAITING"
         self.entry_reprice_count = 0
         self.last_entry_reprice_ms = 0
@@ -240,7 +244,7 @@ class MainWindow(QMainWindow):
         self.spread_box = spread
         plan, self.plan = build_kv_card("TRADE PLAN", [("Status", "NO_DATA"), ("Entry", "N/A"), ("Exit", "N/A"), ("Qty BTC", "0"), ("Order U", "0"), ("Profit U", "N/A"), ("Age", "0ms")], compact=True)
         self.plan_box = plan
-        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Exit stage", "-"), ("SELL age", "0ms"), ("SELL reprices", "0"), ("Panic ladder", "0"), ("Last exit reason", "-"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
+        runtime, self.runtime = build_kv_card("RUNTIME", [("LIVE", "OFF"), ("FSM", "IDLE"), ("Mode", "ANALYTICS"), ("Position state", "FLAT"), ("Position qty", "0"), ("Entry avg", "0"), ("Free BTC", "0"), ("Inventory BTC", "0"), ("Safe SELL qty", "0"), ("Market Health", "GOOD"), ("Entry Guard", "BALANCED"), ("Guard state", "WARMING"), ("Guard reason", "boot"), ("Stable snaps", "0/0"), ("Cooldown ms", "0"), ("Entry mode", "BALANCED"), ("BUY age", "0ms"), ("Entry reprices", "0"), ("Fill hint", "LOW"), ("Entry reason", "-"), ("Exit stage", "-"), ("SELL age", "0ms"), ("SELL reprices", "0"), ("Panic ladder", "0"), ("Taker exit", "OFF"), ("Taker reason", "-"), ("Taker qty/price", "-"), ("Last exit reason", "-"), ("Auto-confirm", "YES"), ("Auto-cancel", "YES")], compact=True)
         self.runtime_box = runtime
         risk, self.risk = build_kv_card("RISK", [("Order size U", "0"), ("Max exposure U", "0"), ("panic", "ON")], compact=True)
         self.risk_box = risk
@@ -322,6 +326,14 @@ class MainWindow(QMainWindow):
             "panic_ladder_ms": "Panic ladder ms",
             "panic_cross_after_ms": "Panic cross after ms",
             "exit_ioc_enabled": "Exit IOC enabled",
+            "taker_exit_enabled": "Taker exit enabled",
+            "taker_exit_after_ms": "Taker exit after ms",
+            "taker_exit_ioc": "Taker IOC enabled",
+            "taker_exit_spread_collapse_ticks": "Taker spread collapse ticks",
+            "taker_exit_mid_negative_threshold": "Taker mid negative threshold",
+            "taker_exit_min_expected_profit_ticks": "Taker min expected profit ticks",
+            "taker_exit_max_slippage_ticks": "Taker max slippage ticks",
+            "taker_exit_force_flat_after_ms": "Taker force flat after ms",
             "min_profit_ticks": "Min profit ticks",
             "take_profit_ticks": "Take profit ticks",
             "stop_loss_ticks": "Stop loss ticks",
@@ -337,7 +349,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Execution", ["entry_mode", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks", "buy_timeout_ms_fast", "buy_timeout_ms", "sell_timeout_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices", "panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "exit_ioc_enabled", "min_profit_ticks", "take_profit_ticks", "stop_loss_ticks"]), ("Safety", ["require_confirmation", "auto_cancel_on_stop", "panic_reprice_once"]), ("Guard", ["guard_mode", "guard_enabled", "require_ws_for_buy", "max_ws_age_for_buy_ms", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"])]
+        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Execution", ["entry_mode", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks", "buy_timeout_ms_fast", "buy_timeout_ms", "sell_timeout_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices", "panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms", "exit_ioc_enabled", "min_profit_ticks", "take_profit_ticks", "stop_loss_ticks"]), ("Safety", ["require_confirmation", "auto_cancel_on_stop", "panic_reprice_once"]), ("Guard", ["guard_mode", "guard_enabled", "require_ws_for_buy", "max_ws_age_for_buy_ms", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -909,6 +921,42 @@ class MainWindow(QMainWindow):
             self.log("INFO", f"[EXEC] EXIT RECOVERY inventory_no_sell qty={qty:.6f}")
             self.last_exit_recovery_log_ms = now
 
+    def _trigger_taker_exit(self, now_ms: int, reason: str) -> bool:
+        if not bool(getattr(self.settings, "taker_exit_enabled", True)) or self.panic_exit_final:
+            return False
+        order_id = int(self.active_order.get("orderId", 0) or 0)
+        if order_id <= 0 or self.active_order.get("side") != "SELL":
+            return False
+        sell_qty = self._safe_sell_qty(self._sync_sell_target_qty(), refresh_balance=True)
+        if sell_qty <= self._inventory_epsilon_qty() or sell_qty < self._min_sellable_qty():
+            self.log("WARNING", f"[EXEC] TAKER_EXIT_FAILED reason=qty_not_sellable qty={sell_qty:.6f}")
+            return False
+        bid_now = float(self.state.snapshot.bid or 0.0)
+        tick = self._tick_size()
+        max_slip_ticks = max(int(getattr(self.settings, "taker_exit_max_slippage_ticks", 10)), 0)
+        taker_price = self._round_price_down(max(bid_now - (tick * max_slip_ticks), tick))
+        tif = "IOC" if bool(getattr(self.settings, "taker_exit_ioc", True)) else "GTC"
+        self.taker_exit_state = "TRIGGERED"
+        self.last_taker_reason = reason
+        self.last_taker_qty = sell_qty
+        self.last_taker_price = taker_price
+        self.log("WARNING", f"[EXEC] TAKER_EXIT reason={reason} qty={sell_qty:.6f} price={taker_price:.2f}")
+        try:
+            self.account.cancel_order(CONFIG.binance_symbol, order_id)
+            o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(taker_price), float(sell_qty), time_in_force=tif)
+            new_id = int(o.get("orderId", 0) or 0)
+            self.active_order = {"orderId": new_id, "side": "SELL", "price": float(taker_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
+            self.position_sell_order_id = new_id
+            self.exit_started_ms = now_ms
+            self.exit_mode = "TAKER"
+            self.taker_exit_state = "ORDER_SENT"
+            self.log("WARNING", f"[EXEC] TAKER_EXIT_ORDER_SENT id={new_id}")
+            return True
+        except Exception as exc:
+            self.taker_exit_state = "FAILED"
+            self.log("ERROR", f"[EXEC] TAKER_EXIT_FAILED reason={exc}")
+            return False
+
     def _panic_exit_final(self, now_ms: int, reason: str, sl_mode: bool = False) -> None:
         if self.panic_exit_final and self.panic_exit_order_id:
             self.log("WARNING", f"[EXEC] PANIC HOLD active orderId={self.panic_exit_order_id}")
@@ -1031,6 +1079,8 @@ class MainWindow(QMainWindow):
         self.log("OK", f"[EXEC] SELL FILLED id={order_ref}")
         remaining = max(self.position_qty, 0.0)
         self.log("OK", f"[EXEC] SELL FILLED qty={sell_qty:.6f} remaining={remaining:.6f}")
+        if self.exit_mode == "TAKER":
+            self.log("OK", f"[EXEC] TAKER_EXIT_FILLED qty={sell_qty:.6f}")
         self.active_order = {}
         self.buy_filled_qty = 0.0
         self.sell_reported_qty = 0.0
@@ -1227,6 +1277,9 @@ class MainWindow(QMainWindow):
         self.runtime["SELL age"].setText(f"{active_sell_age_ms}ms")
         self.runtime["SELL reprices"].setText(str(self.sell_reprice_count))
         self.runtime["Panic ladder"].setText(str(self.panic_ladder_step))
+        self.runtime["Taker exit"].setText("ON" if self.settings.taker_exit_enabled else "OFF")
+        self.runtime["Taker reason"].setText(self.last_taker_reason)
+        self.runtime["Taker qty/price"].setText(f"{self.last_taker_qty:.6f}@{self.last_taker_price:.2f}" if self.last_taker_qty > 0 else "-")
         self.runtime["Last exit reason"].setText(self.last_exit_reason)
         can_recompute_plan = self.runtime_active or self.position_qty > 0 or bool(self.active_order.get("orderId"))
         if can_recompute_plan and (now_ms - self.last_plan_recompute_ms >= 250):
@@ -1601,6 +1654,12 @@ class MainWindow(QMainWindow):
                 if self.panic_exit_final and st.get("status") == "PARTIALLY_FILLED":
                     self.log("WARNING", f"[EXEC] PANIC PARTIAL filled={sell_delta:.6f} remaining={self.position_qty:.6f}")
             remaining_to_sell = self._sync_sell_target_qty()
+            spread_now = float((self.state.snapshot.ask or 0.0) - (self.state.snapshot.bid or 0.0))
+            spread_ticks_now = int(spread_now / max(tick, 1e-9)) if spread_now > 0 else 0
+            collapse_ticks = max(int(self.settings.min_spread_after_entry_ticks) - spread_ticks_now, 0)
+            mid_delta = 0.0
+            if len(self.recent_mids) >= 2:
+                mid_delta = self.recent_mids[-1][1] - self.recent_mids[0][1]
             active_sell_qty = float(self.active_order.get("qty", 0.0) or 0.0)
             if (
                 st.get("status") in {"NEW", "PARTIALLY_FILLED"}
@@ -1615,6 +1674,15 @@ class MainWindow(QMainWindow):
             if st.get("status") == "FILLED":
                 self.log("OK", "[EXEC] EXIT_FILLED")
                 self._handle_sell_filled(st, int(self.active_order["orderId"]))
+            elif self.position_qty > 0 and now - self.exit_started_ms >= int(getattr(self.settings, "taker_exit_force_flat_after_ms", 1800)):
+                if not self._trigger_taker_exit(now, "force_flat_after_ms"):
+                    self.trigger_panic_exit("taker_force_flat_failed")
+            elif self.position_qty > 0 and collapse_ticks >= int(getattr(self.settings, "taker_exit_spread_collapse_ticks", 3)):
+                self._trigger_taker_exit(now, "spread_collapse")
+            elif self.position_qty > 0 and mid_delta <= float(getattr(self.settings, "taker_exit_mid_negative_threshold", -40.0)):
+                self._trigger_taker_exit(now, "mid_negative")
+            elif self.position_qty > 0 and now - self.exit_started_ms >= int(getattr(self.settings, "taker_exit_after_ms", 900)):
+                self._trigger_taker_exit(now, "timeout_after_ms")
             elif self.position_qty > 0 and now - self.exit_started_ms >= int(self.settings.max_hold_ms):
                 self.last_exit_reason = "max_hold_exceeded"
                 self.exit_stage = "EXIT_CROSS"

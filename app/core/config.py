@@ -45,6 +45,14 @@ class SettingsData:
     panic_ladder_step_ticks: int = 2
     panic_ladder_ms: int = 400
     panic_cross_after_ms: int = 3500
+    taker_exit_enabled: bool = True
+    taker_exit_after_ms: int = 900
+    taker_exit_ioc: bool = True
+    taker_exit_spread_collapse_ticks: int = 3
+    taker_exit_mid_negative_threshold: float = -40.0
+    taker_exit_min_expected_profit_ticks: int = 0
+    taker_exit_max_slippage_ticks: int = 10
+    taker_exit_force_flat_after_ms: int = 1800
     exit_ioc_enabled: bool = False
     min_profit_ticks: int = 1
     take_profit_ticks: int = 3
