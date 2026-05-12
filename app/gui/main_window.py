@@ -200,6 +200,8 @@ class MainWindow(QMainWindow):
         self.market_health_unstable_bid_ticks = abs(self.settings.max_negative_bid_delta)
         self.market_health_negative_mid_ticks = abs(self.settings.max_negative_mid_delta)
         self.market_health_min_spread_lifetime_ms = self.settings.min_spread_lifetime_ms
+        self.last_sell_qty_clamp_log_ms = 0
+        self.last_exit_recovery_log_ms = 0
         self.recent_bids: deque[tuple[int, float]] = deque()
         self.recent_mids: deque[tuple[int, float]] = deque()
         self.last_spread_good_since_ms = 0
@@ -345,6 +347,20 @@ class MainWindow(QMainWindow):
             "take_profit_ticks": "Take profit ticks",
             "stop_loss_ticks": "Stop loss ticks",
             "guard_mode": "Guard mode (FAST/BALANCED/STRICT)",
+            "active_order_poll_ms": "active order poll ms",
+            "max_ws_age_for_buy_ms": "max ws age for buy ms",
+            "panic_hold_max_ms": "panic hold max ms",
+            "manual_stop_on_blocked_exit": "manual stop on blocked exit",
+            "exit_block_manual_enabled": "exit block manual enabled",
+            "inventory_epsilon_qty": "inventory epsilon qty",
+            "min_sellable_qty_fallback": "min sellable qty fallback",
+            "dust_cleanup_enabled": "dust cleanup enabled",
+            "dust_cleanup_threshold_qty": "dust cleanup threshold qty",
+            "sell_qty_clamp_log_throttle_ms": "sell qty clamp log throttle ms",
+            "exit_recovery_log_throttle_ms": "exit recovery log throttle ms",
+            "compact_logs": "compact logs",
+            "runtime_diag_enabled": "runtime diagnostics enabled",
+            "ui_theme": "UI theme",
         }
 
         account_tab = QWidget(); account_form = QFormLayout(account_tab)
@@ -356,7 +372,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("Harvest", ["min_spread", "entry_offset", "exit_offset", "target_capture", "stop_loss", "max_hold_ms"]), ("Risk", ["order_size_u", "max_exposure_u", "max_daily_loss", "max_open_lots", "panic_exit", "max_live_exposure_u"]), ("Data", ["rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "debug_api_logs", "ws_optional_enabled", "max_ws_age_ms"]), ("Execution", ["entry_mode", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks", "buy_timeout_ms_fast", "buy_timeout_ms", "sell_timeout_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices", "panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms", "exit_ioc_enabled", "min_profit_ticks", "take_profit_ticks", "stop_loss_ticks"]), ("Safety", ["require_confirmation", "auto_cancel_on_stop", "panic_reprice_once"]), ("Guard", ["guard_mode", "guard_enabled", "require_ws_for_buy", "max_ws_age_for_buy_ms", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"])]
+        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -397,7 +413,7 @@ class MainWindow(QMainWindow):
     def _apply_runtime_settings(self) -> None:
         self.rest_timer.setInterval(self.settings.rest_poll_ms)
         self.account_timer.setInterval(self.settings.balances_poll_ms)
-        self.active_sync_timer.setInterval(self.settings.active_order_poll_ms)
+        self.active_sync_timer.setInterval(max(self.settings.active_order_poll_ms, 250))
         self.account.debug_api_logs = self.settings.debug_api_logs
         self.ws.max_ws_age_ms = self.settings.max_ws_age_ms
         self._apply_guard_mode_preset()
@@ -406,6 +422,8 @@ class MainWindow(QMainWindow):
         self.market_health_unstable_bid_ticks = abs(self.settings.max_negative_bid_delta)
         self.market_health_negative_mid_ticks = abs(self.settings.max_negative_mid_delta)
         self.market_health_min_spread_lifetime_ms = self.settings.min_spread_lifetime_ms
+        self.last_sell_qty_clamp_log_ms = 0
+        self.last_exit_recovery_log_ms = 0
 
     def _export_settings(self) -> None:
         path, _ = QFileDialog.getSaveFileName(self, "Export settings", "settings_export.json", "JSON (*.json)")
@@ -434,6 +452,7 @@ class MainWindow(QMainWindow):
         if self.runtime_active:
             self.settings.live_enabled = True
             self.log("INFO", f"START_SETTINGS live_enabled={self.settings.live_enabled} guard_mode={self.settings.guard_mode} entry_mode={self.settings.entry_mode} exit_engine={self.settings.exit_engine_enabled} order_size={self.settings.order_size_u}")
+            self.log("INFO", f"START_PROFILE guard={self.settings.guard_mode}/{self.settings.guard_enabled} entry={self.settings.entry_mode}/repr={self.settings.entry_reprice_enabled} exit=eng:{self.settings.exit_engine_enabled},timeout:{self.settings.sell_timeout_ms} taker={self.settings.taker_exit_enabled}/{self.settings.taker_exit_after_ms} order={self.settings.order_size_u} spread=min:{self.settings.min_spread},target:{self.settings.target_capture}")
             if not self.api_ready:
                 self.log("WARNING", "START_BLOCKED reason=api_not_ready")
                 self.runtime_active = False
@@ -660,7 +679,7 @@ class MainWindow(QMainWindow):
 
     def _inventory_epsilon_qty(self) -> float:
         step = float(self.filters.get("stepSize", 0.0) or 0.0)
-        return max(step * 1.5, 0.000001)
+        return max(step * 1.5, self.settings.inventory_epsilon_qty)
 
     def _min_sellable_qty(self) -> float:
         epsilon = self._inventory_epsilon_qty()
@@ -683,7 +702,7 @@ class MainWindow(QMainWindow):
             if now - int(getattr(self, "last_min_sellable_fallback_log_ms", 0) or 0) >= 3000:
                 self.log("WARNING", f"[EXEC] MIN_SELLABLE_FALLBACK reason={reason}")
                 self.last_min_sellable_fallback_log_ms = now
-            return max(epsilon, step, min_qty)
+            return max(epsilon, step, min_qty, self.settings.min_sellable_qty_fallback)
 
         min_qty_by_notional = (min_notional / current_price) if min_notional > 0 else 0.0
         return max(min_qty, min_qty_by_notional, step, epsilon)

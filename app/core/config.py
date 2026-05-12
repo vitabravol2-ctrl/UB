@@ -84,6 +84,16 @@ class SettingsData:
     balance_safety_buffer_u: float = 10.0
     block_log_throttle_ms: int = 2000
     health_log_throttle_ms: int = 2000
+    manual_stop_on_blocked_exit: bool = True
+    exit_block_manual_enabled: bool = True
+    inventory_epsilon_qty: float = 0.000001
+    min_sellable_qty_fallback: float = 0.0001
+    dust_cleanup_enabled: bool = True
+    dust_cleanup_threshold_qty: float = 0.0
+    sell_qty_clamp_log_throttle_ms: int = 2000
+    exit_recovery_log_throttle_ms: int = 2000
+    compact_logs: bool = False
+    runtime_diag_enabled: bool = True
 
 
 @dataclass(frozen=True)
@@ -145,6 +155,7 @@ class SettingsStore:
     def export_settings_json(self, export_path: str) -> None:
         data = asdict(self.load())
         safe = self._sanitize_payload(data, include_secrets=False)
+        safe["settings_schema_version"] = "0.7.16"
         Path(export_path).write_text(json.dumps(safe, indent=2), encoding="utf-8")
 
     def import_settings_json(self, import_path: str) -> SettingsData:
