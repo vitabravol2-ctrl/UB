@@ -103,6 +103,7 @@ class GridRuntime:
         level = next((x for x in self.levels if x.level_id == level_id), None)
         if not level:
             return
+        level.state = "WAIT_BUY_FILL"
         level.active_buy_order_id = order_id
         self._log(f"GRID_BUY_PLACED level_id={level_id} order_id={order_id}")
 
@@ -111,6 +112,7 @@ class GridRuntime:
         if not level:
             return
         level.state = "BUY_FILLED"
+        level.active_buy_order_id = None
         level.last_fill_ts = int(time.time() * 1000)
         self._log(f"GRID_BUY_FILLED level_id={level_id}")
 
@@ -125,13 +127,14 @@ class GridRuntime:
 
     def grid_telemetry(self) -> dict[str, float | int]:
         active = len(self.levels)
-        open_buys = sum(1 for lvl in self.levels if lvl.state == "WAIT_BUY" and lvl.active_buy_order_id is not None)
+        open_buys = sum(1 for lvl in self.levels if lvl.state == "WAIT_BUY_FILL" and lvl.active_buy_order_id is not None)
         filled = sum(1 for lvl in self.levels if lvl.state == "BUY_FILLED")
         used = sum(lvl.budget_u for lvl in self.levels if lvl.state == "BUY_FILLED")
         total = sum(lvl.budget_u for lvl in self.levels)
         return {
-            "GRID LEVELS ACTIVE": active,
-            "GRID OPEN BUYS": open_buys,
+            "GRID LEVELS": active,
+            "GRID ACTIVE BUYS": open_buys,
+            "GRID ACTIVE SELLS": filled,
             "GRID FILLED LEVELS": filled,
             "GRID BUDGET USED": used,
             "GRID BUDGET FREE": max(total - used, 0.0),
