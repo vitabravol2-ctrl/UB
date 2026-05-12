@@ -230,6 +230,9 @@ class MainWindow(QMainWindow):
         self.floor_hold_timeout_triggered = False
         self._floor_hold_disabled_logged = False
         self.smart_exit_active = False
+        self.smart_exit_attempts = 0
+        self.smart_exit_last_order_id = 0
+        self.smart_exit_last_action_ts = 0
         self.last_sell_recovery_attempt_ms = 0
         self.last_watchdog_sync_ms_by_order: dict[int, int] = {}
         self.protected_sell_ignore_last_log_ms_by_order: dict[int, int] = {}
@@ -1366,7 +1369,7 @@ class MainWindow(QMainWindow):
     def _sync_taker_exit_status(self, now_ms: int) -> None:
         order_id = int(self.taker_exit_order_id or 0)
         if order_id <= 0:
-            self.fsm_state = "PLACE_SELL" if not self.smart_exit_active else "WAIT_MANUAL"
+            self.fsm_state = "PLACE_SELL"
             return
         poll_ms = int(getattr(self.settings, "taker_status_poll_ms", 300))
         timeout_ms = int(getattr(self.settings, "taker_status_timeout_ms", 1500))
@@ -1407,11 +1410,7 @@ class MainWindow(QMainWindow):
             if remaining > self._min_sellable_qty():
                 if self.smart_exit_active:
                     self.log("WARNING", f"[EXEC] SMART_EXIT_TAKER_PARTIAL_REMAINING qty={remaining:.6f}")
-                    self.log("WARNING", "[EXEC] SMART_EXIT_TO_PANIC reason=taker_partial_remaining")
-                    self.active_order = {}
-                    self.taker_exit_order_id = 0
-                    self.taker_exit_state = "IDLE"
-                    self.trigger_panic_exit("smart_exit_taker_partial_remaining")
+                    self._smart_exit_retry_aggressive(now_ms, "taker_partial_remaining")
                     return
                 self.active_order = {}
                 self.taker_exit_order_id = 0
@@ -1477,8 +1476,7 @@ class MainWindow(QMainWindow):
         btc_locked = float(self.balances.get("BTC", {}).get("locked", 0.0) or 0.0)
         if remaining > self._min_sellable_qty():
             if self.smart_exit_active:
-                self.log("WARNING", f"[EXEC] SMART_EXIT_TO_PANIC reason={timeout_reason}")
-                self.trigger_panic_exit(f"smart_exit_{timeout_reason}")
+                self._smart_exit_retry_aggressive(now_ms, timeout_reason)
             else:
                 self.fsm_state = "PLACE_SELL"
             return
@@ -1527,6 +1525,8 @@ class MainWindow(QMainWindow):
             self.position_state = "EXIT_FAILED"
             return
         self.active_order = {"orderId": o.get("orderId"), "side": "SELL", "price": float(new_price), "qty": float(sell_qty), "create_ms": now_ms, "state": "NEW", "type": "LIMIT"}
+        self.smart_exit_last_order_id = int(self.active_order.get("orderId", 0) or 0)
+        self.smart_exit_last_action_ts = now_ms
         self.position_sell_order_id = int(self.active_order["orderId"])
         self.last_sell_reprice_ms = now_ms
         self.exit_started_ms = now_ms
@@ -1563,6 +1563,10 @@ class MainWindow(QMainWindow):
             self.fsm_state = "WAIT_SELL_FILL"
             return
         self.log("WARNING", f"[EXEC] EXIT_FAIL reason={reason} force_exit")
+        if reason.startswith("smart_exit_") or self.smart_exit_active:
+            self.smart_exit_active = True
+            self.smart_exit_attempts += 1
+            self.smart_exit_last_action_ts = now_ms
         self.last_exit_reason = reason
         if order_id and self.active_order.get("side") == "SELL":
             self.sell_cancel_in_progress = True
@@ -1628,6 +1632,12 @@ class MainWindow(QMainWindow):
         self.log("OK", f"[EXEC] SELL FILLED qty={sell_qty:.6f} remaining={remaining:.6f}")
         if self.exit_mode == "TAKER":
             self.log("OK", f"[EXEC] TAKER_EXIT_FILLED qty={sell_qty:.6f}")
+        if self.smart_exit_active and remaining <= self._inventory_epsilon_qty():
+            self.log("OK", "[EXEC] SMART_EXIT_DONE_FLAT")
+            self.smart_exit_active = False
+            self.smart_exit_attempts = 0
+            self.smart_exit_last_order_id = 0
+            self.smart_exit_last_action_ts = 0
         self.active_order = {}
         self.buy_filled_qty = 0.0
         self.sell_reported_qty = 0.0
@@ -1874,10 +1884,9 @@ class MainWindow(QMainWindow):
         self._repair_runtime_state()
         if self.position_qty > 0 and not (self.active_order.get("orderId") and self.active_order.get("side") == "SELL") and self.runtime_active:
             if self.smart_exit_active:
-                self._log_taker_guard_skip("smart_exit_wait_taker_or_panic")
+                self.log("WARNING", f"[EXEC] SMART_EXIT_ORPHAN_INVENTORY qty={self.position_qty:.6f}")
                 if not self._trigger_taker_exit(now_ms, "smart_exit_inventory_no_sell"):
-                    self.log("WARNING", "[EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell")
-                    self.trigger_panic_exit("smart_exit_inventory_no_sell")
+                    self._smart_exit_retry_aggressive(now_ms, "inventory_no_sell")
                 return
             if self.fsm_state != "PLACE_SELL":
                 self._log_exit_recovery_throttled(self.position_qty)
@@ -2324,6 +2333,8 @@ class MainWindow(QMainWindow):
                 self.place_sell_entered_ms = 0
         elif self.runtime_active and self.fsm_state == "WAIT_SELL_FILL" and self.active_order.get("orderId"):
             now = int(time.time() * 1000)
+            if self._smart_exit_poll_panic_order(now):
+                return
             panic_stale_ms = 20000
             tick = self._tick_size()
             bid_now = float(self.state.snapshot.bid or 0.0)
@@ -2856,7 +2867,52 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event) -> None:  # type: ignore[override]
         self.ws.stop(); super().closeEvent(event)
+
+    def _smart_exit_retry_aggressive(self, now_ms: int, reason: str) -> None:
+        max_attempts = max(int(getattr(self.settings, "max_smart_exit_attempts", 8)), 1)
+        self.smart_exit_active = True
+        self.smart_exit_attempts += 1
+        self.smart_exit_last_action_ts = now_ms
+        if self.smart_exit_attempts > max_attempts:
+            self.log("ERROR", f"[EXEC] SMART_EXIT_MAX_ATTEMPTS attempts={self.smart_exit_attempts} qty={self.position_qty:.6f}")
+            self.fsm_state = "WAIT_MANUAL"
+            return
+        self.log("WARNING", f"[EXEC] SMART_EXIT_PANIC_RETRY reason={reason} attempt={self.smart_exit_attempts}")
+        self.trigger_panic_exit(f"smart_exit_{reason}")
+
+    def _smart_exit_poll_panic_order(self, now_ms: int) -> bool:
+        if not self.smart_exit_active:
+            return False
+        order_id = int(self.active_order.get("orderId", 0) or self.panic_exit_order_id or 0)
+        if order_id <= 0:
+            return False
+        try:
+            st = self.account.get_order(CONFIG.binance_symbol, order_id)
+        except Exception:
+            return False
+        status = str(st.get("status", "UNKNOWN"))
+        filled = float(st.get("executedQty", 0.0) or 0.0)
+        qty = float(st.get("origQty", 0.0) or self.active_order.get("qty", 0.0) or 0.0)
+        age = max(now_ms - int(self.active_order.get("create_ms", now_ms) or now_ms), 0)
+        self.log("INFO", f"[EXEC] SMART_EXIT_PANIC_STATUS id={order_id} status={status} filled={filled:.6f} remaining={max(qty-filled, 0.0):.6f} age={age}")
+        hold_max = int(getattr(self.settings, "panic_hold_max_ms", 1200))
+        if status in {"NEW", "OPEN", "PARTIALLY_FILLED"} and age > hold_max:
+            self.log("WARNING", f"[EXEC] SMART_EXIT_PANIC_TIMEOUT_CANCEL id={order_id} age={age} max={hold_max}")
+            self.account.cancel_order(CONFIG.binance_symbol, order_id)
+            self.active_order = {}
+            self.panic_exit_order_id = 0
+            self._smart_exit_retry_aggressive(now_ms, "panic_timeout")
+            return True
+        if status in {"CANCELED", "EXPIRED", "REJECTED"}:
+            self.active_order = {}
+            self.panic_exit_order_id = 0
+            self._smart_exit_retry_aggressive(now_ms, f"panic_{status.lower()}")
+            return True
+        return False
+
     def _log_taker_guard_skip(self, reason: str) -> None:
+        if reason == "smart_exit_wait_taker_or_panic":
+            return
         now = int(time.time() * 1000)
         last_ms = int(self.last_taker_guard_skip_log_ms_by_reason.get(reason, 0) or 0)
         if now - last_ms >= 3000:
