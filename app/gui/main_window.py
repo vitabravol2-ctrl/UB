@@ -90,6 +90,7 @@ class MainWindow(QMainWindow):
         self.account.debug_api_logs = self.settings.debug_api_logs
         self.grid_runtime = GridRuntime(log_callback=lambda m: self.log("INFO", f"[EXEC] {m}"))
         self.grid_level_by_order_id: dict[int, int] = {}
+        self.grid_order_ids: set[int] = set()
         self.api_status = "NOT SET"
         self.api_ready = False
         self.last_log_line = ""
@@ -1969,21 +1970,26 @@ class MainWindow(QMainWindow):
                         active_level_id = None
                         if self.settings.micro_grid_enabled and self.grid_runtime.levels:
                             free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
+                            placed_any = False
                             for level in self.grid_runtime.levels:
-                                if level.state != "WAIT_BUY":
-                                    self.log("INFO", f"[EXEC] GRID_LEVEL_SKIP level_id={level.level_id} reason=state_{level.state}")
-                                    continue
-                                self.log("INFO", f"[EXEC] GRID_LEVEL_WAIT_BUY level_id={level.level_id} price={level.target_buy_price:.2f} qty={level.qty:.6f}")
-                                if level.active_buy_order_id is not None:
-                                    self.log("INFO", f"[EXEC] GRID_LEVEL_ALREADY_ACTIVE level_id={level.level_id}")
+                                if level.state != "WAIT_BUY" or level.active_buy_order_id is not None:
                                     continue
                                 if free_u + 1e-12 < level.budget_u:
-                                    self.log("INFO", f"[EXEC] GRID_LEVEL_SKIP level_id={level.level_id} reason=budget_free")
                                     continue
-                                active_level_id = level.level_id
-                                buy_price = float(level.target_buy_price)
-                                buy_qty = float(level.qty)
-                                break
+                                o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(level.target_buy_price), float(level.qty))
+                                buy_order_id = int(o.get("orderId"))
+                                self.grid_level_by_order_id[buy_order_id] = level.level_id
+                                self.grid_order_ids.add(buy_order_id)
+                                self.grid_runtime.mark_buy_placed(level.level_id, buy_order_id)
+                                free_u -= level.budget_u
+                                placed_any = True
+                                self.log("OK", f"[EXEC] PLACE BUY price={float(level.target_buy_price):.2f} qty={float(level.qty):.6f}")
+                            if placed_any:
+                                self.fsm_state = "DONE"
+                            else:
+                                self.log("INFO", "[EXEC] GRID_NO_VALID_LEVELS_FOR_BUY")
+                                self.fsm_state = "DONE"
+                            return
                         o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", buy_price, buy_qty)
                         now = int(time.time() * 1000)
                         self._reset_sell_accounting("new_cycle", reset_panic_order_id=self.position_qty <= 1e-12)
@@ -1992,10 +1998,6 @@ class MainWindow(QMainWindow):
                         self.last_entry_reprice_ms = now
                         self.entry_last_reason = "placed"
                         self.active_order = {"orderId": o.get("orderId"), "side": "BUY", "price": buy_price, "qty": buy_qty, "create_ms": now, "state": "NEW", "type": "LIMIT"}
-                        if active_level_id is not None and self.active_order.get("orderId"):
-                            buy_order_id = int(self.active_order["orderId"])
-                            self.grid_level_by_order_id[buy_order_id] = active_level_id
-                            self.grid_runtime.mark_buy_placed(active_level_id, buy_order_id)
                         self.buy_reported_qty = 0.0
                         self.buy_reported_quote = 0.0
                         self.position_state = "BUY_PENDING"
@@ -2037,7 +2039,7 @@ class MainWindow(QMainWindow):
                     bid_now = float(self.state.snapshot.bid or 0.0)
                     order_price = float(self.active_order.get("price", 0.0) or 0.0)
                     is_far, dist_ticks = self._is_far_buy(order_price, bid_now)
-                    if is_far:
+                    if is_far and order_id not in self.grid_order_ids:
                         self.log("WARNING", f"[EXEC] BUY_WATCHDOG_FAR_CANCEL orderId={order_id} price={order_price:.2f} bid={bid_now:.2f} dist_ticks={dist_ticks}")
                         self.account.cancel_order(CONFIG.binance_symbol, order_id)
                         self.active_order = {}
@@ -2140,7 +2142,8 @@ class MainWindow(QMainWindow):
                     self.active_order = {}
                     self.fsm_state = "DONE"
                     return
-                can_reprice = bool(self.settings.entry_reprice_enabled) and self.entry_reprice_count < int(self.settings.max_entry_reprices)
+                is_grid_buy = int(self.active_order.get("orderId", 0) or 0) in self.grid_order_ids
+                can_reprice = (not is_grid_buy) and bool(self.settings.entry_reprice_enabled) and self.entry_reprice_count < int(self.settings.max_entry_reprices)
                 cooldown_ok = now - self.last_entry_reprice_ms >= int(self.settings.entry_reprice_cooldown_ms)
                 if can_reprice and cooldown_ok and bid_now > order_price and age_ms >= int(self.settings.buy_timeout_ms_fast):
                     self.entry_exec_state = "ENTRY_REPRICE"
