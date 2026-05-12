@@ -1009,6 +1009,28 @@ class MainWindow(QMainWindow):
         meta = self.active_order.get("active_sell_meta", {}) if isinstance(self.active_order, dict) else {}
         return bool(meta.get("is_floor_protected")) or bool(meta.get("is_hold_recovery")) or self._is_floor_protected_sell(order_price)
 
+    def _should_block_protected_sell_escalation(self, now_ms: int, reason: str) -> bool:
+        if not isinstance(self.active_order, dict):
+            return False
+        if self.active_order.get("side") != "SELL":
+            return False
+        order_id = int(self.active_order.get("orderId", 0) or 0)
+        if order_id <= 0:
+            return False
+        order_price = float(self.active_order.get("price", 0.0) or 0.0)
+        if not self._is_protected_sell_order(order_price):
+            return False
+        if self.floor_hold_timeout_triggered:
+            return False
+        hold_max_ms = int(getattr(self.settings, "sell_floor_hold_max_ms", 30000))
+        hold_started_ms = int(self.sell_hold_recovery_started_ms or self.active_order.get("create_ms", now_ms) or now_ms)
+        hold_age_ms = max(now_ms - hold_started_ms, 0)
+        if hold_age_ms >= hold_max_ms:
+            self.floor_hold_timeout_triggered = True
+            return False
+        self.log("INFO", f"[EXEC] HOLD_PROTECTED_SKIP_EXIT_ESCALATION reason={reason} orderId={order_id} hold_age={hold_age_ms} max={hold_max_ms}")
+        return True
+
     def _log_protected_sell_ignore(self, order_id: int, dist_ticks: int) -> None:
         now = int(time.time() * 1000)
         throttle_ms = int(getattr(self.settings, "protected_sell_ignore_log_throttle_ms", 5000))
@@ -1200,6 +1222,8 @@ class MainWindow(QMainWindow):
             return False
         if self.taker_exit_triggered and self.taker_exit_state in {"TRIGGERED", "ORDER_SENT"}:
             return False
+        if self._should_block_protected_sell_escalation(now_ms, f"taker_{reason}"):
+            return False
         order_id = int(self.active_order.get("orderId", 0) or 0)
         if order_id <= 0 or self.active_order.get("side") != "SELL":
             return False
@@ -1313,6 +1337,11 @@ class MainWindow(QMainWindow):
             self.log("INFO", "[EXEC] RECOVERY WAIT panic_trigger_in_progress")
             return
         now_ms = int(time.time() * 1000)
+        manual_or_hard_stop_reason = reason in {"manual_stop", "hard_stop", "hard_sl", "stop_loss", "sell_hold_timeout"}
+        emergency_exchange_reason = "exchange_error" in reason
+        if not manual_or_hard_stop_reason and not emergency_exchange_reason:
+            if self._should_block_protected_sell_escalation(now_ms, f"panic_{reason}"):
+                return
         order_id = int(self.active_order.get("orderId", 0) or 0)
         if self.panic_exit_final and order_id:
             self.fsm_state = "WAIT_SELL_FILL"
@@ -2147,6 +2176,8 @@ class MainWindow(QMainWindow):
                 self.log("OK", "[EXEC] EXIT_FILLED")
                 self._handle_sell_filled(st, int(self.active_order["orderId"]))
             elif self.position_qty > 0 and now - self.exit_started_ms >= int(getattr(self.settings, "taker_exit_force_flat_after_ms", 1800)):
+                if self._should_block_protected_sell_escalation(now, "force_flat_after_ms"):
+                    return
                 if not self._trigger_taker_exit(now, "force_flat_after_ms"):
                     self.trigger_panic_exit("taker_force_flat_failed")
             elif self.position_qty > 0 and collapse_ticks >= int(getattr(self.settings, "taker_exit_spread_collapse_ticks", 3)):
@@ -2154,6 +2185,8 @@ class MainWindow(QMainWindow):
             elif self.position_qty > 0 and mid_delta <= float(getattr(self.settings, "taker_exit_mid_negative_threshold", -40.0)):
                 self._trigger_taker_exit(now, "mid_negative")
             elif self.position_qty > 0 and now - self.exit_started_ms >= int(getattr(self.settings, "taker_exit_after_ms", 900)):
+                if self._should_block_protected_sell_escalation(now, "timeout_after_ms"):
+                    return
                 self._trigger_taker_exit(now, "timeout_after_ms")
             elif self.position_qty > 0 and now - self.exit_started_ms >= int(self.settings.max_hold_ms):
                 self.last_exit_reason = "max_hold_exceeded"
