@@ -14,6 +14,7 @@ from app.core.market_state import MarketState
 from app.core.trade_math import TradeMathEngine
 from app.core.market_ws import MarketWSClient
 from app.core.grid_runtime import GridRuntime
+from app.core.price_ticks import add_ticks
 from app.gui.styles import main_qss
 from app.gui.widgets import big_value, build_kv_card
 
@@ -94,6 +95,8 @@ class MainWindow(QMainWindow):
         self.grid_runtime = GridRuntime(log_callback=lambda m: self.log("INFO", f"[EXEC] {m}"))
         self.grid_level_by_order_id: dict[int, int] = {}
         self.grid_order_ids: set[int] = set()
+        self.grid_sell_order_meta: dict[int, tuple[int, int]] = {}
+        self.last_grid_skip_single_entry_log_ms = 0
         self.grid_last_place_batch_ms = 0
         self.grid_buy_paused = False
         self.grid_last_batch_size = 0
@@ -1245,8 +1248,62 @@ class MainWindow(QMainWindow):
             grid_level_id = self.grid_level_by_order_id.get(int(self.active_order["orderId"]))
         self.inventory_chunks.append(InventoryChunk(qty=qty, entry_price=entry_price, created_ms=now_ms, grid_level_id=grid_level_id))
         self.log("OK", f"[EXEC] CHUNK ADD qty={qty:.6f} entry={entry_price:.2f}")
+        if grid_level_id is not None:
+            self.log("INFO", f"[EXEC] GRID_CHUNK_ADD level_id={grid_level_id} chunk_id={id(self.inventory_chunks[-1])}")
         self.log("INFO", f"[EXEC] CHUNK COUNT n={len(self.inventory_chunks)}")
         self._recalc_entry_avg_from_chunks()
+
+    def _poll_grid_orders(self, now_ms: int) -> None:
+        if not self.runtime_active or not self.settings.micro_grid_enabled:
+            return
+        tick = self._tick_size()
+        target_ticks = max(int(getattr(self.settings, "target_capture_ticks", 1)), 0)
+        for level in self.grid_runtime.levels:
+            order_id = int(level.active_buy_order_id or 0)
+            if level.state != "WAIT_BUY_FILL" or order_id <= 0:
+                continue
+            st = self.account.get_order(CONFIG.binance_symbol, order_id)
+            status = str(st.get("status", "NEW"))
+            if status == "FILLED":
+                fill_qty = float(st.get("executedQty", 0.0) or 0.0)
+                fill_price = float(st.get("price", level.target_buy_price) or level.target_buy_price)
+                self.grid_runtime.mark_buy_filled(level.level_id)
+                self._add_inventory_chunk(fill_qty, fill_price, now_ms)
+                chunk = self.inventory_chunks[-1] if self.inventory_chunks else None
+                if chunk is None or fill_qty <= 0:
+                    continue
+                sell_price = add_ticks(fill_price, target_ticks, tick)
+                sell_o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(fill_qty))
+                sell_order_id = int(sell_o.get("orderId"))
+                chunk.sell_order_id = sell_order_id
+                chunk.state = "SELL_PLACED"
+                self.grid_sell_order_meta[sell_order_id] = (level.level_id, id(chunk))
+                self.log("INFO", f"[EXEC] GRID_SELL_PLACED level_id={level.level_id} chunk_id={id(chunk)} order_id={sell_order_id} price={sell_price:.2f} qty={fill_qty:.6f}")
+            elif status in {"CANCELED", "EXPIRED", "REJECTED"}:
+                level.active_buy_order_id = None
+                level.state = "WAIT_BUY"
+                self.log("INFO", f"[EXEC] GRID_BUY_CANCELED level_id={level.level_id} order_id={order_id} status={status}")
+                self.grid_runtime.recycle_level(level.level_id)
+        for sell_order_id, (level_id, chunk_id) in list(self.grid_sell_order_meta.items()):
+            st = self.account.get_order(CONFIG.binance_symbol, int(sell_order_id))
+            if str(st.get("status", "NEW")) != "FILLED":
+                continue
+            executed_qty = float(st.get("executedQty", 0.0) or 0.0)
+            fill_price = float(st.get("price", 0.0) or 0.0)
+            for idx, chunk in enumerate(self.inventory_chunks):
+                if id(chunk) != chunk_id:
+                    continue
+                qty_to_close = min(max(chunk.qty, 0.0), executed_qty)
+                if qty_to_close > 0:
+                    self.log("INFO", f"[EXEC] GRID_SELL_FILLED level_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
+                    pnl = (fill_price - chunk.entry_price) * qty_to_close
+                    self.log("OK", f"[EXEC] FIFO CLOSE qty={qty_to_close:.6f} entry={chunk.entry_price:.2f} exit={fill_price:.2f} pnl={pnl:+.6f}")
+                self.inventory_chunks.pop(idx)
+                self._recalc_entry_avg_from_chunks()
+                self.grid_runtime.recycle_level(level_id)
+                self.log("INFO", f"[EXEC] GRID_LEVEL_RECYCLED level_id={level_id}")
+                break
+            self.grid_sell_order_meta.pop(sell_order_id, None)
 
     def _consume_inventory_fifo(self, sell_qty: float, sell_price: float) -> float:
         epsilon = self._inventory_epsilon_qty()
@@ -1861,6 +1918,7 @@ class MainWindow(QMainWindow):
         self.runtime["Guard reason"].setText(self.entry_guard_reason)
         self.runtime["Stable snaps"].setText(f"{self.entry_guard_stable_count}/{self.settings.stable_snapshots_required}")
         now_ms = int(time.time() * 1000)
+        self._poll_grid_orders(now_ms)
         if self.runtime_active and self.fsm_state == "WAIT_TAKER_EXIT_STATUS":
             self._sync_taker_exit_status(now_ms)
             return
@@ -1985,7 +2043,9 @@ class MainWindow(QMainWindow):
                         buy_qty = float(plan.qty_btc)
                         active_level_id = None
                         if self.settings.micro_grid_enabled:
-                            self.log("INFO", "[EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY")
+                            if now_ms - self.last_grid_skip_single_entry_log_ms >= 4000:
+                                self.log("INFO", "[EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY")
+                                self.last_grid_skip_single_entry_log_ms = now_ms
                         if self.settings.micro_grid_enabled and self.grid_runtime.levels:
                             free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
                             bid_now = float(self.state.snapshot.bid or 0.0)
