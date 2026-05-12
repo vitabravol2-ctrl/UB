@@ -133,6 +133,8 @@ class SettingsData:
     conveyor_stream_target_ticks: int = 80
     conveyor_stream_min_profit_ticks: int = 30
     conveyor_stream_sell_timeout_ms: int = 5000
+    conveyor_stream_order_error_cooldown_ms: int = 1500
+    conveyor_stream_max_order_errors: int = 5
     # legacy compatibility (hidden in GUI)
     micro_grid_max_active_buys: int = 8
     micro_grid_place_batch_size: int = 3
