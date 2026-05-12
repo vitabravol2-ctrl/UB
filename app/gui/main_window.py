@@ -2,6 +2,7 @@ import time
 from dataclasses import dataclass
 from decimal import Decimal
 from collections import deque
+from requests import RequestException
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QColor, QTextCursor, QTextCharFormat
 from PySide6.QtWidgets import QCheckBox, QDialog, QFileDialog, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QScrollArea, QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget, QProgressBar, QHeaderView, QSizePolicy
@@ -99,6 +100,8 @@ class MainWindow(QMainWindow):
         self.grid_sell_order_meta: dict[int, tuple[int, int]] = {}
         self.last_grid_skip_single_entry_log_ms = 0
         self.grid_last_place_batch_ms = 0
+        self.grid_order_error_until_ms = 0
+        self.grid_order_error_count = 0
         self.grid_buy_paused = False
         self.grid_last_batch_size = 0
         self.api_status = "NOT SET"
@@ -538,6 +541,7 @@ class MainWindow(QMainWindow):
 
     def cancel_all(self) -> None:
         self.log("WARNING", "cancel all requested")
+        stream_order_ids = list(self.grid_order_ids) + list(self.grid_sell_order_meta.keys())
         if self.active_order.get("orderId") and self.active_order.get("side") == "BUY":
             try:
                 self.account.cancel_order(CONFIG.binance_symbol, int(self.active_order["orderId"]))
@@ -552,6 +556,13 @@ class MainWindow(QMainWindow):
             except Exception:
                 pass
             self.sync_active_order(force=True)
+        for order_id in stream_order_ids:
+            try:
+                if order_id in self.grid_order_ids or bool(getattr(self.settings, "auto_cancel_on_stop", True)):
+                    self.account.cancel_order(CONFIG.binance_symbol, int(order_id))
+            except Exception:
+                pass
+        self.refresh_account_data()
         if self.position_qty <= self._inventory_epsilon_qty():
             open_sell = self._find_open_sell_order()
             if open_sell:
@@ -575,6 +586,7 @@ class MainWindow(QMainWindow):
             self.exit_block_reason = "stop_open_inventory"
             self.fsm_state = "WAIT_MANUAL"
             self.log("WARNING", f"[EXEC] STOP_SAFE_MANUAL inventory={self.position_qty:.6f} active_order={self.active_order.get('orderId', 0)}")
+            self.log("WARNING", f"[EXEC] STREAM_STOP_OPEN_INVENTORY qty={self.position_qty:.6f} locked={float(self.balances.get('BTC', {}).get('locked', 0.0) or 0.0):.6f} free={float(self.balances.get('BTC', {}).get('free', 0.0) or 0.0):.6f}")
         else:
             self.position_state = "FLAT"
             self._reconcile_position_state("stop")
@@ -1296,13 +1308,19 @@ class MainWindow(QMainWindow):
     def _poll_grid_orders(self, now_ms: int) -> None:
         if not self.runtime_active or not self.settings.conveyor_streams_enabled:
             return
+        if now_ms < self.grid_order_error_until_ms:
+            return
         tick = self._tick_size()
         target_ticks = max(int(getattr(self.settings, "conveyor_stream_target_ticks", 30)), 0)
         for level in self.grid_runtime.levels:
             order_id = int(level.active_buy_order_id or 0)
             if level.state != "WAIT_BUY_FILL" or order_id <= 0:
                 continue
-            st = self.account.get_order(CONFIG.binance_symbol, order_id)
+            try:
+                st = self.account.get_order(CONFIG.binance_symbol, order_id)
+            except (BinanceAPIError, RequestException, Exception) as exc:
+                self._mark_stream_order_api_error("BUY", level.level_id, exc)
+                continue
             status = str(st.get("status", "NEW"))
             if status == "FILLED":
                 fill_qty = float(st.get("executedQty", 0.0) or 0.0)
@@ -1313,7 +1331,13 @@ class MainWindow(QMainWindow):
                 if chunk is None or fill_qty <= 0:
                     continue
                 sell_price = add_ticks(fill_price, target_ticks, tick)
-                sell_o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(fill_qty))
+                try:
+                    sell_o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(fill_qty))
+                except (BinanceAPIError, RequestException, Exception) as exc:
+                    chunk.state = "STREAM_WAIT_SELL"
+                    self._mark_stream_order_api_error("SELL", level.level_id, exc)
+                    self.log("WARNING", f"[EXEC] STREAM_SELL_RETRY stream_id={level.level_id} chunk_id={id(chunk)} reason=placement_failed")
+                    continue
                 sell_order_id = int(sell_o.get("orderId"))
                 chunk.entry_order_id = order_id
                 chunk.sell_order_id = sell_order_id
@@ -1326,7 +1350,11 @@ class MainWindow(QMainWindow):
                 self.log("INFO", f"[EXEC] STREAM_SKIP stream_id={level.level_id} reason=BUY_CANCELED order_id={order_id} status={status}")
                 self.grid_runtime.recycle_level(level.level_id)
         for sell_order_id, (level_id, chunk_id) in list(self.grid_sell_order_meta.items()):
-            st = self.account.get_order(CONFIG.binance_symbol, int(sell_order_id))
+            try:
+                st = self.account.get_order(CONFIG.binance_symbol, int(sell_order_id))
+            except (BinanceAPIError, RequestException, Exception) as exc:
+                self._mark_stream_order_api_error("SELL", level_id, exc)
+                continue
             status = str(st.get("status", "NEW"))
             self.log("INFO", f"[EXEC] STREAM_SELL_STATUS stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
             if status in {"CANCELED", "EXPIRED", "REJECTED"}:
@@ -1340,7 +1368,13 @@ class MainWindow(QMainWindow):
                     if best_ask > 0:
                         retry_price = max(retry_price, max(best_ask - tick, tick))
                     retry_price = self._round_price_up(retry_price)
-                    retry_order = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(retry_price), float(chunk.qty))
+                    try:
+                        retry_order = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(retry_price), float(chunk.qty))
+                    except (BinanceAPIError, RequestException, Exception) as exc:
+                        chunk.state = "STREAM_WAIT_SELL"
+                        self._mark_stream_order_api_error("SELL", level_id, exc)
+                        self.log("WARNING", f"[EXEC] STREAM_SELL_RETRY stream_id={level_id} chunk_id={chunk_id} reason=placement_failed")
+                        break
                     retry_order_id = int(retry_order.get("orderId", 0) or 0)
                     if retry_order_id > 0:
                         chunk.sell_order_id = retry_order_id
@@ -1377,6 +1411,14 @@ class MainWindow(QMainWindow):
                 self.log("INFO", f"[EXEC] STREAM_RECYCLED stream_id={level_id}")
                 break
             self.grid_sell_order_meta.pop(sell_order_id, None)
+
+    def _mark_stream_order_api_error(self, side: str, stream_id: int | None, exc: Exception) -> None:
+        now_ms = int(time.time() * 1000)
+        cooldown_ms = max(int(getattr(self.settings, "conveyor_stream_order_error_cooldown_ms", 1500)), 0)
+        max_errors = max(int(getattr(self.settings, "conveyor_stream_max_order_errors", 5)), 1)
+        self.grid_order_error_count = min(self.grid_order_error_count + 1, max_errors)
+        self.grid_order_error_until_ms = now_ms + cooldown_ms
+        self.log("ERROR", f"[EXEC] STREAM_ORDER_API_ERROR side={side} stream_id={stream_id} error={exc}")
 
     def _consume_inventory_fifo(self, sell_qty: float, sell_price: float) -> float:
         epsilon = self._inventory_epsilon_qty()
@@ -1418,7 +1460,12 @@ class MainWindow(QMainWindow):
             now = int(time.time() * 1000)
             clamp_sig = f"{inventory_qty:.8f}:{free_btc:.8f}:{safe_qty:.8f}"
             if clamp_sig != self.last_sell_qty_clamp_sig or now - self.last_sell_qty_clamp_log_ms >= 3000:
-                self.log("WARNING", f"[EXEC] SELL_QTY_CLAMP inventory={inventory_qty:.6f} free={free_btc:.6f} final={safe_qty:.6f}")
+                stream_open_sells = len(self.grid_sell_order_meta)
+                stream_locked_btc = float(self.balances.get("BTC", {}).get("locked", 0.0) or 0.0)
+                if stream_open_sells > 0 and stream_locked_btc > epsilon:
+                    self.log("INFO", f"[EXEC] STREAM LOCKED BTC locked={stream_locked_btc:.6f} STREAM OPEN SELLS={stream_open_sells}")
+                else:
+                    self.log("WARNING", f"[EXEC] SELL_QTY_CLAMP inventory={inventory_qty:.6f} free={free_btc:.6f} final={safe_qty:.6f}")
                 self.last_sell_qty_clamp_sig = clamp_sig
                 self.last_sell_qty_clamp_log_ms = now
         return safe_qty
@@ -2163,7 +2210,13 @@ class MainWindow(QMainWindow):
                                     continue
                                 if free_u + 1e-12 < level.budget_u:
                                     continue
-                                o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(level.target_buy_price), float(level.qty))
+                                try:
+                                    o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(level.target_buy_price), float(level.qty))
+                                except (BinanceAPIError, RequestException, Exception) as exc:
+                                    level.state = "WAIT_BUY"
+                                    level.active_buy_order_id = None
+                                    self._mark_stream_order_api_error("BUY", level.level_id, exc)
+                                    continue
                                 buy_order_id = int(o.get("orderId"))
                                 self.grid_level_by_order_id[buy_order_id] = level.level_id
                                 self.grid_order_ids.add(buy_order_id)
