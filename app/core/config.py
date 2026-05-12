@@ -36,6 +36,8 @@ class SettingsData:
     sell_watchdog_ms: int = 1800
     place_sell_stuck_ms: int = 1500
     far_sell_ticks: int = 30
+    sell_floor_hold_enabled: bool = True
+    sell_floor_hold_max_ms: int = 30000
     panic_far_sell_multiplier: int = 5
     sell_reprice_cooldown_ms: int = 120
     place_sell_recovery_cooldown_ms: int = 2500

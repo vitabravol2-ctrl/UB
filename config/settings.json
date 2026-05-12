@@ -29,6 +29,8 @@
   "sell_watchdog_ms": 1800,
   "place_sell_stuck_ms": 1500,
   "far_sell_ticks": 30,
+  "sell_floor_hold_enabled": true,
+  "sell_floor_hold_max_ms": 30000,
   "panic_far_sell_multiplier": 5,
   "sell_reprice_cooldown_ms": 120,
   "place_sell_recovery_cooldown_ms": 2500,
