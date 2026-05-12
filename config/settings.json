@@ -103,6 +103,10 @@
   "exit_recovery_log_throttle_ms": 2000,
   "compact_logs": true,
   "runtime_diag_enabled": true,
+  "micro_grid_enabled": false,
+  "micro_grid_size_ticks": 400,
+  "micro_grid_step_ticks": 10,
+  "micro_grid_budget_u": 5000.0,
   "micro_partial_reconcile_enabled": true,
   "micro_partial_max_qty": 0.0001
 }

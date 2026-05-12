@@ -113,6 +113,10 @@ class SettingsData:
     exit_recovery_log_throttle_ms: int = 2000
     compact_logs: bool = True
     runtime_diag_enabled: bool = True
+    micro_grid_enabled: bool = False
+    micro_grid_size_ticks: int = 400
+    micro_grid_step_ticks: int = 10
+    micro_grid_budget_u: float = 5000.0
 
 
 @dataclass(frozen=True)
