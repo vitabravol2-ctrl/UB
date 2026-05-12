@@ -218,6 +218,9 @@ class MainWindow(QMainWindow):
         self._cached_plan = None
         self.rest_fallback_count = 0
         self.stale_reason = ""
+        self.last_sell_price = 0.0
+        self.force_reprice_sell_next = False
+        self.last_sell_far_cancel_price = 0.0
         self.last_watchdog_sync_ms_by_order: dict[int, int] = {}
 
         root = QWidget(); self.setCentralWidget(root); self.main_layout = QVBoxLayout(root)
@@ -868,6 +871,18 @@ class MainWindow(QMainWindow):
     def _is_market_near_sell_target(self, bid_now: float, target_price: float) -> bool:
         tick = self._tick_size()
         return bid_now > 0 and target_price > 0 and (target_price - bid_now) <= (tick * self.sell_hold_near_ticks)
+
+    def _reset_sell_price_cache_after_far_cancel(self, canceled_price: float) -> None:
+        self.active_order = {}
+        self.position_sell_order_id = 0
+        self.last_sell_price = 0.0
+        self.force_reprice_sell_next = True
+        self.last_sell_far_cancel_price = float(canceled_price or 0.0)
+        self._cached_plan = None
+        self.last_plan_recompute_ms = 0
+        self.last_sell_place_signature = ""
+        self.last_sell_place_ms = 0
+        self.fetch_rest()
 
     def _watchdog_ready(self, order_id: int, now_ms: int) -> bool:
         if order_id <= 0:
@@ -1671,6 +1686,7 @@ class MainWindow(QMainWindow):
                     order_id = int(open_sell.get("orderId", 0) or 0)
                     self.log("WARNING", f"[EXEC] SELL_WATCHDOG_FAR_CANCEL orderId={order_id} price={open_sell_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
                     self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                    self._reset_sell_price_cache_after_far_cancel(open_sell_price)
                     self.sync_active_order(force=True)
                 else:
                     self._adopt_open_sell_order(open_sell)
@@ -1756,7 +1772,32 @@ class MainWindow(QMainWindow):
                 tp_ticks = max(int(getattr(self.settings, "take_profit_ticks", 3)), 0)
                 min_profit_ticks = max(int(self.settings.min_profit_ticks), 0)
                 tp_floor_price = float(self.position_entry_avg) + (tick * max(tp_ticks, min_profit_ticks))
-                sell_price = max(float(plan.exit_price), tp_floor_price)
+                plan_exit_price = float(plan.exit_price) if plan and plan.exit_price is not None else 0.0
+                target_exit = max(plan_exit_price, tp_floor_price)
+                ask_now = float(self.state.snapshot.ask or 0.0)
+                bid_now = float(self.state.snapshot.bid or 0.0)
+                if self.force_reprice_sell_next:
+                    if ask_now <= 0 or bid_now <= 0:
+                        self.fetch_rest()
+                        ask_now = float(self.state.snapshot.ask or 0.0)
+                        bid_now = float(self.state.snapshot.bid or 0.0)
+                    maker_cap = ask_now - tick if ask_now > 0 else target_exit
+                    market_exit_price = min(target_exit, maker_cap) if maker_cap > 0 else target_exit
+                    if self.taker_exit_triggered or self.exit_stage != "EXIT_TP_MAKER":
+                        market_exit_price = self._force_exit_price(bid_now, ask_now)
+                    sell_price = max(market_exit_price, tp_floor_price)
+                    old_price = float(self.last_sell_far_cancel_price or self.last_sell_price or plan_exit_price)
+                    self.log("INFO", f"[EXEC] SELL_REPRICE_FRESH_AFTER_FAR_CANCEL old={old_price:.2f} new={sell_price:.2f} ask={ask_now:.2f} bid={bid_now:.2f}")
+                    self.force_reprice_sell_next = False
+                    still_far, dist_ticks = self._is_far_sell(sell_price, ask_now)
+                    if still_far:
+                        self.log("WARNING", f"[EXEC] SELL_SKIP_STILL_FAR_AFTER_REPRICE price={sell_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
+                        if not self._trigger_taker_exit(int(time.time() * 1000), "still_far_after_reprice"):
+                            self.fsm_state = "WAIT_MANUAL"
+                            self.runtime_halt_manual_check = True
+                        return
+                else:
+                    sell_price = target_exit
                 now = int(time.time() * 1000)
                 place_signature = f"{sell_qty:.8f}@{sell_price:.2f}"
                 if self.last_sell_place_signature == place_signature and now - self.last_sell_place_ms < 1000:
@@ -1783,6 +1824,7 @@ class MainWindow(QMainWindow):
                     return
                 self.active_order = {"orderId": order_id, "side": "SELL", "price": float(sell_price), "qty": float(sell_qty), "create_ms": now, "state": "NEW", "type": "LIMIT"}
                 self.position_sell_order_id = order_id
+                self.last_sell_price = float(sell_price)
                 self.position_state = "SELL_PENDING"
                 self.sell_reported_qty = 0.0
                 self.exit_mode = "NORMAL" if self.sell_reprice_count == 0 else "AGGRESSIVE"
@@ -1821,7 +1863,7 @@ class MainWindow(QMainWindow):
                     if is_far:
                         self.log("WARNING", f"[EXEC] SELL_WATCHDOG_FAR_CANCEL orderId={order_id} price={order_price:.2f} ask={ask_now:.2f} dist_ticks={dist_ticks}")
                         self.account.cancel_order(CONFIG.binance_symbol, order_id)
-                        self.active_order = {}
+                        self._reset_sell_price_cache_after_far_cancel(order_price)
                         self.fsm_state = "PLACE_SELL" if self.position_qty > self._inventory_epsilon_qty() else "DONE"
                         return
             prev_sell_reported_qty = self.sell_reported_qty
