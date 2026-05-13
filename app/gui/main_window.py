@@ -250,6 +250,7 @@ class MainWindow(QMainWindow):
         self.entry_guard_reason = "boot"
         self.entry_guard_last_block_log_ms = 0
         self.last_stream_global_sell_skip_log_ms_by_reason: dict[str, int] = {}
+        self.last_stream_repair_skip_log_ms = 0
         self.last_stream_stats_ui_log_ms = 0
         self.entry_guard_stable_count = 0
         self.last_plan_recompute_ms = 0
@@ -1265,7 +1266,10 @@ class MainWindow(QMainWindow):
         inventory_qty = self._recalc_position_from_chunks()
         self._recalc_entry_avg_from_chunks()
         if bool((int(getattr(self.settings, "stream_count", 1)) >= 1)) and self._has_stream_owned_chunks_or_orders():
-            self.log("INFO", "[EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory")
+            now = int(time.time() * 1000)
+            if now - int(self.last_stream_repair_skip_log_ms or 0) >= 2500:
+                self.log("INFO", "[EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory")
+                self.last_stream_repair_skip_log_ms = now
             return
         active_side = str(self.active_order.get("side", ""))
         has_active_order = bool(self.active_order.get("orderId"))
@@ -1323,6 +1327,39 @@ class MainWindow(QMainWindow):
     def _is_stream_sell_order_id(self, order_id: int) -> bool:
         return bool(order_id > 0 and int(order_id) in self.grid_sell_order_meta)
 
+    def _restore_orphan_stream_sells(self, now_ms: int, tick: float) -> None:
+        for chunk in self.inventory_chunks:
+            if not self._is_stream_owned_chunk(chunk):
+                continue
+            if chunk.qty <= self._inventory_epsilon_qty():
+                continue
+            has_meta_sell = bool(chunk.sell_order_id and int(chunk.sell_order_id) in self.grid_sell_order_meta)
+            if has_meta_sell or chunk.state in {"STREAM_WAIT_SELL", "STREAM_SELL_PLACED"}:
+                continue
+            level_id = int(chunk.stream_id or chunk.grid_level_id or 0)
+            if level_id <= 0:
+                continue
+            target_ticks = max(int(getattr(self.settings, "stream_target_ticks", 30)), 0)
+            best_ask = float(self.state.snapshot.ask or 0.0)
+            sell_price = self._round_price_up(add_ticks(chunk.entry_price, target_ticks, tick))
+            if best_ask > 0:
+                sell_price = max(sell_price, max(best_ask - tick, tick))
+            try:
+                repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(chunk.qty))
+            except (BinanceAPIError, RequestException, Exception) as exc:
+                self._mark_stream_order_api_error("SELL", level_id, exc)
+                self.log("WARNING", f"[EXEC] STREAM_SELL_UNLOCK_FAILED stream_id={level_id} chunk_id={id(chunk)} reason=placement_failed")
+                continue
+            new_id = int(repl.get("orderId", 0) or 0)
+            if new_id <= 0:
+                self.log("WARNING", f"[EXEC] STREAM_SELL_UNLOCK_FAILED stream_id={level_id} chunk_id={id(chunk)} reason=empty_order_id")
+                continue
+            chunk.sell_order_id = new_id
+            chunk.sell_placed_ms = now_ms
+            chunk.state = "STREAM_SELL_PLACED"
+            self.grid_sell_order_meta[new_id] = (level_id, id(chunk))
+            self.log("INFO", f"[EXEC] STREAM_SELL_ORPHAN_RESTORED stream_id={level_id} chunk_id={id(chunk)} order_id={new_id} price={sell_price:.2f} qty={chunk.qty:.6f}")
+
     def _add_inventory_chunk(self, qty: float, entry_price: float, now_ms: int) -> None:
         if qty <= 0:
             return
@@ -1342,6 +1379,7 @@ class MainWindow(QMainWindow):
         if now_ms < self.grid_order_error_until_ms:
             return
         tick = self._tick_size()
+        self._restore_orphan_stream_sells(now_ms, tick)
         target_ticks = max(int(getattr(self.settings, "stream_target_ticks", 30)), 0)
         for level in self.grid_runtime.levels:
             order_id = int(level.active_buy_order_id or 0)
@@ -1433,6 +1471,8 @@ class MainWindow(QMainWindow):
                         self._mark_stream_order_api_error("SELL", level_id, exc)
                         timeout_handled = True
                         break
+                    self.grid_sell_order_meta.pop(sell_order_id, None)
+                    chunk.sell_order_id = None
                     best_bid = float(self.state.snapshot.bid or 0.0)
                     best_ask = float(self.state.snapshot.ask or 0.0)
                     stop_loss_ticks = max(int(getattr(self.settings, "stop_loss_ticks", 0)), 0)
@@ -1460,6 +1500,7 @@ class MainWindow(QMainWindow):
                     except (BinanceAPIError, RequestException, Exception) as exc:
                         chunk.state = "STREAM_WAIT_SELL"
                         self._mark_stream_order_api_error("SELL", level_id, exc)
+                        self.log("WARNING", f"[EXEC] STREAM_SELL_UNLOCK_FAILED stream_id={level_id} chunk_id={chunk_id} reason=placement_failed")
                         timeout_handled = True
                         break
                     new_id = int(repl.get("orderId", 0) or 0)
@@ -1468,7 +1509,9 @@ class MainWindow(QMainWindow):
                         chunk.sell_placed_ms = now_ms
                         chunk.state = "STREAM_SELL_PLACED"
                         self.grid_sell_order_meta[new_id] = (level_id, chunk_id)
-                    self.grid_sell_order_meta.pop(sell_order_id, None)
+                    else:
+                        chunk.state = "STREAM_WAIT_SELL"
+                        self.log("WARNING", f"[EXEC] STREAM_SELL_UNLOCK_FAILED stream_id={level_id} chunk_id={chunk_id} reason=empty_order_id")
                     timeout_handled = True
                     break
                 if timeout_handled:
