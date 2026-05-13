@@ -91,21 +91,19 @@ class GridRuntime:
             self._log(f"STREAM_MULTI_MODE count={levels_count}")
         self._log(f"STREAM_CONVEYOR_ACTIVE count={levels_count} range_ticks={total_range_ticks} step_ticks={step_ticks}")
 
-        available_u = float(free_u if free_u is not None else settings.max_exposure_u)
-        grid_budget_u = min(float(settings.max_exposure_u), available_u)
-        budget_per_level = grid_budget_u / levels_count
-        self._log(f"GRID_BUDGET_SOURCE source=max_exposure_u budget={grid_budget_u:.2f}")
+        order_size_u = max(float(getattr(settings, "order_size_u", 0.0)), 0.0)
+        self._log(f"STREAM_BUDGET_SOURCE source=order_size_u order_size_u={order_size_u:.2f}")
         for idx in range(1, levels_count + 1):
             price = sub_ticks(bid, step_ticks * idx, tick_size)
-            qty = self._round_down((budget_per_level / price) if price > 0 else 0.0, step_size)
+            qty = self._round_down((order_size_u / price) if price > 0 else 0.0, step_size)
             notional = qty * price
             if qty < min_qty or notional < min_notional:
                 self._log(f"STREAM_SKIP stream_id={idx} reason=INVALID_QTY price={price:.8f} qty={qty:.8f}")
                 continue
-            level = GridLevel(level_id=idx, target_buy_price=price, budget_u=budget_per_level, qty=qty)
+            level = GridLevel(level_id=idx, target_buy_price=price, budget_u=order_size_u, qty=qty)
             self.levels.append(level)
-            self._log(f"STREAM_CREATE stream_id={idx} buy_price={price:.8f} budget={budget_per_level:.2f} qty={qty:.8f}")
-        self._log(f"STREAM_CREATE_DONE count={len(self.levels)} budget={grid_budget_u:.2f} step_ticks={step_ticks}")
+            self._log(f"STREAM_CREATE stream_id={idx} buy_price={price:.8f} budget={order_size_u:.2f} qty={qty:.8f}")
+        self._log(f"STREAM_CREATE_DONE count={len(self.levels)} budget_per_level={order_size_u:.2f} step_ticks={step_ticks}")
         return self.levels
 
     def mark_buy_placed(self, level_id: int, order_id: int) -> None:
