@@ -15,9 +15,14 @@ class MicroGridWindow(QMainWindow):
         self.setWindowTitle("Micro Grid")
         self.resize(760, 560)
 
-        self.adapter = GridTradeAdapter(live_enabled=self.settings.start_live)
+        self.adapter = GridTradeAdapter(live_enabled=self.settings.live_enabled, symbol=self.settings.symbol)
         self.runtime = MicroGridRuntime(self.adapter, self._log)
         self.filters = self.adapter.load_filters()
+        api_status = self.adapter.load_api()
+        if api_status == "OK":
+            self._log("GRID_API_READY")
+        else:
+            self._log("GRID_API_NOT_SET")
 
         root = QWidget(self)
         self.setCentralWidget(root)
@@ -58,7 +63,7 @@ class MicroGridWindow(QMainWindow):
         self.stop_btn.clicked.connect(self.on_stop)
         self.cancel_btn.clicked.connect(self.cancel_all)
         self.balance_btn.clicked.connect(lambda: self._log(f"BALANCES {self.adapter.refresh_balances()}"))
-        self.orders_btn.clicked.connect(lambda: self._log(f"OPEN_ORDERS n={len(self.adapter.get_open_orders())}"))
+        self.orders_btn.clicked.connect(self.open_orders)
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.on_tick)
@@ -68,15 +73,28 @@ class MicroGridWindow(QMainWindow):
         self.log_box.append(msg)
 
     def on_recalc(self) -> None:
-        step, budget, qty = self.runtime.calculate(float(self.lower.text()), float(self.upper.text()), int(self.count.text()), float(self.investment.text()), float(self.filters["stepSize"]))
+        step, step_ticks, budget, qty = self.runtime.calculate(float(self.lower.text()), float(self.upper.text()), int(self.count.text()), float(self.investment.text()), float(self.filters["stepSize"]), float(self.filters["tickSize"]))
         profit = step * qty
-        self.stats.setText(f"Calculated step: {step:.8f} | Budget per level: {budget:.8f} | Qty per level: {qty:.8f} | Expected profit per cycle: {profit:.8f} | Total grid levels: {int(self.count.text())}")
+        total_profit = profit * len(self.runtime.levels or [None] * int(self.count.text()))
+        self.stats.setText(f"Step U: {step:.8f} | Step ticks: {step_ticks} | Budget per level: {budget:.8f} | Qty per level: {qty:.8f} | Expected profit/cycle U: {profit:.8f} | Expected profit all U: {total_profit:.8f} | Total valid levels: {len(self.runtime.levels) if self.runtime.levels else int(self.count.text())}")
 
     def on_start(self) -> None:
         self.on_recalc()
-        self.runtime.build_levels(float(self.lower.text()), int(self.count.text()), self.runtime.calculate(float(self.lower.text()), float(self.upper.text()), int(self.count.text()), float(self.investment.text()), float(self.filters["stepSize"]))[2])
+        if self.adapter.api_status != "OK":
+            self._log("GRID_API_NOT_SET")
+            return
+        self.runtime.build_levels(
+            float(self.lower.text()),
+            int(self.count.text()),
+            float(self.investment.text()),
+            float(self.filters["tickSize"]),
+            float(self.filters["stepSize"]),
+            float(self.filters["minQty"]),
+            float(self.filters["minNotional"]),
+        )
+        self.on_recalc()
         self._log("GRID_MODE_START")
-        self.runtime.start(int(self.settings.max_active_orders))
+        self.runtime.start(int(self.settings.max_active_orders), live_enabled=bool(self.settings.live_enabled), dry_run=bool(self.settings.dry_run), test_order_limit=int(self.settings.test_order_limit))
         self.timer.start(1500)
 
     def on_tick(self) -> None:
@@ -91,5 +109,15 @@ class MicroGridWindow(QMainWindow):
         self._log("GRID_MODE_STOP")
 
     def cancel_all(self) -> None:
+        if self.adapter.api_status != "OK":
+            self._log("GRID_API_NOT_SET")
+            return
         out = self.adapter.cancel_grid_orders()
         self._log(f"GRID_CANCEL_ALL {out}")
+
+    def open_orders(self) -> None:
+        if self.adapter.api_status != "OK":
+            self._log("GRID_API_NOT_SET")
+            return
+        orders = [o for o in self.adapter.get_open_orders() if str(o.get("clientOrderId", "")).startswith("UBGRID_")]
+        self._log(f"GRID_OPEN_ORDERS n={len(orders)}")

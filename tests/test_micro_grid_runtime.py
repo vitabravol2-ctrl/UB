@@ -23,8 +23,9 @@ class DummyAdapter:
 
 def test_grid_calculation():
     rt = MicroGridRuntime(DummyAdapter(), lambda _: None)
-    step, budget, qty = rt.calculate(80500, 81000, 100, 30000, 0.00001)
+    step, step_ticks, budget, qty = rt.calculate(80500, 81000, 100, 30000, 0.00001, 0.01)
     assert step == 5
+    assert step_ticks == 500
     assert budget == 300
     assert qty > 0
 
@@ -36,9 +37,9 @@ def test_qty_rounding():
 
 def test_lifecycle():
     rt = MicroGridRuntime(DummyAdapter(), lambda _: None)
-    rt.calculate(80500, 81000, 2, 1000, 0.00001)
-    rt.build_levels(80500, 2, 0.01)
-    rt.start(2)
+    rt.calculate(80500, 81000, 2, 1000, 0.00001, 0.01)
+    rt.build_levels(80500, 2, 1000, 0.01, 0.00001, 0.00001, 5.0)
+    rt.start(2, live_enabled=True, dry_run=False, test_order_limit=3)
     rt.poll()
     rt.poll()
     assert rt.closed_cycles > 0
@@ -50,3 +51,21 @@ def test_config_load_save(tmp_path):
     store.save(s)
     loaded = store.load()
     assert loaded.grid_count == 33
+
+
+def test_min_notional_skip():
+    logs = []
+    rt = MicroGridRuntime(DummyAdapter(), logs.append)
+    rt.calculate(80500, 81000, 2, 5, 0.00001, 0.01)
+    rt.build_levels(80500, 2, 5, 0.01, 0.00001, 0.00001, 1000.0)
+    assert any("GRID_LEVEL_SKIP" in x and "MIN_NOTIONAL" in x for x in logs)
+
+
+def test_live_limit_and_prefix():
+    rt = MicroGridRuntime(DummyAdapter(), lambda _: None)
+    rt.calculate(80500, 81000, 10, 30000, 0.00001, 0.01)
+    rt.build_levels(80500, 10, 30000, 0.01, 0.00001, 0.00001, 5.0)
+    rt.start(100, live_enabled=True, dry_run=False, test_order_limit=3)
+    placed = len([x for x in rt.levels if x.state == "BUY_PLACED"])
+    assert placed <= 3
+    assert DummyAdapter().generate_client_order_id().startswith("UBGRID_")

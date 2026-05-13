@@ -15,6 +15,9 @@ class MicroGridSettings:
     max_active_orders: int = 100
     auto_reinvest: bool = True
     start_live: bool = False
+    dry_run: bool = True
+    live_enabled: bool = False
+    test_order_limit: int = 3
     cancel_on_stop: bool = True
 
 
