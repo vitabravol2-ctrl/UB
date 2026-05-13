@@ -37,8 +37,8 @@ class GridTradeAdapter:
             return {"status": "ERROR", "reason": "INVALID_CLIENT_ORDER_ID"}
         return None
 
-    def generate_client_order_id(self) -> str:
-        return f"UBGRID_{uuid4().hex[:20]}"
+    def generate_client_order_id(self, side: str = "X", level: int = 0) -> str:
+        return f"UBGRID_{side}_{level}_{uuid4().hex[:10]}"
 
     def place_limit_buy(self, price: float, qty: float, client_order_id: str, symbol: str | None = None) -> dict[str, Any]:
         blocked = self._validate_live(client_order_id, symbol or CONFIG.binance_symbol)

@@ -8,20 +8,18 @@ from pathlib import Path
 @dataclass
 class MicroGridSettings:
     symbol: str = "BTCU"
-    lower_price: float = 80500.0
-    upper_price: float = 81000.0
-    grid_count: int = 100
-    investment_u: float = 3000.0
-    max_active_orders: int = 25
-    active_buy_window_levels: int = 10
-    active_sell_window_levels: int = 10
-    max_live_buy_orders: int = 5
-    max_live_sell_orders: int = 20
+    grid_step_u: float = 5.0
+    buy_levels_down: int = 25
+    sell_levels_up: int = 25
+    investment_u: float = 10000.0
+    budget_buy_side_u: float = 5000.0
+    budget_sell_side_u: float = 5000.0
+    max_live_buy_orders: int = 25
+    max_live_sell_orders: int = 25
     auto_reinvest: bool = True
-    start_live: bool = False
     dry_run: bool = False
     live_enabled: bool = True
-    test_order_limit: int = 3
+    test_order_limit: int = 0
     cancel_on_stop: bool = True
 
 
