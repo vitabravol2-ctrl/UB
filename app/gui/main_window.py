@@ -1441,11 +1441,14 @@ class MainWindow(QMainWindow):
                     retry_step_ticks = max(int(getattr(self.settings, "stream_sell_retry_step_ticks", 20)), 0)
                     stop_loss_price = self._round_price_down(max(chunk.entry_price - tick * stop_loss_ticks, tick))
                     market_below_stop = stop_loss_ticks > 0 and best_bid > 0 and best_bid <= stop_loss_price
-                    can_stop = chunk.sell_retry_count >= retry_max or market_below_stop or (not self.runtime_active)
+                    retry_exhausted = chunk.sell_retry_count >= retry_max
+                    emergency_or_manual_stop = not self.runtime_active
+                    can_stop = retry_exhausted or market_below_stop or emergency_or_manual_stop
                     if can_stop:
                         new_price = self._round_price_down(max(best_bid, tick))
                         self.log("WARNING", f"[EXEC] STREAM_STOP_LOSS_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} stop_price={new_price:.2f} retry_count={chunk.sell_retry_count} retry_max={retry_max}")
                     else:
+                        self.log("INFO", f"[EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count={chunk.sell_retry_count} retry_max={retry_max} stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
                         retry_price = self._round_price_up(chunk.entry_price + tick * min_profit_ticks)
                         if best_ask > 0:
                             retry_price = max(retry_price, max(best_ask - tick * retry_step_ticks, tick))
