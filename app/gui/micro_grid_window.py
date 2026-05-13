@@ -18,11 +18,6 @@ class MicroGridWindow(QMainWindow):
         self.adapter = GridTradeAdapter(live_enabled=self.settings.live_enabled, symbol=self.settings.symbol)
         self.runtime = MicroGridRuntime(self.adapter, self._log)
         self.filters = self.adapter.load_filters()
-        api_status = self.adapter.load_api()
-        if api_status == "OK":
-            self._log("GRID_API_READY")
-        else:
-            self._log("GRID_API_NOT_SET")
 
         root = QWidget(self)
         self.setCentralWidget(root)
@@ -58,6 +53,12 @@ class MicroGridWindow(QMainWindow):
         layout.addWidget(self.runtime_info)
         self.log_box = QTextEdit(); self.log_box.setReadOnly(True)
         layout.addWidget(self.log_box, 1)
+
+        api_status = self.adapter.load_api()
+        if api_status == "OK":
+            self._log("GRID_API_READY")
+        else:
+            self._log("GRID_API_NOT_SET")
 
         self.start_btn.clicked.connect(self.on_start)
         self.stop_btn.clicked.connect(self.on_stop)
