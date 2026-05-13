@@ -107,6 +107,7 @@ class MainWindow(QMainWindow):
         self.grid_order_error_count = 0
         self.grid_buy_paused = False
         self.grid_last_batch_size = 0
+        self.stream_last_recenter_ms = 0
         self.api_status = "NOT SET"
         self.api_ready = False
         self.last_log_line = ""
@@ -373,6 +374,8 @@ class MainWindow(QMainWindow):
             "stream_max_active_buys": "Stream max active buys",
             "stream_place_batch_size": "Stream place batch size",
             "stream_place_interval_ms": "Stream place interval ms",
+            "stream_buy_max_distance_ticks": "Stream BUY max distance ticks",
+            "stream_recenter_interval_ms": "Stream recenter interval ms",
             "stream_sell_first": "Stream sell first",
             "min_spread_ticks": "Min spread ticks",
             "entry_offset_ticks": "Entry offset ticks",
@@ -413,7 +416,7 @@ class MainWindow(QMainWindow):
 
         tab_map = [
             ("GENERAL", ["live_enabled", "order_size_u", "max_exposure_u", "max_daily_loss", "auto_cancel_on_stop"]),
-            ("STREAM CONVEYOR", ["stream_count", "stream_range_ticks", "stream_max_active_buys", "stream_place_batch_size", "stream_place_interval_ms", "stream_sell_first"]),
+            ("STREAM CONVEYOR", ["stream_count", "stream_range_ticks", "stream_max_active_buys", "stream_place_batch_size", "stream_place_interval_ms", "stream_buy_max_distance_ticks", "stream_recenter_interval_ms", "stream_sell_first"]),
             ("ENTRY", ["min_spread_ticks", "entry_offset_ticks", "buy_timeout_ms", "buy_watchdog_ms", "far_buy_ticks", "entry_mode", "entry_chase_ticks", "entry_cross_if_spread_ticks_above"]),
             ("EXIT", ["stream_target_ticks", "stream_min_profit_ticks", "stream_sell_timeout_ms", "stream_sell_retry_max", "stream_sell_retry_step_ticks", "stop_loss_ticks", "stream_loss_cooldown_ms"]),
             ("DATA / GUARD", ["require_ws_for_buy", "ws_optional_enabled", "max_ws_age_ms", "guard_enabled", "min_spread_lifetime_ms", "block_on_mid_negative", "block_on_bid_unstable"]),
@@ -1350,6 +1353,29 @@ class MainWindow(QMainWindow):
                 self._mark_stream_order_api_error("BUY", level.level_id, exc)
                 continue
             status = str(st.get("status", "NEW"))
+            if status == "NEW":
+                recenter_interval_ms = max(int(getattr(self.settings, "stream_recenter_interval_ms", 3000)), 0)
+                if recenter_interval_ms > 0 and now_ms - self.stream_last_recenter_ms >= recenter_interval_ms:
+                    best_bid = float(self.state.snapshot.bid or 0.0)
+                    tick = max(self._tick_size(), 1e-12)
+                    max_distance_ticks = max(int(getattr(self.settings, "stream_buy_max_distance_ticks", 300)), 0)
+                    if best_bid > 0 and max_distance_ticks > 0:
+                        distance_ticks = int(round((best_bid - float(level.target_buy_price)) / tick))
+                        has_level_inventory = any((c.grid_level_id == level.level_id and c.qty > self._inventory_epsilon_qty()) for c in self.inventory_chunks)
+                        has_active_sell = any((lvl_id == level.level_id) for lvl_id, _ in self.grid_sell_order_meta.values())
+                        if distance_ticks > max_distance_ticks and not has_level_inventory and not has_active_sell:
+                            old_price = float(level.target_buy_price)
+                            try:
+                                self.account.cancel_order(CONFIG.binance_symbol, order_id)
+                            except (BinanceAPIError, RequestException, Exception) as exc:
+                                self._mark_stream_order_api_error("BUY", level.level_id, exc)
+                                continue
+                            self.grid_order_ids.discard(order_id)
+                            self.grid_level_by_order_id.pop(order_id, None)
+                            self.grid_runtime.recycle_level(level.level_id)
+                            self.stream_last_recenter_ms = now_ms
+                            self.log("INFO", f"[EXEC] STREAM_BUY_RECENTER old_price={old_price:.2f} new_price={float(level.target_buy_price):.2f} distance_ticks={distance_ticks}")
+                            continue
             if status == "FILLED":
                 fill_qty = float(st.get("executedQty", 0.0) or 0.0)
                 fill_price = float(st.get("price", level.target_buy_price) or level.target_buy_price)

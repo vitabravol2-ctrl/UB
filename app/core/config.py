@@ -127,7 +127,7 @@ class SettingsData:
     stream_range_ticks: int = 1200
     stream_max_active_buys: int = 2
     stream_place_batch_size: int = 1
-    stream_place_interval_ms: int = 750
+    stream_place_interval_ms: int = 500
     stream_max_inventory_u: float = 1000.0
     stream_pause_buy_inventory_u: float = 800.0
     stream_sell_first: bool = True
@@ -137,6 +137,8 @@ class SettingsData:
     stream_sell_retry_max: int = 2
     stream_sell_retry_step_ticks: int = 4
     stream_loss_cooldown_ms: int = 6000
+    stream_buy_max_distance_ticks: int = 300
+    stream_recenter_interval_ms: int = 3000
     stream_order_error_cooldown_ms: int = 1500
     stream_max_order_errors: int = 5
     # legacy compatibility (hidden in GUI)
