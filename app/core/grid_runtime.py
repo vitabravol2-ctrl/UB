@@ -79,17 +79,13 @@ class GridRuntime:
 
     def configure_micro_grid(self, bid: float, tick_size: float, step_size: float, min_qty: float, min_notional: float, settings, *, free_u: float | None = None) -> list[GridLevel]:
         self.levels = []
-        streams_enabled = bool(getattr(settings, "conveyor_streams_enabled", False))
-        if not streams_enabled:
-            self._log("GRID_LEVEL_DISABLED")
-            return self.levels
-        levels_count = max(int(getattr(settings, "conveyor_stream_count", 20)), 0)
-        total_range_ticks = max(int(getattr(settings, "conveyor_stream_range_ticks", 200)), 0)
+        levels_count = max(int(getattr(settings, "stream_count", 1)), 0)
+        total_range_ticks = max(int(getattr(settings, "stream_range_ticks", 200)), 0)
         step_ticks = int(total_range_ticks / levels_count) if levels_count > 0 else 0
         if levels_count <= 0 or step_ticks <= 0:
             self._log("STREAM_SKIP reason=INVALID_STREAMS")
             return self.levels
-        self._log(f"STREAMS_ENABLED count={levels_count} range_ticks={total_range_ticks} step_ticks={step_ticks}")
+        self._log(f"STREAM_CONVEYOR_ACTIVE count={levels_count} range_ticks={total_range_ticks} step_ticks={step_ticks}")
 
         available_u = float(free_u if free_u is not None else settings.max_exposure_u)
         grid_budget_u = min(float(settings.max_exposure_u), float(settings.max_live_exposure_u), available_u)
@@ -151,7 +147,7 @@ class GridRuntime:
             "GRID FILLED LEVELS": filled,
             "GRID BUDGET USED": used,
             "GRID BUDGET FREE": max(total - used, 0.0),
-            "GRID MODE": "PARALLEL" if self.levels else "OFF",
+            "GRID MODE": "STREAM" if self.levels else "OFF",
         }
 
     def validate_inputs(self, levels=None, market=None, balances=None, filters=None) -> tuple[str, str]:
