@@ -88,7 +88,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.settings = SETTINGS_STORE.load()
-        self.setWindowTitle("UB v0.7.6 / BTCU Trading Cockpit")
+        self.setWindowTitle("UB v0.8.21 / BTCU Trading Cockpit")
         self.resize(1600, 900)
         self.setMinimumSize(1280, 760)
         self.setStyleSheet(main_qss())
@@ -363,85 +363,43 @@ class MainWindow(QMainWindow):
         self.settings_inputs = {}
 
         labels = {
-            "order_size_u": "Размер сделки U",
-            "max_exposure_u": "Макс. экспозиция U",
-            "max_daily_loss": "Макс. дневной убыток U",
-            "max_open_lots": "Max open lots",
-            "panic_exit": "Panic exit",
-            "require_confirmation": "Require confirmation",
+            "live_enabled": "LIVE enabled",
+            "order_size_u": "Order size U",
+            "max_exposure_u": "Max exposure U",
+            "max_daily_loss": "Max daily loss U",
             "auto_cancel_on_stop": "Auto cancel on stop",
-            "max_live_exposure_u": "Live max exposure U",
-            "open_orders_poll_ms": "openOrders interval ms",
-            "all_orders_poll_ms": "allOrders interval ms",
-            "balances_poll_ms": "balances interval ms",
-            "debug_api_logs": "API debug logs",
+            "stream_count": "Stream count",
+            "stream_range_ticks": "Stream range ticks",
+            "stream_max_active_buys": "Stream max active buys",
+            "stream_place_batch_size": "Stream place batch size",
+            "stream_place_interval_ms": "Stream place interval ms",
+            "stream_sell_first": "Stream sell first",
+            "min_spread_ticks": "Min spread ticks",
+            "entry_offset_ticks": "Entry offset ticks",
             "buy_timeout_ms": "BUY timeout ms",
-            "buy_timeout_ms_fast": "BUY timeout fast ms",
             "buy_watchdog_ms": "BUY watchdog ms",
             "far_buy_ticks": "BUY far ticks",
-            "entry_mode": "Entry mode (PASSIVE/BALANCED/AGGRESSIVE)",
-            "entry_reprice_enabled": "Entry reprice enabled",
-            "entry_reprice_cooldown_ms": "Entry reprice cooldown ms",
-            "max_entry_reprices": "Max entry reprices",
+            "entry_mode": "Entry mode",
             "entry_chase_ticks": "Entry chase ticks",
-            "entry_cross_if_spread_ticks_above": "Cross entry if spread ticks above",
-            "min_spread_after_entry_ticks": "Min spread after entry ticks",
-            "sell_timeout_ms": "SELL timeout ms",
-            "sell_watchdog_ms": "SELL watchdog ms",
-            "place_sell_stuck_ms": "PLACE_SELL stuck ms",
-            "far_sell_ticks": "SELL far ticks",
-            "sell_floor_hold_enabled": "Sell floor hold enabled",
-            "sell_floor_hold_max_ms": "Sell floor hold max ms",
-            "sell_reprice_cooldown_ms": "SELL reprice cooldown ms",
-            "aggressive_exit_offset": "Aggressive exit offset",
-            "max_sell_reprices": "Max sell reprices",
-            "exit_engine_enabled": "Exit engine enabled",
-            "exit_stage1_ms": "Exit stage1 ms",
-            "exit_stage2_ms": "Exit stage2 ms",
-            "exit_stage3_ms": "Exit stage3 ms",
-            "exit_reprice_step_ticks": "Exit reprice step ticks",
-            "exit_max_reprices": "Exit max reprices",
-            "panic_ladder_enabled": "Panic ladder enabled",
-            "panic_ladder_step_ticks": "Panic ladder step ticks",
-            "panic_ladder_ms": "Panic ladder ms",
-            "panic_cross_after_ms": "Panic cross after ms",
-            "exit_ioc_enabled": "Exit IOC enabled",
-            "taker_exit_enabled": "Taker exit enabled",
-            "taker_exit_after_ms": "Taker exit after ms",
-            "taker_exit_ioc": "Taker IOC enabled",
-            "taker_exit_spread_collapse_ticks": "Taker spread collapse ticks",
-            "taker_exit_mid_negative_threshold": "Taker mid negative threshold",
-            "taker_exit_min_expected_profit_ticks": "Taker min expected profit ticks",
-            "taker_exit_max_slippage_ticks": "Taker max slippage ticks",
-            "taker_exit_force_flat_after_ms": "Taker force flat after ms",
-            "min_profit_ticks": "Min profit ticks",
-            "take_profit_ticks": "Take profit ticks",
+            "entry_cross_if_spread_ticks_above": "Cross if spread ticks above",
+            "stream_target_ticks": "Stream target ticks",
+            "stream_min_profit_ticks": "Stream min profit ticks",
+            "stream_sell_timeout_ms": "Stream sell timeout ms",
+            "stream_sell_retry_max": "Stream sell retry max",
+            "stream_sell_retry_step_ticks": "Stream sell retry step ticks",
             "stop_loss_ticks": "Stop loss ticks",
-            "guard_mode": "Guard mode (FAST/BALANCED/STRICT)",
-            "active_order_poll_ms": "active order poll ms",
-            "max_ws_age_for_buy_ms": "max ws age for buy ms",
-            "panic_hold_max_ms": "panic hold max ms",
-            "manual_stop_on_blocked_exit": "manual stop on blocked exit",
-            "exit_block_manual_enabled": "exit block manual enabled",
-            "inventory_epsilon_qty": "inventory epsilon qty",
-            "min_sellable_qty_fallback": "min sellable qty fallback",
-            "dust_cleanup_enabled": "dust cleanup enabled",
-            "dust_cleanup_threshold_qty": "dust cleanup threshold qty",
-            "sell_qty_clamp_log_throttle_ms": "sell qty clamp log throttle ms",
-            "exit_recovery_log_throttle_ms": "exit recovery log throttle ms",
-            "compact_logs": "compact logs",
-            "runtime_diag_enabled": "runtime diagnostics enabled",
-            "gui_log_mode": "GUI log mode (FULL/IMPORTANT/OFF)",
+            "stream_loss_cooldown_ms": "Stream loss cooldown ms",
+            "require_ws_for_buy": "Require WS for buy",
+            "ws_optional_enabled": "WS optional enabled",
+            "max_ws_age_ms": "Max WS age ms",
+            "guard_enabled": "Guard enabled",
+            "min_spread_lifetime_ms": "Min spread lifetime ms",
+            "block_on_mid_negative": "Block on mid negative",
+            "block_on_bid_unstable": "Block on bid unstable",
+            "gui_log_mode": "GUI log mode",
             "gui_logs_visible_default": "GUI logs visible by default",
-            "ui_theme": "UI theme",
-                        "stream_count": "Conveyor streams count",
-            "stream_range_ticks": "Conveyor streams range ticks",
-            "stream_max_active_buys": "Conveyor streams max active buys",
-            "stream_place_batch_size": "Conveyor streams batch size",
-            "stream_place_interval_ms": "Conveyor streams place interval ms",
-            "stream_max_inventory_u": "Conveyor streams max inventory U",
-            "stream_pause_buy_inventory_u": "Conveyor streams pause buy inventory U",
-            "stream_sell_first": "Conveyor streams sell-first mode",
+            "compact_logs": "Compact logs",
+            "runtime_diag_enabled": "Runtime diagnostics",
         }
 
         account_tab = QWidget(); account_form = QFormLayout(account_tab)
@@ -453,7 +411,14 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("STREAM CONVEYOR", ["stream_count", "stream_range_ticks", "stream_max_active_buys", "stream_place_batch_size", "stream_place_interval_ms", "stream_max_inventory_u", "stream_pause_buy_inventory_u", "stream_sell_first"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "micro_partial_reconcile_enabled", "micro_partial_max_qty", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled", "gui_log_mode", "gui_logs_visible_default"])]
+        tab_map = [
+            ("GENERAL", ["live_enabled", "order_size_u", "max_exposure_u", "max_daily_loss", "auto_cancel_on_stop"]),
+            ("STREAM CONVEYOR", ["stream_count", "stream_range_ticks", "stream_max_active_buys", "stream_place_batch_size", "stream_place_interval_ms", "stream_sell_first"]),
+            ("ENTRY", ["min_spread_ticks", "entry_offset_ticks", "buy_timeout_ms", "buy_watchdog_ms", "far_buy_ticks", "entry_mode", "entry_chase_ticks", "entry_cross_if_spread_ticks_above"]),
+            ("EXIT", ["stream_target_ticks", "stream_min_profit_ticks", "stream_sell_timeout_ms", "stream_sell_retry_max", "stream_sell_retry_step_ticks", "stop_loss_ticks", "stream_loss_cooldown_ms"]),
+            ("DATA / GUARD", ["require_ws_for_buy", "ws_optional_enabled", "max_ws_age_ms", "guard_enabled", "min_spread_lifetime_ms", "block_on_mid_negative", "block_on_bid_unstable"]),
+            ("GUI / LOGS", ["gui_log_mode", "gui_logs_visible_default", "compact_logs", "runtime_diag_enabled"]),
+        ]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -497,6 +462,9 @@ class MainWindow(QMainWindow):
         self.active_sync_timer.setInterval(max(self.settings.active_order_poll_ms, 250))
         self.account.debug_api_logs = self.settings.debug_api_logs
         self.ws.max_ws_age_ms = self.settings.max_ws_age_ms
+        print("SETTINGS_CLEANUP_ACTIVE")
+        print(f"SETTINGS_MODE_STREAM_CONVEYOR count={max(int(getattr(self.settings, 'stream_count', 1)), 1)}")
+        print(f"BUDGET_SOURCE order_size_u={float(getattr(self.settings, 'order_size_u', 0.0))} max_exposure_u={float(getattr(self.settings, 'max_exposure_u', 0.0))}")
         self._apply_guard_mode_preset()
         self.market_health_bid_window_ms = self.settings.stable_snapshot_window_ms
         self.market_health_mid_window_ms = self.settings.stable_snapshot_window_ms
@@ -2254,7 +2222,7 @@ class MainWindow(QMainWindow):
             self.log("INFO", "[EXEC] WAIT READY")
             self.fsm_state = "WAIT_READY"
         market_valid = ws_ok or self.state.rest_status == "OK"
-        allow_buy = bool(plan) and self.settings.live_enabled and plan.status in {"READY", "HOT"} and market_valid and plan.filters_ok and (plan.required_u or 0.0) <= self.settings.max_live_exposure_u
+        allow_buy = bool(plan) and self.settings.live_enabled and plan.status in {"READY", "HOT"} and market_valid and plan.filters_ok and (plan.required_u or 0.0) <= self.settings.max_exposure_u
         if self.runtime_active and self.fsm_state == "WAIT_READY" and allow_buy:
             if now_ms - self._last_health_update_ms >= 250:
                 self._update_market_health(now_ms)
@@ -2281,8 +2249,8 @@ class MainWindow(QMainWindow):
             elif self.active_order.get("orderId"):
                 self.log("WARNING", "[EXEC] BLOCK reason=active_order")
                 self.fsm_state = "DONE"
-            elif (plan.required_u or 0.0) > self.settings.max_live_exposure_u:
-                self.log("WARNING", f"[EXEC] BLOCK reason=required_u_gt_max_exposure_u required_u={(plan.required_u or 0.0):.4f} max_exposure_u={self.settings.max_live_exposure_u:.4f}")
+            elif (plan.required_u or 0.0) > self.settings.max_exposure_u:
+                self.log("WARNING", f"[EXEC] BLOCK reason=required_u_gt_max_exposure_u required_u={(plan.required_u or 0.0):.4f} max_exposure_u={self.settings.max_exposure_u:.4f}")
                 self.fsm_state = "DONE"
             else:
                 ok_to_buy, _ = self.final_pre_buy_check(plan, now_ms)
@@ -3023,7 +2991,7 @@ class MainWindow(QMainWindow):
             self.fsm_state = "PLACE_SELL"
 
         self.risk["Order size U"].setText(self._fmt(self.settings.order_size_u, 2))
-        self.risk["Max exposure U"].setText(self._fmt(self.settings.max_live_exposure_u, 2))
+        self.risk["Max exposure U"].setText(self._fmt(self.settings.max_exposure_u, 2))
         self.risk["panic"].setText("ON" if self.settings.panic_exit else "OFF")
 
         self.top_status.setText("")
