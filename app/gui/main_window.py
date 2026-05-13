@@ -515,7 +515,7 @@ class MainWindow(QMainWindow):
         if self.runtime_active:
             self.settings.live_enabled = True
             self.log("INFO", f"START_SETTINGS live_enabled={self.settings.live_enabled} guard_mode={self.settings.guard_mode} entry_mode={self.settings.entry_mode} exit_engine={self.settings.exit_engine_enabled} order_size={self.settings.order_size_u}")
-            self.log("INFO", f"START_PROFILE order_size={self.settings.order_size_u} min_spread={self.settings.min_spread} guard_mode={self.settings.guard_mode} entry_mode={self.settings.entry_mode} sell_timeout={self.settings.sell_timeout_ms} far_sell_ticks={self.settings.far_sell_ticks} taker_exit_after_ms={self.settings.taker_exit_after_ms}")
+            self.log("INFO", f"START_PROFILE_STREAM order_size={self.settings.order_size_u} min_spread_ticks={self.settings.min_spread_ticks} guard_mode={self.settings.guard_mode} entry_mode={self.settings.entry_mode} stream_sell_timeout_ms={self.settings.stream_sell_timeout_ms} stream_target_ticks={self.settings.stream_target_ticks}")
             self.log("INFO", f"SETTINGS_MERGE_PRESERVE existing_values=true missing_added={getattr(SETTINGS_STORE, 'last_merge_missing_added', 0)}")
             if not self.api_ready:
                 self.log("WARNING", "START_BLOCKED reason=api_not_ready")
@@ -1373,6 +1373,8 @@ class MainWindow(QMainWindow):
                             self.grid_order_ids.discard(order_id)
                             self.grid_level_by_order_id.pop(order_id, None)
                             self.grid_runtime.recycle_level(level.level_id)
+                            entry_offset_ticks = max(int(getattr(self.settings, "entry_offset_ticks", 1)), 0)
+                            level.target_buy_price = self._round_price_down(max(best_bid - (tick * entry_offset_ticks), tick))
                             self.stream_last_recenter_ms = now_ms
                             self.log("INFO", f"[EXEC] STREAM_BUY_RECENTER old_price={old_price:.2f} new_price={float(level.target_buy_price):.2f} distance_ticks={distance_ticks}")
                             continue

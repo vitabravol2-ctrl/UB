@@ -85,10 +85,14 @@ class GridRuntime:
         if levels_count <= 0 or step_ticks <= 0:
             self._log("STREAM_SKIP reason=INVALID_STREAMS")
             return self.levels
+        if levels_count == 1:
+            self._log("STREAM_SINGLE_MODE")
+        else:
+            self._log(f"STREAM_MULTI_MODE count={levels_count}")
         self._log(f"STREAM_CONVEYOR_ACTIVE count={levels_count} range_ticks={total_range_ticks} step_ticks={step_ticks}")
 
         available_u = float(free_u if free_u is not None else settings.max_exposure_u)
-        grid_budget_u = min(float(settings.max_exposure_u), float(settings.max_live_exposure_u), available_u)
+        grid_budget_u = min(float(settings.max_exposure_u), available_u)
         budget_per_level = grid_budget_u / levels_count
         self._log(f"GRID_BUDGET_SOURCE source=max_exposure_u budget={grid_budget_u:.2f}")
         for idx in range(1, levels_count + 1):

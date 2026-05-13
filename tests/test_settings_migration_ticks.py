@@ -10,6 +10,6 @@ def test_legacy_tick_fields_are_migrated(tmp_path) -> None:
     assert data.min_spread_ticks == 9
     assert data.entry_offset_ticks == 2
     assert data.exit_offset_ticks == 3
-    assert data.target_capture_ticks == 4
+    assert not hasattr(data, "target_capture_ticks")
     assert data.stop_loss_ticks == 5
-    assert data.stream_target_ticks == 20
+    assert data.stream_target_ticks == 28

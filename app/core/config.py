@@ -12,8 +12,6 @@ class SettingsData:
     entry_offset_ticks: int = 1
     exit_offset: float = 0.5
     exit_offset_ticks: int = 1
-    target_capture: float = 3.0
-    target_capture_ticks: int = 3
     stop_loss: float = 6.0
     stop_loss_ticks: int = 220
     max_hold_ms: int = 3500
@@ -21,14 +19,13 @@ class SettingsData:
     max_open_lots: int = 1
     max_daily_loss: float = 100.0
     max_exposure_u: float = 5000.0
-    max_live_exposure_u: float = 5000.0
     panic_exit: bool = True
     live_enabled: bool = True
     require_confirmation: bool = False
     auto_cancel_on_stop: bool = True
-    buy_timeout_ms: int = 1400
-    buy_timeout_ms_fast: int = 500
-    buy_watchdog_ms: int = 1400
+    buy_timeout_ms: int = 700
+    buy_timeout_ms_fast: int = 250
+    buy_watchdog_ms: int = 700
     far_buy_ticks: int = 18
     entry_mode: str = "AGGRESSIVE"
     entry_reprice_enabled: bool = True
@@ -37,7 +34,6 @@ class SettingsData:
     entry_chase_ticks: int = 2
     entry_cross_if_spread_ticks_above: int = 300
     min_spread_after_entry_ticks: int = 1
-    sell_timeout_ms: int = 2200
     sell_watchdog_ms: int = 1800
     place_sell_stuck_ms: int = 1500
     far_sell_ticks: int = 30
@@ -77,7 +73,6 @@ class SettingsData:
     taker_status_poll_ms: int = 300
     taker_status_timeout_ms: int = 1200
     exit_ioc_enabled: bool = False
-    min_profit_ticks: int = 1
     take_profit_ticks: int = 2
     rest_poll_ms: int = 700
     open_orders_poll_ms: int = 250
@@ -89,7 +84,7 @@ class SettingsData:
     max_ws_age_ms: int = 6000
     ui_theme: str = "dark"
     guard_mode: str = "FAST"
-    guard_enabled: bool = True
+    guard_enabled: bool = False
     require_ws_for_buy: bool = False
     max_ws_age_for_buy_ms: int = 2000
     min_spread_lifetime_ms: int = 0
@@ -116,29 +111,25 @@ class SettingsData:
     sell_qty_clamp_log_throttle_ms: int = 2000
     exit_recovery_log_throttle_ms: int = 2000
     compact_logs: bool = True
-    runtime_diag_enabled: bool = True
+    runtime_diag_enabled: bool = False
     gui_log_mode: str = "OFF"
     gui_logs_visible_default: bool = False
-    micro_grid_enabled: bool = False
-    micro_grid_size_ticks: int = 400
-    micro_grid_step_ticks: int = 10
-    micro_grid_budget_u: float = 5000.0
-    stream_count: int = 10
-    stream_range_ticks: int = 1200
+    stream_count: int = 8
+    stream_range_ticks: int = 180
     stream_max_active_buys: int = 2
     stream_place_batch_size: int = 1
-    stream_place_interval_ms: int = 500
+    stream_place_interval_ms: int = 350
     stream_max_inventory_u: float = 1000.0
     stream_pause_buy_inventory_u: float = 800.0
     stream_sell_first: bool = True
-    stream_target_ticks: int = 20
-    stream_min_profit_ticks: int = 8
-    stream_sell_timeout_ms: int = 4000
+    stream_target_ticks: int = 28
+    stream_min_profit_ticks: int = 10
+    stream_sell_timeout_ms: int = 2800
     stream_sell_retry_max: int = 2
-    stream_sell_retry_step_ticks: int = 4
+    stream_sell_retry_step_ticks: int = 3
     stream_loss_cooldown_ms: int = 6000
-    stream_buy_max_distance_ticks: int = 300
-    stream_recenter_interval_ms: int = 3000
+    stream_buy_max_distance_ticks: int = 120
+    stream_recenter_interval_ms: int = 1500
     stream_order_error_cooldown_ms: int = 1500
     stream_max_order_errors: int = 5
     # legacy compatibility (hidden in GUI)
@@ -209,7 +200,7 @@ class SettingsStore:
                 migrated_stream_keys.append(f"{old_key}->{new_key}")
         ignored_legacy_keys: list[str] = []
         for key, value in payload.items():
-            if key in {"max_live_exposure_u", "micro_grid_budget_u", "stream_max_inventory_u", "stream_pause_buy_inventory_u", "micro_grid_max_inventory_u", "micro_grid_pause_buy_if_inventory_u_above"}:
+            if key in {"max_live_exposure_u", "micro_grid_budget_u", "stream_max_inventory_u", "stream_pause_buy_inventory_u", "micro_grid_max_inventory_u", "micro_grid_pause_buy_if_inventory_u_above", "target_capture_ticks", "target_capture", "sell_timeout_ms", "min_profit_ticks"}:
                 ignored_legacy_keys.append(key)
                 continue
             if key in known_keys:
@@ -220,7 +211,6 @@ class SettingsStore:
             "min_spread": "min_spread_ticks",
             "entry_offset": "entry_offset_ticks",
             "exit_offset": "exit_offset_ticks",
-            "target_capture": "target_capture_ticks",
             "stop_loss": "stop_loss_ticks",
         }
         for legacy_key, tick_key in legacy_map.items():
@@ -231,8 +221,6 @@ class SettingsStore:
         current.pop("legacy_qty_btc", None)
         if "entry_timeout_ms" in payload and "buy_timeout_ms" not in payload:
             current["buy_timeout_ms"] = int(payload.get("entry_timeout_ms") or 5000)
-        if "exit_timeout_ms" in payload and "sell_timeout_ms" not in payload:
-            current["sell_timeout_ms"] = int(payload.get("exit_timeout_ms") or 7000)
         current.pop("entry_timeout_ms", None)
         current.pop("exit_timeout_ms", None)
         current.pop("live_max_exposure_u", None)
@@ -247,6 +235,7 @@ class SettingsStore:
             print("SETTINGS_MIGRATE_LEGACY_STREAMS " + ",".join(sorted(migrated_stream_keys)))
         for legacy_key in sorted(set(ignored_legacy_keys)):
             print(f"LEGACY_SETTING_IGNORED key={legacy_key}")
+        print("STREAM_RUNTIME_CLEAN")
         if missing_added > 0:
             self.save(data)
         return data
