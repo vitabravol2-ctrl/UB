@@ -28,6 +28,7 @@ class MicroGridRuntime:
         self.realized_pnl = 0.0
         self.closed_cycles = 0
         self.step_ticks = 0
+        self._placed_buy_orders = 0
 
     @staticmethod
     def _round_up(value: float, step: float) -> float:
@@ -68,28 +69,44 @@ class MicroGridRuntime:
             self.levels.append(GridLevel(index=i, buy_price=buy, sell_price=sell, qty=qty))
             self.log(f"GRID_LEVEL_CREATE idx={i} buy={buy:.8f} sell={sell:.8f} qty={qty:.8f}")
 
-    def start(self, max_active_orders: int, live_enabled: bool, dry_run: bool, test_order_limit: int = 3) -> None:
+    def _place_buy_for_level(self, level: GridLevel) -> bool:
+        cid = self.adapter.generate_client_order_id()
+        resp = self.adapter.place_limit_buy(level.buy_price, level.qty, cid)
+        if "orderId" in resp:
+            level.buy_order_id = int(resp["orderId"])
+            level.state = "BUY_PLACED"
+            self._placed_buy_orders += 1
+            self.log(f"GRID_BUY_PLACED idx={level.index} price={level.buy_price} qty={level.qty} order_id={level.buy_order_id}")
+            return True
+        self.log(f"GRID_BUY_PLACE_ERROR idx={level.index} error={resp}")
+        return False
+
+    def start(self, max_active_orders: int, live_enabled: bool, dry_run: bool, test_order_limit: int = 3, current_bid: float | None = None, active_buy_window_levels: int = 10, max_live_buy_orders: int = 5) -> None:
         if dry_run:
             self.log("GRID_DRY_RUN no_orders_placed=1")
             return
-        active = 0
-        placement_limit = max_active_orders
-        if live_enabled:
-            placement_limit = min(max_active_orders, test_order_limit)
-            self.log(f"GRID_LIVE_TEST_LIMIT limit={placement_limit}")
-        for level in self.levels:
-            if active >= placement_limit:
+        self._placed_buy_orders = 0
+        if live_enabled and test_order_limit > 0:
+            self.log(f"GRID_LIVE_TEST_LIMIT limit={test_order_limit}")
+        self.rebalance_active_window(current_bid, active_buy_window_levels, max_active_orders, max_live_buy_orders, live_enabled, test_order_limit)
+
+    def rebalance_active_window(self, current_bid: float | None, active_buy_window_levels: int, max_active_orders: int, max_live_buy_orders: int, live_enabled: bool, test_order_limit: int) -> None:
+        if current_bid is None or self.step <= 0:
+            return
+        min_buy = current_bid - active_buy_window_levels * self.step
+        eligible = [lv for lv in self.levels if lv.state == "WAIT_BUY" and lv.buy_price <= current_bid and lv.buy_price >= min_buy]
+        eligible.sort(key=lambda lv: current_bid - lv.buy_price)
+        self.log(f"GRID_ACTIVE_WINDOW bid={current_bid} from={min_buy} to={current_bid} eligible={len(eligible)}")
+
+        open_buy = len([lv for lv in self.levels if lv.state == "BUY_PLACED"])
+        allowed = min(max_active_orders - open_buy, max_live_buy_orders)
+        for lv in eligible:
+            if allowed <= 0:
                 break
-            if level.state == "WAIT_BUY":
-                cid = self.adapter.generate_client_order_id()
-                resp = self.adapter.place_limit_buy(level.buy_price, level.qty, cid)
-                if "orderId" in resp:
-                    level.buy_order_id = int(resp["orderId"])
-                    level.state = "BUY_PLACED"
-                    active += 1
-                    self.log(f"GRID_BUY_PLACED idx={level.index} order_id={level.buy_order_id} price={level.buy_price} qty={level.qty}")
-                else:
-                    self.log(f"GRID_BUY_PLACE_ERROR idx={level.index} error={resp}")
+            if live_enabled and test_order_limit > 0 and self._placed_buy_orders >= test_order_limit:
+                break
+            if self._place_buy_for_level(lv):
+                allowed -= 1
 
     def poll(self) -> None:
         for level in self.levels:
@@ -97,13 +114,13 @@ class MicroGridRuntime:
                 st = self.adapter.get_order_status(level.buy_order_id)
                 if st.get("status") == "FILLED":
                     level.state = "BUY_FILLED"
-                    self.log(f"GRID_BUY_FILLED idx={level.index} order_id={level.buy_order_id}")
+                    self.log(f"GRID_BUY_FILLED idx={level.index}")
                     cid = self.adapter.generate_client_order_id()
                     resp = self.adapter.place_limit_sell(level.sell_price, level.qty, cid)
                     if "orderId" in resp:
                         level.sell_order_id = int(resp["orderId"])
                         level.state = "SELL_PLACED"
-                        self.log(f"GRID_SELL_PLACED idx={level.index} order_id={level.sell_order_id} price={level.sell_price} qty={level.qty}")
+                        self.log(f"GRID_SELL_PLACED idx={level.index}")
             elif level.state == "SELL_PLACED" and level.sell_order_id:
                 st = self.adapter.get_order_status(level.sell_order_id)
                 if st.get("status") == "FILLED":
@@ -111,10 +128,9 @@ class MicroGridRuntime:
                     pnl = (level.sell_price - level.buy_price) * level.qty
                     self.realized_pnl += pnl
                     self.closed_cycles += 1
-                    self.log(f"GRID_SELL_FILLED idx={level.index} order_id={level.sell_order_id}")
-                    self.log(f"GRID_PNL idx={level.index} pnl={pnl:.8f} total={self.realized_pnl:.8f}")
+                    self.log(f"GRID_SELL_FILLED idx={level.index}")
+                    self.log(f"GRID_PNL idx={level.index} pnl={pnl:.8f}")
                     level.buy_order_id = 0
                     level.sell_order_id = 0
-                    level.state = "RECYCLED"
-                    self.log(f"GRID_RECYCLED idx={level.index}")
                     level.state = "WAIT_BUY"
+                    self.log(f"GRID_RECYCLED idx={level.index}")

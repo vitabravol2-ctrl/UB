@@ -3,9 +3,15 @@
   "lower_price": 80500.0,
   "upper_price": 81000.0,
   "grid_count": 100,
-  "investment_u": 30000.0,
-  "max_active_orders": 100,
+  "investment_u": 3000.0,
+  "max_active_orders": 25,
+  "active_buy_window_levels": 10,
+  "active_sell_window_levels": 10,
+  "max_live_buy_orders": 5,
+  "max_live_sell_orders": 20,
+  "dry_run": false,
+  "live_enabled": true,
+  "test_order_limit": 3,
   "auto_reinvest": true,
-  "start_live": false,
   "cancel_on_stop": true
 }
