@@ -126,5 +126,7 @@
   "conveyor_stream_sell_timeout_ms": 12000,
   "conveyor_stream_sell_retry_max": 3,
   "conveyor_stream_sell_retry_step_ticks": 20,
-  "conveyor_stream_loss_cooldown_ms": 5000
+  "conveyor_stream_loss_cooldown_ms": 5000,
+  "gui_log_mode": "IMPORTANT",
+  "gui_logs_visible_default": false
 }
