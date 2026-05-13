@@ -8,5 +8,6 @@
   "dry_run": false,
   "live_enabled": true,
   "cancel_on_stop": true,
-  "auto_reinvest": true
+  "auto_reinvest": true,
+  "test_order_limit": 3
 }
