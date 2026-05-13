@@ -67,9 +67,7 @@ class MicroGridWindow(QMainWindow):
         return ready
 
     def _get_market(self) -> tuple[float, float, float]:
-        snap = self.market_rest.fetch_ticker(self.symbol.text().strip())
-        bid = float(snap.get("bidPrice", 0) or 0)
-        ask = float(snap.get("askPrice", 0) or 0)
+        bid, ask, _ = self.market_rest.fetch_book_ticker(self.symbol.text().strip())
         current = (bid + ask) / 2 if bid > 0 and ask > 0 else 0.0
         return current, bid, ask
 
