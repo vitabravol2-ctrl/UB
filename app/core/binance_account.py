@@ -49,6 +49,10 @@ class BinanceAccountClient:
             return "****"
         return f"{key[:4]}...{key[-4:]}"
 
+    def has_keys(self) -> bool:
+        self.load_api_keys()
+        return bool(self.api_key and self.api_secret)
+
     def load_api_keys(self) -> tuple[str, str]:
         env_path = Path(".env")
         if env_path.exists():

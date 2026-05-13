@@ -1,16 +1,12 @@
 {
   "symbol": "BTCU",
-  "grid_step_u": 5.0,
-  "buy_levels_down": 25,
-  "sell_levels_up": 25,
+  "lower_price": 80000.0,
+  "upper_price": 81000.0,
+  "grid_count": 50,
   "investment_u": 10000.0,
-  "budget_buy_side_u": 5000.0,
-  "budget_sell_side_u": 5000.0,
-  "max_live_buy_orders": 25,
-  "max_live_sell_orders": 25,
+  "max_active_orders": 10,
   "dry_run": false,
   "live_enabled": true,
-  "test_order_limit": 0,
-  "auto_reinvest": true,
-  "cancel_on_stop": true
+  "cancel_on_stop": true,
+  "auto_reinvest": true
 }

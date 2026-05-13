@@ -14,6 +14,9 @@ class GridTradeAdapter:
         self.account = BinanceAccountClient()
         self.api_status = "NOT SET"
 
+    def has_keys(self) -> bool:
+        return self.account.has_keys()
+
     def load_api(self) -> str:
         status = self.account.test_account_connection()
         self.api_status = status.status
@@ -51,18 +54,6 @@ class GridTradeAdapter:
         if blocked:
             return {**blocked, "side": "SELL", "price": price, "qty": qty}
         return self.account.signed_post("/api/v3/order", {"symbol": self.symbol, "side": "SELL", "type": "LIMIT", "timeInForce": "GTC", "quantity": str(qty), "price": str(price), "newClientOrderId": client_order_id})
-
-    def cancel_order(self, order_id: int) -> dict[str, Any]:
-        blocked = self._validate_live()
-        if blocked:
-            return {**blocked, "order_id": order_id}
-        return self.account.cancel_order(self.symbol, order_id)
-
-    def get_order_status(self, order_id: int) -> dict[str, Any]:
-        blocked = self._validate_live()
-        if blocked:
-            return {**blocked, "order_id": order_id}
-        return self.account.get_order(self.symbol, order_id)
 
     def cancel_grid_orders(self) -> dict[str, Any]:
         blocked = self._validate_live()
