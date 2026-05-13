@@ -11,12 +11,16 @@ class MicroGridSettings:
     lower_price: float = 80500.0
     upper_price: float = 81000.0
     grid_count: int = 100
-    investment_u: float = 30000.0
-    max_active_orders: int = 100
+    investment_u: float = 3000.0
+    max_active_orders: int = 25
+    active_buy_window_levels: int = 10
+    active_sell_window_levels: int = 10
+    max_live_buy_orders: int = 5
+    max_live_sell_orders: int = 20
     auto_reinvest: bool = True
     start_live: bool = False
-    dry_run: bool = True
-    live_enabled: bool = False
+    dry_run: bool = False
+    live_enabled: bool = True
     test_order_limit: int = 3
     cancel_on_stop: bool = True
 
