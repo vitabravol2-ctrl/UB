@@ -17,6 +17,7 @@ class MicroGridSettings:
     dry_run: bool = False
     live_enabled: bool = True
     cancel_on_stop: bool = True
+    test_order_limit: int = 3
 
 
 class MicroGridSettingsStore:
