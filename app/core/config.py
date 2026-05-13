@@ -123,23 +123,22 @@ class SettingsData:
     micro_grid_size_ticks: int = 400
     micro_grid_step_ticks: int = 10
     micro_grid_budget_u: float = 5000.0
-    conveyor_streams_enabled: bool = False
-    conveyor_stream_count: int = 20
-    conveyor_stream_range_ticks: int = 200
-    conveyor_stream_max_active_buys: int = 8
-    conveyor_stream_place_batch_size: int = 3
-    conveyor_stream_place_interval_ms: int = 500
-    conveyor_stream_max_inventory_u: float = 1000.0
-    conveyor_stream_pause_buy_inventory_u: float = 800.0
-    conveyor_stream_sell_first: bool = True
-    conveyor_stream_target_ticks: int = 80
-    conveyor_stream_min_profit_ticks: int = 30
-    conveyor_stream_sell_timeout_ms: int = 12000
-    conveyor_stream_sell_retry_max: int = 3
-    conveyor_stream_sell_retry_step_ticks: int = 20
-    conveyor_stream_loss_cooldown_ms: int = 5000
-    conveyor_stream_order_error_cooldown_ms: int = 1500
-    conveyor_stream_max_order_errors: int = 5
+    stream_count: int = 20
+    stream_range_ticks: int = 200
+    stream_max_active_buys: int = 8
+    stream_place_batch_size: int = 3
+    stream_place_interval_ms: int = 500
+    stream_max_inventory_u: float = 1000.0
+    stream_pause_buy_inventory_u: float = 800.0
+    stream_sell_first: bool = True
+    stream_target_ticks: int = 80
+    stream_min_profit_ticks: int = 30
+    stream_sell_timeout_ms: int = 12000
+    stream_sell_retry_max: int = 3
+    stream_sell_retry_step_ticks: int = 20
+    stream_loss_cooldown_ms: int = 5000
+    stream_order_error_cooldown_ms: int = 1500
+    stream_max_order_errors: int = 5
     # legacy compatibility (hidden in GUI)
     micro_grid_max_active_buys: int = 8
     micro_grid_place_batch_size: int = 3
@@ -178,16 +177,34 @@ class SettingsStore:
         if "live_max_exposure_u" in payload and "max_live_exposure_u" not in payload:
             payload["max_live_exposure_u"] = float(payload["live_max_exposure_u"])
         stream_legacy_map = {
-            "micro_grid_max_active_buys": "conveyor_stream_max_active_buys",
-            "micro_grid_place_batch_size": "conveyor_stream_place_batch_size",
-            "micro_grid_place_interval_ms": "conveyor_stream_place_interval_ms",
-            "micro_grid_max_inventory_u": "conveyor_stream_max_inventory_u",
-            "micro_grid_pause_buy_if_inventory_u_above": "conveyor_stream_pause_buy_inventory_u",
-            "micro_grid_sell_first": "conveyor_stream_sell_first",
+            "conveyor_stream_count": "stream_count",
+            "conveyor_stream_range_ticks": "stream_range_ticks",
+            "conveyor_stream_max_active_buys": "stream_max_active_buys",
+            "conveyor_stream_place_batch_size": "stream_place_batch_size",
+            "conveyor_stream_place_interval_ms": "stream_place_interval_ms",
+            "conveyor_stream_max_inventory_u": "stream_max_inventory_u",
+            "conveyor_stream_pause_buy_inventory_u": "stream_pause_buy_inventory_u",
+            "conveyor_stream_sell_first": "stream_sell_first",
+            "conveyor_stream_target_ticks": "stream_target_ticks",
+            "conveyor_stream_min_profit_ticks": "stream_min_profit_ticks",
+            "conveyor_stream_sell_timeout_ms": "stream_sell_timeout_ms",
+            "conveyor_stream_sell_retry_max": "stream_sell_retry_max",
+            "conveyor_stream_sell_retry_step_ticks": "stream_sell_retry_step_ticks",
+            "conveyor_stream_loss_cooldown_ms": "stream_loss_cooldown_ms",
+            "conveyor_stream_order_error_cooldown_ms": "stream_order_error_cooldown_ms",
+            "conveyor_stream_max_order_errors": "stream_max_order_errors",
+            "micro_grid_max_active_buys": "stream_max_active_buys",
+            "micro_grid_place_batch_size": "stream_place_batch_size",
+            "micro_grid_place_interval_ms": "stream_place_interval_ms",
+            "micro_grid_max_inventory_u": "stream_max_inventory_u",
+            "micro_grid_pause_buy_if_inventory_u_above": "stream_pause_buy_inventory_u",
+            "micro_grid_sell_first": "stream_sell_first",
         }
+        migrated_stream_keys: list[str] = []
         for old_key, new_key in stream_legacy_map.items():
             if new_key not in payload and old_key in payload:
                 payload[new_key] = payload[old_key]
+                migrated_stream_keys.append(f"{old_key}->{new_key}")
         for key, value in payload.items():
             if key in known_keys:
                 current[key] = value
@@ -220,6 +237,8 @@ class SettingsStore:
         data = SettingsData(**current)
         if migrated_tick_keys:
             print("SETTINGS_MIGRATE_TICKS " + ",".join(sorted(migrated_tick_keys)))
+        if migrated_stream_keys:
+            print("SETTINGS_MIGRATE_LEGACY_STREAMS " + ",".join(sorted(migrated_stream_keys)))
         if missing_added > 0:
             self.save(data)
         return data

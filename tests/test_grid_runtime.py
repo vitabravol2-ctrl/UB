@@ -27,10 +27,8 @@ def test_ubgrid_client_id_generated() -> None:
 def test_micro_grid_levels_and_budget_split() -> None:
     rt = GridRuntime()
     s = SettingsData(
-        micro_grid_enabled=True,
-        micro_grid_size_ticks=400,
-        micro_grid_step_ticks=10,
-        micro_grid_budget_u=5000.0,
+        stream_count=40,
+        stream_range_ticks=400,
         max_exposure_u=4000.0,
         max_live_exposure_u=3000.0,
     )
@@ -50,7 +48,7 @@ def test_micro_grid_levels_and_budget_split() -> None:
 
 def test_micro_grid_level_lifecycle_and_telemetry() -> None:
     rt = GridRuntime()
-    s = SettingsData(micro_grid_enabled=True, micro_grid_size_ticks=20, micro_grid_step_ticks=10, micro_grid_budget_u=100.0, max_exposure_u=200.0, max_live_exposure_u=120.0)
+    s = SettingsData(stream_count=2, stream_range_ticks=20, max_exposure_u=200.0, max_live_exposure_u=120.0)
     rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
     rt.mark_buy_placed(1, 1001)
     rt.mark_buy_filled(1)
