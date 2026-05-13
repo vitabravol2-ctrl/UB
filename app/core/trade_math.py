@@ -87,6 +87,16 @@ class TradeMathEngine:
         self.classify_opportunity(plan, settings)
         return plan
 
+    @staticmethod
+    def _target_capture_ticks(settings) -> int:
+        raw = getattr(settings, "target_capture_ticks", None)
+        if raw is None:
+            raw = getattr(settings, "stream_target_ticks", 0)
+        try:
+            return max(int(raw), 0)
+        except (TypeError, ValueError):
+            return 0
+
     def validate_plan(self, plan: TradePlan, settings, filters: dict, balances: dict, api_status: str) -> None:
         if plan.spread is None:
             plan.status = "NO_DATA"
@@ -103,7 +113,8 @@ class TradeMathEngine:
             plan.reason = "CAPTURE_TOO_SMALL"
             return
 
-        if plan.capture_per_btc < float(ticks_to_price(int(settings.target_capture_ticks), float(filters.get("tickSize", 0.0) or 0.0))):
+        target_capture_ticks = self._target_capture_ticks(settings)
+        if plan.capture_per_btc < float(ticks_to_price(target_capture_ticks, float(filters.get("tickSize", 0.0) or 0.0))):
             plan.status = "CAPTURE_TOO_SMALL"
             plan.reason = "CAPTURE_TOO_SMALL"
             return
@@ -163,7 +174,8 @@ class TradeMathEngine:
             return
         if plan.capture_per_btc is None:
             return
-        if plan.capture_per_btc >= float(settings.target_capture_ticks) * 1.5:
+        target_capture_ticks = self._target_capture_ticks(settings)
+        if plan.capture_per_btc >= float(target_capture_ticks) * 1.5:
             plan.status = "HOT"
             plan.reason = "HOT"
         elif plan.status == "READY":
