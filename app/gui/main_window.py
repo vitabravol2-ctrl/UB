@@ -2370,12 +2370,30 @@ class MainWindow(QMainWindow):
                                 return
                             placed_any = False
                             placed_count = 0
+                            balance_safety_buffer_u = float(getattr(self.settings, "balance_safety_buffer_u", 0.0) or 0.0)
+                            max_exposure_u = float(getattr(self.settings, "max_exposure_u", 0.0) or 0.0)
                             for level in self.grid_runtime.levels:
                                 if placed_count >= batch_size or active_buys >= max_active_buys:
                                     break
                                 if level.state != "WAIT_BUY" or level.active_buy_order_id is not None:
                                     continue
-                                if free_u + 1e-12 < level.budget_u:
+                                pending_buy_exposure_u = sum(
+                                    float(lvl.budget_u)
+                                    for lvl in self.grid_runtime.levels
+                                    if lvl.state == "WAIT_BUY_FILL" and lvl.active_buy_order_id is not None
+                                )
+                                current_exposure_u = max(inventory_u, 0.0) + pending_buy_exposure_u
+                                if current_exposure_u + float(level.budget_u) > max_exposure_u + 1e-12:
+                                    self.log(
+                                        "WARNING",
+                                        f"[EXEC] STREAM_BUY_BLOCKED reason=max_exposure_limit current_exposure_u={current_exposure_u:.2f} order_size_u={float(level.budget_u):.2f} max_exposure_u={max_exposure_u:.2f}",
+                                    )
+                                    continue
+                                if free_u + 1e-12 < (float(level.budget_u) + balance_safety_buffer_u):
+                                    self.log(
+                                        "WARNING",
+                                        f"[EXEC] STREAM_BUY_BLOCKED reason=insufficient_balance free_u={free_u:.2f} required_u={(float(level.budget_u) + balance_safety_buffer_u):.2f}",
+                                    )
                                     continue
                                 try:
                                     o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", float(level.target_buy_price), float(level.qty))
