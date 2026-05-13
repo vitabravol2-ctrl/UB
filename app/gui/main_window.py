@@ -1439,15 +1439,9 @@ class MainWindow(QMainWindow):
                     min_profit_ticks = max(int(getattr(self.settings, "stream_min_profit_ticks", 0)), 0)
                     retry_max = max(int(getattr(self.settings, "stream_sell_retry_max", 3)), 0)
                     retry_step_ticks = max(int(getattr(self.settings, "stream_sell_retry_step_ticks", 20)), 0)
-                    stop_loss_price = self._round_price_down(max(chunk.entry_price - tick * stop_loss_ticks, tick))
-                    market_below_stop = stop_loss_ticks > 0 and best_bid > 0 and best_bid <= stop_loss_price
-                    retry_exhausted = chunk.sell_retry_count >= retry_max
                     emergency_or_manual_stop = not self.runtime_active
-                    can_stop = retry_exhausted or market_below_stop or emergency_or_manual_stop
-                    if can_stop:
-                        new_price = self._round_price_down(max(best_bid, tick))
-                        self.log("WARNING", f"[EXEC] STREAM_STOP_LOSS_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} stop_price={new_price:.2f} retry_count={chunk.sell_retry_count} retry_max={retry_max}")
-                    else:
+                    retry_available = chunk.sell_retry_count < retry_max
+                    if retry_available and not emergency_or_manual_stop:
                         self.log("INFO", f"[EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count={chunk.sell_retry_count} retry_max={retry_max} stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
                         retry_price = self._round_price_up(chunk.entry_price + tick * min_profit_ticks)
                         if best_ask > 0:
@@ -1455,6 +1449,12 @@ class MainWindow(QMainWindow):
                         new_price = self._round_price_up(retry_price)
                         chunk.sell_retry_count += 1
                         self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} prev_order_id={sell_order_id} retry_count={chunk.sell_retry_count} price={new_price:.2f} qty={chunk.qty:.6f}")
+                    else:
+                        if chunk.sell_retry_count < retry_max and not emergency_or_manual_stop:
+                            raise AssertionError("STREAM_STOP_LOSS_EXIT forbidden while retry is available")
+                        stop_loss_price = self._round_price_down(max(chunk.entry_price - tick * stop_loss_ticks, tick))
+                        new_price = self._round_price_down(max(best_bid, stop_loss_price, tick))
+                        self.log("WARNING", f"[EXEC] STREAM_STOP_LOSS_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} stop_price={new_price:.2f} retry_count={chunk.sell_retry_count} retry_max={retry_max}")
                     try:
                         repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(chunk.qty))
                     except (BinanceAPIError, RequestException, Exception) as exc:
