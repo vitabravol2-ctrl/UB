@@ -132,14 +132,6 @@ class SettingsData:
     stream_recenter_interval_ms: int = 1500
     stream_order_error_cooldown_ms: int = 1500
     stream_max_order_errors: int = 5
-    # legacy compatibility (hidden in GUI)
-    micro_grid_max_active_buys: int = 8
-    micro_grid_place_batch_size: int = 3
-    micro_grid_place_interval_ms: int = 500
-    micro_grid_max_inventory_u: float = 1000.0
-    micro_grid_pause_buy_if_inventory_u_above: float = 800.0
-    micro_grid_sell_first: bool = True
-
 
 @dataclass(frozen=True)
 class UBConfig:
@@ -265,6 +257,18 @@ class SettingsStore:
         payload = json.loads(Path(import_path).read_text(encoding="utf-8"))
         if not isinstance(payload, dict):
             raise ValueError("settings payload must be JSON object")
+        stream_legacy_map = {
+            "micro_grid_max_active_buys": "stream_max_active_buys",
+            "micro_grid_place_batch_size": "stream_place_batch_size",
+            "micro_grid_place_interval_ms": "stream_place_interval_ms",
+            "micro_grid_max_inventory_u": "stream_max_inventory_u",
+            "micro_grid_pause_buy_if_inventory_u_above": "stream_pause_buy_inventory_u",
+            "micro_grid_sell_first": "stream_sell_first",
+        }
+        for old_key, new_key in stream_legacy_map.items():
+            if new_key not in payload and old_key in payload:
+                payload[new_key] = payload[old_key]
+
         base = asdict(self.load())
         merged = dict(base)
         for key, value in payload.items():
