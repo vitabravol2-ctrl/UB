@@ -118,6 +118,7 @@ class SettingsData:
     compact_logs: bool = True
     runtime_diag_enabled: bool = True
     gui_log_mode: str = "IMPORTANT"
+    gui_logs_visible_default: bool = False
     micro_grid_enabled: bool = False
     micro_grid_size_ticks: int = 400
     micro_grid_step_ticks: int = 10

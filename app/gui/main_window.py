@@ -199,6 +199,8 @@ class MainWindow(QMainWindow):
         self.file_logs = FileLogManager()
         self.gui_log_limit = 200
         self.gui_log_mode = "IMPORTANT"
+        self.logs_visible = bool(getattr(self.settings, "gui_logs_visible_default", False))
+        self.gui_append_skipped = 0
         self.pending_gui_logs = {"trade": [], "system": []}
         self.summary_signature = ""
         self.last_ws_live_log_ms = 0
@@ -330,7 +332,8 @@ class MainWindow(QMainWindow):
         self.start_stop_btn = QPushButton("START"); self.start_stop_btn.setProperty("kind", "start"); self.start_stop_btn.clicked.connect(self.toggle_runtime); row.addWidget(self.start_stop_btn)
         self.cancel_btn = QPushButton("ОТМЕНИТЬ ВСЁ"); self.cancel_btn.setProperty("kind", "danger"); self.cancel_btn.clicked.connect(self.cancel_all); row.addWidget(self.cancel_btn)
         self.load_session_log_btn = QPushButton("LOAD SESSION LOG"); self.load_session_log_btn.setProperty("kind", "neutral"); self.load_session_log_btn.clicked.connect(self.load_session_log_summary); row.addWidget(self.load_session_log_btn)
-        for btn in (self.settings_btn, self.start_stop_btn, self.cancel_btn, self.load_session_log_btn):
+        self.toggle_logs_btn = QPushButton("SHOW LOGS" if not self.logs_visible else "HIDE LOGS"); self.toggle_logs_btn.setProperty("kind", "neutral"); self.toggle_logs_btn.clicked.connect(self.toggle_logs_visibility); row.addWidget(self.toggle_logs_btn)
+        for btn in (self.settings_btn, self.start_stop_btn, self.cancel_btn, self.load_session_log_btn, self.toggle_logs_btn):
             btn.setMinimumHeight(54)
             btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.controls_row = row
@@ -345,6 +348,13 @@ class MainWindow(QMainWindow):
         self.log_tabs.setMinimumHeight(220)
         self.log_tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.grid.addWidget(self.log_tabs, 5, 0, 1, 4)
+        self.log_tabs.setVisible(self.logs_visible)
+
+    def toggle_logs_visibility(self) -> None:
+        self.logs_visible = not self.logs_visible
+        self.log_tabs.setVisible(self.logs_visible)
+        self.toggle_logs_btn.setText("HIDE LOGS" if self.logs_visible else "SHOW LOGS")
+        self.file_logs.write_session(format_log("INFO", f"GUI_LOGS {'ON' if self.logs_visible else 'OFF'}"))
 
     def open_settings_dialog(self) -> None:
         d = QDialog(self); d.setWindowTitle("Настройки UB"); d.setModal(True); d.resize(760, 620)
@@ -422,6 +432,7 @@ class MainWindow(QMainWindow):
             "compact_logs": "compact logs",
             "runtime_diag_enabled": "runtime diagnostics enabled",
             "gui_log_mode": "GUI log mode (FULL/IMPORTANT/OFF)",
+            "gui_logs_visible_default": "GUI logs visible by default",
             "ui_theme": "UI theme",
             "conveyor_streams_enabled": "Conveyor streams enabled",
             "conveyor_stream_count": "Conveyor streams count",
@@ -443,7 +454,7 @@ class MainWindow(QMainWindow):
         account_form.addRow("API key", api_key_input); account_form.addRow("API secret", api_secret_input); account_form.addRow("", show_secret); account_form.addRow(test_btn, save_api_btn); account_form.addRow("Статус", QLabel(self.api_status))
         tabs.addTab(account_tab, "Аккаунт")
 
-        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("MICRO GRID", ["conveyor_streams_enabled", "conveyor_stream_count", "conveyor_stream_range_ticks", "conveyor_stream_max_active_buys", "conveyor_stream_place_batch_size", "conveyor_stream_place_interval_ms", "conveyor_stream_max_inventory_u", "conveyor_stream_pause_buy_inventory_u", "conveyor_stream_sell_first"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "micro_partial_reconcile_enabled", "micro_partial_max_qty", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled", "gui_log_mode"])]
+        tab_map = [("HARVEST", ["min_spread", "target_capture", "entry_offset", "exit_offset", "take_profit_ticks", "min_profit_ticks", "stop_loss", "stop_loss_ticks", "max_hold_ms"]), ("RISK", ["order_size_u", "max_open_lots", "max_exposure_u", "max_live_exposure_u", "max_daily_loss", "panic_exit", "auto_cancel_on_stop"]), ("DATA / WS", ["ws_optional_enabled", "max_ws_age_ms", "max_ws_age_for_buy_ms", "rest_poll_ms", "open_orders_poll_ms", "all_orders_poll_ms", "balances_poll_ms", "active_order_poll_ms", "debug_api_logs"]), ("GUARD", ["guard_enabled", "guard_mode", "require_ws_for_buy", "min_spread_lifetime_ms", "stable_snapshots_required", "stable_snapshot_window_ms", "max_negative_mid_delta", "max_negative_bid_delta", "block_on_mid_negative", "block_on_bid_unstable", "block_on_snapshots_insufficient", "loss_cooldown_ms", "panic_cooldown_ms", "balance_safety_buffer_u", "block_log_throttle_ms", "health_log_throttle_ms"]), ("ENTRY EXECUTION", ["entry_mode", "buy_timeout_ms", "buy_timeout_ms_fast", "buy_watchdog_ms", "far_buy_ticks", "entry_reprice_enabled", "entry_reprice_cooldown_ms", "max_entry_reprices", "entry_chase_ticks", "entry_cross_if_spread_ticks_above", "min_spread_after_entry_ticks"]), ("MICRO GRID", ["conveyor_streams_enabled", "conveyor_stream_count", "conveyor_stream_range_ticks", "conveyor_stream_max_active_buys", "conveyor_stream_place_batch_size", "conveyor_stream_place_interval_ms", "conveyor_stream_max_inventory_u", "conveyor_stream_pause_buy_inventory_u", "conveyor_stream_sell_first"]), ("EXIT ENGINE", ["sell_timeout_ms", "sell_watchdog_ms", "place_sell_stuck_ms", "far_sell_ticks", "sell_floor_hold_enabled", "sell_floor_hold_max_ms", "sell_reprice_cooldown_ms", "aggressive_exit_offset", "max_sell_reprices", "exit_engine_enabled", "exit_stage1_ms", "exit_stage2_ms", "exit_stage3_ms", "exit_reprice_step_ticks", "exit_max_reprices"]), ("TAKER EXIT", ["taker_exit_enabled", "taker_exit_after_ms", "taker_exit_ioc", "taker_exit_spread_collapse_ticks", "taker_exit_mid_negative_threshold", "taker_exit_min_expected_profit_ticks", "taker_exit_max_slippage_ticks", "taker_exit_force_flat_after_ms"]), ("PANIC / MANUAL", ["panic_ladder_enabled", "panic_ladder_step_ticks", "panic_ladder_ms", "panic_cross_after_ms", "panic_hold_max_ms", "exit_ioc_enabled", "manual_stop_on_blocked_exit", "exit_block_manual_enabled"]), ("SAFE QTY / DUST", ["inventory_epsilon_qty", "min_sellable_qty_fallback", "micro_partial_reconcile_enabled", "micro_partial_max_qty", "dust_cleanup_enabled", "dust_cleanup_threshold_qty", "sell_qty_clamp_log_throttle_ms", "exit_recovery_log_throttle_ms"]), ("UI", ["ui_theme", "compact_logs", "runtime_diag_enabled", "gui_log_mode", "gui_logs_visible_default"])]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
             for key in fields:
@@ -498,9 +509,14 @@ class MainWindow(QMainWindow):
         self.gui_log_mode = str(getattr(self.settings, "gui_log_mode", "IMPORTANT") or "IMPORTANT").upper()
         if self.gui_log_mode not in {"FULL", "IMPORTANT", "OFF"}:
             self.gui_log_mode = "IMPORTANT"
+        self.logs_visible = bool(getattr(self.settings, "gui_logs_visible_default", False)) if not hasattr(self, "toggle_logs_btn") else self.logs_visible
         self.gui_log_limit = 0 if self.gui_log_mode == "OFF" else (200 if self.gui_log_mode == "IMPORTANT" else 500)
-        for widget in (self.trade_logs, self.system_logs):
-            widget.document().setMaximumBlockCount(self.gui_log_limit)
+        if self.logs_visible:
+            for widget in (self.trade_logs, self.system_logs):
+                widget.document().setMaximumBlockCount(self.gui_log_limit)
+        self.log_tabs.setVisible(self.logs_visible)
+        if hasattr(self, "toggle_logs_btn"):
+            self.toggle_logs_btn.setText("HIDE LOGS" if self.logs_visible else "SHOW LOGS")
 
     def _export_settings(self) -> None:
         path, _ = QFileDialog.getSaveFileName(self, "Export settings", "settings_export.json", "JSON (*.json)")
@@ -3287,6 +3303,8 @@ class MainWindow(QMainWindow):
             self.last_health_log_ms = now_ms
 
     def _flush_gui_logs(self) -> None:
+        if not self.logs_visible:
+            return
         for key, widget in (("trade", self.trade_logs), ("system", self.system_logs)):
             if not self.pending_gui_logs[key]:
                 continue
@@ -3326,6 +3344,14 @@ class MainWindow(QMainWindow):
             return
         self.last_log_line = line.split("] ", 1)[-1]
         self.file_logs.write_session(line)
+        now_ms = int(time.time() * 1000)
+        if now_ms - getattr(self, "_last_gui_perf_log_ms", 0) >= 1000:
+            self._last_gui_perf_log_ms = now_ms
+            self.file_logs.write_session(format_log("INFO", f"GUI_PERF tick_ms={getattr(self, 'tick_ms', 0)} logs_visible={self.logs_visible} gui_log_mode={self.gui_log_mode} append_skipped={self.gui_append_skipped}"))
+
+        if not self.logs_visible:
+            self.gui_append_skipped += 1
+            return
 
         if not self._should_show_in_gui(tag, message):
             return
