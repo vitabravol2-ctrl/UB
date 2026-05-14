@@ -31,6 +31,10 @@ class GridLevel:
     paused_error_reason: str = ""
     terminal_result: str = ""
     exit_stuck_attempts: int = 0
+    terminal_exit_started: bool = False
+    terminal_exit_order_id: int | None = None
+    terminal_exit_started_at_ms: int = 0
+    terminal_exit_attempts: int = 0
 
 
 @dataclass
@@ -293,6 +297,60 @@ class GridRuntime:
             "GRID MODE": "STREAM" if self.levels else "OFF",
         }
 
+    def start_terminal_exit(self, level_id: int, chunk_id: int, order_id: int, now_ms: int | None = None) -> bool:
+        level = next((x for x in self.levels if x.level_id == level_id), None)
+        if not level:
+            return False
+        if level.terminal_exit_started:
+            self._log(
+                f"STREAM_TERMINAL_EXIT_ALREADY_ACTIVE stream_id={level_id} chunk_id={level.active_chunk_id or chunk_id} order_id={level.terminal_exit_order_id}"
+            )
+            return False
+        ts = int(time.time() * 1000) if now_ms is None else int(now_ms)
+        level.state = "TERMINAL_EXIT"
+        level.active_chunk_id = chunk_id
+        level.active_sell_order_id = order_id
+        level.terminal_exit_started = True
+        level.terminal_exit_order_id = order_id
+        level.terminal_exit_started_at_ms = ts
+        level.terminal_exit_attempts = 0
+        level.terminal_result = ""
+        self._log(f"STREAM_TERMINAL_EXIT_STARTED stream_id={level_id} chunk_id={chunk_id} order_id={order_id} started_at_ms={ts}")
+        return True
+
+    def terminal_exit_status_wait(self, level_id: int, now_ms: int | None = None) -> bool:
+        level = next((x for x in self.levels if x.level_id == level_id), None)
+        if not level or not level.terminal_exit_started:
+            return False
+        ts = int(time.time() * 1000) if now_ms is None else int(now_ms)
+        self._log(
+            f"STREAM_TERMINAL_EXIT_STATUS_WAIT stream_id={level_id} chunk_id={level.active_chunk_id} order_id={level.terminal_exit_order_id} at_ms={ts}"
+        )
+        return True
+
+    def finalize_terminal_exit(self, level_id: int, result: str, *, now_ms: int | None = None) -> bool:
+        level = next((x for x in self.levels if x.level_id == level_id), None)
+        if not level or not level.terminal_exit_started:
+            return False
+        ts = int(time.time() * 1000) if now_ms is None else int(now_ms)
+        normalized = str(result).upper()
+        level.terminal_result = normalized
+        level.terminal_exit_started = False
+        if normalized == "FILLED":
+            self._log(f"STREAM_TERMINAL_EXIT_FILLED stream_id={level_id} chunk_id={level.active_chunk_id} order_id={level.terminal_exit_order_id} at_ms={ts}")
+        elif normalized in {"FAILED", "PAUSED_ERROR"}:
+            self._log(f"STREAM_TERMINAL_EXIT_FAILED stream_id={level_id} chunk_id={level.active_chunk_id} order_id={level.terminal_exit_order_id} result={normalized} at_ms={ts}")
+        else:
+            self._log(f"STREAM_TERMINAL_EXIT_FAILED stream_id={level_id} chunk_id={level.active_chunk_id} order_id={level.terminal_exit_order_id} result={normalized} at_ms={ts}")
+        if normalized == "FILLED":
+            level.active_sell_order_id = None
+            level.terminal_exit_order_id = None
+        return True
+
+    @staticmethod
+    def terminal_exit_should_reprice(*, started_at_ms: int, now_ms: int, attempts: int, timeout_ms: int = 5000, max_reprices: int = 1) -> bool:
+        return (now_ms - started_at_ms) >= max(int(timeout_ms), 1) and attempts < max(int(max_reprices), 0)
+
     def validate_inputs(self, levels=None, market=None, balances=None, filters=None) -> tuple[str, str]:
         if not levels:
             return self.state, "EMPTY_LEVELS"
@@ -317,8 +375,18 @@ class GridRuntime:
         retry_count: int,
         retry_max: int,
         stuck_attempts: int,
+        terminal_exit_started: bool = False,
     ) -> dict[str, float | int | str | bool]:
         tick_safe = max(float(tick), 1e-12)
+        if terminal_exit_started:
+            return {
+                "mode": "terminal_poll",
+                "price": 0.0,
+                "retry_count_next": retry_count,
+                "stuck_attempts_next": stuck_attempts,
+                "finalized": False,
+                "reason": "terminal_exit_active",
+            }
         normalized_retry_step = max(int(retry_step_ticks), 1)
         normalized_retry_max = max(int(retry_max), 0)
         if retry_count < normalized_retry_max:
