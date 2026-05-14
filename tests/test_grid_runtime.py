@@ -465,3 +465,16 @@ def test_other_streams_continue_while_one_chunk_is_terminal_exit() -> None:
     rt.levels[2].state = "WAIT_BUY"
     plan = rt.stream_capacity_fill_plan(runtime_active=True, max_active_buys=2, now_ms=1001)
     assert plan["should_fill"] is True
+
+
+def test_stream_pool_status_includes_wait_start_balance_wait_terminal() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0, stream_start_interval_ms=5000)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "SELL_BALANCE_WAIT"
+    rt.levels[1].state = "TERMINAL_EXIT"
+    rt.stream_supervisor_tick(now_ms=rt.runtime_started_ms + 200)
+    assert any("STREAM_POOL_STATUS wait_start=1" in x for x in logs)
+    assert any("balance_wait=1" in x for x in logs)
+    assert any("terminal=1" in x for x in logs)

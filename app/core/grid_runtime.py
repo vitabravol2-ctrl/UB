@@ -263,17 +263,19 @@ class GridRuntime:
                     self._log(f"STREAM_WAIT_START_REPAIRED stream_id={level.level_id} at_ms={ts}")
         self.release_recycle_streams(now_ms=ts)
         status = {
+            "wait_start": sum(1 for x in self.levels if x.state == "WAIT_START"),
             "wait_buy": sum(1 for x in self.levels if x.state == "WAIT_BUY"),
             "buy": sum(1 for x in self.levels if x.state == "BUY_PLACED"),
             "sell": sum(1 for x in self.levels if x.state in {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY"}),
-            "exiting": sum(1 for x in self.levels if x.state in {"EXITING", "TERMINAL_EXIT"}),
+            "balance_wait": sum(1 for x in self.levels if x.state == "SELL_BALANCE_WAIT"),
+            "terminal": sum(1 for x in self.levels if x.state in {"EXITING", "TERMINAL_EXIT"}),
             "recycle": sum(1 for x in self.levels if x.state in {"RECYCLE", "RECYCLE_COOLDOWN"}),
             "error": sum(1 for x in self.levels if x.state in {"PAUSED_ERROR", "ERROR"}),
         }
         self._log(
             "STREAM_POOL_STATUS "
-            f"wait_buy={status['wait_buy']} buy={status['buy']} sell={status['sell']} "
-            f"exiting={status['exiting']} recycle={status['recycle']} error={status['error']}"
+            f"wait_start={status['wait_start']} wait_buy={status['wait_buy']} buy={status['buy']} sell={status['sell']} "
+            f"balance_wait={status['balance_wait']} terminal={status['terminal']} recycle={status['recycle']} error={status['error']}"
         )
         return status
 
