@@ -592,7 +592,7 @@ class MainWindow(QMainWindow):
         self.fsm_state = "IDLE"
         self.runtime_active = False
         if self.position_qty > 0:
-            self.position_state = "EXIT_BLOCKED_OPEN_INVENTORY"
+            self.position_state = "STREAM_EXITING" if self._has_stream_owned_inventory() else "EXIT_BLOCKED_OPEN_INVENTORY"
             self.exit_block_reason = "stop_open_inventory"
             self.fsm_state = "WAIT_MANUAL"
             self.log("WARNING", f"[EXEC] STOP_SAFE_MANUAL inventory={self.position_qty:.6f} active_order={self.active_order.get('orderId', 0)}")
@@ -1330,7 +1330,7 @@ class MainWindow(QMainWindow):
         now = int(time.time() * 1000)
         last_ms = int(self.last_stream_global_sell_skip_log_ms_by_reason.get(reason, 0) or 0)
         if now - last_ms >= 2500:
-            self.log("INFO", f"[EXEC] STREAM_GLOBAL_SELL_SKIP reason={reason}")
+            self.log("INFO", f"[EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty={self.position_qty:.6f} trigger={reason}")
             if stream_id > 0:
                 self.log("INFO", f"[EXEC] STREAM_GLOBAL_EXIT_BLOCKED_FOR_STREAM reason=stream_owned_inventory stream_id={stream_id}")
             self.last_stream_global_sell_skip_log_ms_by_reason[reason] = now
@@ -1501,7 +1501,7 @@ class MainWindow(QMainWindow):
                 level.active_sell_order_id = int(sell_order_id)
                 level.active_chunk_id = chunk_id
                 level.state = "SELL_PLACED" if status in {"NEW", "PARTIALLY_FILLED"} else level.state
-            self.log("INFO", f"[EXEC] STREAM_SELL_STATUS stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
+            self.log("INFO", f"[EXEC] STREAM_EXIT_RETRY_STATUS stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
             if status == "NEW":
                 timeout_handled = False
                 timeout_ms = max(int(getattr(self.settings, "stream_sell_timeout_ms", 12000)), 1)
@@ -1538,7 +1538,7 @@ class MainWindow(QMainWindow):
                         new_price = self._round_price_up(retry_price)
 
                         chunk.sell_retry_count += 1
-                        self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} prev_order_id={sell_order_id} retry_count={chunk.sell_retry_count} price={new_price:.2f} qty={chunk.qty:.6f}")
+                        self.log("WARNING", f"[EXEC] STREAM_EXIT_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id=pending qty={chunk.qty:.6f} price={new_price:.2f} retry_count={chunk.sell_retry_count}")
                     else:
                         if chunk.sell_retry_count < retry_max and not emergency_or_manual_stop:
                             raise AssertionError("STREAM_STOP_LOSS_EXIT forbidden while retry is available")
@@ -1572,7 +1572,7 @@ class MainWindow(QMainWindow):
                             level.active_chunk_id = chunk_id
                         self.grid_sell_order_meta[new_id] = (level_id, chunk_id)
                         if chunk.exit_escalated:
-                            self.log("WARNING", f"[EXEC] STREAM_EXIT_FORCE_SELL_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id} price={new_price:.2f} qty={chunk.qty:.6f}")
+                            self.log("WARNING", f"[EXEC] STREAM_EXIT_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id} qty={chunk.qty:.6f} price={new_price:.2f}")
                     else:
                         self.log("WARNING", f"[EXEC] STREAM_EXIT_ORDER_TRACKING_FAILED stream_id={level_id} chunk_id={chunk_id}")
                         chunk.state = "STREAM_WAIT_SELL"
@@ -1630,7 +1630,7 @@ class MainWindow(QMainWindow):
                     continue
                 qty_to_close = min(max(chunk.qty, 0.0), executed_qty)
                 if qty_to_close > 0:
-                    self.log("INFO", f"[EXEC] STREAM_SELL_FILLED stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
+                    self.log("INFO", f"[EXEC] STREAM_EXIT_RETRY_FILLED stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
                     pnl = (fill_price - chunk.entry_price) * qty_to_close
                     self.log("OK", f"[EXEC] FIFO CLOSE qty={qty_to_close:.6f} entry={chunk.entry_price:.2f} exit={fill_price:.2f} pnl={pnl:+.6f}")
                     self.log("INFO", f"[EXEC] STREAM_PNL stream_id={level_id} pnl={pnl:+.6f}")
@@ -2368,6 +2368,9 @@ class MainWindow(QMainWindow):
         self._repair_runtime_state()
         if self.position_qty > 0 and not (self.active_order.get("orderId") and self.active_order.get("side") == "SELL") and self.runtime_active:
             if self.smart_exit_active:
+                if self._should_skip_global_sell_engine("smart_exit_orphan_inventory"):
+                    self.position_state = "STREAM_EXITING"
+                    return
                 self.log("WARNING", f"[EXEC] SMART_EXIT_ORPHAN_INVENTORY qty={self.position_qty:.6f}")
                 if not self._trigger_taker_exit(now_ms, "smart_exit_inventory_no_sell"):
                     self._smart_exit_retry_aggressive(now_ms, "inventory_no_sell")
@@ -3588,6 +3591,8 @@ class MainWindow(QMainWindow):
         self.smart_exit_attempts += 1
         self.smart_exit_last_action_ts = now_ms
         if self.smart_exit_attempts > max_attempts:
+            if self._should_skip_global_sell_engine("smart_exit_max_attempts"):
+                return
             self.log("ERROR", f"[EXEC] SMART_EXIT_MAX_ATTEMPTS attempts={self.smart_exit_attempts} qty={self.position_qty:.6f}")
             self.fsm_state = "WAIT_MANUAL"
             return
