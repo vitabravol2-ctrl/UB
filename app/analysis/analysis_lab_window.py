@@ -8,13 +8,13 @@ from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QFrame, QGridLayout, QHBoxLayout, QLabel, QMainWindow, QPushButton, QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget
 
-from app.analysis.config_generator import base_payload
+from app.analysis.config_generator import MUTABLE_PARAMS, base_payload
 from app.analysis.dry_runtime import DryTournamentRuntime
 from app.core.config import SETTINGS_STORE
 from PySide6.QtWidgets import QMessageBox
 
 
-ALLOWED_APPLY_FIELDS = (
+ALLOWED_APPLY_FIELDS = tuple(MUTABLE_PARAMS.keys()) + (
     "stream_target_ticks",
     "stream_min_profit_ticks",
     "stream_sell_timeout_ms",
@@ -57,8 +57,8 @@ class AnalysisLabWindow(QMainWindow):
         content = QHBoxLayout()
         lay.addLayout(content)
 
-        self.table = QTableWidget(0, 11)
-        self.table.setHorizontalHeaderLabels(["Место", "PnL", "Winrate", "Циклы", "Победы", "Убытки", "Застревания", "Таймауты", "Рейтинг", "Тип профиля", "Профиль настроек"])
+        self.table = QTableWidget(0, 12)
+        self.table.setHorizontalHeaderLabels(["Место", "PnL", "Winrate", "Циклы", "Победы", "Убытки", "Застревания", "Таймауты", "Рейтинг", "Тип профиля", "Тип мутации", "Профиль настроек"])
         content.addWidget(self.table, 3)
         self.table.itemSelectionChanged.connect(self._on_table_selection)
 
@@ -107,7 +107,44 @@ class AnalysisLabWindow(QMainWindow):
             self.selected_profile = rows[row]
 
     def reload_settings(self) -> None:
-        self.log.append("Загружен снимок текущих настроек для анализа")
+        src = Path(SETTINGS_STORE.path)
+        loaded = SETTINGS_STORE.load()
+        self.settings = loaded
+        self.base = base_payload(loaded)
+        self.baseline_profile = self._build_baseline_from_settings()
+        self.applied_baseline = None
+        self._update_baseline_panel()
+
+        backup = src.with_name("settings.backup.analysis.json")
+        diff_lines: list[str] = []
+        if backup.exists():
+            try:
+                import json
+                cur = json.loads(src.read_text(encoding="utf-8"))
+                prev = json.loads(backup.read_text(encoding="utf-8"))
+                for k in sorted(ALLOWED_APPLY_FIELDS):
+                    if cur.get(k) != prev.get(k):
+                        diff_lines.append(f"- {k}: {prev.get(k)} -> {cur.get(k)}")
+            except Exception:
+                diff_lines.append("- backup сравнение недоступно")
+        else:
+            diff_lines.append("- backup не найден")
+
+        params_in_analysis = ", ".join(sorted(MUTABLE_PARAMS.keys()))
+        fixed_params = "order_size_u, live_enabled, api/ws/balances"
+        p = self.baseline_profile["params"]
+        self.log.append(
+            "settings.json успешно загружен\n"
+            f"Путь файла: {src}\n"
+            f"Время загрузки: {time.strftime('%Y-%m-%d %H:%M:%S')} UTC\n"
+            "Загружен базовый профиль:\n"
+            f"target={p.get('stream_target_ticks')}\nmin_profit={p.get('stream_min_profit_ticks')}\n"
+            f"sell_timeout={p.get('stream_sell_timeout_ms')}\nretry={p.get('stream_sell_retry_max')}x{p.get('stream_sell_retry_step_ticks')}\n"
+            f"buy_fast={p.get('buy_timeout_ms_fast')}\nactive_buys={p.get('stream_max_active_buys')}\nrecycle={p.get('stream_recycle_delay_ms')}\n"
+            f"Параметры в анализе: {params_in_analysis}\n"
+            f"Зафиксированные параметры: {fixed_params}\n"
+            "Отличия от backup:\n" + "\n".join(diff_lines)
+        )
 
     def start_analysis(self) -> None:
         if self.runtime is None:
@@ -213,14 +250,21 @@ class AnalysisLabWindow(QMainWindow):
         self.log.append("Лидер выбран")
 
     def _apply_profile(self, row: dict, leader_apply: bool = False) -> None:
-        confirm = QMessageBox.question(self, "Подтверждение", "Применить профиль в settings.json?")
+        change_lines = []
+        current = asdict(SETTINGS_STORE.load())
+        for key in ALLOWED_APPLY_FIELDS:
+            old = current.get(key)
+            new = row["params"].get(key)
+            if old != new:
+                change_lines.append(f"{key}: {old} -> {new}")
+        confirm = QMessageBox.question(self, "Подтверждение", "Применить профиль в settings.json?\n\n" + "\n".join(change_lines[:40]))
         if confirm != QMessageBox.StandardButton.Yes:
             return
         src = Path(SETTINGS_STORE.path)
         backup = src.with_name("settings.backup.analysis.json")
         if src.exists():
             backup.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
-        current_payload = asdict(SETTINGS_STORE.load())
+        current_payload = current
         for key in ALLOWED_APPLY_FIELDS:
             current_payload[key] = row["params"][key]
         updated = replace(SETTINGS_STORE.load(), **current_payload)
@@ -259,7 +303,7 @@ class AnalysisLabWindow(QMainWindow):
         for i, row in enumerate(rows):
             wr = f"{row['winrate']:.1f}%"
             summary = self._format_summary(row["params"])
-            vals = [str(i + 1), f"{row['pnl']:.2f}", wr, str(row['cycles']), str(row['wins']), str(row['losses']), str(row['exit_stuck']), str(row['timeouts']), f"{row['score']:.2f}", self._profile_kind(row), summary]
+            vals = [str(i + 1), f"{row['pnl']:.2f}", wr, str(row['cycles']), str(row['wins']), str(row['losses']), str(row['exit_stuck']), str(row['timeouts']), f"{row['score']:.2f}", self._profile_kind(row), row["params"].get("mutation_type", "BASE"), summary]
             color = self._row_color(row)
             for col, v in enumerate(vals):
                 item = QTableWidgetItem(v)
