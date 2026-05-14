@@ -91,6 +91,8 @@ class TradeMathEngine:
     def _target_capture_ticks(settings) -> int:
         raw = getattr(settings, "target_capture_ticks", None)
         if raw is None:
+            raw = getattr(settings, "min_profit_ticks", None)
+        if raw is None:
             raw = getattr(settings, "stream_target_ticks", 0)
         try:
             return max(int(raw), 0)

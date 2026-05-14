@@ -115,3 +115,31 @@ def test_buy_canceled_resets_stream_to_wait_without_recycle() -> None:
     assert rt.levels[0].buy_order_id is None
     assert any("STREAM_BUY_RESET_TO_WAIT stream_id=1 reason=BUY_CANCELED" in x for x in logs)
     assert not any("STREAM_RECYCLE_BLOCKED" in x for x in logs)
+
+def test_stuck_sell_does_not_block_other_stream_buys() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "SELL_RETRY"
+    rt.levels[1].state = "WAIT_BUY"
+    rt.levels[2].state = "WAIT_BUY"
+    active_buys = sum(1 for lvl in rt.levels if lvl.state == "BUY_PLACED")
+    waiting = sum(1 for lvl in rt.levels if lvl.state == "WAIT_BUY")
+    assert active_buys == 0
+    assert waiting == 2
+
+
+def test_recycle_requires_pnl() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    assert rt.recycle_level(1, recycle_delay_ms=0) is False
+
+
+def test_buy_canceled_returns_wait_buy() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.mark_buy_placed(1, 9)
+    assert rt.handle_buy_order_canceled(1, reason="BUY_CANCELED") is True
+    assert rt.levels[0].state == "WAIT_BUY"
