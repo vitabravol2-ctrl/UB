@@ -75,6 +75,7 @@ class InventoryChunk:
     sell_placed_ms: int = 0
     sell_retry_count: int = 0
     exit_retry_count: int = 0
+    exit_stuck_attempts: int = 0
     exit_escalated: bool = False
     state: str = "OPEN"
 
@@ -1747,6 +1748,7 @@ class MainWindow(QMainWindow):
                     min_profit_ticks = max(int(getattr(self.settings, "stream_min_profit_ticks", 0)), 0)
                     retry_max = max(int(getattr(self.settings, "stream_sell_retry_max", 3)), 0)
                     retry_step_ticks = max(int(getattr(self.settings, "stream_sell_retry_step_ticks", 20)), 0)
+                    stuck_max_attempts = max(int(getattr(self.settings, "stream_exit_stuck_max_attempts", 3)), 1)
                     emergency_or_manual_stop = not self.runtime_active
                     retry_available = chunk.sell_retry_count < retry_max
                     if retry_available and not emergency_or_manual_stop:
@@ -1761,13 +1763,21 @@ class MainWindow(QMainWindow):
                     else:
                         if chunk.sell_retry_count < retry_max and not emergency_or_manual_stop:
                             raise AssertionError("STREAM_STOP_LOSS_EXIT forbidden while retry is available")
+                        chunk.exit_stuck_attempts += 1
                         stop_loss_price = self._round_price_down(max(chunk.entry_price - tick * stop_loss_ticks, tick))
-                        new_price = self._round_price_down(max(best_bid, stop_loss_price, tick))
-                        if chunk.exit_escalated:
+                        attempt_step_ticks = max(retry_step_ticks, 1) * max(chunk.exit_stuck_attempts, 1)
+                        aggressive_price = self._round_price_down(max(best_bid - tick * attempt_step_ticks, tick))
+                        new_price = self._round_price_down(max(aggressive_price, stop_loss_price, tick))
+                        self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_ATTEMPT stream_id={level_id} chunk_id={chunk_id} attempt={chunk.exit_stuck_attempts} max_attempts={stuck_max_attempts} price={new_price:.2f}")
+                        if chunk.exit_escalated or chunk.exit_stuck_attempts > 1:
                             self.log("ERROR", f"[EXEC] STREAM_EXIT_STUCK stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
                             self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_CONTROLLED stream_id={level_id} chunk_id={chunk_id} action=force_sell_reprice")
                         self.log("WARNING", f"[EXEC] STREAM_STOP_LOSS_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} stop_price={new_price:.2f} retry_count={chunk.sell_retry_count} retry_max={retry_max}")
                         self.log("WARNING", f"[EXEC] STREAM_EXIT_ISOLATED stream_id={level_id} chunk_id={chunk_id} action=stop_loss_exit")
+                        if chunk.exit_stuck_attempts >= stuck_max_attempts:
+                            final_price = self._round_price_down(max(best_bid - tick * max(attempt_step_ticks, 1), tick))
+                            new_price = min(new_price, final_price)
+                            self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_FINALIZED stream_id={level_id} chunk_id={chunk_id} attempt={chunk.exit_stuck_attempts} action=force_exit_taker_like price={new_price:.2f}")
                         chunk.exit_escalated = True
                     try:
                         repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(chunk.qty))
@@ -2665,7 +2675,13 @@ class MainWindow(QMainWindow):
             elif not plan.balance_ok:
                 self.log("WARNING", "[EXEC] BLOCK reason=balance_low")
                 self.fsm_state = "DONE"
-            elif self.active_order.get("orderId") or self.fsm_state in {"WAIT_BUY_FILL", "PLACE_SELL", "WAIT_SELL_FILL", "SELL_TIMEOUT", "ERROR_POSITION"}:
+            elif (
+                (
+                    self.active_order.get("orderId")
+                    and not (int(getattr(self.settings, "stream_count", 1)) >= 1 and self.active_order.get("side") == "SELL")
+                )
+                or self.fsm_state in {"WAIT_BUY_FILL", "PLACE_SELL", "WAIT_SELL_FILL", "SELL_TIMEOUT", "ERROR_POSITION"}
+            ):
                 self.fsm_state = "DONE"
             elif self.active_order.get("orderId"):
                 self.log("WARNING", "[EXEC] BLOCK reason=active_order")
@@ -2719,6 +2735,7 @@ class MainWindow(QMainWindow):
                                 self.log("WARNING", f"[EXEC] GRID_SELL_FIRST_MODE inventory_u={inventory_u:.2f}")
                             free_buy_slots = max(0, max_active_buys - active_buys)
                             interval_elapsed = (now_ms - self.grid_last_place_batch_ms) >= place_interval_ms
+                            self.log("INFO", f"[EXEC] STREAM_BUY_SCHEDULER_TICK active_buys={active_buys} active_sells={active_sells} waiting_streams={waiting_streams} max_active_buys={max_active_buys} free_buy_slots={free_buy_slots} batch_size={batch_size} runtime_active={str(bool(self.runtime_active)).lower()}")
                             self.log("INFO", f"[EXEC] STREAM_BUY_CAPACITY active_buys={active_buys} active_sells={active_sells} waiting_streams={waiting_streams} max_active_buys={max_active_buys} free_buy_slots={free_buy_slots} batch_size={batch_size}")
                             placed_any = False
                             placed_count = 0
@@ -2743,6 +2760,10 @@ class MainWindow(QMainWindow):
                             else:
                                 buy_allowed = True
                             self.log("INFO", f"[EXEC] STREAM_BUY_AFTER_EXIT_CHECK exiting_streams={sum(1 for lvl in self.grid_runtime.levels if lvl.state == 'EXITING')} waiting_streams={waiting_streams} buy_allowed={str(buy_allowed).lower()} reason={blocked_reason}")
+                            if buy_allowed:
+                                self.log("INFO", "[EXEC] STREAM_BUY_SCHEDULER_ALLOWED")
+                            else:
+                                self.log("INFO", f"[EXEC] STREAM_BUY_SCHEDULER_SKIPPED reason={blocked_reason}")
                             if not buy_allowed and waiting_streams > 0 and free_buy_slots > 0 and interval_elapsed and balance_ok_for_stream_buys and exposure_ok_for_stream_buys:
                                 self.log("ERROR", "[EXEC] STREAM_STATE_MISMATCH reason=exit_stuck_blocked_buy_replenishment")
                             if buy_allowed:
