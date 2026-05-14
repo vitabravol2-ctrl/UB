@@ -3020,7 +3020,7 @@ class MainWindow(QMainWindow):
                     or self.panic_exit_final
                     or self.max_hold_exit_triggered
                     or self.taker_exit_triggered
-                    or (now - self.exit_started_ms >= int(self.settings.sell_timeout_ms))
+                    or (now - self.exit_started_ms >= int(self.settings.stream_sell_timeout_ms))
                     or self.sell_recovery_in_progress
                     or self.sell_cancel_in_progress
                 )
@@ -3056,7 +3056,7 @@ class MainWindow(QMainWindow):
                 if not self.max_hold_exit_triggered:
                     self.max_hold_exit_triggered = True
                     self.trigger_panic_exit("max_hold_exceeded")
-            elif now - self.exit_started_ms >= int(self.settings.sell_timeout_ms):
+            elif now - self.exit_started_ms >= int(self.settings.stream_sell_timeout_ms):
                 if self.position_qty > 0 and not self.panic_exit_final and self.taker_exit_state not in {"ORDER_SENT"}:
                     if self._trigger_taker_exit(now, "sell_timeout_pre_panic"):
                         return
