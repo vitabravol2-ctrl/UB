@@ -2348,8 +2348,9 @@ class MainWindow(QMainWindow):
                             bid_now = float(self.state.snapshot.bid or 0.0)
                             inventory_u = self.position_qty * bid_now
                             active_buys = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY_FILL" and lvl.active_buy_order_id is not None)
+                            active_sells = sum(1 for lvl in self.grid_runtime.levels if lvl.state in {"BUY_FILLED", "SELL_PLACED", "WAIT_SELL_FILL"})
                             has_active_sell = bool(self.active_order.get("orderId") and self.active_order.get("side") == "SELL")
-                            max_active_buys = max(int(getattr(self.settings, "stream_count", 20 if (int(getattr(self.settings, "stream_count", 1)) >= 1) else getattr(self.settings, "stream_max_active_buys", 8))), 1)
+                            max_active_buys = max(int(getattr(self.settings, "stream_max_active_buys", 8)), 1)
                             batch_size = max(int(getattr(self.settings, "stream_place_batch_size", 3)), 1)
                             place_interval_ms = max(int(getattr(self.settings, "stream_place_interval_ms", 500)), 0)
                             self.grid_last_batch_size = 0
@@ -2365,7 +2366,23 @@ class MainWindow(QMainWindow):
                             if inventory_u > float(getattr(self.settings, "stream_max_inventory_u", 1000.0)):
                                 self.grid_buy_paused = True
                                 self.log("WARNING", f"[EXEC] GRID_SELL_FIRST_MODE inventory_u={inventory_u:.2f}")
-                            if self.grid_buy_paused or active_buys >= max_active_buys or now_ms - self.grid_last_place_batch_ms < place_interval_ms:
+                            waiting_streams = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY" and lvl.active_buy_order_id is None)
+                            free_buy_slots = max(0, max_active_buys - active_buys)
+                            self.log("INFO", f"[EXEC] STREAM_BUY_CAPACITY active_buys={active_buys} active_sells={active_sells} waiting_streams={waiting_streams} max_active_buys={max_active_buys} free_buy_slots={free_buy_slots} batch_size={batch_size}")
+                            if self.grid_buy_paused:
+                                self.log("WARNING", "[EXEC] STREAM_BUY_BLOCKED reason=balance_low")
+                                self.fsm_state = "DONE"
+                                return
+                            if active_buys >= max_active_buys:
+                                self.log("WARNING", "[EXEC] STREAM_BUY_BLOCKED reason=max_active_buys")
+                                self.fsm_state = "DONE"
+                                return
+                            if now_ms - self.grid_last_place_batch_ms < place_interval_ms:
+                                self.log("INFO", "[EXEC] STREAM_BUY_BLOCKED reason=place_interval")
+                                self.fsm_state = "DONE"
+                                return
+                            if waiting_streams <= 0:
+                                self.log("INFO", "[EXEC] STREAM_BUY_BLOCKED reason=no_waiting_stream")
                                 self.fsm_state = "DONE"
                                 return
                             placed_any = False
@@ -2386,13 +2403,13 @@ class MainWindow(QMainWindow):
                                 if current_exposure_u + float(level.budget_u) > max_exposure_u + 1e-12:
                                     self.log(
                                         "WARNING",
-                                        f"[EXEC] STREAM_BUY_BLOCKED reason=max_exposure_limit current_exposure_u={current_exposure_u:.2f} order_size_u={float(level.budget_u):.2f} max_exposure_u={max_exposure_u:.2f}",
+                                        f"[EXEC] STREAM_BUY_BLOCKED reason=exposure_limit current_exposure_u={current_exposure_u:.2f} order_size_u={float(level.budget_u):.2f} max_exposure_u={max_exposure_u:.2f}",
                                     )
                                     continue
                                 if free_u + 1e-12 < (float(level.budget_u) + balance_safety_buffer_u):
                                     self.log(
                                         "WARNING",
-                                        f"[EXEC] STREAM_BUY_BLOCKED reason=insufficient_balance free_u={free_u:.2f} required_u={(float(level.budget_u) + balance_safety_buffer_u):.2f}",
+                                        f"[EXEC] STREAM_BUY_BLOCKED reason=balance_low free_u={free_u:.2f} required_u={(float(level.budget_u) + balance_safety_buffer_u):.2f}",
                                     )
                                     continue
                                 try:
