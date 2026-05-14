@@ -612,6 +612,9 @@ class MainWindow(QMainWindow):
         self.runtime_active = False
         if self.position_qty > 0:
             self.position_state = "STREAM_EXITING" if self._has_stream_owned_inventory() else "EXIT_BLOCKED_OPEN_INVENTORY"
+            if self._has_stream_owned_inventory():
+                exiting_streams, exiting_qty, _ = self._stream_exit_telemetry()
+                self.log("INFO", f"[EXEC] STREAMS_EXITING count={exiting_streams} EXITING_QTY={exiting_qty:.6f}")
             self.exit_block_reason = "stop_open_inventory"
             self.fsm_state = "WAIT_MANUAL"
             self.log("WARNING", f"[EXEC] STOP_SAFE_MANUAL inventory={self.position_qty:.6f} active_order={self.active_order.get('orderId', 0)}")
@@ -1536,6 +1539,18 @@ class MainWindow(QMainWindow):
         waiting_streams = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY" and int(lvl.active_buy_order_id or 0) <= 0)
         return active_buys, active_sells, waiting_streams
 
+    def _stream_exit_telemetry(self) -> tuple[int, float, int]:
+        epsilon = self._inventory_epsilon_qty()
+        exiting_states = {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"}
+        exiting_stream_ids = {int(lvl.level_id) for lvl in self.grid_runtime.levels if lvl.state in exiting_states}
+        exiting_qty = sum(
+            max(float(chunk.qty or 0.0), 0.0)
+            for chunk in self.inventory_chunks
+            if int(getattr(chunk, "stream_id", 0) or 0) in exiting_stream_ids and float(chunk.qty or 0.0) > epsilon
+        )
+        recycled_streams = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "RECYCLE_COOLDOWN")
+        return len(exiting_stream_ids), exiting_qty, recycled_streams
+
     def _log_stream_swarm_state(self, active_buys: int, active_sells: int) -> tuple[int, int]:
         wait_start = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_START")
         wait_buy = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY")
@@ -1652,6 +1667,8 @@ class MainWindow(QMainWindow):
                     remaining_qty = max(chunk.qty - executed_qty, 0.0)
                     if remaining_qty <= self._inventory_epsilon_qty():
                         self.log("ERROR", f"[EXEC] STREAM_STATE_MISMATCH reason=partial_fill_no_remaining_qty stream_id={level_id} chunk_id={chunk_id}")
+                    self.position_state = "STREAM_PARTIAL_EXIT"
+                    self.log("INFO", f"[EXEC] STREAM_PARTIAL_EXIT stream_id={level_id} chunk_id={chunk_id} remaining_qty={remaining_qty:.6f} exit_state={status}")
                     self.log("INFO", f"[EXEC] STREAM_PARTIAL_EXIT_UPDATE stream_id={level_id} filled_qty={executed_qty:.6f} remaining_qty={remaining_qty:.6f}")
                     break
             if status == "NEW":
@@ -1788,6 +1805,7 @@ class MainWindow(QMainWindow):
                     pnl = (fill_price - chunk.entry_price) * qty_to_close
                     self.log("OK", f"[EXEC] FIFO CLOSE qty={qty_to_close:.6f} entry={chunk.entry_price:.2f} exit={fill_price:.2f} pnl={pnl:+.6f}")
                     self.log("INFO", f"[EXEC] STREAM_PNL stream_id={level_id} pnl={pnl:+.6f}")
+                    self.log("INFO", f"[EXEC] STREAM_REALIZED_PNL stream_id={level_id} pnl={pnl:+.6f}")
                     self.stream_realized_pnl += pnl
                     self.stream_last_pnl = pnl
                     eps = self._inventory_epsilon_qty()
@@ -1801,6 +1819,9 @@ class MainWindow(QMainWindow):
                             self.entry_guard_cooldown_until_ms = max(self.entry_guard_cooldown_until_ms, now_ms + cooldown_ms)
                             self.log("WARNING", f"[EXEC] STREAM_LOSS_COOLDOWN stream_id={level_id} cooldown_ms={cooldown_ms}")
                     self.stream_winrate = (self.stream_wins / self.stream_closed_cycles * 100.0) if self.stream_closed_cycles else 0.0
+                    self.log("INFO", f"[EXEC] STREAM_STATS_AUDIT stream_id={level_id} pnl_recorded=true fifo_closed=true cycle_counted=true")
+                if qty_to_close <= 0:
+                    self.log("INFO", f"[EXEC] STREAM_STATS_AUDIT stream_id={level_id} pnl_recorded=false fifo_closed=false cycle_counted=false")
                 self.inventory_chunks.pop(idx)
                 self._recalc_entry_avg_from_chunks()
                 recycle_delay_ms = max(int(getattr(self.settings, "stream_recycle_delay_ms", 0)), 0)
@@ -3460,6 +3481,9 @@ class MainWindow(QMainWindow):
             if now_ms - self.last_stream_stats_ui_log_ms >= 5000:
                 self.last_stream_stats_ui_log_ms = now_ms
                 self.log("INFO", f"[EXEC] STREAM_STATS_UI cycles={closed_cycles} wins={wins} losses={losses} pnl={realized_pnl:+.6f} winrate={winrate:.2f}%")
+                exiting_streams, exiting_qty, recycled_streams = self._stream_exit_telemetry()
+                self.log("INFO", f"[EXEC] STREAMS_EXITING count={exiting_streams} EXITING_QTY={exiting_qty:.6f}")
+                self.log("INFO", f"[EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams={sum(1 for lvl in self.grid_runtime.levels if lvl.state == 'BUY_PLACED' and int(lvl.active_buy_order_id or 0) > 0)} active_sell_streams={sum(1 for lvl in self.grid_runtime.levels if lvl.state in {'WAIT_SELL','SELL_PLACED','SELL_RETRY','EXITING'} or int(lvl.active_sell_order_id or 0) > 0)} exiting_streams={exiting_streams} recycled_streams={recycled_streams} waiting_streams={sum(1 for lvl in self.grid_runtime.levels if lvl.state == 'WAIT_BUY' and int(lvl.active_buy_order_id or 0) <= 0)}")
         active_order_text = "none" if not self.active_order.get("orderId") else f"{self.active_order.get('side','-')}#{self.active_order.get('orderId')}"
         summary_sig = f"{self.position_state}:{self.position_entry_avg:.6f}:{closed_cycles}:{wins}:{losses}:{realized_pnl:.6f}:{last_pnl:.6f}:{winrate:.2f}:{self.canceled_buys}:{self.sell_timeouts}:{self.sell_reprice_count}:{self.exit_mode}:{self.phantom_reconcile_count}:{active_order_text}:{self.position_qty:.6f}"
         if summary_sig == self.summary_signature:
