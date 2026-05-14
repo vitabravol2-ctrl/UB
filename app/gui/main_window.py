@@ -253,6 +253,7 @@ class MainWindow(QMainWindow):
         self.entry_guard_reason = "boot"
         self.entry_guard_last_block_log_ms = 0
         self.last_stream_global_sell_skip_log_ms_by_reason: dict[str, int] = {}
+        self.last_stream_shutdown_state_log_ms = 0
         self.last_stream_repair_skip_log_ms = 0
         self.last_stream_stats_ui_log_ms = 0
         self.stream_shutdown_active = False
@@ -1367,6 +1368,21 @@ class MainWindow(QMainWindow):
             self.last_stream_global_sell_skip_log_ms_by_reason[reason] = now
         return True
 
+    def _log_stream_shutdown_state(self, reason: str) -> None:
+        now = int(time.time() * 1000)
+        if now - int(self.last_stream_shutdown_state_log_ms or 0) < 2500:
+            return
+        active = str(bool(self.stream_shutdown_active)).lower()
+        self.log("INFO", f"[EXEC] STREAM_SHUTDOWN_STATE active={active} reason={reason}")
+        self.last_stream_shutdown_state_log_ms = now
+
+    def _guard_stream_global_exit_hard_block(self, trigger: str, qty: float) -> bool:
+        if not self.is_stream_owned_inventory(qty=qty):
+            return False
+        stream_chunks = sum(1 for chunk in self.inventory_chunks if self._is_stream_owned_chunk(chunk) and chunk.qty > self._inventory_epsilon_qty())
+        self.log("WARNING", f"[EXEC] STREAM_GLOBAL_EXIT_HARD_BLOCK trigger={trigger} qty={qty:.6f} stream_chunks={stream_chunks}")
+        return True
+
     def _process_stream_shutdown(self, now_ms: int) -> None:
         if not self.stream_shutdown_active:
             return
@@ -1811,9 +1827,8 @@ class MainWindow(QMainWindow):
         return safe_qty
 
     def _log_exit_recovery_throttled(self, qty: float) -> None:
-        if self.is_stream_owned_inventory(qty=qty):
-            if self._should_skip_global_sell_engine("exit_recovery_inventory_no_sell"):
-                self.position_state = "STREAM_EXITING"
+        if self._guard_stream_global_exit_hard_block("exit_recovery_inventory_no_sell", qty):
+            self.position_state = "STREAM_EXITING"
             return
         if self._should_skip_global_sell_engine("exit_recovery_inventory_no_sell"):
             return
@@ -2493,6 +2508,9 @@ class MainWindow(QMainWindow):
             if now_ms - self._last_health_update_ms >= 250:
                 self._update_market_health(now_ms)
                 self._last_health_update_ms = now_ms
+            self._log_stream_shutdown_state("runtime_tick")
+            if self.stream_shutdown_active:
+                self.log("ERROR", "[EXEC] STREAM_STATE_MISMATCH reason=shutdown_active_without_stop")
             self._process_stream_shutdown(now_ms)
             if self.position_qty > 0:
                 if not plan.balance_ok:
@@ -2818,6 +2836,10 @@ class MainWindow(QMainWindow):
                     self.last_entry_reprice_ms = now
                     self.log("OK", f"[EXEC] ENTRY_PLACE price={new_price:.2f} qty={float(self.active_order.get('qty', 0.0)):.6f}")
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
+            if self._guard_stream_global_exit_hard_block("place_sell", self.position_qty):
+                self.fsm_state = "DONE"
+                self.position_state = "STREAM_EXITING"
+                return
             if self._should_skip_global_sell_engine("place_sell"):
                 self.fsm_state = "DONE"
                 return
