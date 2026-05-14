@@ -98,3 +98,20 @@ def test_recycle_blocked_without_confirmed_sell_fill() -> None:
     assert ok is False
     assert rt.levels[0].state == "WAIT_BUY"
     assert any("STREAM_RECYCLE_BLOCKED reason=no_confirmed_sell_fill stream_id=1" in x for x in logs)
+
+
+def test_buy_canceled_resets_stream_to_wait_without_recycle() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.mark_buy_placed(1, 1001)
+
+    ok = rt.handle_buy_order_canceled(1, reason="BUY_CANCELED")
+
+    assert ok is True
+    assert rt.levels[0].state == "WAIT_BUY"
+    assert rt.levels[0].active_buy_order_id is None
+    assert rt.levels[0].buy_order_id is None
+    assert any("STREAM_BUY_RESET_TO_WAIT stream_id=1 reason=BUY_CANCELED" in x for x in logs)
+    assert not any("STREAM_RECYCLE_BLOCKED" in x for x in logs)
