@@ -119,6 +119,13 @@ class SettingsData:
     stream_max_active_buys: int = 2
     stream_place_batch_size: int = 1
     stream_place_interval_ms: int = 350
+    stream_start_interval_ms: int = 300
+    stream_recycle_delay_ms: int = 0
+    stream_signal_enabled: bool = True
+    stream_signal_recenter_enabled: bool = False
+    stream_signal_exit_pressure_enabled: bool = False
+    stream_signal_max_recenter_ticks: int = 4
+    stream_signal_log_enabled: bool = True
     stream_max_inventory_u: float = 1000.0
     stream_pause_buy_inventory_u: float = 800.0
     stream_sell_first: bool = True

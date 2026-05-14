@@ -58,3 +58,32 @@ def test_micro_grid_level_lifecycle_and_telemetry() -> None:
     rt.recycle_level(1)
     t2 = rt.grid_telemetry()
     assert t2["GRID FILLED LEVELS"] == 0
+
+
+def test_streams_start_stagger_and_activate_independently() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0, stream_start_interval_ms=300)
+    levels = rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    assert len(levels) == 3
+    assert levels[0].state == "WAIT_BUY"
+    assert levels[1].state == "WAIT_START"
+    assert levels[2].state == "WAIT_START"
+    assert levels[1].start_at_ms - levels[0].start_at_ms == 300
+    assert levels[2].start_at_ms - levels[1].start_at_ms == 300
+    assert any("STREAM_WAIT_START stream_id=2" in x for x in logs)
+    assert any("STREAM_ACTIVATED stream_id=1" in x for x in logs)
+
+
+def test_signal_logs_are_log_only_and_recycle_cooldown_releases() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.mark_buy_filled(1)
+    rt.recycle_level(1, recycle_delay_ms=500)
+    assert rt.levels[0].state == "RECYCLE_COOLDOWN"
+    rt.release_recycle_streams(now_ms=rt.levels[0].recycle_ready_at_ms + 1)
+    assert rt.levels[0].state == "WAIT_BUY"
+    assert any("STREAM_SIGNAL_BUY_FILL stream_id=1" in x for x in logs)
+    assert any("STREAM_SIGNAL_SELL_FILL stream_id=1" in x for x in logs)
