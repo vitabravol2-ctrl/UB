@@ -52,6 +52,10 @@ class GridRuntime:
     stream_signal_recent_sell_fill: dict[str, float | int] | None = None
     stream_wait_buy_starvation_since_ms: int = 0
     runtime_started_ms: int = 0
+    stream_pnl_count: int = 0
+    stream_closed_cycles: int = 0
+    stream_wins: int = 0
+    stream_losses: int = 0
 
     def _log(self, message: str) -> None:
         if self.log_callback:
@@ -146,7 +150,11 @@ class GridRuntime:
 
     def validate_stream_contract(self, now_ms: int | None = None) -> tuple[bool, list[str]]:
         ts = int(time.time() * 1000) if now_ms is None else now_ms
-        valid_states = {"WAIT_BUY", "BUY_PLACED", "SELL_PLACED", "SELL_RETRY", "SELL_BALANCE_WAIT", "TERMINAL_EXIT", "RECYCLE", "PAUSED_ERROR", "WAIT_START"}
+        valid_states = {
+            "WAIT_BUY", "BUY_PLACED", "BUY_FILLED", "CHUNK_CREATED",
+            "SELL_PLACED", "SELL_FILLED", "FIFO_CLOSE", "STREAM_PNL",
+            "SELL_RETRY", "SELL_BALANCE_WAIT", "TERMINAL_EXIT", "RECYCLE", "PAUSED_ERROR", "WAIT_START",
+        }
         violations: list[str] = []
         for level in self.levels:
             if int(level.level_id or 0) <= 0:
@@ -170,12 +178,21 @@ class GridRuntime:
         if violations:
             self._log(f"STREAM_CONTRACT_VIOLATION count={len(violations)} details={'|'.join(violations)}")
             return False, violations
-        self._log(f"STREAM_CONTRACT_OK streams={len(self.levels)}")
+        if self.stream_closed_cycles != self.stream_pnl_count:
+            violations.append("cycles_pnl_mismatch")
+        if (self.stream_wins + self.stream_losses) != self.stream_closed_cycles:
+            violations.append("wins_losses_cycles_mismatch")
+        if violations:
+            self._log(f"STREAM_CONTRACT_VIOLATION count={len(violations)} details={'|'.join(violations)}")
+            return False, violations
         return True, []
 
     def mark_buy_placed(self, level_id: int, order_id: int) -> None:
         level = next((x for x in self.levels if x.level_id == level_id), None)
         if not level:
+            return False
+        if int(level.active_buy_order_id or 0) > 0:
+            self._log(f"STREAM_BUY_DUPLICATE_BLOCKED stream_id={level_id} existing_order_id={level.active_buy_order_id}")
             return False
         level.state = "BUY_PLACED"
         level.active_buy_order_id = order_id
@@ -206,10 +223,13 @@ class GridRuntime:
         level = next((x for x in self.levels if x.level_id == level_id), None)
         if not level:
             return
-        level.state = "SELL_PLACED"
+        level.state = "BUY_FILLED"
         level.active_buy_order_id = None
         level.last_fill_ts = int(time.time() * 1000)
         self._log(f"STREAM_BUY_FILLED level_id={level_id}")
+        level.state = "CHUNK_CREATED"
+        self._log(f"STREAM_CHUNK_CREATED level_id={level_id} chunk_id={level.active_chunk_id}")
+        level.state = "SELL_PLACED"
         self.stream_signal_recent_buy_fill = {
             "stream_id": level_id,
             "fill_price": level.target_buy_price,
@@ -225,9 +245,15 @@ class GridRuntime:
             return
         delay_ms = max(int(recycle_delay_ms), 0)
         now_ms = int(time.time() * 1000)
-        if not allow_without_sell_fill and level.state not in {"SELL_PLACED", "SELL_RETRY", "TERMINAL_EXIT", "SELL_BALANCE_WAIT"}:
+        if not allow_without_sell_fill and level.state not in {"SELL_FILLED"}:
             self._log(f"STREAM_RECYCLE_BLOCKED reason=no_confirmed_sell_fill stream_id={level_id} state={level.state}")
             return False
+        level.state = "FIFO_CLOSE"
+        self._log(f"STREAM_FIFO_CLOSE stream_id={level_id}")
+        level.state = "STREAM_PNL"
+        self.stream_pnl_count += 1
+        self.stream_closed_cycles += 1
+        self._log(f"STREAM_PNL stream_id={level_id} closed_cycles={self.stream_closed_cycles} pnl_count={self.stream_pnl_count}")
         level.recycle_ready_at_ms = now_ms + delay_ms
         level.state = "RECYCLE"
         level.active_buy_order_id = None
@@ -344,6 +370,9 @@ class GridRuntime:
                 f"STREAM_TERMINAL_EXIT_ALREADY_ACTIVE stream_id={level_id} chunk_id={level.active_chunk_id or chunk_id} order_id={level.terminal_exit_order_id}"
             )
             return False
+        if int(level.terminal_exit_order_id or 0) > 0:
+            self._log(f"STREAM_TERMINAL_DUPLICATE_BLOCKED stream_id={level_id} existing_order_id={level.terminal_exit_order_id}")
+            return False
         ts = int(time.time() * 1000) if now_ms is None else int(now_ms)
         level.state = "TERMINAL_EXIT"
         level.active_chunk_id = chunk_id
@@ -400,6 +429,10 @@ class GridRuntime:
         if has_active_sell_order and int(level.active_sell_order_id or 0) > 0:
             level.state = "SELL_PLACED"
             self._log(f"STREAM_SELL_LOCKED_BY_ACTIVE_ORDER stream_id={level_id} chunk_id={level.active_chunk_id} order_id={level.active_sell_order_id} free_btc={free_btc:.8f}")
+            return "LOCKED_BY_ACTIVE_ORDER"
+        if int(level.active_sell_order_id or 0) > 0:
+            level.state = "SELL_PLACED"
+            self._log(f"STREAM_SELL_DUPLICATE_BLOCKED stream_id={level_id} chunk_id={level.active_chunk_id} order_id={level.active_sell_order_id}")
             return "LOCKED_BY_ACTIVE_ORDER"
         level.state = "SELL_BALANCE_WAIT"
         level.balance_wait_until_ms = ts + max(int(balance_wait_ms), 0)
