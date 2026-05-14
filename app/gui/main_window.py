@@ -1043,6 +1043,10 @@ class MainWindow(QMainWindow):
             self.filters = self.account.get_exchange_filters(CONFIG.binance_symbol)
             self.log("WARNING" if self.filters.get("fallback") else "OK", "filters loaded fallback" if self.filters.get("fallback") else "filters loaded")
 
+    def _refresh_balances(self) -> None:
+        """Backward-compatible balance refresh hook used by stream runtime paths."""
+        self.refresh_account_data()
+
     def fetch_rest(self) -> None:
         ws_age = self.state.monotonic_age_ms(self.state.last_ws_monotonic)
         ws_ok = ws_age is not None and ws_age <= self.settings.max_ws_age_ms and self.state.ws_status == "CONNECTED"
