@@ -55,6 +55,7 @@ def test_micro_grid_level_lifecycle_and_telemetry() -> None:
     t = rt.grid_telemetry()
     assert t["GRID FILLED LEVELS"] == 1
     assert t["GRID BUDGET USED"] == 15.0
+    rt.levels[0].state = "SELL_FILLED"
     rt.recycle_level(1)
     t2 = rt.grid_telemetry()
     assert t2["GRID FILLED LEVELS"] == 0
@@ -81,6 +82,7 @@ def test_signal_logs_are_log_only_and_recycle_cooldown_releases() -> None:
     s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
     rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
     rt.mark_buy_filled(1)
+    rt.levels[0].state = "SELL_FILLED"
     rt.recycle_level(1, recycle_delay_ms=500)
     assert rt.levels[0].state == "RECYCLE"
     rt.release_recycle_streams(now_ms=rt.levels[0].recycle_ready_at_ms + 1)
@@ -172,6 +174,7 @@ def test_stream_exit_retry_closes_cycle_and_counts_pnl() -> None:
     s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
     rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
     rt.mark_buy_filled(1)
+    rt.levels[0].state = "SELL_FILLED"
     assert rt.recycle_level(1, recycle_delay_ms=0) is True
     assert rt.levels[0].state == "RECYCLE"
 
@@ -291,7 +294,7 @@ def test_full_stream_chain_regression_runtime_flow() -> None:
     first = rt.levels[0]
     rt.mark_buy_filled(first.level_id)
     first.active_chunk_id = 12345
-    first.state = "SELL_PLACED"
+    first.state = "SELL_FILLED"
     assert rt.recycle_level(first.level_id, recycle_delay_ms=0) is True
     rt.release_recycle_streams(now_ms=int(first.recycle_ready_at_ms) + 1)
     assert first.state == "WAIT_BUY"
