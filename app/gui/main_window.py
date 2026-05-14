@@ -1434,7 +1434,7 @@ class MainWindow(QMainWindow):
                                 continue
                             self.grid_order_ids.discard(order_id)
                             self.grid_level_by_order_id.pop(order_id, None)
-                            self.grid_runtime.recycle_level(level.level_id)
+                            self.grid_runtime.handle_buy_order_canceled(level.level_id, reason="BUY_RECENTER_CANCELED")
                             entry_offset_ticks = max(int(getattr(self.settings, "entry_offset_ticks", 1)), 0)
                             level.target_buy_price = self._round_price_down(max(best_bid - (tick * entry_offset_ticks), tick))
                             self.stream_last_recenter_ms = now_ms
@@ -1471,9 +1471,14 @@ class MainWindow(QMainWindow):
                 self.grid_sell_order_meta[sell_order_id] = (level.level_id, id(chunk))
                 self.log("INFO", f"[EXEC] STREAM_SELL_PLACED stream_id={level.level_id} chunk_id={id(chunk)} order_id={sell_order_id} price={sell_price:.2f} qty={fill_qty:.6f}")
             elif status in {"CANCELED", "EXPIRED", "REJECTED"}:
-                level.active_buy_order_id = None
-                self.grid_runtime.recycle_level(level.level_id)
+                self.grid_order_ids.discard(order_id)
+                self.grid_level_by_order_id.pop(order_id, None)
+                reset_called = self.grid_runtime.handle_buy_order_canceled(level.level_id, reason="BUY_CANCELED")
+                if not reset_called and level.state == "BUY_PLACED":
+                    reset_called = self.grid_runtime.reset_buy_stream_to_wait(level.level_id, reason="BUY_CANCELED")
+                self.log("INFO", f"[EXEC] STREAM_BUY_CANCEL_PATH stream_id={level.level_id} order_id={order_id} status={status} reset_called={str(bool(reset_called)).lower()}")
                 self.log("INFO", f"[EXEC] STREAM_SKIP stream_id={level.level_id} reason=BUY_CANCELED order_id={order_id} status={status}")
+        self._self_heal_buy_placed_canceled()
         for sell_order_id, (level_id, chunk_id) in list(self.grid_sell_order_meta.items()):
             try:
                 st = self.account.get_order(CONFIG.binance_symbol, int(sell_order_id))
@@ -1523,6 +1528,7 @@ class MainWindow(QMainWindow):
                         if best_ask > 0:
                             retry_price = max(retry_price, max(best_ask - tick * retry_step_ticks, tick))
                         new_price = self._round_price_up(retry_price)
+
                         chunk.sell_retry_count += 1
                         self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} prev_order_id={sell_order_id} retry_count={chunk.sell_retry_count} price={new_price:.2f} qty={chunk.qty:.6f}")
                     else:
@@ -1635,6 +1641,16 @@ class MainWindow(QMainWindow):
                 self.log("INFO", f"[EXEC] STREAM_LIFECYCLE_AUDIT stream_id={level_id} state=FILLED has_buy_order=false has_sell_order=false has_chunk=false action=recycle")
                 break
             self.grid_sell_order_meta.pop(sell_order_id, None)
+
+    def _self_heal_buy_placed_canceled(self) -> None:
+        for level in self.grid_runtime.levels:
+            if level.state != "BUY_PLACED":
+                continue
+            buy_order_id = int(level.active_buy_order_id or level.buy_order_id or 0)
+            if buy_order_id > 0:
+                continue
+            reset_called = self.grid_runtime.reset_buy_stream_to_wait(level.level_id, reason="BUY_CANCELED_SELF_HEAL")
+            self.log("INFO", f"[EXEC] STREAM_BUY_CANCEL_PATH stream_id={level.level_id} order_id=0 status=CANCELED reset_called={str(bool(reset_called)).lower()} self_heal=true")
 
     def _mark_stream_order_api_error(self, side: str, stream_id: int | None, exc: Exception) -> None:
         now_ms = int(time.time() * 1000)
