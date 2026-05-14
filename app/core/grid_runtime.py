@@ -124,6 +124,7 @@ class GridRuntime:
         for level in self.levels:
             if level.state == "WAIT_START" and ts >= level.start_at_ms:
                 level.state = "WAIT_BUY"
+                level.recycle_ready_at_ms = 0
                 activated.append(level.level_id)
                 self._log(f"STREAM_ACTIVATED stream_id={level.level_id} at_ms={ts}")
         return activated
@@ -131,7 +132,7 @@ class GridRuntime:
     def mark_buy_placed(self, level_id: int, order_id: int) -> None:
         level = next((x for x in self.levels if x.level_id == level_id), None)
         if not level:
-            return
+            return False
         level.state = "BUY_PLACED"
         level.active_buy_order_id = order_id
         self._log(f"STREAM_BUY_PLACED level_id={level_id} order_id={order_id}")
@@ -153,14 +154,17 @@ class GridRuntime:
             f"STREAM_SIGNAL_BUY_FILL stream_id={level_id} fill_price={level.target_buy_price:.8f} effect=log_only"
         )
 
-    def recycle_level(self, level_id: int, recycle_delay_ms: int = 0) -> None:
+    def recycle_level(self, level_id: int, recycle_delay_ms: int = 0, *, allow_without_sell_fill: bool = False) -> bool:
         level = next((x for x in self.levels if x.level_id == level_id), None)
         if not level:
             return
         delay_ms = max(int(recycle_delay_ms), 0)
         now_ms = int(time.time() * 1000)
+        if not allow_without_sell_fill and level.state not in {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"}:
+            self._log(f"STREAM_RECYCLE_BLOCKED reason=no_confirmed_sell_fill stream_id={level_id} state={level.state}")
+            return False
         level.recycle_ready_at_ms = now_ms + delay_ms
-        level.state = "RECYCLE_COOLDOWN" if delay_ms > 0 else "WAIT_BUY"
+        level.state = "RECYCLE_COOLDOWN"
         level.active_buy_order_id = None
         level.active_sell_order_id = None
         level.active_chunk_id = None
@@ -168,6 +172,7 @@ class GridRuntime:
         self._log(f"STREAM_SIGNAL_SELL_FILL stream_id={level_id} timestamp={now_ms} effect=log_only")
         self.stream_signal_recent_sell_fill = {"stream_id": level_id, "timestamp": now_ms}
         self._log(f"STREAM_RECYCLED level_id={level_id} recycle_delay_ms={delay_ms}")
+        return True
 
     def release_recycle_streams(self, now_ms: int | None = None) -> list[int]:
         ts = int(time.time() * 1000) if now_ms is None else now_ms
@@ -175,6 +180,7 @@ class GridRuntime:
         for level in self.levels:
             if level.state == "RECYCLE_COOLDOWN" and ts >= level.recycle_ready_at_ms:
                 level.state = "WAIT_BUY"
+                level.recycle_ready_at_ms = 0
                 released.append(level.level_id)
                 self._log(f"STREAM_RECYCLE_READY stream_id={level.level_id} at_ms={ts}")
         return released

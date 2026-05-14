@@ -74,6 +74,8 @@ class InventoryChunk:
     sell_order_id: int | None = None
     sell_placed_ms: int = 0
     sell_retry_count: int = 0
+    exit_retry_count: int = 0
+    exit_escalated: bool = False
     state: str = "OPEN"
 
 
@@ -1481,6 +1483,8 @@ class MainWindow(QMainWindow):
             status = str(st.get("status", "NEW"))
             level = next((lv for lv in self.grid_runtime.levels if lv.level_id == level_id), None)
             if level is not None:
+                if int(level.active_sell_order_id or 0) <= 0:
+                    self.log("INFO", f"[EXEC] STREAM_SELL_OWNERSHIP_RESTORED stream_id={level_id} order_id={sell_order_id}")
                 level.active_sell_order_id = int(sell_order_id)
                 level.active_chunk_id = chunk_id
                 level.state = "SELL_PLACED" if status in {"NEW", "PARTIALLY_FILLED"} else level.state
@@ -1526,7 +1530,12 @@ class MainWindow(QMainWindow):
                             raise AssertionError("STREAM_STOP_LOSS_EXIT forbidden while retry is available")
                         stop_loss_price = self._round_price_down(max(chunk.entry_price - tick * stop_loss_ticks, tick))
                         new_price = self._round_price_down(max(best_bid, stop_loss_price, tick))
+                        if chunk.exit_escalated:
+                            self.log("ERROR", f"[EXEC] STREAM_EXIT_STUCK stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
+                            timeout_handled = True
+                            break
                         self.log("WARNING", f"[EXEC] STREAM_STOP_LOSS_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} stop_price={new_price:.2f} retry_count={chunk.sell_retry_count} retry_max={retry_max}")
+                        chunk.exit_escalated = True
                     try:
                         repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(chunk.qty))
                     except (BinanceAPIError, RequestException, Exception) as exc:
@@ -1542,11 +1551,12 @@ class MainWindow(QMainWindow):
                         chunk.state = "STREAM_SELL_PLACED"
                         level = next((lv for lv in self.grid_runtime.levels if lv.level_id == level_id), None)
                         if level is not None:
-                            level.state = "SELL_PLACED"
+                            level.state = "EXITING" if chunk.exit_escalated else "SELL_PLACED"
                             level.active_sell_order_id = new_id
                             level.active_chunk_id = chunk_id
                         self.grid_sell_order_meta[new_id] = (level_id, chunk_id)
                     else:
+                        self.log("WARNING", f"[EXEC] STREAM_EXIT_ORDER_TRACKING_FAILED stream_id={level_id} chunk_id={chunk_id}")
                         chunk.state = "STREAM_WAIT_SELL"
                         level = next((lv for lv in self.grid_runtime.levels if lv.level_id == level_id), None)
                         if level is not None:
@@ -1621,8 +1631,8 @@ class MainWindow(QMainWindow):
                     self.stream_winrate = (self.stream_wins / self.stream_closed_cycles * 100.0) if self.stream_closed_cycles else 0.0
                 self.inventory_chunks.pop(idx)
                 self._recalc_entry_avg_from_chunks()
-                self.grid_runtime.recycle_level(level_id)
-                self.log("INFO", f"[EXEC] STREAM_RECYCLED stream_id={level_id}")
+                self.grid_runtime.recycle_level(level_id, recycle_delay_ms=max(int(getattr(self.settings, "stream_recycle_cooldown_ms", 0)), 0))
+                self.log("INFO", f"[EXEC] STREAM_LIFECYCLE_AUDIT stream_id={level_id} state=FILLED has_buy_order=false has_sell_order=false has_chunk=false action=recycle")
                 break
             self.grid_sell_order_meta.pop(sell_order_id, None)
 
