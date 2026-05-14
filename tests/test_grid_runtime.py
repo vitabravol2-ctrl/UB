@@ -87,3 +87,14 @@ def test_signal_logs_are_log_only_and_recycle_cooldown_releases() -> None:
     assert rt.levels[0].state == "WAIT_BUY"
     assert any("STREAM_SIGNAL_BUY_FILL stream_id=1" in x for x in logs)
     assert any("STREAM_SIGNAL_SELL_FILL stream_id=1" in x for x in logs)
+
+
+def test_recycle_blocked_without_confirmed_sell_fill() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    ok = rt.recycle_level(1)
+    assert ok is False
+    assert rt.levels[0].state == "WAIT_BUY"
+    assert any("STREAM_RECYCLE_BLOCKED reason=no_confirmed_sell_fill stream_id=1" in x for x in logs)
