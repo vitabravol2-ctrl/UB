@@ -369,3 +369,50 @@ def test_stream_contract_violation_without_retry_plan() -> None:
     ok, violations = rt.validate_stream_contract(now_ms=10)
     assert ok is True
     assert violations == []
+
+def test_same_chunk_cannot_enter_stream_exit_stuck_twice_after_terminal_started() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    assert rt.start_terminal_exit(1, chunk_id=1800622469632, order_id=7001, now_ms=1000) is True
+    assert rt.start_terminal_exit(1, chunk_id=1800622469632, order_id=7002, now_ms=1001) is False
+    assert any("STREAM_TERMINAL_EXIT_ALREADY_ACTIVE" in x for x in logs)
+
+
+def test_terminal_exit_started_blocks_new_recovery_placement() -> None:
+    rt = GridRuntime()
+    plan = rt.stream_sell_retry_plan(
+        entry_price=100.0, best_bid=99.0, best_ask=101.0, tick=1.0,
+        min_profit_ticks=1, retry_step_ticks=2, stop_loss_ticks=3,
+        retry_count=3, retry_max=3, stuck_attempts=1, terminal_exit_started=True,
+    )
+    assert plan["mode"] == "terminal_poll"
+    assert plan["reason"] == "terminal_exit_active"
+
+
+def test_terminal_order_is_polled_instead_of_replaced_every_tick() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.start_terminal_exit(1, chunk_id=101, order_id=9001, now_ms=1000)
+    assert rt.terminal_exit_status_wait(1, now_ms=1500) is True
+    assert rt.terminal_exit_status_wait(1, now_ms=1700) is True
+    assert sum(1 for x in logs if "STREAM_TERMINAL_EXIT_STATUS_WAIT" in x) == 2
+
+
+def test_terminal_timeout_leads_to_paused_error_or_one_controlled_reprice() -> None:
+    assert GridRuntime.terminal_exit_should_reprice(started_at_ms=1000, now_ms=7000, attempts=0, timeout_ms=5000, max_reprices=1) is True
+    assert GridRuntime.terminal_exit_should_reprice(started_at_ms=1000, now_ms=7000, attempts=1, timeout_ms=5000, max_reprices=1) is False
+
+
+def test_other_streams_continue_while_one_chunk_is_terminal_exit() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0, stream_max_active_buys=2)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.start_terminal_exit(1, chunk_id=222, order_id=333, now_ms=1000)
+    rt.levels[1].state = "WAIT_BUY"
+    rt.levels[2].state = "WAIT_BUY"
+    plan = rt.stream_capacity_fill_plan(runtime_active=True, max_active_buys=2, now_ms=1001)
+    assert plan["should_fill"] is True
