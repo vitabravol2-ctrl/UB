@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
+from typing import Any
 from decimal import Decimal, ROUND_DOWN
 
 from app.core.price_ticks import sub_ticks
@@ -17,12 +18,14 @@ class GridLevel:
     target_buy_price: float
     budget_u: float
     qty: float
-    state: str = "WAIT_BUY"
+    state: str = "WAIT_START"
     active_buy_order_id: int | None = None
     active_sell_order_id: int | None = None
     active_chunk_id: int | None = None
     linked_inventory_chunk_ids: list[str] = field(default_factory=list)
     last_fill_ts: int = 0
+    start_at_ms: int = 0
+    recycle_ready_at_ms: int = 0
 
 
 @dataclass
@@ -36,6 +39,8 @@ class GridRuntime:
     risk: GridRiskGuard = field(default_factory=GridRiskGuard)
     log_callback: Callable[[str], None] | None = None
     levels: list[GridLevel] = field(default_factory=list)
+    stream_signal_recent_buy_fill: dict[str, float | int] | None = None
+    stream_signal_recent_sell_fill: dict[str, float | int] | None = None
 
     def _log(self, message: str) -> None:
         if self.log_callback:
@@ -81,8 +86,10 @@ class GridRuntime:
 
     def configure_micro_grid(self, bid: float, tick_size: float, step_size: float, min_qty: float, min_notional: float, settings, *, free_u: float | None = None) -> list[GridLevel]:
         self.levels = []
+        now_ms = int(time.time() * 1000)
         levels_count = max(int(getattr(settings, "stream_count", 1)), 0)
         total_range_ticks = max(int(getattr(settings, "stream_range_ticks", 200)), 0)
+        start_interval_ms = max(int(getattr(settings, "stream_start_interval_ms", 0)), 0)
         step_ticks = int(total_range_ticks / levels_count) if levels_count > 0 else 0
         if levels_count <= 0 or step_ticks <= 0:
             self._log("STREAM_SKIP reason=INVALID_STREAMS")
@@ -102,11 +109,24 @@ class GridRuntime:
             if qty < min_qty or notional < min_notional:
                 self._log(f"STREAM_SKIP stream_id={idx} reason=INVALID_QTY price={price:.8f} qty={qty:.8f}")
                 continue
-            level = GridLevel(level_id=idx, target_buy_price=price, budget_u=order_size_u, qty=qty)
+            start_at_ms = now_ms + ((idx - 1) * start_interval_ms)
+            level = GridLevel(level_id=idx, target_buy_price=price, budget_u=order_size_u, qty=qty, start_at_ms=start_at_ms)
             self.levels.append(level)
             self._log(f"STREAM_CREATE stream_id={idx} buy_price={price:.8f} budget={order_size_u:.2f} qty={qty:.8f}")
+            self._log(f"STREAM_WAIT_START stream_id={idx} start_at_ms={start_at_ms}")
+        self.activate_ready_streams(now_ms=now_ms)
         self._log(f"STREAM_CREATE_DONE count={len(self.levels)} budget_per_level={order_size_u:.2f} step_ticks={step_ticks}")
         return self.levels
+
+    def activate_ready_streams(self, now_ms: int | None = None) -> list[int]:
+        ts = int(time.time() * 1000) if now_ms is None else now_ms
+        activated: list[int] = []
+        for level in self.levels:
+            if level.state == "WAIT_START" and ts >= level.start_at_ms:
+                level.state = "WAIT_BUY"
+                activated.append(level.level_id)
+                self._log(f"STREAM_ACTIVATED stream_id={level.level_id} at_ms={ts}")
+        return activated
 
     def mark_buy_placed(self, level_id: int, order_id: int) -> None:
         level = next((x for x in self.levels if x.level_id == level_id), None)
@@ -124,17 +144,40 @@ class GridRuntime:
         level.active_buy_order_id = None
         level.last_fill_ts = int(time.time() * 1000)
         self._log(f"STREAM_BUY_FILLED level_id={level_id}")
+        self.stream_signal_recent_buy_fill = {
+            "stream_id": level_id,
+            "fill_price": level.target_buy_price,
+            "timestamp": level.last_fill_ts,
+        }
+        self._log(
+            f"STREAM_SIGNAL_BUY_FILL stream_id={level_id} fill_price={level.target_buy_price:.8f} effect=log_only"
+        )
 
-    def recycle_level(self, level_id: int) -> None:
+    def recycle_level(self, level_id: int, recycle_delay_ms: int = 0) -> None:
         level = next((x for x in self.levels if x.level_id == level_id), None)
         if not level:
             return
-        level.state = "WAIT_BUY"
+        delay_ms = max(int(recycle_delay_ms), 0)
+        now_ms = int(time.time() * 1000)
+        level.recycle_ready_at_ms = now_ms + delay_ms
+        level.state = "RECYCLE_COOLDOWN" if delay_ms > 0 else "WAIT_BUY"
         level.active_buy_order_id = None
         level.active_sell_order_id = None
         level.active_chunk_id = None
         level.linked_inventory_chunk_ids.clear()
-        self._log(f"STREAM_RECYCLED level_id={level_id}")
+        self._log(f"STREAM_SIGNAL_SELL_FILL stream_id={level_id} timestamp={now_ms} effect=log_only")
+        self.stream_signal_recent_sell_fill = {"stream_id": level_id, "timestamp": now_ms}
+        self._log(f"STREAM_RECYCLED level_id={level_id} recycle_delay_ms={delay_ms}")
+
+    def release_recycle_streams(self, now_ms: int | None = None) -> list[int]:
+        ts = int(time.time() * 1000) if now_ms is None else now_ms
+        released: list[int] = []
+        for level in self.levels:
+            if level.state == "RECYCLE_COOLDOWN" and ts >= level.recycle_ready_at_ms:
+                level.state = "WAIT_BUY"
+                released.append(level.level_id)
+                self._log(f"STREAM_RECYCLE_READY stream_id={level.level_id} at_ms={ts}")
+        return released
 
     def grid_telemetry(self, inventory_u: float = 0.0, buy_paused: bool = False, placement_queue: int = 0, last_batch_size: int = 0) -> dict[str, float | int | str]:
         active = len(self.levels)
