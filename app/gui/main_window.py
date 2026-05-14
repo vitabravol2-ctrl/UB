@@ -1338,6 +1338,41 @@ class MainWindow(QMainWindow):
     def _has_stream_owned_chunks_or_orders(self) -> bool:
         return self._has_stream_owned_inventory() or self._has_stream_owned_orders()
 
+    def _try_restore_stream_chunk_ownership(self, qty_hint: float | None = None) -> bool:
+        if not bool((int(getattr(self.settings, "stream_count", 1)) >= 1)):
+            return False
+        eps = self._inventory_epsilon_qty()
+        restored = False
+        for level in self.grid_runtime.levels:
+            level_id = int(level.level_id or 0)
+            if level_id <= 0:
+                continue
+            chunk = next((c for c in self.inventory_chunks if id(c) == int(level.active_chunk_id or 0)), None)
+            if chunk is not None and chunk.qty > eps and chunk.stream_id is None:
+                chunk.stream_id = level_id
+                if chunk.grid_level_id is None:
+                    chunk.grid_level_id = level_id
+                self.log("WARNING", f"[EXEC] STREAM_CHUNK_OWNERSHIP_RESTORED stream_id={level_id} chunk_id={id(chunk)} qty={float(chunk.qty):.6f} source=active_chunk_id")
+                restored = True
+                continue
+            if int(level.active_sell_order_id or 0) > 0:
+                sell_order_id = int(level.active_sell_order_id or 0)
+                sell_chunk = next((c for c in self.inventory_chunks if int(c.sell_order_id or 0) == sell_order_id and c.qty > eps), None)
+                if sell_chunk is not None and sell_chunk.stream_id is None:
+                    sell_chunk.stream_id = level_id
+                    if sell_chunk.grid_level_id is None:
+                        sell_chunk.grid_level_id = level_id
+                    level.active_chunk_id = id(sell_chunk)
+                    self.log("WARNING", f"[EXEC] STREAM_CHUNK_OWNERSHIP_RESTORED stream_id={level_id} chunk_id={id(sell_chunk)} qty={float(sell_chunk.qty):.6f} source=sell_order_id")
+                    restored = True
+        if not restored:
+            unresolved_qty = max(float(qty_hint or 0.0), 0.0)
+            if unresolved_qty <= eps:
+                unresolved_qty = max(sum(max(float(c.qty), 0.0) for c in self.inventory_chunks), 0.0)
+            if unresolved_qty > eps:
+                self.log("ERROR", f"[EXEC] STREAM_ORPHAN_INVENTORY_DETECTED qty={unresolved_qty:.6f}")
+        return restored
+
     def is_stream_owned_inventory(self, qty: float | None = None, chunk_id: int | None = None) -> bool:
         if not bool((int(getattr(self.settings, "stream_count", 1)) >= 1)):
             return False
@@ -1350,8 +1385,11 @@ class MainWindow(QMainWindow):
             return False
         stream_chunks = sum(1 for chunk in self.inventory_chunks if self._is_stream_owned_chunk(chunk) and chunk.qty > eps)
         if qty is not None and float(qty) > eps and stream_chunks <= 0:
-            self.log("ERROR", f"[EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty={float(qty):.6f}")
-            return False
+            if self._try_restore_stream_chunk_ownership(qty_hint=float(qty)):
+                stream_chunks = sum(1 for chunk in self.inventory_chunks if self._is_stream_owned_chunk(chunk) and chunk.qty > eps)
+            if stream_chunks <= 0:
+                self.log("ERROR", f"[EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty={float(qty):.6f}")
+                return False
         return self._has_stream_owned_chunks_or_orders()
 
     def _should_skip_global_sell_engine(self, reason: str) -> bool:
@@ -1611,6 +1649,9 @@ class MainWindow(QMainWindow):
                 chunk = self.inventory_chunks[-1] if self.inventory_chunks else None
                 if chunk is None or fill_qty <= 0:
                     continue
+                chunk.stream_id = int(level.level_id)
+                chunk.grid_level_id = int(level.level_id)
+                level.active_chunk_id = id(chunk)
                 sell_price = add_ticks(fill_price, target_ticks, tick)
                 self.log("INFO", f"[EXEC] STREAM_TARGET_USED ticks={target_ticks} sell_price={sell_price:.2f}")
                 try:
@@ -1822,6 +1863,7 @@ class MainWindow(QMainWindow):
                     self.log("INFO", f"[EXEC] STREAM_STATS_AUDIT stream_id={level_id} pnl_recorded=true fifo_closed=true cycle_counted=true")
                 if qty_to_close <= 0:
                     self.log("INFO", f"[EXEC] STREAM_STATS_AUDIT stream_id={level_id} pnl_recorded=false fifo_closed=false cycle_counted=false")
+                    self.log("ERROR", f"[EXEC] STREAM_STATS_MISMATCH reason=sell_filled_without_pnl stream_id={level_id} order_id={sell_order_id}")
                 self.inventory_chunks.pop(idx)
                 self._recalc_entry_avg_from_chunks()
                 recycle_delay_ms = max(int(getattr(self.settings, "stream_recycle_delay_ms", 0)), 0)
