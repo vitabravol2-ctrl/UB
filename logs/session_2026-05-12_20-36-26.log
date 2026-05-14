@@ -1,0 +1,97 @@
+[17:36:27.779] [OK] filters loaded
+[17:36:43.971] [OK] [SETTINGS] settings saved
+[17:36:45.225] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[17:36:45.226] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=200.0
+[17:36:45.226] [INFO] START_PROFILE order_size=200.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[17:36:45.227] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[17:36:45.698] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[17:36:45.705] [OK] START
+[17:36:45.708] [OK] START_OK runtime_started
+[17:36:45.708] [INFO] [EXEC] STREAMS_ENABLED count=20 range_ticks=200 step_ticks=10
+[17:36:45.711] [INFO] [EXEC] GRID_BUDGET_DEPRECATED_USING_MAX_EXPOSURE
+[17:36:45.712] [INFO] [EXEC] GRID_BUDGET_SOURCE source=max_exposure_u budget=5000.00
+[17:36:45.713] [INFO] [EXEC] STREAM_CREATE stream_id=1 buy_price=80431.59000000 budget=250.00 qty=0.00310000
+[17:36:45.713] [INFO] [EXEC] STREAM_CREATE stream_id=2 buy_price=80431.50000000 budget=250.00 qty=0.00310000
+[17:36:45.714] [INFO] [EXEC] STREAM_CREATE stream_id=3 buy_price=80431.40000000 budget=250.00 qty=0.00310000
+[17:36:45.715] [INFO] [EXEC] STREAM_CREATE stream_id=4 buy_price=80431.30000000 budget=250.00 qty=0.00310000
+[17:36:45.716] [INFO] [EXEC] STREAM_CREATE stream_id=5 buy_price=80431.20000000 budget=250.00 qty=0.00310000
+[17:36:45.717] [INFO] [EXEC] STREAM_CREATE stream_id=6 buy_price=80431.09000000 budget=250.00 qty=0.00310000
+[17:36:45.718] [INFO] [EXEC] STREAM_CREATE stream_id=7 buy_price=80431.00000000 budget=250.00 qty=0.00310000
+[17:36:45.720] [INFO] [EXEC] STREAM_CREATE stream_id=8 buy_price=80430.90000000 budget=250.00 qty=0.00310000
+[17:36:45.721] [INFO] [EXEC] STREAM_CREATE stream_id=9 buy_price=80430.80000000 budget=250.00 qty=0.00310000
+[17:36:45.722] [INFO] [EXEC] STREAM_CREATE stream_id=10 buy_price=80430.70000000 budget=250.00 qty=0.00310000
+[17:36:45.723] [INFO] [EXEC] STREAM_CREATE stream_id=11 buy_price=80430.59000000 budget=250.00 qty=0.00310000
+[17:36:45.724] [INFO] [EXEC] STREAM_CREATE stream_id=12 buy_price=80430.50000000 budget=250.00 qty=0.00310000
+[17:36:45.725] [INFO] [EXEC] STREAM_CREATE stream_id=13 buy_price=80430.40000000 budget=250.00 qty=0.00310000
+[17:36:45.726] [INFO] [EXEC] STREAM_CREATE stream_id=14 buy_price=80430.30000000 budget=250.00 qty=0.00310000
+[17:36:45.727] [INFO] [EXEC] STREAM_CREATE stream_id=15 buy_price=80430.20000000 budget=250.00 qty=0.00310000
+[17:36:45.728] [INFO] [EXEC] STREAM_CREATE stream_id=16 buy_price=80430.09000000 budget=250.00 qty=0.00310000
+[17:36:45.729] [INFO] [EXEC] STREAM_CREATE stream_id=17 buy_price=80430.00000000 budget=250.00 qty=0.00310000
+[17:36:45.731] [INFO] [EXEC] STREAM_CREATE stream_id=18 buy_price=80429.90000000 budget=250.00 qty=0.00310000
+[17:36:45.732] [INFO] [EXEC] STREAM_CREATE stream_id=19 buy_price=80429.80000000 budget=250.00 qty=0.00310000
+[17:36:45.732] [INFO] [EXEC] STREAM_CREATE stream_id=20 buy_price=80429.70000000 budget=250.00 qty=0.00310000
+[17:36:45.733] [INFO] [EXEC] STREAM_CREATE_DONE count=20 budget=5000.00 step_ticks=10
+[17:36:46.516] [INFO] [EXEC] LIVE ON
+[17:36:46.520] [INFO] [EXEC] WAIT READY
+[17:36:46.522] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:36:46.524] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:36:46.525] [INFO] [EXEC] STREAM_WS_STALE_ALLOW_REST
+[17:36:46.526] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[17:36:47.104] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=386594157
+[17:36:47.108] [OK] [EXEC] PLACE BUY price=80431.59 qty=0.003100
+[17:36:47.401] [INFO] [EXEC] STREAM_BUY_PLACED level_id=2 order_id=386594158
+[17:36:47.404] [OK] [EXEC] PLACE BUY price=80431.50 qty=0.003100
+[17:36:47.669] [INFO] [EXEC] STREAM_BUY_PLACED level_id=3 order_id=386594159
+[17:36:47.673] [OK] [EXEC] PLACE BUY price=80431.40 qty=0.003100
+[17:36:47.676] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[17:36:47.678] [WS] connecting primary
+[17:36:47.682] [WS] connected
+[17:36:48.834] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1141 spread=6.71 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:36:48.841] [OK] [PLAN] HOT entry=80432.54 exit=80439.25 profit=0.016641 age=1518ms
+[17:36:50.158] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:36:50.160] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:36:50.162] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=1312 spread=9.42 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:36:51.593] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[17:36:51.862] [INFO] [EXEC] STREAM_BUY_PLACED level_id=4 order_id=386594415
+[17:36:51.865] [OK] [EXEC] PLACE BUY price=80431.30 qty=0.003100
+[17:36:52.143] [INFO] [EXEC] STREAM_BUY_PLACED level_id=5 order_id=386594425
+[17:36:52.146] [OK] [EXEC] PLACE BUY price=80431.20 qty=0.003100
+[17:36:52.415] [INFO] [EXEC] STREAM_BUY_PLACED level_id=6 order_id=386594427
+[17:36:52.418] [OK] [EXEC] PLACE BUY price=80431.09 qty=0.003100
+[17:36:54.508] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2078 spread=7.18 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:36:56.860] [INFO] [HEALTH] state=GOOD
+[17:36:56.861] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2125 spread=11.32 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:36:59.195] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=2000 spread=6.34 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:01.231] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2030 spread=6.88 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:03.613] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:37:03.616] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:37:03.618] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2217 spread=8.32 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:05.675] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1750 spread=5.63 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:07.775] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:37:07.777] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:37:07.779] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=1765 spread=8.10 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:10.212] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1641 spread=5.77 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:12.214] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:37:12.216] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:37:12.217] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=1640 spread=11.53 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:14.266] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[17:37:14.544] [INFO] [EXEC] STREAM_BUY_PLACED level_id=7 order_id=386595593
+[17:37:14.548] [OK] [EXEC] PLACE BUY price=80431.00 qty=0.003100
+[17:37:14.812] [INFO] [EXEC] STREAM_BUY_PLACED level_id=8 order_id=386595599
+[17:37:14.817] [OK] [EXEC] PLACE BUY price=80430.90 qty=0.003100
+[17:37:15.079] [INFO] [EXEC] STREAM_BUY_PLACED level_id=9 order_id=386595601
+[17:37:15.082] [OK] [EXEC] PLACE BUY price=80430.80 qty=0.003100
+[17:37:18.364] [INFO] [HEALTH] state=GOOD
+[17:37:18.365] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2702 spread=7.51 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:21.173] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2796 spread=8.73 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:24.604] [INFO] [HEALTH] state=DANGER
+[17:37:24.605] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=3155 spread=6.83 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:27.996] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:37:27.997] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:37:27.998] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2750 spread=9.71 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[17:37:28.296] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[17:37:28.616] [WARNING] cancel all requested
+[17:37:28.619] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.000017 locked=0.000000
+[17:37:28.621] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[17:37:28.622] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[17:37:28.623] [WARNING] STOP

@@ -1,0 +1,361 @@
+[22:18:56.342] [OK] filters loaded
+[22:19:03.816] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[22:19:03.817] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=10000.0
+[22:19:04.316] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[22:19:04.320] [OK] START
+[22:19:04.324] [OK] START_OK runtime_started
+[22:19:04.326] [INFO] [EXEC] LIVE ON
+[22:19:04.328] [INFO] [EXEC] WAIT READY
+[22:19:04.331] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:19:04.332] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:19:04.336] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=15.52 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[22:19:04.611] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[22:19:04.614] [WS] connecting primary
+[22:19:04.823] [WARNING] [HEALTH] block spread_too_young lifetime=497
+[22:19:04.828] [OK] [PLAN] HOT entry=81859.48 exit=81873.00 profit=1.651603 age=497ms
+[22:19:05.836] [WS] connected
+[22:19:11.090] [INFO] [HEALTH] state=GOOD
+[22:19:11.648] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[22:19:11.651] [OK] [EXEC] BUY ORDER SENT orderId=383695234 price=81862.51 qty=0.122150
+[22:19:11.653] [OK] [EXEC] PLACE BUY price=81862.51 qty=0.122150
+[22:19:12.536] [OK] [PLAN] READY entry=81866.99 exit=81872.70 profit=0.697419 age=1184ms
+[22:19:13.150] [INFO] [EXEC] ENTRY_REPRICE reason=bid_moved_up old=81862.51 new=81866.00 count=1
+[22:19:13.697] [OK] [EXEC] ENTRY_PLACE price=81866.00 qty=0.122150
+[22:19:14.730] [OK] [SYNC] order filled detected
+[22:19:14.733] [OK] [SYNC] BUY filled on exchange
+[22:19:14.734] [OK] [EXEC] BUY FILL UPDATE delta=0.122150 avg=81866.00
+[22:19:14.736] [OK] [EXEC] CHUNK ADD qty=0.122150 entry=81866.00
+[22:19:14.740] [INFO] [EXEC] CHUNK COUNT n=1
+[22:19:14.742] [OK] [EXEC] INVENTORY qty=0.122150
+[22:19:14.743] [OK] [EXEC] SELL REQUIRED inventory=0.122150
+[22:19:15.494] [INFO] [EXEC] SELL CHECK inventory=0.122150 reported=0.000000 remaining=0.122150 chunks=1
+[22:19:15.497] [OK] [EXEC] PLACE SELL price=81868.64 qty=0.122150
+[22:19:15.770] [OK] [EXEC] SELL ORDER SENT orderId=383695373
+[22:19:15.774] [OK] [PLAN] HOT entry=81860.36 exit=81868.64 profit=1.011402 age=3658ms
+[22:19:16.838] [OK] [SYNC] order filled detected
+[22:19:16.840] [OK] [SYNC] SELL filled on exchange
+[22:19:16.841] [OK] [EXEC] FIFO CLOSE qty=0.122150 entry=81866.00 exit=81868.64 pnl=+0.322476
+[22:19:16.842] [INFO] [EXEC] CHUNK DRAINED
+[22:19:16.843] [OK] [EXEC] REALIZED pnl=+0.322476
+[22:19:16.845] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[22:19:16.847] [OK] [EXEC] CYCLE CLOSED pnl=+0.322476
+[22:19:16.850] [INFO] [EXEC] SESSION realized=+0.322476 wins=1 losses=0
+[22:19:16.854] [INFO] [HEALTH] state=GOOD
+[22:19:17.598] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[22:19:17.601] [OK] [EXEC] BUY ORDER SENT orderId=383695401 price=81865.45 qty=0.122150
+[22:19:17.603] [OK] [EXEC] PLACE BUY price=81865.45 qty=0.122150
+[22:19:19.007] [OK] [PLAN] READY entry=81866.45 exit=81871.80 profit=0.653502 age=7643ms
+[22:19:20.559] [INFO] [EXEC] ENTRY_REPRICE reason=bid_moved_up old=81865.45 new=81869.93 count=1
+[22:19:21.092] [OK] [EXEC] ENTRY_PLACE price=81869.93 qty=0.122150
+[22:19:22.631] [WARNING] [EXEC] BUY TIMEOUT orderId=383695448
+[22:19:22.635] [WARNING] [EXEC] CANCEL BUY orderId=383695448
+[22:19:23.372] [OK] [EXEC] BUY CANCELED confirmed
+[22:19:23.646] [INFO] [EXEC] BUY FINAL STATUS status=FILLED orderId=383695448
+[22:19:23.647] [OK] [EXEC] BUY FILL UPDATE delta=0.122150 avg=81869.93
+[22:19:23.649] [OK] [EXEC] CHUNK ADD qty=0.122150 entry=81869.93
+[22:19:23.650] [INFO] [EXEC] CHUNK COUNT n=1
+[22:19:23.651] [OK] [EXEC] INVENTORY qty=0.122150
+[22:19:23.652] [OK] [EXEC] SELL REQUIRED inventory=0.122150
+[22:19:23.653] [OK] [EXEC] BUY FILLED during cancel
+[22:19:23.654] [OK] [EXEC] BUY FILLED id=383695448
+[22:19:24.270] [OK] [SYNC] order filled detected
+[22:19:24.272] [OK] [SYNC] BUY filled on exchange
+[22:19:24.534] [INFO] [EXEC] SELL CHECK inventory=0.122150 reported=0.000000 remaining=0.122150 chunks=1
+[22:19:24.538] [OK] [EXEC] PLACE SELL price=81872.99 qty=0.122150
+[22:19:24.804] [OK] [EXEC] SELL ORDER SENT orderId=383695495
+[22:19:25.116] [INFO] [EXEC] RECOVERY WAIT hard_sl_pending_recovery (exit_not_blocked)
+[22:19:25.865] [OK] [EXEC] FIFO CLOSE qty=0.122150 entry=81869.93 exit=81872.99 pnl=+0.373779
+[22:19:25.873] [INFO] [EXEC] CHUNK DRAINED
+[22:19:25.873] [OK] [EXEC] REALIZED pnl=+0.373779
+[22:19:25.873] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[22:19:25.877] [OK] [EXEC] CYCLE CLOSED pnl=+0.373779
+[22:19:25.877] [INFO] [EXEC] SESSION realized=+0.696255 wins=2 losses=0
+[22:19:25.877] [OK] [EXEC] EXIT_FILLED
+[22:19:25.877] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[22:19:25.877] [INFO] [EXEC] CYCLE SKIP no_fifo_pnl
+[22:19:25.877] [OK] [EXEC] SELL FILLED id=383695495
+[22:19:25.877] [OK] [EXEC] SELL FILLED qty=0.122150 remaining=0.000000
+[22:19:25.884] [INFO] [EXEC] SELL ACCOUNTING RESET inventory_drained
+[22:19:25.884] [INFO] [EXEC] INVENTORY DRAINED epsilon_cleanup qty=0.000000
+[22:19:25.884] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[22:19:25.884] [INFO] [EXEC] CYCLE SKIP no_fifo_pnl
+[22:19:26.361] [INFO] [HEALTH] state=GOOD
+[22:19:26.626] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[22:19:26.626] [OK] [EXEC] BUY ORDER SENT orderId=383695526 price=81868.53 qty=0.122140
+[22:19:26.626] [OK] [EXEC] PLACE BUY price=81868.53 qty=0.122140
+[22:19:27.767] [OK] [PLAN] READY entry=81869.53 exit=81874.78 profit=0.641235 age=1140ms
+[22:19:29.005] [OK] [EXEC] BUY FILL UPDATE delta=0.002000 avg=81868.53
+[22:19:29.005] [OK] [EXEC] CHUNK ADD qty=0.002000 entry=81868.53
+[22:19:29.005] [INFO] [EXEC] CHUNK COUNT n=1
+[22:19:29.005] [OK] [EXEC] INVENTORY qty=0.002000
+[22:19:29.005] [OK] [EXEC] SELL REQUIRED inventory=0.002000
+[22:19:29.005] [OK] [EXEC] BUY PARTIAL delta=0.002000 total=0.002000
+[22:19:29.020] [OK] [EXEC] BUY REMAINING qty=0.120140
+[22:19:30.173] [INFO] [EXEC] SELL CHECK inventory=0.002000 reported=0.000000 remaining=0.002000 chunks=1
+[22:19:30.173] [OK] [EXEC] PLACE SELL price=81874.79 qty=0.002000
+[22:19:30.439] [OK] [EXEC] SELL ORDER SENT orderId=383695598
+[22:19:30.735] [OK] [SYNC] order filled detected
+[22:19:30.735] [OK] [SYNC] SELL filled on exchange
+[22:19:30.735] [OK] [EXEC] FIFO CLOSE qty=0.002000 entry=81868.53 exit=81874.79 pnl=+0.012520
+[22:19:30.735] [INFO] [EXEC] CHUNK DRAINED
+[22:19:30.735] [OK] [EXEC] REALIZED pnl=+0.012520
+[22:19:30.735] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[22:19:30.751] [OK] [EXEC] CYCLE CLOSED pnl=+0.012520
+[22:19:30.751] [INFO] [EXEC] SESSION realized=+0.708775 wins=3 losses=0
+[22:19:31.022] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[22:19:31.022] [OK] [EXEC] BUY ORDER SENT orderId=383695629 price=81873.40 qty=0.122130
+[22:19:31.022] [OK] [EXEC] PLACE BUY price=81873.40 qty=0.122130
+[22:19:31.038] [OK] [PLAN] HOT entry=81873.40 exit=81881.93 profit=1.041769 age=4390ms
+[22:19:32.110] [OK] [PLAN] READY entry=81875.00 exit=81880.99 profit=0.731559 age=5483ms
+[22:19:33.022] [INFO] [EXEC] ENTRY_REPRICE reason=bid_moved_up old=81873.40 new=81874.01 count=1
+[22:19:33.547] [OK] [EXEC] ENTRY_PLACE price=81874.01 qty=0.122130
+[22:19:33.878] [OK] [SYNC] order filled detected
+[22:19:33.884] [OK] [SYNC] BUY filled on exchange
+[22:19:33.885] [OK] [EXEC] BUY FILL UPDATE delta=0.122130 avg=81874.01
+[22:19:33.885] [OK] [EXEC] CHUNK ADD qty=0.122130 entry=81874.01
+[22:19:33.890] [INFO] [EXEC] CHUNK COUNT n=1
+[22:19:33.891] [OK] [EXEC] INVENTORY qty=0.122130
+[22:19:33.891] [OK] [EXEC] SELL REQUIRED inventory=0.122130
+[22:19:34.157] [INFO] [EXEC] SELL CHECK inventory=0.122130 reported=0.000000 remaining=0.122130 chunks=1
+[22:19:34.157] [OK] [EXEC] PLACE SELL price=81880.99 qty=0.122130
+[22:19:34.407] [OK] [EXEC] SELL ORDER SENT orderId=383695724
+[22:19:34.735] [INFO] [EXEC] RECOVERY WAIT hard_sl_pending_recovery (exit_not_blocked)
+[22:19:35.021] [OK] [PLAN] READY entry=81869.63 exit=81875.40 profit=0.704748 age=844ms
+[22:19:35.609] [INFO] [EXEC] RECOVERY WAIT hard_sl_pending_recovery (exit_not_blocked)
+[22:19:40.012] [INFO] [EXEC] EXIT_STAGE stage=EXIT_CROSS age_ms=5577
+[22:19:40.012] [INFO] [EXEC] EXIT_REPRICE reason=stage=EXIT_CROSS
+[22:19:40.012] [WARNING] [EXEC] SELL TIMEOUT orderId=383695724
+[22:19:40.012] [WARNING] [EXEC] CANCEL SELL orderId=383695724
+[22:19:40.547] [INFO] [EXEC] SELL FINAL STATUS status=CANCELED orderId=383695724
+[22:19:40.547] [INFO] [EXEC] SELL TIMEOUT check fast_exit
+[22:19:40.547] [WARNING] [EXEC] FORCE EXIT hard_sl_triggered
+[22:19:40.547] [ERROR] [EXEC] HARD SL triggered
+[22:19:40.547] [WARNING] [EXEC] PANIC EXIT sl_mode
+[22:19:40.547] [WARNING] [EXEC] FORCE EXIT price=81875.40
+[22:19:40.562] [OK] [EXEC] PLACE SELL price=81875.40 qty=0.122130
+[22:19:40.923] [WARNING] [EXEC] PANIC START price=81875.40
+[22:19:40.923] [OK] [EXEC] SELL ORDER SENT orderId=383695764
+[22:19:45.764] [WARNING] [EXEC] PANIC WAIT still_open orderId=383695764
+[22:19:47.067] [WARNING] [EXEC] PANIC ESCALATE placed orderId=383695776 step=1
+[22:19:47.622] [OK] [SYNC] order filled detected
+[22:19:47.622] [OK] [SYNC] SELL filled on exchange
+[22:19:47.622] [OK] [EXEC] FIFO CLOSE qty=0.122130 entry=81874.01 exit=81869.50 pnl=-0.550375
+[22:19:47.638] [INFO] [EXEC] CHUNK DRAINED
+[22:19:47.638] [OK] [EXEC] REALIZED pnl=-0.550375
+[22:19:47.638] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[22:19:47.638] [OK] [EXEC] CYCLE CLOSED pnl=-0.550375
+[22:19:47.638] [INFO] [EXEC] SESSION realized=+0.158400 wins=3 losses=1
+[22:19:47.638] [INFO] [HEALTH] state=GOOD
+[22:19:47.638] [WARNING] [EXEC] BLOCK_BUY reason=cooldown_loss_cycle mode=FAST ws_age=562 spread=9.52 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[22:19:47.854] [OK] [PLAN] HOT entry=81869.54 exit=81877.06 profit=0.918493 age=216ms
+[22:19:48.108] [OK] [PLAN] READY entry=81871.54 exit=81877.06 profit=0.674213 age=470ms
+[22:19:48.639] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[22:19:48.639] [OK] [EXEC] BUY ORDER SENT orderId=383695801 price=81871.54 qty=0.122140
+[22:19:48.639] [OK] [EXEC] PLACE BUY price=81871.54 qty=0.122140
+[22:19:50.123] [OK] [SYNC] order filled detected
+[22:19:50.123] [OK] [SYNC] BUY filled on exchange
+[22:19:50.123] [OK] [EXEC] BUY FILL UPDATE delta=0.122140 avg=81871.54
+[22:19:50.123] [OK] [EXEC] CHUNK ADD qty=0.122140 entry=81871.54
+[22:19:50.123] [INFO] [EXEC] CHUNK COUNT n=1
+[22:19:50.123] [OK] [EXEC] INVENTORY qty=0.122140
+[22:19:50.139] [OK] [EXEC] SELL REQUIRED inventory=0.122140
+[22:19:50.389] [INFO] [EXEC] SELL CHECK inventory=0.122140 reported=0.000000 remaining=0.122140 chunks=1
+[22:19:50.655] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:19:51.108] [INFO] [EXEC] SELL CHECK inventory=0.122140 reported=0.000000 remaining=0.122140 chunks=1
+[22:19:51.373] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:19:51.883] [INFO] [EXEC] SELL CHECK inventory=0.122140 reported=0.000000 remaining=0.122140 chunks=1
+[22:19:52.139] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:19:52.639] [INFO] [EXEC] SELL CHECK inventory=0.122140 reported=0.000000 remaining=0.122140 chunks=1
+[22:19:52.906] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:19:53.357] [INFO] [EXEC] SELL CHECK inventory=0.122140 reported=0.000000 remaining=0.122140 chunks=1
+[22:19:53.622] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:19:54.123] [INFO] [EXEC] SELL CHECK inventory=0.122140 reported=0.000000 remaining=0.122140 chunks=1
+[22:19:54.384] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:19:54.889] [INFO] [EXEC] SELL CHECK inventory=0.122140 reported=0.000000 remaining=0.122140 chunks=1
+[22:19:55.138] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:19:55.868] [INFO] [EXEC] SELL CHECK inventory=0.122140 reported=0.000000 remaining=0.122140 chunks=1
+[22:19:55.875] [OK] [EXEC] PLACE SELL price=81881.00 qty=0.122140
+[22:19:56.122] [OK] [EXEC] SELL ORDER SENT orderId=383695932
+[22:20:00.371] [OK] [SYNC] order filled detected
+[22:20:00.371] [OK] [SYNC] SELL filled on exchange
+[22:20:00.371] [OK] [EXEC] FIFO CLOSE qty=0.122140 entry=81871.54 exit=81881.00 pnl=+1.155444
+[22:20:00.371] [INFO] [EXEC] CHUNK DRAINED
+[22:20:00.386] [OK] [EXEC] REALIZED pnl=+1.155444
+[22:20:00.386] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[22:20:00.386] [OK] [EXEC] CYCLE CLOSED pnl=+1.155444
+[22:20:00.386] [INFO] [EXEC] SESSION realized=+1.313844 wins=4 losses=1
+[22:20:00.855] [INFO] [HEALTH] state=GOOD
+[22:20:01.138] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[22:20:01.138] [OK] [EXEC] BUY ORDER SENT orderId=383696038 price=81881.76 qty=0.122120
+[22:20:01.138] [OK] [EXEC] PLACE BUY price=81881.76 qty=0.122120
+[22:20:01.731] [OK] [SYNC] order filled detected
+[22:20:01.731] [OK] [SYNC] BUY filled on exchange
+[22:20:01.731] [OK] [EXEC] BUY FILL UPDATE delta=0.122120 avg=81881.76
+[22:20:01.747] [OK] [EXEC] CHUNK ADD qty=0.122120 entry=81881.76
+[22:20:01.747] [INFO] [EXEC] CHUNK COUNT n=1
+[22:20:01.747] [OK] [EXEC] INVENTORY qty=0.122120
+[22:20:01.747] [OK] [EXEC] SELL REQUIRED inventory=0.122120
+[22:20:02.008] [INFO] [EXEC] SELL CHECK inventory=0.122120 reported=0.000000 remaining=0.122120 chunks=1
+[22:20:02.008] [OK] [EXEC] PLACE SELL price=81888.75 qty=0.122120
+[22:20:02.276] [OK] [EXEC] SELL ORDER SENT orderId=383696079
+[22:20:02.276] [OK] [PLAN] READY entry=81882.77 exit=81888.75 profit=0.730278 age=892ms
+[22:20:02.888] [OK] [PLAN] HOT entry=81879.86 exit=81887.75 profit=0.963606 age=1764ms
+[22:20:03.496] [OK] [PLAN] READY entry=81879.86 exit=81886.14 profit=0.766976 age=2376ms
+[22:20:05.024] [OK] [EXEC] FIFO CLOSE qty=0.017570 entry=81881.76 exit=81888.75 pnl=+0.122814
+[22:20:05.024] [OK] [EXEC] REALIZED pnl=+0.122814
+[22:20:05.024] [OK] [EXEC] SELL PARTIAL delta=0.017570
+[22:20:05.024] [OK] [EXEC] INVENTORY remaining=0.104550
+[22:20:05.024] [WARNING] [EXEC] PANIC PARTIAL filled=0.017570 remaining=0.104550
+[22:20:05.874] [OK] [PLAN] HOT entry=81879.86 exit=81887.75 profit=0.963606 age=4751ms
+[22:20:06.910] [OK] [PLAN] READY entry=81879.86 exit=81886.68 profit=0.832927 age=5303ms
+[22:20:07.793] [WARNING] [EXEC] PANIC WAIT still_open orderId=383696079
+[22:20:08.597] [WARNING] [EXEC] PANIC ESCALATE placed orderId=383696115 step=1
+[22:20:08.887] [OK] [SYNC] order filled detected
+[22:20:08.888] [OK] [SYNC] SELL filled on exchange
+[22:20:08.888] [OK] [EXEC] FIFO CLOSE qty=0.086980 entry=81881.76 exit=81878.83 pnl=-0.254623
+[22:20:08.892] [OK] [EXEC] REALIZED pnl=-0.254623
+[22:20:08.893] [INFO] [EXEC] EXIT RECOVERY inventory_no_sell qty=0.017570
+[22:20:09.143] [WARNING] [EXEC] SELL ACCOUNTING STALE RESET
+[22:20:09.143] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:09.424] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:20:09.894] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:10.144] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:20:10.644] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:11.393] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:20:11.894] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:12.159] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:20:12.659] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:12.910] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:20:13.409] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:13.690] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:20:14.159] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:14.440] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:20:14.909] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:15.174] [WARNING] [EXEC] SELL BLOCK locked_balance_no_order
+[22:20:15.910] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:15.910] [OK] [EXEC] PLACE SELL price=81886.06 qty=0.017570
+[22:20:16.205] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:16.925] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:16.925] [OK] [EXEC] PLACE SELL price=81885.68 qty=0.017570
+[22:20:17.203] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:17.909] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:17.925] [OK] [EXEC] PLACE SELL price=81885.68 qty=0.017570
+[22:20:18.189] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:18.909] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:19.408] [OK] [EXEC] PLACE SELL price=81885.68 qty=0.017570
+[22:20:19.673] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:20.407] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:20.423] [OK] [EXEC] PLACE SELL price=81894.59 qty=0.017570
+[22:20:20.689] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:21.406] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:21.406] [OK] [EXEC] PLACE SELL price=81892.02 qty=0.017570
+[22:20:21.671] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:22.422] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:22.422] [OK] [EXEC] PLACE SELL price=81891.50 qty=0.017570
+[22:20:22.688] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:23.893] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:23.908] [OK] [EXEC] PLACE SELL price=81897.00 qty=0.017570
+[22:20:24.173] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:24.923] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:24.923] [OK] [EXEC] PLACE SELL price=81897.00 qty=0.017570
+[22:20:25.188] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:26.188] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:26.188] [OK] [EXEC] PLACE SELL price=81898.99 qty=0.017570
+[22:20:26.438] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:27.670] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:27.670] [OK] [EXEC] PLACE SELL price=81899.00 qty=0.017570
+[22:20:27.939] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:28.703] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:28.703] [OK] [EXEC] PLACE SELL price=81905.00 qty=0.017570
+[22:20:29.005] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:29.703] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:29.703] [OK] [EXEC] PLACE SELL price=81904.99 qty=0.017570
+[22:20:29.968] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:30.719] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:30.719] [OK] [EXEC] PLACE SELL price=81904.98 qty=0.017570
+[22:20:31.484] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:32.672] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:32.672] [OK] [EXEC] PLACE SELL price=81904.99 qty=0.017570
+[22:20:32.939] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:33.702] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:33.702] [OK] [EXEC] PLACE SELL price=81901.21 qty=0.017570
+[22:20:33.975] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:34.672] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:34.687] [OK] [EXEC] PLACE SELL price=81899.44 qty=0.017570
+[22:20:35.422] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:36.452] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:36.452] [OK] [EXEC] PLACE SELL price=81904.99 qty=0.017570
+[22:20:36.718] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:37.436] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:37.922] [OK] [EXEC] PLACE SELL price=81904.99 qty=0.017570
+[22:20:38.187] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:38.922] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:38.922] [OK] [EXEC] PLACE SELL price=81908.99 qty=0.017570
+[22:20:39.186] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:39.938] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:39.938] [OK] [EXEC] PLACE SELL price=81904.99 qty=0.017570
+[22:20:40.202] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:40.922] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:41.436] [OK] [EXEC] PLACE SELL price=81904.99 qty=0.017570
+[22:20:41.702] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:42.420] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:42.922] [OK] [EXEC] PLACE SELL price=81904.99 qty=0.017570
+[22:20:43.186] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:43.921] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:44.449] [OK] [EXEC] PLACE SELL price=81899.00 qty=0.017570
+[22:20:44.746] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:45.668] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:45.668] [OK] [EXEC] PLACE SELL price=81904.99 qty=0.017570
+[22:20:45.937] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:46.686] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:46.686] [OK] [EXEC] PLACE SELL price=81904.99 qty=0.017570
+[22:20:46.966] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:47.670] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:48.185] [OK] [EXEC] PLACE SELL price=81904.99 qty=0.017570
+[22:20:48.451] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:49.185] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:49.185] [OK] [EXEC] PLACE SELL price=81892.99 qty=0.017570
+[22:20:49.467] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:50.185] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:50.201] [OK] [EXEC] PLACE SELL price=81893.00 qty=0.017570
+[22:20:50.451] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:51.201] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:51.201] [OK] [EXEC] PLACE SELL price=81892.99 qty=0.017570
+[22:20:51.466] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:52.232] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:52.232] [OK] [EXEC] PLACE SELL price=81896.99 qty=0.017570
+[22:20:52.482] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:53.201] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:53.685] [OK] [EXEC] PLACE SELL price=81896.99 qty=0.017570
+[22:20:53.972] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:54.684] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:54.700] [OK] [EXEC] PLACE SELL price=81896.99 qty=0.017570
+[22:20:55.009] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:55.942] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:55.942] [OK] [EXEC] PLACE SELL price=81896.99 qty=0.017570
+[22:20:56.731] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:57.450] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:57.450] [OK] [EXEC] PLACE SELL price=81896.99 qty=0.017570
+[22:20:57.715] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:58.434] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:58.957] [OK] [EXEC] PLACE SELL price=81896.99 qty=0.017570
+[22:20:59.207] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:20:59.950] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:20:59.952] [OK] [EXEC] PLACE SELL price=81888.99 qty=0.017570
+[22:21:00.204] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:21:00.952] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:21:00.956] [OK] [EXEC] PLACE SELL price=81885.34 qty=0.017570
+[22:21:01.215] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:21:01.966] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:21:01.969] [OK] [EXEC] PLACE SELL price=81888.99 qty=0.017570
+[22:21:02.219] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:21:02.942] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:21:02.942] [OK] [EXEC] PLACE SELL price=81889.00 qty=0.017570
+[22:21:03.206] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:21:03.992] [INFO] [EXEC] SELL CHECK inventory=0.017570 reported=0.000000 remaining=0.017570 chunks=1
+[22:21:03.992] [OK] [EXEC] PLACE SELL price=81896.99 qty=0.017570
+[22:21:04.253] [WARNING] [EXEC] SELL PLACE FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[22:21:04.534] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[22:21:04.894] [WARNING] cancel all requested
+[22:21:04.894] [WARNING] [EXEC] STOP with open inventory qty=0.017570
+[22:21:04.894] [WARNING] STOP

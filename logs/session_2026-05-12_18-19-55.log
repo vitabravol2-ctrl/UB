@@ -1,0 +1,623 @@
+[15:19:56.822] [OK] filters loaded
+[15:19:57.906] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[15:19:57.906] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[15:19:57.906] [INFO] START_PROFILE order_size=4000.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[15:19:57.906] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[15:19:58.438] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[15:19:58.438] [OK] START
+[15:19:58.438] [OK] START_OK runtime_started
+[15:19:58.438] [INFO] [EXEC] GRID_PARALLEL_START levels=20 budget=5000.00
+[15:19:58.445] [INFO] [EXEC] GRID_BUDGET_ALLOC levels=20 budget=5000.00 per_level=250.00
+[15:19:58.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=1 buy=80521.81000000 qty=0.00310000
+[15:19:58.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=2 buy=80521.61000000 qty=0.00310000
+[15:19:58.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=3 buy=80521.40000000 qty=0.00310000
+[15:19:58.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=4 buy=80521.20000000 qty=0.00310000
+[15:19:58.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=5 buy=80521.01000000 qty=0.00310000
+[15:19:58.451] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=6 buy=80520.81000000 qty=0.00310000
+[15:19:58.451] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=7 buy=80520.61000000 qty=0.00310000
+[15:19:58.452] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=8 buy=80520.40000000 qty=0.00310000
+[15:19:58.452] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=9 buy=80520.20000000 qty=0.00310000
+[15:19:58.452] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=10 buy=80520.01000000 qty=0.00310000
+[15:19:58.452] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=11 buy=80519.81000000 qty=0.00310000
+[15:19:58.458] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=12 buy=80519.61000000 qty=0.00310000
+[15:19:58.458] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=13 buy=80519.40000000 qty=0.00310000
+[15:19:58.458] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=14 buy=80519.20000000 qty=0.00310000
+[15:19:58.458] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=15 buy=80519.01000000 qty=0.00310000
+[15:19:58.458] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=16 buy=80518.81000000 qty=0.00310000
+[15:19:58.458] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=17 buy=80518.61000000 qty=0.00310000
+[15:19:58.458] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=18 buy=80518.40000000 qty=0.00310000
+[15:19:58.458] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=19 buy=80518.20000000 qty=0.00310000
+[15:19:58.458] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=20 buy=80518.01000000 qty=0.00310000
+[15:19:59.385] [INFO] [EXEC] LIVE ON
+[15:19:59.385] [INFO] [EXEC] WAIT READY
+[15:19:59.385] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:19:59.385] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:19:59.385] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=11.84 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:19:59.402] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[15:19:59.402] [WS] connecting primary
+[15:19:59.402] [WS] connected
+[15:19:59.418] [OK] [PLAN] HOT entry=80526.15 exit=80537.99 profit=0.588093 age=33ms
+[15:20:00.973] [INFO] [EXEC] GRID_BUY_PLACED level_id=1 order_id=386038460
+[15:20:00.975] [OK] [EXEC] PLACE BUY price=80521.81 qty=0.003100
+[15:20:01.246] [INFO] [EXEC] GRID_BUY_PLACED level_id=2 order_id=386038472
+[15:20:01.246] [OK] [EXEC] PLACE BUY price=80521.61 qty=0.003100
+[15:20:01.511] [INFO] [EXEC] GRID_BUY_PLACED level_id=3 order_id=386038499
+[15:20:01.511] [OK] [EXEC] PLACE BUY price=80521.40 qty=0.003100
+[15:20:01.821] [INFO] [EXEC] GRID_BUY_PLACED level_id=4 order_id=386038511
+[15:20:01.829] [OK] [EXEC] PLACE BUY price=80521.20 qty=0.003100
+[15:20:02.150] [INFO] [EXEC] GRID_BUY_PLACED level_id=5 order_id=386038513
+[15:20:02.150] [OK] [EXEC] PLACE BUY price=80521.01 qty=0.003100
+[15:20:02.430] [INFO] [EXEC] GRID_BUY_PLACED level_id=6 order_id=386038523
+[15:20:02.430] [OK] [EXEC] PLACE BUY price=80520.81 qty=0.003100
+[15:20:02.745] [INFO] [EXEC] GRID_BUY_PLACED level_id=7 order_id=386038524
+[15:20:02.753] [OK] [EXEC] PLACE BUY price=80520.61 qty=0.003100
+[15:20:03.022] [INFO] [EXEC] GRID_BUY_PLACED level_id=8 order_id=386038556
+[15:20:03.028] [OK] [EXEC] PLACE BUY price=80520.40 qty=0.003100
+[15:20:03.308] [INFO] [EXEC] GRID_BUY_PLACED level_id=9 order_id=386038585
+[15:20:03.308] [OK] [EXEC] PLACE BUY price=80520.20 qty=0.003100
+[15:20:03.674] [INFO] [EXEC] GRID_BUY_PLACED level_id=10 order_id=386038609
+[15:20:03.682] [OK] [EXEC] PLACE BUY price=80520.01 qty=0.003100
+[15:20:03.990] [INFO] [EXEC] GRID_BUY_PLACED level_id=11 order_id=386038630
+[15:20:03.990] [OK] [EXEC] PLACE BUY price=80519.81 qty=0.003100
+[15:20:04.357] [INFO] [EXEC] GRID_BUY_PLACED level_id=12 order_id=386038720
+[15:20:04.357] [OK] [EXEC] PLACE BUY price=80519.61 qty=0.003100
+[15:20:04.652] [INFO] [EXEC] GRID_BUY_PLACED level_id=13 order_id=386038742
+[15:20:04.652] [OK] [EXEC] PLACE BUY price=80519.40 qty=0.003100
+[15:20:04.954] [INFO] [EXEC] GRID_BUY_PLACED level_id=14 order_id=386038752
+[15:20:04.954] [OK] [EXEC] PLACE BUY price=80519.20 qty=0.003100
+[15:20:05.214] [INFO] [EXEC] GRID_BUY_PLACED level_id=15 order_id=386038790
+[15:20:05.230] [OK] [EXEC] PLACE BUY price=80519.01 qty=0.003100
+[15:20:05.497] [INFO] [EXEC] GRID_BUY_PLACED level_id=16 order_id=386038853
+[15:20:05.497] [OK] [EXEC] PLACE BUY price=80518.81 qty=0.003100
+[15:20:05.783] [INFO] [EXEC] GRID_BUY_PLACED level_id=17 order_id=386038890
+[15:20:05.791] [OK] [EXEC] PLACE BUY price=80518.61 qty=0.003100
+[15:20:06.064] [INFO] [EXEC] GRID_BUY_PLACED level_id=18 order_id=386038940
+[15:20:06.064] [OK] [EXEC] PLACE BUY price=80518.40 qty=0.003100
+[15:20:06.332] [INFO] [EXEC] GRID_BUY_PLACED level_id=19 order_id=386038964
+[15:20:06.340] [OK] [EXEC] PLACE BUY price=80518.20 qty=0.003100
+[15:20:06.608] [INFO] [EXEC] GRID_BUY_PLACED level_id=20 order_id=386038992
+[15:20:06.616] [OK] [EXEC] PLACE BUY price=80518.01 qty=0.003100
+[15:20:08.361] [INFO] [HEALTH] state=GOOD
+[15:20:08.361] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:09.105] [WARNING] [HEALTH] block falling_market bid_ticks=-91.00 mid_ticks=-46.00
+[15:20:09.105] [WARNING] [HEALTH] unstable_bid delta_ticks=-91.00
+[15:20:09.111] [WARNING] [HEALTH] negative_momentum ticks=-46.00
+[15:20:09.111] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=217 spread=9.56 stable=2/1 mid_delta=-46.00 bid_delta=-91.00
+[15:20:09.603] [WARNING] [HEALTH] block falling_market bid_ticks=-593.00 mid_ticks=-223.00
+[15:20:09.603] [WARNING] [HEALTH] unstable_bid delta_ticks=-593.00
+[15:20:09.603] [WARNING] [HEALTH] negative_momentum ticks=-223.00
+[15:20:10.108] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:11.888] [WARNING] [HEALTH] block falling_market bid_ticks=-494.00 mid_ticks=-644.50
+[15:20:11.888] [WARNING] [HEALTH] unstable_bid delta_ticks=-494.00
+[15:20:11.888] [WARNING] [HEALTH] negative_momentum ticks=-644.50
+[15:20:11.896] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=15 spread=7.99 stable=2/1 mid_delta=-644.50 bid_delta=-494.00
+[15:20:12.398] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:16.719] [WARNING] [HEALTH] block falling_market bid_ticks=-656.00 mid_ticks=-418.00
+[15:20:16.719] [WARNING] [HEALTH] unstable_bid delta_ticks=-656.00
+[15:20:16.719] [WARNING] [HEALTH] negative_momentum ticks=-418.00
+[15:20:16.719] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=15 spread=12.74 stable=2/1 mid_delta=-418.00 bid_delta=-656.00
+[15:20:17.214] [WARNING] [HEALTH] block falling_market bid_ticks=-717.00 mid_ticks=-957.50
+[15:20:17.214] [WARNING] [HEALTH] unstable_bid delta_ticks=-717.00
+[15:20:17.214] [WARNING] [HEALTH] negative_momentum ticks=-957.50
+[15:20:17.716] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:19.213] [WARNING] [HEALTH] block falling_market bid_ticks=-57.00 mid_ticks=-28.50
+[15:20:19.213] [WARNING] [HEALTH] unstable_bid delta_ticks=-57.00
+[15:20:19.221] [WARNING] [HEALTH] negative_momentum ticks=-28.50
+[15:20:19.221] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=140 spread=9.89 stable=2/1 mid_delta=-28.50 bid_delta=-57.00
+[15:20:19.996] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:21.010] [WARNING] [HEALTH] block falling_market bid_ticks=-334.00 mid_ticks=-388.50
+[15:20:21.010] [WARNING] [HEALTH] unstable_bid delta_ticks=-334.00
+[15:20:21.010] [WARNING] [HEALTH] negative_momentum ticks=-388.50
+[15:20:21.010] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=204 spread=9.28 stable=2/1 mid_delta=-388.50 bid_delta=-334.00
+[15:20:21.518] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:23.045] [WARNING] [HEALTH] block falling_market bid_ticks=-502.00 mid_ticks=-310.00
+[15:20:23.053] [WARNING] [HEALTH] unstable_bid delta_ticks=-502.00
+[15:20:23.053] [WARNING] [HEALTH] negative_momentum ticks=-310.00
+[15:20:23.053] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=0 spread=11.40 stable=2/1 mid_delta=-310.00 bid_delta=-502.00
+[15:20:23.558] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:27.135] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-236.00
+[15:20:27.135] [WARNING] [HEALTH] negative_momentum ticks=-236.00
+[15:20:27.135] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=FAST ws_age=32 spread=7.98 stable=2/1 mid_delta=-236.00 bid_delta=1.00
+[15:20:27.651] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:30.719] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-11.00
+[15:20:30.719] [WARNING] [HEALTH] negative_momentum ticks=-11.00
+[15:20:30.719] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=FAST ws_age=218 spread=13.20 stable=2/1 mid_delta=-11.00 bid_delta=1.00
+[15:20:31.228] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:32.486] [WARNING] [HEALTH] block falling_market bid_ticks=-255.00 mid_ticks=272.00
+[15:20:32.486] [WARNING] [HEALTH] unstable_bid delta_ticks=-255.00
+[15:20:32.486] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=15 spread=18.53 stable=2/1 mid_delta=272.00 bid_delta=-255.00
+[15:20:32.986] [WARNING] [HEALTH] block falling_market bid_ticks=-267.00 mid_ticks=-533.50
+[15:20:32.986] [WARNING] [HEALTH] unstable_bid delta_ticks=-267.00
+[15:20:32.986] [WARNING] [HEALTH] negative_momentum ticks=-533.50
+[15:20:33.484] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:36.751] [WARNING] [HEALTH] block falling_market bid_ticks=-522.00 mid_ticks=-429.50
+[15:20:36.753] [WARNING] [HEALTH] unstable_bid delta_ticks=-522.00
+[15:20:36.753] [WARNING] [HEALTH] negative_momentum ticks=-429.50
+[15:20:36.753] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=31 spread=9.83 stable=2/1 mid_delta=-429.50 bid_delta=-522.00
+[15:20:37.255] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:38.008] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=31 spread=6.31 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:20:38.526] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:20:38.526] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:20:38.526] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=94 spread=10.02 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:20:39.038] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=140 spread=6.06 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:20:39.529] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-73.00
+[15:20:39.529] [WARNING] [HEALTH] negative_momentum ticks=-73.00
+[15:20:39.529] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=FAST ws_age=125 spread=4.60 stable=2/1 mid_delta=-73.00 bid_delta=0.00
+[15:20:40.052] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=234 spread=4.50 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:20:40.058] [OK] [PLAN] READY entry=80482.01 exit=80486.50 profit=0.223153 age=40667ms
+[15:20:40.547] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:20:40.547] [WARNING] [HEALTH] unstable_bid delta_ticks=-668.00
+[15:20:40.547] [WARNING] [HEALTH] negative_momentum ticks=-434.00
+[15:20:40.547] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:20:40.547] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=155 spread=9.18 stable=2/1 mid_delta=-434.00 bid_delta=-668.00
+[15:20:40.557] [OK] [PLAN] HOT entry=80475.33 exit=80484.50 profit=0.455749 age=41162ms
+[15:20:41.068] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:41.573] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=62 spread=4.78 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:20:42.638] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:20:42.642] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:20:42.642] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=94 spread=10.30 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:20:43.605] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:43.922] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-45.00
+[15:20:43.922] [WARNING] [HEALTH] negative_momentum ticks=-45.00
+[15:20:43.922] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=FAST ws_age=46 spread=7.98 stable=2/1 mid_delta=-45.00 bid_delta=0.00
+[15:20:44.432] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:45.442] [WARNING] [HEALTH] block falling_market bid_ticks=-18.00 mid_ticks=-32.00
+[15:20:45.442] [WARNING] [HEALTH] unstable_bid delta_ticks=-18.00
+[15:20:45.442] [WARNING] [HEALTH] negative_momentum ticks=-32.00
+[15:20:45.450] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=250 spread=11.25 stable=2/1 mid_delta=-32.00 bid_delta=-18.00
+[15:20:46.457] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:46.973] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=140 spread=6.85 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:20:47.463] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:20:47.463] [WARNING] [HEALTH] unstable_bid delta_ticks=-113.00
+[15:20:47.463] [WARNING] [HEALTH] negative_momentum ticks=-56.50
+[15:20:47.463] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:20:47.471] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=47 spread=7.98 stable=2/1 mid_delta=-56.50 bid_delta=-113.00
+[15:20:47.969] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:48.465] [WARNING] [HEALTH] block falling_market bid_ticks=-86.00 mid_ticks=-43.00
+[15:20:48.465] [WARNING] [HEALTH] unstable_bid delta_ticks=-86.00
+[15:20:48.473] [WARNING] [HEALTH] negative_momentum ticks=-43.00
+[15:20:48.473] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=15 spread=7.97 stable=2/1 mid_delta=-43.00 bid_delta=-86.00
+[15:20:48.963] [WARNING] [HEALTH] block falling_market bid_ticks=-580.00 mid_ticks=-397.50
+[15:20:48.967] [WARNING] [HEALTH] unstable_bid delta_ticks=-580.00
+[15:20:48.969] [WARNING] [HEALTH] negative_momentum ticks=-397.50
+[15:20:49.610] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:50.963] [WARNING] [HEALTH] block falling_market bid_ticks=-404.00 mid_ticks=-245.00
+[15:20:50.971] [WARNING] [HEALTH] unstable_bid delta_ticks=-404.00
+[15:20:50.971] [WARNING] [HEALTH] negative_momentum ticks=-245.00
+[15:20:50.971] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=15 spread=13.89 stable=2/1 mid_delta=-245.00 bid_delta=-404.00
+[15:20:51.476] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:20:52.021] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[15:20:52.410] [WARNING] cancel all requested
+[15:20:52.418] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.111877 locked=0.000000
+[15:20:52.418] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[15:20:52.418] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[15:20:52.418] [WARNING] STOP
+[15:21:18.881] [OK] [SETTINGS] settings saved
+[15:21:20.197] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[15:21:20.197] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[15:21:20.197] [INFO] START_PROFILE order_size=4000.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[15:21:20.213] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[15:21:20.893] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[15:21:20.902] [OK] START
+[15:21:20.902] [OK] START_OK runtime_started
+[15:21:20.902] [INFO] [EXEC] GRID_PARALLEL_START levels=50 budget=4000.00
+[15:21:20.902] [INFO] [EXEC] GRID_BUDGET_ALLOC levels=50 budget=4000.00 per_level=80.00
+[15:21:20.902] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=1 buy=80501.18000000 qty=0.00099000
+[15:21:20.902] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=2 buy=80501.08000000 qty=0.00099000
+[15:21:20.902] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=3 buy=80500.98000000 qty=0.00099000
+[15:21:20.902] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=4 buy=80500.88000000 qty=0.00099000
+[15:21:20.917] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=5 buy=80500.78000000 qty=0.00099000
+[15:21:20.917] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=6 buy=80500.68000000 qty=0.00099000
+[15:21:20.917] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=7 buy=80500.58000000 qty=0.00099000
+[15:21:20.917] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=8 buy=80500.48000000 qty=0.00099000
+[15:21:20.925] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=9 buy=80500.38000000 qty=0.00099000
+[15:21:20.928] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=10 buy=80500.28000000 qty=0.00099000
+[15:21:20.928] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=11 buy=80500.18000000 qty=0.00099000
+[15:21:20.928] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=12 buy=80500.08000000 qty=0.00099000
+[15:21:20.928] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=13 buy=80499.98000000 qty=0.00099000
+[15:21:20.928] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=14 buy=80499.88000000 qty=0.00099000
+[15:21:20.928] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=15 buy=80499.78000000 qty=0.00099000
+[15:21:20.936] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=16 buy=80499.68000000 qty=0.00099000
+[15:21:20.936] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=17 buy=80499.58000000 qty=0.00099000
+[15:21:20.936] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=18 buy=80499.48000000 qty=0.00099000
+[15:21:20.936] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=19 buy=80499.38000000 qty=0.00099000
+[15:21:20.942] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=20 buy=80499.28000000 qty=0.00099000
+[15:21:20.942] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=21 buy=80499.18000000 qty=0.00099000
+[15:21:20.942] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=22 buy=80499.08000000 qty=0.00099000
+[15:21:20.942] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=23 buy=80498.98000000 qty=0.00099000
+[15:21:20.942] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=24 buy=80498.88000000 qty=0.00099000
+[15:21:20.942] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=25 buy=80498.78000000 qty=0.00099000
+[15:21:20.942] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=26 buy=80498.68000000 qty=0.00099000
+[15:21:20.950] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=27 buy=80498.58000000 qty=0.00099000
+[15:21:20.950] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=28 buy=80498.48000000 qty=0.00099000
+[15:21:20.950] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=29 buy=80498.38000000 qty=0.00099000
+[15:21:20.950] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=30 buy=80498.28000000 qty=0.00099000
+[15:21:20.950] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=31 buy=80498.18000000 qty=0.00099000
+[15:21:20.950] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=32 buy=80498.08000000 qty=0.00099000
+[15:21:20.958] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=33 buy=80497.98000000 qty=0.00099000
+[15:21:20.958] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=34 buy=80497.88000000 qty=0.00099000
+[15:21:20.958] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=35 buy=80497.78000000 qty=0.00099000
+[15:21:20.958] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=36 buy=80497.68000000 qty=0.00099000
+[15:21:20.958] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=37 buy=80497.58000000 qty=0.00099000
+[15:21:20.958] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=38 buy=80497.48000000 qty=0.00099000
+[15:21:20.958] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=39 buy=80497.38000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=40 buy=80497.28000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=41 buy=80497.18000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=42 buy=80497.08000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=43 buy=80496.98000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=44 buy=80496.88000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=45 buy=80496.78000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=46 buy=80496.68000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=47 buy=80496.58000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=48 buy=80496.48000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=49 buy=80496.38000000 qty=0.00099000
+[15:21:20.966] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=50 buy=80496.28000000 qty=0.00099000
+[15:21:21.495] [INFO] [EXEC] LIVE ON
+[15:21:21.495] [INFO] [EXEC] WAIT READY
+[15:21:21.495] [INFO] [HEALTH] state=GOOD
+[15:21:21.495] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=29078 spread=7.20 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:21:21.789] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[15:21:21.789] [WS] connecting primary
+[15:21:22.216] [WS] connected
+[15:21:22.605] [INFO] [EXEC] GRID_BUY_PLACED level_id=1 order_id=386043732
+[15:21:22.605] [OK] [EXEC] PLACE BUY price=80501.18 qty=0.000990
+[15:21:22.881] [INFO] [EXEC] GRID_BUY_PLACED level_id=2 order_id=386043792
+[15:21:22.887] [OK] [EXEC] PLACE BUY price=80501.08 qty=0.000990
+[15:21:23.154] [INFO] [EXEC] GRID_BUY_PLACED level_id=3 order_id=386043813
+[15:21:23.154] [OK] [EXEC] PLACE BUY price=80500.98 qty=0.000990
+[15:21:23.419] [INFO] [EXEC] GRID_BUY_PLACED level_id=4 order_id=386043847
+[15:21:23.435] [OK] [EXEC] PLACE BUY price=80500.88 qty=0.000990
+[15:21:23.704] [INFO] [EXEC] GRID_BUY_PLACED level_id=5 order_id=386043861
+[15:21:23.704] [OK] [EXEC] PLACE BUY price=80500.78 qty=0.000990
+[15:21:24.009] [INFO] [EXEC] GRID_BUY_PLACED level_id=6 order_id=386043880
+[15:21:24.017] [OK] [EXEC] PLACE BUY price=80500.68 qty=0.000990
+[15:21:24.308] [INFO] [EXEC] GRID_BUY_PLACED level_id=7 order_id=386043894
+[15:21:24.308] [OK] [EXEC] PLACE BUY price=80500.58 qty=0.000990
+[15:21:24.622] [INFO] [EXEC] GRID_BUY_PLACED level_id=8 order_id=386043912
+[15:21:24.630] [OK] [EXEC] PLACE BUY price=80500.48 qty=0.000990
+[15:21:24.927] [INFO] [EXEC] GRID_BUY_PLACED level_id=9 order_id=386043935
+[15:21:24.935] [OK] [EXEC] PLACE BUY price=80500.38 qty=0.000990
+[15:21:25.202] [INFO] [EXEC] GRID_BUY_PLACED level_id=10 order_id=386043952
+[15:21:25.202] [OK] [EXEC] PLACE BUY price=80500.28 qty=0.000990
+[15:21:25.470] [INFO] [EXEC] GRID_BUY_PLACED level_id=11 order_id=386043973
+[15:21:25.486] [OK] [EXEC] PLACE BUY price=80500.18 qty=0.000990
+[15:21:25.743] [INFO] [EXEC] GRID_BUY_PLACED level_id=12 order_id=386043982
+[15:21:25.743] [OK] [EXEC] PLACE BUY price=80500.08 qty=0.000990
+[15:21:26.260] [INFO] [EXEC] GRID_BUY_PLACED level_id=13 order_id=386043986
+[15:21:26.267] [OK] [EXEC] PLACE BUY price=80499.98 qty=0.000990
+[15:21:26.563] [INFO] [EXEC] GRID_BUY_PLACED level_id=14 order_id=386044035
+[15:21:26.571] [OK] [EXEC] PLACE BUY price=80499.88 qty=0.000990
+[15:21:27.082] [INFO] [EXEC] GRID_BUY_PLACED level_id=15 order_id=386044057
+[15:21:27.082] [OK] [EXEC] PLACE BUY price=80499.78 qty=0.000990
+[15:21:27.387] [INFO] [EXEC] GRID_BUY_PLACED level_id=16 order_id=386044130
+[15:21:27.395] [OK] [EXEC] PLACE BUY price=80499.68 qty=0.000990
+[15:21:27.691] [INFO] [EXEC] GRID_BUY_PLACED level_id=17 order_id=386044148
+[15:21:27.699] [OK] [EXEC] PLACE BUY price=80499.58 qty=0.000990
+[15:21:28.513] [INFO] [EXEC] GRID_BUY_PLACED level_id=18 order_id=386044205
+[15:21:28.513] [OK] [EXEC] PLACE BUY price=80499.48 qty=0.000990
+[15:21:28.775] [INFO] [EXEC] GRID_BUY_PLACED level_id=19 order_id=386044208
+[15:21:28.792] [OK] [EXEC] PLACE BUY price=80499.38 qty=0.000990
+[15:21:29.056] [INFO] [EXEC] GRID_BUY_PLACED level_id=20 order_id=386044246
+[15:21:29.064] [OK] [EXEC] PLACE BUY price=80499.28 qty=0.000990
+[15:21:29.324] [INFO] [EXEC] GRID_BUY_PLACED level_id=21 order_id=386044252
+[15:21:29.324] [OK] [EXEC] PLACE BUY price=80499.18 qty=0.000990
+[15:21:29.600] [INFO] [EXEC] GRID_BUY_PLACED level_id=22 order_id=386044260
+[15:21:29.600] [OK] [EXEC] PLACE BUY price=80499.08 qty=0.000990
+[15:21:29.886] [INFO] [EXEC] GRID_BUY_PLACED level_id=23 order_id=386044299
+[15:21:29.887] [OK] [EXEC] PLACE BUY price=80498.98 qty=0.000990
+[15:21:30.153] [INFO] [EXEC] GRID_BUY_PLACED level_id=24 order_id=386044341
+[15:21:30.153] [OK] [EXEC] PLACE BUY price=80498.88 qty=0.000990
+[15:21:30.453] [INFO] [EXEC] GRID_BUY_PLACED level_id=25 order_id=386044385
+[15:21:30.453] [OK] [EXEC] PLACE BUY price=80498.78 qty=0.000990
+[15:21:30.720] [INFO] [EXEC] GRID_BUY_PLACED level_id=26 order_id=386044409
+[15:21:30.720] [OK] [EXEC] PLACE BUY price=80498.68 qty=0.000990
+[15:21:31.008] [INFO] [EXEC] GRID_BUY_PLACED level_id=27 order_id=386044430
+[15:21:31.008] [OK] [EXEC] PLACE BUY price=80498.58 qty=0.000990
+[15:21:31.784] [INFO] [EXEC] GRID_BUY_PLACED level_id=28 order_id=386044503
+[15:21:31.790] [OK] [EXEC] PLACE BUY price=80498.48 qty=0.000990
+[15:21:32.096] [INFO] [EXEC] GRID_BUY_PLACED level_id=29 order_id=386044526
+[15:21:32.104] [OK] [EXEC] PLACE BUY price=80498.38 qty=0.000990
+[15:21:32.372] [INFO] [EXEC] GRID_BUY_PLACED level_id=30 order_id=386044543
+[15:21:32.372] [OK] [EXEC] PLACE BUY price=80498.28 qty=0.000990
+[15:21:32.667] [INFO] [EXEC] GRID_BUY_PLACED level_id=31 order_id=386044592
+[15:21:32.667] [OK] [EXEC] PLACE BUY price=80498.18 qty=0.000990
+[15:21:32.954] [INFO] [EXEC] GRID_BUY_PLACED level_id=32 order_id=386044616
+[15:21:32.957] [OK] [EXEC] PLACE BUY price=80498.08 qty=0.000990
+[15:21:33.713] [INFO] [EXEC] GRID_BUY_PLACED level_id=33 order_id=386044692
+[15:21:33.713] [OK] [EXEC] PLACE BUY price=80497.98 qty=0.000990
+[15:21:33.992] [INFO] [EXEC] GRID_BUY_PLACED level_id=34 order_id=386044721
+[15:21:33.992] [OK] [EXEC] PLACE BUY price=80497.88 qty=0.000990
+[15:21:34.310] [INFO] [EXEC] GRID_BUY_PLACED level_id=35 order_id=386044783
+[15:21:34.310] [OK] [EXEC] PLACE BUY price=80497.78 qty=0.000990
+[15:21:34.588] [INFO] [EXEC] GRID_BUY_PLACED level_id=36 order_id=386044832
+[15:21:34.588] [OK] [EXEC] PLACE BUY price=80497.68 qty=0.000990
+[15:21:35.369] [INFO] [EXEC] GRID_BUY_PLACED level_id=37 order_id=386044900
+[15:21:35.369] [OK] [EXEC] PLACE BUY price=80497.58 qty=0.000990
+[15:21:35.643] [INFO] [EXEC] GRID_BUY_PLACED level_id=38 order_id=386044917
+[15:21:35.643] [OK] [EXEC] PLACE BUY price=80497.48 qty=0.000990
+[15:21:35.924] [INFO] [EXEC] GRID_BUY_PLACED level_id=39 order_id=386044938
+[15:21:35.924] [OK] [EXEC] PLACE BUY price=80497.38 qty=0.000990
+[15:21:36.195] [INFO] [EXEC] GRID_BUY_PLACED level_id=40 order_id=386044986
+[15:21:36.204] [OK] [EXEC] PLACE BUY price=80497.28 qty=0.000990
+[15:21:36.496] [INFO] [EXEC] GRID_BUY_PLACED level_id=41 order_id=386044991
+[15:21:36.504] [OK] [EXEC] PLACE BUY price=80497.18 qty=0.000990
+[15:21:36.801] [INFO] [EXEC] GRID_BUY_PLACED level_id=42 order_id=386045013
+[15:21:36.809] [OK] [EXEC] PLACE BUY price=80497.08 qty=0.000990
+[15:21:37.085] [INFO] [EXEC] GRID_BUY_PLACED level_id=43 order_id=386045033
+[15:21:37.085] [OK] [EXEC] PLACE BUY price=80496.98 qty=0.000990
+[15:21:37.355] [INFO] [EXEC] GRID_BUY_PLACED level_id=44 order_id=386045068
+[15:21:37.355] [OK] [EXEC] PLACE BUY price=80496.88 qty=0.000990
+[15:21:37.925] [INFO] [EXEC] GRID_BUY_PLACED level_id=45 order_id=386045069
+[15:21:37.933] [OK] [EXEC] PLACE BUY price=80496.78 qty=0.000990
+[15:21:38.235] [INFO] [EXEC] GRID_BUY_PLACED level_id=46 order_id=386045175
+[15:21:38.235] [OK] [EXEC] PLACE BUY price=80496.68 qty=0.000990
+[15:21:38.534] [INFO] [EXEC] GRID_BUY_PLACED level_id=47 order_id=386045199
+[15:21:38.534] [OK] [EXEC] PLACE BUY price=80496.58 qty=0.000990
+[15:21:38.814] [INFO] [EXEC] GRID_BUY_PLACED level_id=48 order_id=386045233
+[15:21:38.814] [OK] [EXEC] PLACE BUY price=80496.48 qty=0.000990
+[15:21:39.093] [INFO] [EXEC] GRID_BUY_PLACED level_id=49 order_id=386045244
+[15:21:39.093] [OK] [EXEC] PLACE BUY price=80496.38 qty=0.000990
+[15:21:39.368] [INFO] [EXEC] GRID_BUY_PLACED level_id=50 order_id=386045253
+[15:21:39.368] [OK] [EXEC] PLACE BUY price=80496.28 qty=0.000990
+[15:21:40.998] [INFO] [HEALTH] state=GOOD
+[15:21:40.998] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:21:43.769] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=297 spread=4.24 stable=2/1 mid_delta=187.50 bid_delta=375.00
+[15:21:43.777] [OK] [PLAN] READY entry=80469.76 exit=80474.00 profit=0.210728 age=22274ms
+[15:21:44.325] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:21:44.325] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:21:44.325] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=344 spread=7.94 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:21:44.325] [OK] [PLAN] HOT entry=80474.06 exit=80481.99 profit=0.394121 age=22814ms
+[15:21:44.798] [WARNING] [HEALTH] block spread_too_young lifetime=489
+[15:21:44.798] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=375 spread=7.94 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[15:21:45.267] [WARNING] [HEALTH] block falling_market bid_ticks=-386.00 mid_ticks=-193.50
+[15:21:45.267] [WARNING] [HEALTH] unstable_bid delta_ticks=-386.00
+[15:21:45.267] [WARNING] [HEALTH] negative_momentum ticks=-193.50
+[15:21:45.275] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=297 spread=11.79 stable=2/1 mid_delta=-193.50 bid_delta=-386.00
+[15:21:45.419] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:21:45.922] [WARNING] [HEALTH] block falling_market bid_ticks=-424.00 mid_ticks=-351.00
+[15:21:45.922] [WARNING] [HEALTH] unstable_bid delta_ticks=-424.00
+[15:21:45.922] [WARNING] [HEALTH] negative_momentum ticks=-351.00
+[15:21:45.922] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=15 spread=11.14 stable=2/1 mid_delta=-351.00 bid_delta=-424.00
+[15:21:46.327] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:21:48.479] [WARNING] [HEALTH] block falling_market bid_ticks=-233.00 mid_ticks=-232.00
+[15:21:48.479] [WARNING] [HEALTH] unstable_bid delta_ticks=-233.00
+[15:21:48.479] [WARNING] [HEALTH] negative_momentum ticks=-232.00
+[15:21:48.479] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=172 spread=9.16 stable=2/1 mid_delta=-232.00 bid_delta=-233.00
+[15:21:48.796] [WARNING] [HEALTH] block falling_market bid_ticks=-233.00 mid_ticks=-232.00
+[15:21:49.191] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:21:50.752] [WARNING] [HEALTH] block falling_market bid_ticks=-603.00 mid_ticks=-476.50
+[15:21:50.752] [WARNING] [HEALTH] unstable_bid delta_ticks=-603.00
+[15:21:50.752] [WARNING] [HEALTH] negative_momentum ticks=-476.50
+[15:21:50.752] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=109 spread=9.61 stable=2/1 mid_delta=-476.50 bid_delta=-603.00
+[15:21:51.084] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:21:51.269] [WARNING] [HEALTH] block falling_market bid_ticks=-196.00 mid_ticks=-277.50
+[15:21:51.269] [WARNING] [HEALTH] unstable_bid delta_ticks=-196.00
+[15:21:51.269] [WARNING] [HEALTH] negative_momentum ticks=-277.50
+[15:21:51.277] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=62 spread=7.98 stable=2/1 mid_delta=-277.50 bid_delta=-196.00
+[15:21:51.593] [WARNING] [HEALTH] block falling_market bid_ticks=-40.00 mid_ticks=-419.00
+[15:21:51.593] [WARNING] [HEALTH] unstable_bid delta_ticks=-40.00
+[15:21:51.593] [WARNING] [HEALTH] negative_momentum ticks=-419.00
+[15:21:51.601] [OK] [PLAN] READY entry=80457.62 exit=80458.01 profit=0.019387 age=30098ms
+[15:21:51.775] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=32 spread=6.76 stable=2/1 mid_delta=357.00 bid_delta=39.00
+[15:21:52.062] [OK] [PLAN] HOT entry=80458.01 exit=80464.76 profit=0.335543 age=30567ms
+[15:21:52.274] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:21:52.274] [WARNING] [HEALTH] unstable_bid delta_ticks=-279.00
+[15:21:52.274] [WARNING] [HEALTH] negative_momentum ticks=-139.50
+[15:21:52.274] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:21:52.274] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=140 spread=9.55 stable=3/1 mid_delta=-139.50 bid_delta=-279.00
+[15:21:52.619] [WARNING] [HEALTH] block spread_too_young lifetime=329
+[15:21:52.619] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=327 spread=9.24 stable=2/1 mid_delta=15.50 bid_delta=31.00
+[15:21:52.762] [WARNING] [HEALTH] block spread_too_young lifetime=488
+[15:21:53.070] [WARNING] [HEALTH] block falling_market bid_ticks=-32.00 mid_ticks=-19.50
+[15:21:53.070] [WARNING] [HEALTH] unstable_bid delta_ticks=-32.00
+[15:21:53.070] [WARNING] [HEALTH] negative_momentum ticks=-19.50
+[15:21:53.078] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=297 spread=9.49 stable=3/1 mid_delta=-19.50 bid_delta=-32.00
+[15:21:53.278] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:21:53.794] [WARNING] [HEALTH] block falling_market bid_ticks=-63.00 mid_ticks=-31.50
+[15:21:53.794] [WARNING] [HEALTH] unstable_bid delta_ticks=-63.00
+[15:21:53.794] [WARNING] [HEALTH] negative_momentum ticks=-31.50
+[15:21:53.794] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=187 spread=7.92 stable=2/1 mid_delta=-31.50 bid_delta=-63.00
+[15:21:54.296] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:21:56.050] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[15:21:56.396] [WARNING] cancel all requested
+[15:21:56.404] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.161377 locked=0.000000
+[15:21:56.404] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[15:21:56.404] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[15:21:56.404] [WARNING] STOP
+[15:22:10.564] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[15:22:10.564] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[15:22:10.564] [INFO] START_PROFILE order_size=4000.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[15:22:10.564] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[15:22:11.391] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[15:22:11.399] [OK] START
+[15:22:11.399] [OK] START_OK runtime_started
+[15:22:11.399] [INFO] [EXEC] GRID_PARALLEL_START levels=50 budget=4000.00
+[15:22:11.399] [INFO] [EXEC] GRID_BUDGET_ALLOC levels=50 budget=4000.00 per_level=80.00
+[15:22:11.399] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=1 buy=80449.90000000 qty=0.00099000
+[15:22:11.399] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=2 buy=80449.80000000 qty=0.00099000
+[15:22:11.399] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=3 buy=80449.70000000 qty=0.00099000
+[15:22:11.399] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=4 buy=80449.60000000 qty=0.00099000
+[15:22:11.415] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=5 buy=80449.50000000 qty=0.00099000
+[15:22:11.415] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=6 buy=80449.40000000 qty=0.00099000
+[15:22:11.415] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=7 buy=80449.30000000 qty=0.00099000
+[15:22:11.415] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=8 buy=80449.20000000 qty=0.00099000
+[15:22:11.415] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=9 buy=80449.10000000 qty=0.00099000
+[15:22:11.415] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=10 buy=80449.00000000 qty=0.00099000
+[15:22:11.431] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=11 buy=80448.90000000 qty=0.00099000
+[15:22:11.431] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=12 buy=80448.80000000 qty=0.00099000
+[15:22:11.431] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=13 buy=80448.70000000 qty=0.00099000
+[15:22:11.431] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=14 buy=80448.60000000 qty=0.00099000
+[15:22:11.431] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=15 buy=80448.50000000 qty=0.00099000
+[15:22:11.431] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=16 buy=80448.40000000 qty=0.00099000
+[15:22:11.431] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=17 buy=80448.30000000 qty=0.00099000
+[15:22:11.431] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=18 buy=80448.20000000 qty=0.00099000
+[15:22:11.431] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=19 buy=80448.10000000 qty=0.00099000
+[15:22:11.431] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=20 buy=80448.00000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=21 buy=80447.90000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=22 buy=80447.80000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=23 buy=80447.70000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=24 buy=80447.60000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=25 buy=80447.50000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=26 buy=80447.40000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=27 buy=80447.30000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=28 buy=80447.20000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=29 buy=80447.10000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=30 buy=80447.00000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=31 buy=80446.90000000 qty=0.00099000
+[15:22:11.447] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=32 buy=80446.80000000 qty=0.00099000
+[15:22:11.462] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=33 buy=80446.70000000 qty=0.00099000
+[15:22:11.462] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=34 buy=80446.60000000 qty=0.00099000
+[15:22:11.462] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=35 buy=80446.50000000 qty=0.00099000
+[15:22:11.462] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=36 buy=80446.40000000 qty=0.00099000
+[15:22:11.462] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=37 buy=80446.30000000 qty=0.00099000
+[15:22:11.462] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=38 buy=80446.20000000 qty=0.00099000
+[15:22:11.462] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=39 buy=80446.10000000 qty=0.00099000
+[15:22:11.462] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=40 buy=80446.00000000 qty=0.00099000
+[15:22:11.462] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=41 buy=80445.90000000 qty=0.00099000
+[15:22:11.462] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=42 buy=80445.80000000 qty=0.00099000
+[15:22:11.470] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=43 buy=80445.70000000 qty=0.00099000
+[15:22:11.470] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=44 buy=80445.60000000 qty=0.00099000
+[15:22:11.470] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=45 buy=80445.50000000 qty=0.00099000
+[15:22:11.470] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=46 buy=80445.40000000 qty=0.00099000
+[15:22:11.470] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=47 buy=80445.30000000 qty=0.00099000
+[15:22:11.470] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=48 buy=80445.20000000 qty=0.00099000
+[15:22:11.470] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=49 buy=80445.10000000 qty=0.00099000
+[15:22:11.470] [INFO] [EXEC] GRID_LEVEL_CREATE level_id=50 buy=80445.00000000 qty=0.00099000
+[15:22:11.470] [INFO] [EXEC] LIVE ON
+[15:22:11.470] [INFO] [EXEC] WAIT READY
+[15:22:11.470] [INFO] [HEALTH] state=DANGER
+[15:22:11.470] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=15640 spread=6.72 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:22:12.643] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[15:22:12.643] [WS] connecting primary
+[15:22:13.212] [WS] connected
+[15:22:13.841] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:22:13.856] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:22:13.856] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=18030 spread=8.00 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:22:14.202] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=77 spread=5.21 stable=2/1 mid_delta=139.50 bid_delta=279.00
+[15:22:15.703] [WARNING] [HEALTH] block falling_market bid_ticks=-60.00 mid_ticks=-30.00
+[15:22:15.703] [WARNING] [HEALTH] unstable_bid delta_ticks=-60.00
+[15:22:15.703] [WARNING] [HEALTH] negative_momentum ticks=-30.00
+[15:22:15.703] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=62 spread=5.46 stable=2/1 mid_delta=-30.00 bid_delta=-60.00
+[15:22:16.228] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=577 spread=5.46 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:22:16.715] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:22:16.715] [WARNING] [HEALTH] unstable_bid delta_ticks=-254.00
+[15:22:16.715] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:22:16.715] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=93 spread=15.13 stable=2/1 mid_delta=229.50 bid_delta=-254.00
+[15:22:17.735] [INFO] [EXEC] GRID_BUY_PLACED level_id=1 order_id=386047654
+[15:22:17.735] [OK] [EXEC] PLACE BUY price=80449.90 qty=0.000990
+[15:22:18.034] [INFO] [EXEC] GRID_BUY_PLACED level_id=2 order_id=386047656
+[15:22:18.042] [OK] [EXEC] PLACE BUY price=80449.80 qty=0.000990
+[15:22:18.334] [INFO] [EXEC] GRID_BUY_PLACED level_id=3 order_id=386047670
+[15:22:18.342] [OK] [EXEC] PLACE BUY price=80449.70 qty=0.000990
+[15:22:18.603] [INFO] [EXEC] GRID_BUY_PLACED level_id=4 order_id=386047686
+[15:22:18.603] [OK] [EXEC] PLACE BUY price=80449.60 qty=0.000990
+[15:22:18.874] [INFO] [EXEC] GRID_BUY_PLACED level_id=5 order_id=386047694
+[15:22:18.880] [OK] [EXEC] PLACE BUY price=80449.50 qty=0.000990
+[15:22:19.152] [INFO] [EXEC] GRID_BUY_PLACED level_id=6 order_id=386047696
+[15:22:19.152] [OK] [EXEC] PLACE BUY price=80449.40 qty=0.000990
+[15:22:19.447] [INFO] [EXEC] GRID_BUY_PLACED level_id=7 order_id=386047719
+[15:22:19.447] [OK] [EXEC] PLACE BUY price=80449.30 qty=0.000990
+[15:22:19.713] [INFO] [EXEC] GRID_BUY_PLACED level_id=8 order_id=386047727
+[15:22:19.721] [OK] [EXEC] PLACE BUY price=80449.20 qty=0.000990
+[15:22:20.056] [INFO] [EXEC] GRID_BUY_PLACED level_id=9 order_id=386047734
+[15:22:20.064] [OK] [EXEC] PLACE BUY price=80449.10 qty=0.000990
+[15:22:20.388] [INFO] [EXEC] GRID_BUY_PLACED level_id=10 order_id=386047756
+[15:22:20.388] [OK] [EXEC] PLACE BUY price=80449.00 qty=0.000990
+[15:22:20.672] [INFO] [EXEC] GRID_BUY_PLACED level_id=11 order_id=386047768
+[15:22:20.672] [OK] [EXEC] PLACE BUY price=80448.90 qty=0.000990
+[15:22:20.950] [INFO] [EXEC] GRID_BUY_PLACED level_id=12 order_id=386047792
+[15:22:20.950] [OK] [EXEC] PLACE BUY price=80448.80 qty=0.000990
+[15:22:21.216] [INFO] [EXEC] GRID_BUY_PLACED level_id=13 order_id=386047813
+[15:22:21.216] [OK] [EXEC] PLACE BUY price=80448.70 qty=0.000990
+[15:22:21.824] [INFO] [EXEC] GRID_BUY_PLACED level_id=14 order_id=386047841
+[15:22:21.840] [OK] [EXEC] PLACE BUY price=80448.60 qty=0.000990
+[15:22:22.112] [INFO] [EXEC] GRID_BUY_PLACED level_id=15 order_id=386047859
+[15:22:22.120] [OK] [EXEC] PLACE BUY price=80448.50 qty=0.000990
+[15:22:22.379] [INFO] [EXEC] GRID_BUY_PLACED level_id=16 order_id=386047865
+[15:22:22.387] [OK] [EXEC] PLACE BUY price=80448.40 qty=0.000990
+[15:22:22.655] [INFO] [EXEC] GRID_BUY_PLACED level_id=17 order_id=386047885
+[15:22:22.655] [OK] [EXEC] PLACE BUY price=80448.30 qty=0.000990
+[15:22:22.922] [INFO] [EXEC] GRID_BUY_PLACED level_id=18 order_id=386047892
+[15:22:22.922] [OK] [EXEC] PLACE BUY price=80448.20 qty=0.000990
+[15:22:23.357] [INFO] [EXEC] GRID_BUY_PLACED level_id=19 order_id=386047895
+[15:22:23.365] [OK] [EXEC] PLACE BUY price=80448.10 qty=0.000990
+[15:22:23.669] [INFO] [EXEC] GRID_BUY_PLACED level_id=20 order_id=386047911
+[15:22:23.669] [OK] [EXEC] PLACE BUY price=80448.00 qty=0.000990
+[15:22:23.981] [INFO] [EXEC] GRID_BUY_PLACED level_id=21 order_id=386047917
+[15:22:23.981] [OK] [EXEC] PLACE BUY price=80447.90 qty=0.000990
+[15:22:24.387] [INFO] [EXEC] GRID_BUY_PLACED level_id=22 order_id=386047923
+[15:22:24.387] [OK] [EXEC] PLACE BUY price=80447.80 qty=0.000990
+[15:22:24.665] [INFO] [EXEC] GRID_BUY_PLACED level_id=23 order_id=386047926
+[15:22:24.665] [OK] [EXEC] PLACE BUY price=80447.70 qty=0.000990
+[15:22:25.301] [INFO] [EXEC] GRID_BUY_PLACED level_id=24 order_id=386047927
+[15:22:25.309] [OK] [EXEC] PLACE BUY price=80447.60 qty=0.000990
+[15:22:25.583] [INFO] [EXEC] GRID_BUY_PLACED level_id=25 order_id=386047931
+[15:22:25.591] [OK] [EXEC] PLACE BUY price=80447.50 qty=0.000990
+[15:22:25.910] [INFO] [EXEC] GRID_BUY_PLACED level_id=26 order_id=386047935
+[15:22:25.910] [OK] [EXEC] PLACE BUY price=80447.40 qty=0.000990
+[15:22:26.239] [INFO] [EXEC] GRID_BUY_PLACED level_id=27 order_id=386047945
+[15:22:26.255] [OK] [EXEC] PLACE BUY price=80447.30 qty=0.000990
+[15:22:26.512] [INFO] [EXEC] GRID_BUY_PLACED level_id=28 order_id=386047967
+[15:22:26.528] [OK] [EXEC] PLACE BUY price=80447.20 qty=0.000990
+[15:22:27.041] [INFO] [EXEC] GRID_BUY_PLACED level_id=29 order_id=386047979
+[15:22:27.049] [OK] [EXEC] PLACE BUY price=80447.10 qty=0.000990
+[15:22:27.321] [INFO] [EXEC] GRID_BUY_PLACED level_id=30 order_id=386047989
+[15:22:27.321] [OK] [EXEC] PLACE BUY price=80447.00 qty=0.000990
+[15:22:27.655] [INFO] [EXEC] GRID_BUY_PLACED level_id=31 order_id=386047995
+[15:22:27.663] [OK] [EXEC] PLACE BUY price=80446.90 qty=0.000990
+[15:22:27.934] [INFO] [EXEC] GRID_BUY_PLACED level_id=32 order_id=386047996
+[15:22:27.934] [OK] [EXEC] PLACE BUY price=80446.80 qty=0.000990
+[15:22:28.201] [INFO] [EXEC] GRID_BUY_PLACED level_id=33 order_id=386048006
+[15:22:28.217] [OK] [EXEC] PLACE BUY price=80446.70 qty=0.000990
+[15:22:28.638] [INFO] [EXEC] GRID_BUY_PLACED level_id=34 order_id=386048028
+[15:22:28.654] [OK] [EXEC] PLACE BUY price=80446.60 qty=0.000990
+[15:22:28.925] [INFO] [EXEC] GRID_BUY_PLACED level_id=35 order_id=386048092
+[15:22:28.925] [OK] [EXEC] PLACE BUY price=80446.50 qty=0.000990
+[15:22:29.198] [INFO] [EXEC] GRID_BUY_PLACED level_id=36 order_id=386048112
+[15:22:29.198] [OK] [EXEC] PLACE BUY price=80446.40 qty=0.000990
+[15:22:29.605] [INFO] [EXEC] GRID_BUY_PLACED level_id=37 order_id=386048123
+[15:22:29.605] [OK] [EXEC] PLACE BUY price=80446.30 qty=0.000990
+[15:22:29.918] [INFO] [EXEC] GRID_BUY_PLACED level_id=38 order_id=386048140
+[15:22:29.923] [OK] [EXEC] PLACE BUY price=80446.20 qty=0.000990
+[15:22:30.220] [INFO] [EXEC] GRID_BUY_PLACED level_id=39 order_id=386048149
+[15:22:30.220] [OK] [EXEC] PLACE BUY price=80446.10 qty=0.000990
+[15:22:30.641] [INFO] [EXEC] GRID_BUY_PLACED level_id=40 order_id=386048166
+[15:22:30.641] [OK] [EXEC] PLACE BUY price=80446.00 qty=0.000990
+[15:22:30.935] [INFO] [EXEC] GRID_BUY_PLACED level_id=41 order_id=386048181
+[15:22:30.935] [OK] [EXEC] PLACE BUY price=80445.90 qty=0.000990
+[15:22:31.217] [INFO] [EXEC] GRID_BUY_PLACED level_id=42 order_id=386048190
+[15:22:31.225] [OK] [EXEC] PLACE BUY price=80445.80 qty=0.000990
+[15:22:31.651] [INFO] [EXEC] GRID_BUY_PLACED level_id=43 order_id=386048204
+[15:22:31.659] [OK] [EXEC] PLACE BUY price=80445.70 qty=0.000990
+[15:22:31.934] [INFO] [EXEC] GRID_BUY_PLACED level_id=44 order_id=386048219
+[15:22:31.934] [OK] [EXEC] PLACE BUY price=80445.60 qty=0.000990
+[15:22:33.087] [INFO] [EXEC] GRID_BUY_PLACED level_id=45 order_id=386048232
+[15:22:33.095] [OK] [EXEC] PLACE BUY price=80445.50 qty=0.000990
+[15:22:33.371] [INFO] [EXEC] GRID_BUY_PLACED level_id=46 order_id=386048235
+[15:22:33.371] [OK] [EXEC] PLACE BUY price=80445.40 qty=0.000990
+[15:22:33.672] [INFO] [EXEC] GRID_BUY_PLACED level_id=47 order_id=386048242
+[15:22:33.681] [OK] [EXEC] PLACE BUY price=80445.30 qty=0.000990
+[15:22:34.310] [INFO] [EXEC] GRID_BUY_PLACED level_id=48 order_id=386048269
+[15:22:34.325] [OK] [EXEC] PLACE BUY price=80445.20 qty=0.000990
+[15:22:34.588] [INFO] [EXEC] GRID_BUY_PLACED level_id=49 order_id=386048293
+[15:22:34.604] [OK] [EXEC] PLACE BUY price=80445.10 qty=0.000990
+[15:22:34.870] [INFO] [EXEC] GRID_BUY_PLACED level_id=50 order_id=386048336
+[15:22:34.878] [OK] [EXEC] PLACE BUY price=80445.00 qty=0.000990
+[15:22:36.969] [INFO] [HEALTH] state=GOOD
+[15:22:36.969] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:22:37.468] [WARNING] [HEALTH] block falling_market bid_ticks=-3508.00 mid_ticks=-3424.50
+[15:22:37.468] [WARNING] [HEALTH] unstable_bid delta_ticks=-3508.00
+[15:22:37.468] [WARNING] [HEALTH] negative_momentum ticks=-3424.50
+[15:22:37.476] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=15 spread=12.42 stable=2/1 mid_delta=-3424.50 bid_delta=-3508.00
+[15:22:37.967] [WARNING] [HEALTH] block falling_market bid_ticks=-242.00 mid_ticks=-439.50
+[15:22:37.970] [WARNING] [HEALTH] unstable_bid delta_ticks=-242.00
+[15:22:37.974] [WARNING] [HEALTH] negative_momentum ticks=-439.50
+[15:22:38.467] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:22:44.008] [INFO] [HEALTH] state=GOOD
+[15:22:44.008] [INFO] [EXEC] GRID_NO_VALID_LEVELS_FOR_BUY
+[15:22:44.299] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[15:22:44.575] [WARNING] cancel all requested
+[15:22:44.591] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.210877 locked=0.000000
+[15:22:44.591] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[15:22:44.591] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[15:22:44.597] [WARNING] STOP

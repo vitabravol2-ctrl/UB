@@ -1,0 +1,95 @@
+[09:34:27.012] [OK] filters loaded
+[09:34:27.013] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=0
+[09:34:27.368] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[09:34:40.060] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[09:34:40.061] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=2
+[09:34:40.061] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=223.0
+[09:34:40.061] [INFO] START_PROFILE order_size=223.0 min_spread=6.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=1800 far_sell_ticks=60 taker_exit_after_ms=2200
+[09:34:40.064] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[09:34:40.535] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[09:34:40.537] [OK] START
+[09:34:40.538] [OK] START_OK runtime_started
+[09:34:40.538] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=10
+[09:34:40.538] [INFO] [EXEC] STREAM_MULTI_MODE count=10
+[09:34:40.539] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=10 range_ticks=800 step_ticks=80
+[09:34:40.539] [INFO] [EXEC] GRID_BUDGET_SOURCE source=max_exposure_u budget=5000.00
+[09:34:40.539] [INFO] [EXEC] STREAM_CREATE stream_id=1 buy_price=81201.95000000 budget=500.00 qty=0.00615000
+[09:34:40.540] [INFO] [EXEC] STREAM_CREATE stream_id=2 buy_price=81201.15000000 budget=500.00 qty=0.00615000
+[09:34:40.540] [INFO] [EXEC] STREAM_CREATE stream_id=3 buy_price=81200.36000000 budget=500.00 qty=0.00615000
+[09:34:40.540] [INFO] [EXEC] STREAM_CREATE stream_id=4 buy_price=81199.56000000 budget=500.00 qty=0.00615000
+[09:34:40.541] [INFO] [EXEC] STREAM_CREATE stream_id=5 buy_price=81198.76000000 budget=500.00 qty=0.00615000
+[09:34:40.541] [INFO] [EXEC] STREAM_CREATE stream_id=6 buy_price=81197.95000000 budget=500.00 qty=0.00615000
+[09:34:40.541] [INFO] [EXEC] STREAM_CREATE stream_id=7 buy_price=81197.15000000 budget=500.00 qty=0.00615000
+[09:34:40.542] [INFO] [EXEC] STREAM_CREATE stream_id=8 buy_price=81196.36000000 budget=500.00 qty=0.00615000
+[09:34:40.542] [INFO] [EXEC] STREAM_CREATE stream_id=9 buy_price=81195.56000000 budget=500.00 qty=0.00615000
+[09:34:40.542] [INFO] [EXEC] STREAM_CREATE stream_id=10 buy_price=81194.76000000 budget=500.00 qty=0.00615000
+[09:34:40.542] [INFO] [EXEC] STREAM_CREATE_DONE count=10 budget=5000.00 step_ticks=80
+[09:34:40.543] [INFO] [EXEC] LIVE ON
+[09:34:40.543] [INFO] [EXEC] WAIT READY
+[09:34:40.543] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:34:40.543] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:34:40.544] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[09:34:40.544] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[09:34:41.098] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=388237722
+[09:34:41.099] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=30
+[09:34:41.099] [OK] [EXEC] PLACE BUY price=81201.95 qty=0.006150
+[09:34:42.096] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[09:34:42.096] [WS] connecting primary
+[09:34:42.097] [WS] connected
+[09:34:42.576] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[09:34:42.577] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=35
+[09:34:42.839] [INFO] [EXEC] STREAM_BUY_PLACED level_id=2 order_id=388237749
+[09:34:42.840] [OK] [EXEC] PLACE BUY price=81201.15 qty=0.006150
+[09:34:43.884] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[09:34:43.886] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=38
+[09:34:44.152] [INFO] [EXEC] STREAM_BUY_PLACED level_id=3 order_id=388237773
+[09:34:44.152] [OK] [EXEC] PLACE BUY price=81200.36 qty=0.006150
+[09:34:44.417] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[09:34:45.417] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[09:34:45.419] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=42
+[09:34:45.420] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[09:34:45.683] [INFO] [EXEC] STREAM_BUY_PLACED level_id=4 order_id=388237814
+[09:34:45.685] [OK] [EXEC] PLACE BUY price=81199.56 qty=0.006150
+[09:34:47.695] [INFO] [HEALTH] state=DANGER
+[09:34:47.697] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=46
+[09:34:47.698] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[09:34:48.437] [INFO] [EXEC] STREAM_BUY_PLACED level_id=5 order_id=388237856
+[09:34:48.438] [OK] [EXEC] PLACE BUY price=81198.76 qty=0.006150
+[09:34:50.232] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[09:34:50.233] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=50
+[09:34:50.234] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[09:34:50.972] [INFO] [EXEC] STREAM_BUY_PLACED level_id=6 order_id=388237987
+[09:34:50.973] [OK] [EXEC] PLACE BUY price=81197.95 qty=0.006150
+[09:34:51.244] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[09:34:51.244] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=54
+[09:34:53.617] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:34:53.618] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=55
+[09:34:53.618] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:34:53.619] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[09:34:53.912] [INFO] [EXEC] STREAM_BUY_PLACED level_id=7 order_id=388238158
+[09:34:53.913] [OK] [EXEC] PLACE BUY price=81197.15 qty=0.006150
+[09:34:57.066] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[09:34:57.067] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=60
+[09:34:57.068] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[09:34:57.331] [INFO] [EXEC] STREAM_BUY_PLACED level_id=8 order_id=388238258
+[09:34:57.332] [OK] [EXEC] PLACE BUY price=81196.36 qty=0.006150
+[09:34:57.333] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[09:34:59.950] [INFO] [HEALTH] state=DANGER
+[09:34:59.951] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=65
+[09:34:59.952] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[09:35:00.216] [INFO] [EXEC] STREAM_BUY_PLACED level_id=9 order_id=388238321
+[09:35:00.217] [OK] [EXEC] PLACE BUY price=81195.56 qty=0.006150
+[09:35:04.715] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:35:04.716] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=69
+[09:35:04.717] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:35:04.717] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[09:35:04.718] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[09:35:04.983] [INFO] [EXEC] STREAM_BUY_PLACED level_id=10 order_id=388238564
+[09:35:04.985] [OK] [EXEC] PLACE BUY price=81194.76 qty=0.006150
+[09:35:04.988] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[09:35:05.001] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[09:35:05.364] [WARNING] cancel all requested
+[09:35:08.239] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[09:35:08.240] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=78
+[09:35:08.241] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[09:35:08.241] [WARNING] STOP

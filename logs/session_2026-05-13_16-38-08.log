@@ -1,0 +1,40 @@
+[13:38:09.774] [OK] filters loaded
+[13:38:09.775] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=0
+[13:38:10.154] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[13:38:12.987] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[13:38:12.988] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=2
+[13:38:12.988] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=223.0
+[13:38:12.988] [INFO] START_PROFILE_STREAM order_size=223.0 min_spread_ticks=8 guard_mode=FAST entry_mode=AGGRESSIVE stream_sell_timeout_ms=2800 stream_target_ticks=28
+[13:38:12.990] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=105
+[13:38:13.474] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[13:38:13.475] [OK] START
+[13:38:13.475] [OK] START_OK runtime_started
+[13:38:13.476] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=8
+[13:38:13.476] [INFO] [EXEC] STREAM_MULTI_MODE count=8
+[13:38:13.476] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=8 range_ticks=180 step_ticks=22
+[13:38:13.476] [INFO] [EXEC] GRID_BUDGET_SOURCE source=max_exposure_u budget=5000.00
+[13:38:13.477] [INFO] [EXEC] STREAM_CREATE stream_id=1 buy_price=79919.77000000 budget=625.00 qty=0.00782000
+[13:38:13.477] [INFO] [EXEC] STREAM_CREATE stream_id=2 buy_price=79919.55000000 budget=625.00 qty=0.00782000
+[13:38:13.477] [INFO] [EXEC] STREAM_CREATE stream_id=3 buy_price=79919.33000000 budget=625.00 qty=0.00782000
+[13:38:13.477] [INFO] [EXEC] STREAM_CREATE stream_id=4 buy_price=79919.11000000 budget=625.00 qty=0.00782000
+[13:38:13.477] [INFO] [EXEC] STREAM_CREATE stream_id=5 buy_price=79918.89000000 budget=625.00 qty=0.00782000
+[13:38:13.477] [INFO] [EXEC] STREAM_CREATE stream_id=6 buy_price=79918.67000000 budget=625.00 qty=0.00782000
+[13:38:13.477] [INFO] [EXEC] STREAM_CREATE stream_id=7 buy_price=79918.45000000 budget=625.00 qty=0.00782000
+[13:38:13.478] [INFO] [EXEC] STREAM_CREATE stream_id=8 buy_price=79918.23000000 budget=625.00 qty=0.00782000
+[13:38:13.478] [INFO] [EXEC] STREAM_CREATE_DONE count=8 budget=5000.00 step_ticks=22
+[13:38:13.740] [INFO] [EXEC] LIVE ON
+[13:38:13.762] [INFO] [EXEC] WAIT READY
+[13:38:13.763] [WARNING] [EXEC] BLOCK reason=balance_low
+[13:38:14.247] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[13:38:14.248] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=25
+[13:38:14.248] [WS] connecting primary
+[13:38:15.342] [WS] connected
+[13:38:15.343] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=27
+[13:38:15.358] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[13:43:40.556] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[13:43:40.556] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=29
+[13:43:40.914] [WARNING] cancel all requested
+[13:43:41.469] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.000007 locked=0.472500
+[13:43:41.469] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[13:43:41.469] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[13:43:41.469] [WARNING] STOP

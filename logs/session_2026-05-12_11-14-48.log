@@ -1,0 +1,19 @@
+[08:14:49.925] [OK] filters loaded
+[08:14:56.265] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[08:14:56.265] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=10000.0
+[08:14:56.717] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[08:14:56.721] [OK] START
+[08:14:56.726] [OK] START_OK runtime_started
+[08:14:56.727] [INFO] [EXEC] LIVE ON
+[08:14:56.729] [INFO] [EXEC] WAIT READY
+[08:14:56.732] [WARNING] [EXEC] BLOCK reason=balance_low
+[08:14:57.197] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[08:14:57.202] [WS] connecting primary
+[08:14:57.794] [WS] connected
+[08:15:00.950] [WARNING] [EXEC] BLOCK reason=balance_low
+[08:15:01.850] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[08:15:02.191] [WARNING] cancel all requested
+[08:15:02.194] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.235277 locked=0.123630
+[08:15:02.196] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[08:15:02.197] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[08:15:02.198] [WARNING] STOP

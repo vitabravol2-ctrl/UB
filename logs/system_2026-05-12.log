@@ -1,0 +1,3092 @@
+[21:01:55.527] [ERROR] [SETTINGS] import failed reason=Extra data: line 70 column 1 (char 1358)
+[21:01:57.622] [OK] [SETTINGS] settings saved
+[21:01:59.575] [OK] START
+[21:02:24.641] [WARNING] cancel all requested
+[21:02:24.641] [WARNING] STOP
+[21:02:25.852] [OK] START
+[21:03:08.221] [OK] [SETTINGS] settings saved
+[21:03:08.362] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:03:08.362] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:03:08.612] [WARNING] [HEALTH] block spread_too_young lifetime=250
+[21:03:08.612] [WARNING] [HEALTH] unstable_spread lifetime=250
+[21:03:10.096] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-28.50
+[21:03:10.111] [WARNING] [HEALTH] negative_momentum ticks=-28.50
+[21:03:10.377] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-28.50
+[21:03:18.470] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-28.50
+[21:03:18.486] [WARNING] [HEALTH] negative_momentum ticks=-28.50
+[21:03:18.720] [WARNING] [HEALTH] block falling_market bid_ticks=16.00 mid_ticks=-20.50
+[21:03:18.720] [WARNING] [HEALTH] negative_momentum ticks=-20.50
+[21:03:57.844] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.50
+[21:03:57.844] [WARNING] [HEALTH] negative_momentum ticks=-18.50
+[21:03:58.089] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.50
+[21:03:59.893] [OK] [SYNC] order filled detected
+[21:04:08.220] [OK] [SYNC] order filled detected
+[21:04:08.689] [WARNING] [HEALTH] block falling_market bid_ticks=11.00 mid_ticks=-9.00
+[21:04:08.689] [WARNING] [HEALTH] negative_momentum ticks=-9.00
+[21:04:08.940] [WARNING] [HEALTH] block falling_market bid_ticks=11.00 mid_ticks=-9.00
+[21:04:09.189] [WARNING] [HEALTH] block falling_market bid_ticks=13.00 mid_ticks=-8.00
+[21:04:09.189] [WARNING] [HEALTH] negative_momentum ticks=-8.00
+[21:04:09.439] [WARNING] [HEALTH] block falling_market bid_ticks=13.00 mid_ticks=-8.00
+[21:04:23.219] [WARNING] [HEALTH] block falling_market bid_ticks=221.00 mid_ticks=-133.00
+[21:04:23.219] [WARNING] [HEALTH] negative_momentum ticks=-133.00
+[21:04:23.453] [WARNING] [HEALTH] block falling_market bid_ticks=222.00 mid_ticks=-135.00
+[21:04:23.453] [WARNING] [HEALTH] negative_momentum ticks=-135.00
+[21:04:23.718] [WARNING] [HEALTH] block falling_market bid_ticks=9.00 mid_ticks=-310.00
+[21:04:23.718] [WARNING] [HEALTH] negative_momentum ticks=-310.00
+[21:04:23.974] [WARNING] [HEALTH] block falling_market bid_ticks=6.00 mid_ticks=-68.50
+[21:04:23.974] [WARNING] [HEALTH] negative_momentum ticks=-68.50
+[21:04:24.233] [WARNING] [HEALTH] block falling_market bid_ticks=5.00 mid_ticks=-66.50
+[21:04:24.233] [WARNING] [HEALTH] negative_momentum ticks=-66.50
+[21:04:41.912] [OK] [SYNC] order filled detected
+[21:05:14.562] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-46.50
+[21:05:14.562] [WARNING] [HEALTH] negative_momentum ticks=-46.50
+[21:05:14.812] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-111.00
+[21:05:14.812] [WARNING] [HEALTH] negative_momentum ticks=-111.00
+[21:05:15.234] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-110.50
+[21:05:15.234] [WARNING] [HEALTH] negative_momentum ticks=-110.50
+[21:05:15.562] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-64.50
+[21:05:15.562] [WARNING] [HEALTH] negative_momentum ticks=-64.50
+[21:05:21.139] [OK] [SYNC] order filled detected
+[21:05:29.841] [OK] [SYNC] order filled detected
+[21:06:15.907] [WARNING] cancel all requested
+[21:06:15.907] [WARNING] STOP
+[21:12:17.876] [OK] START
+[21:12:17.884] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:12:17.884] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:12:33.108] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-380.50
+[21:12:33.108] [WARNING] [HEALTH] negative_momentum ticks=-380.50
+[21:12:33.358] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-380.50
+[21:13:01.455] [OK] [SYNC] order filled detected
+[21:13:11.376] [OK] [SYNC] order filled detected
+[21:13:11.866] [WARNING] [HEALTH] block falling_market bid_ticks=-133.00 mid_ticks=-122.50
+[21:13:11.866] [WARNING] [HEALTH] unstable_bid delta_ticks=-133.00
+[21:13:11.871] [WARNING] [HEALTH] negative_momentum ticks=-122.50
+[21:13:22.468] [OK] [SETTINGS] settings saved
+[21:13:24.468] [OK] [SYNC] order filled detected
+[21:13:32.309] [OK] [SYNC] order filled detected
+[21:13:35.378] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/1.json
+[21:13:45.483] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-27.50
+[21:13:45.484] [WARNING] [HEALTH] negative_momentum ticks=-27.50
+[21:14:10.954] [OK] [SYNC] order filled detected
+[21:14:28.560] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:14:28.560] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:14:28.810] [WARNING] [HEALTH] block spread_too_young lifetime=250
+[21:14:28.810] [WARNING] [HEALTH] unstable_spread lifetime=250
+[21:14:29.056] [WARNING] [HEALTH] block spread_too_young lifetime=496
+[21:14:32.091] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-133.00
+[21:14:32.091] [WARNING] [HEALTH] negative_momentum ticks=-133.00
+[21:14:32.341] [WARNING] [HEALTH] block falling_market bid_ticks=117.00 mid_ticks=-10.50
+[21:14:32.341] [WARNING] [HEALTH] negative_momentum ticks=-10.50
+[21:14:40.559] [WARNING] cancel all requested
+[21:14:40.574] [WARNING] STOP
+[21:16:53.765] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[21:16:55.749] [OK] [SETTINGS] settings saved
+[21:16:57.072] [OK] START
+[21:16:58.530] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:16:58.530] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:16:58.780] [WARNING] [HEALTH] block spread_too_young lifetime=250
+[21:16:59.027] [WARNING] [HEALTH] block spread_too_young lifetime=497
+[21:17:34.078] [OK] [SYNC] order filled detected
+[21:17:58.139] [OK] [SYNC] order filled detected
+[21:18:25.752] [OK] [SYNC] order filled detected
+[21:18:35.063] [OK] [SYNC] order filled detected
+[21:21:09.353] [WARNING] cancel all requested
+[21:21:10.140] [WARNING] [SYNC] desync fixed
+[21:21:10.145] [WARNING] STOP
+[21:23:35.890] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/settings_export.json
+[21:23:39.747] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[21:23:41.452] [OK] [SETTINGS] settings saved
+[21:23:42.833] [OK] START
+[21:23:43.937] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:23:43.938] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:23:44.152] [WARNING] [HEALTH] block spread_too_young lifetime=215
+[21:23:44.401] [WARNING] [HEALTH] block spread_too_young lifetime=464
+[21:23:45.728] [OK] [SYNC] order filled detected
+[21:24:20.924] [OK] [SYNC] order filled detected
+[21:24:57.732] [OK] [SYNC] order filled detected
+[21:25:00.470] [OK] [SYNC] order filled detected
+[21:25:06.807] [OK] [SYNC] order filled detected
+[21:25:16.984] [OK] [SYNC] order filled detected
+[21:25:57.296] [OK] [SYNC] order filled detected
+[21:26:05.944] [WARNING] cancel all requested
+[21:26:06.740] [WARNING] [SYNC] desync fixed
+[21:26:06.742] [WARNING] STOP
+[21:26:19.122] [OK] START
+[21:26:26.923] [WARNING] cancel all requested
+[21:26:26.924] [WARNING] STOP
+[21:26:44.414] [OK] [SETTINGS] settings saved
+[21:26:46.053] [OK] START
+[21:26:50.761] [OK] [SYNC] order filled detected
+[21:27:07.426] [OK] [SYNC] order filled detected
+[21:27:17.970] [OK] [SYNC] order filled detected
+[21:27:42.527] [OK] [SYNC] order filled detected
+[21:27:46.618] [OK] [SYNC] order filled detected
+[21:27:54.482] [OK] [SYNC] order filled detected
+[21:28:09.547] [WARNING] cancel all requested
+[21:28:10.328] [WARNING] [SYNC] desync fixed
+[21:28:10.331] [WARNING] STOP
+[21:29:56.805] [OK] [SETTINGS] settings saved
+[21:29:58.161] [OK] START
+[21:29:58.442] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:29:58.444] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:30:00.856] [WARNING] [HEALTH] block falling_market bid_ticks=-1145.00 mid_ticks=-682.50
+[21:30:00.858] [WARNING] [HEALTH] unstable_bid delta_ticks=-1145.00
+[21:30:00.860] [WARNING] [HEALTH] negative_momentum ticks=-682.50
+[21:30:01.105] [WARNING] [HEALTH] block falling_market bid_ticks=-1144.00 mid_ticks=-682.00
+[21:30:01.107] [WARNING] [HEALTH] unstable_bid delta_ticks=-1144.00
+[21:30:01.108] [WARNING] [HEALTH] negative_momentum ticks=-682.00
+[21:30:01.356] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-450.00
+[21:30:01.359] [WARNING] [HEALTH] negative_momentum ticks=-450.00
+[21:30:01.619] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-450.00
+[21:30:01.866] [WARNING] [HEALTH] block falling_market bid_ticks=-2.00 mid_ticks=-441.00
+[21:30:01.869] [WARNING] [HEALTH] negative_momentum ticks=-441.00
+[21:30:14.338] [OK] [SYNC] order filled detected
+[21:30:23.954] [OK] [SYNC] order filled detected
+[21:30:28.000] [OK] [SYNC] order filled detected
+[21:30:41.619] [OK] [SYNC] order filled detected
+[21:30:54.619] [OK] [SYNC] order filled detected
+[21:31:21.367] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-48.00
+[21:31:21.370] [WARNING] [HEALTH] negative_momentum ticks=-48.00
+[21:32:01.125] [OK] [SYNC] order filled detected
+[21:32:36.659] [OK] [SYNC] order filled detected
+[21:33:52.436] [OK] START
+[21:34:23.518] [WARNING] cancel all requested
+[21:34:23.518] [WARNING] STOP
+[21:34:24.737] [OK] START
+[21:34:27.737] [WARNING] cancel all requested
+[21:34:27.737] [WARNING] STOP
+[21:34:57.186] [OK] START
+[21:37:42.215] [OK] [SETTINGS] settings saved
+[21:37:43.906] [OK] START
+[21:37:49.419] [WARNING] cancel all requested
+[21:37:49.419] [WARNING] STOP
+[21:37:58.746] [OK] [SETTINGS] settings saved
+[21:38:00.152] [OK] START
+[21:38:21.094] [OK] START
+[21:48:17.625] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:21.973] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:22.868] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:23.639] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:23.870] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:24.042] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:46.992] [OK] [SETTINGS] settings saved
+[21:48:47.799] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:48.454] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:48.657] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:48.858] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:49.484] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:49.828] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:50.022] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:50.204] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:50.392] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:50.595] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:51.964] [WARNING] cancel all requested
+[21:48:52.767] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:52.963] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:53.469] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:53.469] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:53.484] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:53.641] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:53.828] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:54.858] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:55.515] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:55.515] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:55.515] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:55.562] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:57.561] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:57.561] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:58.469] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:58.641] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:58.829] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:59.499] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:48.251] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:50.720] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:51.673] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:51.673] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:51.782] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:51.923] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:52.548] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:53.095] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:53.626] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:53.751] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:54.079] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:54.281] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:54.343] [WARNING] START_BLOCKED reason=api_not_ready
+[21:49:54.671] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:41.013] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:43.642] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:44.498] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:44.576] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:44.923] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:45.093] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:45.281] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:45.468] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:45.671] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:45.855] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:46.544] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:46.544] [WARNING] START_BLOCKED reason=api_not_ready
+[21:53:31.376] [OK] [SETTINGS] settings saved
+[21:53:32.829] [OK] START
+[21:53:32.829] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:53:32.829] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:53:33.266] [WARNING] [HEALTH] block spread_too_young lifetime=437
+[21:53:42.718] [OK] [SETTINGS] settings saved
+[21:53:57.970] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/1.json
+[21:53:59.669] [OK] [SETTINGS] settings saved
+[21:54:35.281] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:54:35.281] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:54:36.027] [WARNING] [HEALTH] block falling_market bid_ticks=-448.00 mid_ticks=232.00
+[21:54:36.027] [WARNING] [HEALTH] unstable_bid delta_ticks=-448.00
+[21:54:36.281] [WARNING] [HEALTH] block falling_market bid_ticks=-13.00 mid_ticks=486.00
+[21:54:36.281] [WARNING] [HEALTH] unstable_bid delta_ticks=-13.00
+[21:56:06.236] [OK] START
+[21:56:06.517] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:56:06.517] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:56:06.720] [WARNING] [HEALTH] block spread_too_young lifetime=218
+[21:56:06.720] [WARNING] [HEALTH] unstable_spread lifetime=218
+[21:56:13.022] [WARNING] cancel all requested
+[21:56:13.022] [WARNING] STOP
+[21:56:19.987] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[21:56:21.466] [OK] [SETTINGS] settings saved
+[21:56:22.923] [OK] START
+[21:56:39.795] [WARNING] cancel all requested
+[21:56:40.591] [WARNING] [SYNC] desync fixed
+[21:56:40.591] [WARNING] STOP
+[21:57:10.657] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[21:57:12.172] [OK] [SETTINGS] settings saved
+[21:57:29.496] [OK] START
+[21:57:29.496] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:57:29.511] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:57:29.683] [WARNING] [HEALTH] block spread_too_young lifetime=187
+[21:57:29.936] [WARNING] [HEALTH] block spread_too_young lifetime=440
+[21:57:30.589] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.50
+[21:57:30.589] [WARNING] [HEALTH] negative_momentum ticks=-18.50
+[21:58:24.083] [OK] START
+[21:58:25.560] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:58:25.560] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:58:25.910] [WARNING] [HEALTH] block spread_too_young lifetime=350
+[21:58:25.910] [WARNING] [HEALTH] negative_momentum ticks=-172.00
+[21:58:26.154] [WARNING] [HEALTH] block falling_market bid_ticks=229.00 mid_ticks=-132.50
+[21:58:26.154] [WARNING] [HEALTH] negative_momentum ticks=-132.50
+[21:58:26.404] [WARNING] [HEALTH] block falling_market bid_ticks=229.00 mid_ticks=-132.50
+[21:59:22.715] [WARNING] cancel all requested
+[21:59:23.529] [WARNING] [SYNC] desync fixed
+[21:59:23.529] [WARNING] STOP
+[21:59:48.891] [OK] START
+[21:59:51.021] [WARNING] cancel all requested
+[21:59:51.813] [WARNING] [SYNC] desync fixed
+[21:59:51.813] [WARNING] STOP
+[22:00:04.059] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[22:00:06.170] [OK] [SETTINGS] settings saved
+[22:00:07.716] [OK] START
+[22:01:10.573] [OK] START
+[22:01:10.573] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:01:10.573] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:01:10.887] [WARNING] [HEALTH] block spread_too_young lifetime=313
+[22:01:44.938] [OK] [SYNC] order filled detected
+[22:01:49.717] [OK] [SYNC] order filled detected
+[22:01:51.827] [OK] [SYNC] order filled detected
+[22:02:07.122] [OK] [SYNC] order filled detected
+[22:02:30.983] [OK] [SYNC] order filled detected
+[22:02:34.703] [OK] [SYNC] order filled detected
+[22:02:46.090] [OK] [SYNC] order filled detected
+[22:02:48.989] [OK] [SYNC] order filled detected
+[22:02:54.123] [OK] [SYNC] order filled detected
+[22:02:57.091] [OK] [SYNC] order filled detected
+[22:02:59.970] [OK] [SYNC] order filled detected
+[22:03:01.453] [OK] [SYNC] order filled detected
+[22:03:04.986] [OK] [SYNC] order filled detected
+[22:03:14.007] [OK] [SYNC] order filled detected
+[22:03:19.720] [OK] [SYNC] order filled detected
+[22:03:27.469] [OK] [SYNC] order filled detected
+[22:03:32.765] [OK] [SYNC] order filled detected
+[22:03:38.233] [OK] [SYNC] order filled detected
+[22:03:39.108] [OK] [SYNC] order filled detected
+[22:04:11.023] [OK] [SYNC] order filled detected
+[22:04:12.298] [OK] [SYNC] order filled detected
+[22:04:13.313] [OK] [SYNC] order filled detected
+[22:04:24.027] [OK] [SYNC] order filled detected
+[22:05:27.526] [WARNING] cancel all requested
+[22:05:28.343] [WARNING] [SYNC] desync fixed
+[22:05:28.348] [WARNING] STOP
+[22:12:24.499] [OK] START
+[22:12:24.510] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:12:24.511] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:12:26.277] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-17.00
+[22:12:26.280] [WARNING] [HEALTH] negative_momentum ticks=-17.00
+[22:12:26.529] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-17.00
+[22:12:28.835] [OK] [SYNC] order filled detected
+[22:12:35.924] [OK] [SYNC] order filled detected
+[22:12:36.325] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-35.00
+[22:12:36.326] [WARNING] [HEALTH] negative_momentum ticks=-35.00
+[22:12:36.584] [WARNING] [HEALTH] block falling_market bid_ticks=38.00 mid_ticks=-16.50
+[22:12:36.587] [WARNING] [HEALTH] negative_momentum ticks=-16.50
+[22:12:36.823] [WARNING] [HEALTH] block falling_market bid_ticks=38.00 mid_ticks=-16.50
+[22:12:42.648] [OK] [SYNC] order filled detected
+[22:12:53.357] [WARNING] [HEALTH] block falling_market bid_ticks=-56.00 mid_ticks=-82.50
+[22:12:53.360] [WARNING] [HEALTH] unstable_bid delta_ticks=-56.00
+[22:12:53.362] [WARNING] [HEALTH] negative_momentum ticks=-82.50
+[22:12:53.607] [WARNING] [HEALTH] block falling_market bid_ticks=-56.00 mid_ticks=-106.50
+[22:12:53.610] [WARNING] [HEALTH] unstable_bid delta_ticks=-56.00
+[22:12:53.612] [WARNING] [HEALTH] negative_momentum ticks=-106.50
+[22:12:53.856] [WARNING] [HEALTH] block falling_market bid_ticks=-56.00 mid_ticks=-106.50
+[22:12:54.119] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-23.00
+[22:12:54.122] [WARNING] [HEALTH] negative_momentum ticks=-23.00
+[22:12:54.607] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-33.50
+[22:12:54.609] [WARNING] [HEALTH] negative_momentum ticks=-33.50
+[22:12:54.868] [WARNING] [HEALTH] block falling_market bid_ticks=-1.00 mid_ticks=-35.00
+[22:12:54.871] [WARNING] [HEALTH] negative_momentum ticks=-35.00
+[22:12:55.119] [WARNING] [HEALTH] block falling_market bid_ticks=-1.00 mid_ticks=-35.00
+[22:12:57.759] [OK] [SYNC] order filled detected
+[22:13:10.278] [OK] [SYNC] order filled detected
+[22:13:23.917] [OK] [SYNC] order filled detected
+[22:13:43.068] [OK] [SYNC] order filled detected
+[22:13:55.563] [OK] [SYNC] order filled detected
+[22:14:01.998] [WARNING] cancel all requested
+[22:14:02.795] [WARNING] [SYNC] desync fixed
+[22:14:02.798] [WARNING] STOP
+[22:14:31.721] [OK] [SETTINGS] settings saved
+[22:14:32.902] [OK] START
+[22:14:37.374] [OK] [SYNC] order filled detected
+[22:14:43.512] [OK] [SYNC] order filled detected
+[22:14:57.859] [OK] [SYNC] order filled detected
+[22:15:04.681] [OK] [SYNC] order filled detected
+[22:15:37.765] [OK] [SYNC] order filled detected
+[22:15:50.472] [OK] [SYNC] order filled detected
+[22:16:06.869] [OK] [SYNC] order filled detected
+[22:16:15.123] [OK] [SYNC] order filled detected
+[22:16:16.997] [OK] [SYNC] order filled detected
+[22:16:39.384] [OK] START
+[22:16:46.353] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:16:46.356] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:16:46.601] [WARNING] [HEALTH] block spread_too_young lifetime=249
+[22:16:46.604] [WARNING] [HEALTH] unstable_bid delta_ticks=-301.00
+[22:16:46.607] [WARNING] [HEALTH] negative_momentum ticks=-153.50
+[22:16:47.595] [WARNING] [HEALTH] block falling_market bid_ticks=490.00 mid_ticks=-91.00
+[22:16:47.597] [WARNING] [HEALTH] negative_momentum ticks=-91.00
+[22:17:00.627] [OK] [SYNC] order filled detected
+[22:17:13.158] [OK] [SYNC] order filled detected
+[22:17:15.625] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:17:15.628] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:17:15.881] [WARNING] [HEALTH] block spread_too_young lifetime=255
+[22:17:15.883] [WARNING] [HEALTH] negative_momentum ticks=-142.50
+[22:17:27.021] [OK] [SYNC] order filled detected
+[22:17:34.663] [OK] [SYNC] order filled detected
+[22:17:36.139] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:17:36.142] [WARNING] [HEALTH] unstable_bid delta_ticks=-158.00
+[22:17:36.144] [WARNING] [HEALTH] negative_momentum ticks=-108.50
+[22:17:36.146] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:17:40.669] [WARNING] cancel all requested
+[22:17:41.958] [WARNING] [SYNC] desync fixed
+[22:17:41.961] [WARNING] STOP
+[22:19:04.320] [OK] START
+[22:19:04.331] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:19:04.332] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:19:04.823] [WARNING] [HEALTH] block spread_too_young lifetime=497
+[22:19:14.730] [OK] [SYNC] order filled detected
+[22:19:16.838] [OK] [SYNC] order filled detected
+[22:19:24.270] [OK] [SYNC] order filled detected
+[22:19:30.735] [OK] [SYNC] order filled detected
+[22:19:33.878] [OK] [SYNC] order filled detected
+[22:19:47.622] [OK] [SYNC] order filled detected
+[22:19:50.123] [OK] [SYNC] order filled detected
+[22:20:00.371] [OK] [SYNC] order filled detected
+[22:20:01.731] [OK] [SYNC] order filled detected
+[22:20:08.887] [OK] [SYNC] order filled detected
+[22:21:04.894] [WARNING] cancel all requested
+[22:21:04.894] [WARNING] STOP
+[22:27:44.145] [OK] START
+[22:27:44.161] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:27:44.161] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:27:45.802] [WARNING] [HEALTH] block falling_market bid_ticks=-414.00 mid_ticks=340.50
+[22:27:45.802] [WARNING] [HEALTH] unstable_bid delta_ticks=-414.00
+[22:27:52.202] [OK] [SYNC] order filled detected
+[22:28:01.279] [OK] [SYNC] order filled detected
+[22:28:02.957] [OK] [SYNC] order filled detected
+[22:28:11.076] [OK] [SYNC] order filled detected
+[22:28:19.088] [OK] [SYNC] order filled detected
+[22:28:32.594] [OK] [SYNC] order filled detected
+[22:28:41.452] [OK] [SYNC] order filled detected
+[22:28:49.341] [OK] [SYNC] order filled detected
+[22:28:50.608] [OK] [SYNC] order filled detected
+[22:28:57.201] [WARNING] cancel all requested
+[22:28:57.987] [WARNING] [SYNC] desync fixed
+[22:28:57.991] [WARNING] STOP
+[22:29:09.549] [OK] START
+[22:29:09.564] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:29:09.564] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:29:10.343] [WARNING] [HEALTH] block falling_market bid_ticks=-884.00 mid_ticks=-784.50
+[22:29:10.343] [WARNING] [HEALTH] unstable_bid delta_ticks=-884.00
+[22:29:10.343] [WARNING] [HEALTH] negative_momentum ticks=-784.50
+[22:29:18.595] [OK] [SYNC] order filled detected
+[22:29:31.849] [OK] [SYNC] order filled detected
+[22:29:32.453] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-5.50
+[22:29:47.467] [OK] [SYNC] order filled detected
+[22:29:51.971] [OK] [SYNC] order filled detected
+[22:30:08.721] [OK] [SYNC] order filled detected
+[22:30:16.976] [OK] [SYNC] order filled detected
+[22:30:28.296] [OK] [SYNC] order filled detected
+[22:30:29.468] [OK] [SYNC] order filled detected
+[22:30:31.468] [OK] [SYNC] order filled detected
+[22:30:34.966] [OK] [SYNC] order filled detected
+[22:30:39.762] [OK] [SYNC] order filled detected
+[22:30:45.107] [OK] [SYNC] order filled detected
+[22:31:35.084] [OK] [SYNC] order filled detected
+[22:31:38.341] [OK] [SYNC] order filled detected
+[22:31:41.960] [OK] [SYNC] order filled detected
+[22:31:49.472] [OK] [SYNC] order filled detected
+[22:31:59.872] [OK] [SYNC] order filled detected
+[22:32:01.126] [OK] [SYNC] order filled detected
+[22:32:03.095] [OK] [SYNC] order filled detected
+[22:32:04.220] [OK] [SYNC] order filled detected
+[22:32:18.827] [OK] [SYNC] order filled detected
+[22:32:27.623] [OK] [SYNC] order filled detected
+[22:32:36.575] [OK] [SYNC] order filled detected
+[22:32:45.847] [OK] [SYNC] order filled detected
+[22:32:48.596] [OK] [SYNC] order filled detected
+[22:33:48.483] [OK] [SYNC] order filled detected
+[22:33:57.469] [OK] [SYNC] order filled detected
+[22:33:57.703] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-86.50
+[22:33:57.703] [WARNING] [HEALTH] negative_momentum ticks=-86.50
+[22:33:58.453] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:33:58.453] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:33:58.703] [WARNING] [HEALTH] block spread_too_young lifetime=250
+[22:34:03.849] [OK] [SYNC] order filled detected
+[22:34:04.959] [OK] [SYNC] order filled detected
+[22:34:10.451] [OK] [SYNC] order filled detected
+[22:34:19.467] [OK] [SYNC] order filled detected
+[22:34:19.701] [WARNING] [HEALTH] block falling_market bid_ticks=141.00 mid_ticks=-28.00
+[22:34:19.701] [WARNING] [HEALTH] negative_momentum ticks=-28.00
+[22:34:20.449] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:34:20.449] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:34:20.699] [WARNING] [HEALTH] block spread_too_young lifetime=250
+[22:34:22.958] [OK] [SYNC] order filled detected
+[22:34:31.502] [OK] [SYNC] order filled detected
+[22:34:39.396] [WARNING] cancel all requested
+[22:34:40.180] [OK] [SYNC] order filled detected
+[22:34:40.193] [WARNING] STOP
+[22:38:46.370] [OK] START
+[22:38:47.839] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[22:38:47.839] [WARNING] [HEALTH] unstable_spread lifetime=0
+[22:39:40.685] [OK] [SYNC] order filled detected
+[22:39:53.674] [OK] [SYNC] order filled detected
+[22:40:13.962] [OK] [SYNC] order filled detected
+[22:40:18.717] [OK] [SYNC] order filled detected
+[22:40:26.576] [OK] [SYNC] order filled detected
+[22:40:34.841] [OK] [SYNC] order filled detected
+[22:40:50.487] [WARNING] cancel all requested
+[22:40:51.737] [WARNING] [SYNC] desync fixed
+[22:40:51.752] [WARNING] STOP
+[06:54:35.339] [OK] START
+[06:54:36.952] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[06:54:36.957] [WARNING] [HEALTH] unstable_spread lifetime=0
+[06:54:37.201] [WARNING] [HEALTH] block spread_too_young lifetime=249
+[06:54:37.201] [WARNING] [HEALTH] unstable_bid delta_ticks=-311.00
+[06:54:37.201] [WARNING] [HEALTH] negative_momentum ticks=-202.00
+[06:54:37.451] [WARNING] [HEALTH] block spread_too_young lifetime=499
+[06:54:37.451] [WARNING] [HEALTH] unstable_bid delta_ticks=-311.00
+[06:54:37.451] [WARNING] [HEALTH] negative_momentum ticks=-215.00
+[06:54:37.952] [WARNING] [HEALTH] block falling_market bid_ticks=30.00 mid_ticks=-44.50
+[06:54:37.956] [WARNING] [HEALTH] negative_momentum ticks=-44.50
+[06:54:38.994] [OK] [SYNC] order filled detected
+[06:54:48.731] [WARNING] [HEALTH] block falling_market bid_ticks=-211.00 mid_ticks=-105.50
+[06:54:48.731] [WARNING] [HEALTH] unstable_bid delta_ticks=-211.00
+[06:54:48.731] [WARNING] [HEALTH] negative_momentum ticks=-105.50
+[06:54:48.985] [WARNING] [HEALTH] block falling_market bid_ticks=-70.00 mid_ticks=-35.00
+[06:54:48.986] [WARNING] [HEALTH] unstable_bid delta_ticks=-70.00
+[06:54:48.990] [WARNING] [HEALTH] negative_momentum ticks=-35.00
+[06:54:53.873] [OK] [SYNC] order filled detected
+[06:55:07.780] [OK] [SYNC] order filled detected
+[06:55:22.466] [OK] [SYNC] order filled detected
+[07:00:53.592] [OK] [SYNC] order filled detected
+[07:12:36.356] [WARNING] cancel all requested
+[07:12:36.372] [WARNING] STOP
+[07:25:18.595] [OK] [SETTINGS] settings saved
+[07:25:19.800] [OK] START
+[07:25:21.074] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[07:25:21.074] [WARNING] [HEALTH] unstable_spread lifetime=0
+[07:25:21.236] [WARNING] [HEALTH] block spread_too_young lifetime=162
+[07:25:21.486] [WARNING] [HEALTH] block spread_too_young lifetime=412
+[07:25:22.813] [OK] [SYNC] order filled detected
+[07:25:36.022] [OK] [SYNC] order filled detected
+[07:25:39.235] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[07:25:39.235] [WARNING] [HEALTH] unstable_spread lifetime=0
+[07:25:39.485] [WARNING] [HEALTH] block spread_too_young lifetime=250
+[07:25:39.485] [WARNING] [HEALTH] unstable_bid delta_ticks=-333.00
+[07:25:39.485] [WARNING] [HEALTH] negative_momentum ticks=-157.00
+[07:25:44.578] [OK] [SYNC] order filled detected
+[07:25:52.327] [OK] [SYNC] order filled detected
+[07:25:52.795] [WARNING] [HEALTH] block falling_market bid_ticks=-79.00 mid_ticks=-116.50
+[07:25:52.795] [WARNING] [HEALTH] unstable_bid delta_ticks=-79.00
+[07:25:52.795] [WARNING] [HEALTH] negative_momentum ticks=-116.50
+[07:25:53.042] [WARNING] [HEALTH] block falling_market bid_ticks=114.00 mid_ticks=-20.00
+[07:25:53.042] [WARNING] [HEALTH] negative_momentum ticks=-20.00
+[07:25:53.827] [OK] [SYNC] order filled detected
+[07:26:11.976] [OK] [SYNC] order filled detected
+[07:26:22.845] [OK] [SYNC] order filled detected
+[07:26:29.704] [WARNING] cancel all requested
+[07:26:30.502] [WARNING] [SYNC] desync fixed
+[07:26:30.517] [WARNING] STOP
+[07:36:34.327] [OK] [SETTINGS] settings saved
+[07:36:35.905] [OK] START
+[07:36:35.905] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[07:36:35.921] [WARNING] [HEALTH] unstable_spread lifetime=0
+[07:36:36.186] [WARNING] [HEALTH] block spread_too_young lifetime=281
+[07:36:36.186] [WARNING] [HEALTH] unstable_spread lifetime=281
+[07:36:39.186] [WARNING] [HEALTH] block falling_market bid_ticks=-1.00 mid_ticks=-177.50
+[07:36:39.186] [WARNING] [HEALTH] negative_momentum ticks=-177.50
+[07:36:39.436] [WARNING] [HEALTH] block falling_market bid_ticks=-383.00 mid_ticks=-368.50
+[07:36:39.436] [WARNING] [HEALTH] unstable_bid delta_ticks=-383.00
+[07:36:39.436] [WARNING] [HEALTH] negative_momentum ticks=-368.50
+[07:36:39.686] [WARNING] [HEALTH] block falling_market bid_ticks=-707.00 mid_ticks=-617.00
+[07:36:39.686] [WARNING] [HEALTH] unstable_bid delta_ticks=-707.00
+[07:36:39.686] [WARNING] [HEALTH] negative_momentum ticks=-617.00
+[07:36:40.686] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-24.50
+[07:36:40.686] [WARNING] [HEALTH] negative_momentum ticks=-24.50
+[07:36:40.937] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-254.00
+[07:36:40.937] [WARNING] [HEALTH] negative_momentum ticks=-254.00
+[07:36:41.186] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-254.00
+[07:36:41.686] [WARNING] [HEALTH] block falling_market bid_ticks=-201.00 mid_ticks=-360.50
+[07:36:41.686] [WARNING] [HEALTH] unstable_bid delta_ticks=-201.00
+[07:36:41.686] [WARNING] [HEALTH] negative_momentum ticks=-360.50
+[07:36:41.935] [WARNING] [HEALTH] block falling_market bid_ticks=-500.00 mid_ticks=-496.00
+[07:36:41.935] [WARNING] [HEALTH] unstable_bid delta_ticks=-500.00
+[07:36:41.935] [WARNING] [HEALTH] negative_momentum ticks=-496.00
+[07:36:42.187] [WARNING] [HEALTH] block falling_market bid_ticks=-720.00 mid_ticks=-640.00
+[07:36:42.187] [WARNING] [HEALTH] unstable_bid delta_ticks=-720.00
+[07:36:42.187] [WARNING] [HEALTH] negative_momentum ticks=-640.00
+[07:36:42.437] [WARNING] [HEALTH] block falling_market bid_ticks=-518.00 mid_ticks=-561.00
+[07:36:42.437] [WARNING] [HEALTH] unstable_bid delta_ticks=-518.00
+[07:36:42.437] [WARNING] [HEALTH] negative_momentum ticks=-561.00
+[07:36:42.702] [WARNING] [HEALTH] block falling_market bid_ticks=-219.00 mid_ticks=-171.50
+[07:36:42.718] [WARNING] [HEALTH] unstable_bid delta_ticks=-219.00
+[07:36:42.718] [WARNING] [HEALTH] negative_momentum ticks=-171.50
+[07:36:42.936] [WARNING] [HEALTH] block falling_market bid_ticks=-279.00 mid_ticks=-323.50
+[07:36:42.936] [WARNING] [HEALTH] unstable_bid delta_ticks=-279.00
+[07:36:42.936] [WARNING] [HEALTH] negative_momentum ticks=-323.50
+[07:36:43.186] [WARNING] [HEALTH] block falling_market bid_ticks=-279.00 mid_ticks=194.50
+[07:36:43.186] [WARNING] [HEALTH] unstable_bid delta_ticks=-279.00
+[07:36:43.436] [WARNING] [HEALTH] block falling_market bid_ticks=-280.00 mid_ticks=222.00
+[07:36:43.436] [WARNING] [HEALTH] unstable_bid delta_ticks=-280.00
+[07:36:43.686] [WARNING] [HEALTH] block falling_market bid_ticks=-252.00 mid_ticks=-247.50
+[07:36:43.686] [WARNING] [HEALTH] unstable_bid delta_ticks=-252.00
+[07:36:43.686] [WARNING] [HEALTH] negative_momentum ticks=-247.50
+[07:36:49.247] [OK] [SYNC] order filled detected
+[07:36:50.841] [OK] [SYNC] order filled detected
+[07:36:55.761] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[07:36:57.840] [OK] [SETTINGS] settings saved
+[07:37:01.391] [WARNING] cancel all requested
+[07:37:03.159] [WARNING] [SYNC] desync fixed
+[07:37:03.174] [WARNING] STOP
+[07:37:05.752] [OK] START
+[07:37:31.437] [OK] [SYNC] order filled detected
+[07:37:55.112] [WARNING] cancel all requested
+[07:37:55.971] [WARNING] [SYNC] desync fixed
+[07:37:55.978] [WARNING] STOP
+[07:47:08.590] [OK] START
+[07:47:08.602] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[07:47:08.603] [WARNING] [HEALTH] unstable_spread lifetime=0
+[07:47:10.481] [WARNING] [HEALTH] block falling_market bid_ticks=-306.00 mid_ticks=-63.50
+[07:47:10.484] [WARNING] [HEALTH] unstable_bid delta_ticks=-306.00
+[07:47:10.486] [WARNING] [HEALTH] negative_momentum ticks=-63.50
+[07:47:10.732] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-219.00
+[07:47:10.734] [WARNING] [HEALTH] negative_momentum ticks=-219.00
+[07:47:13.059] [OK] [SYNC] order filled detected
+[07:47:16.522] [OK] [SYNC] order filled detected
+[07:47:20.647] [OK] [SYNC] order filled detected
+[07:47:24.673] [WARNING] [SYNC] desync fixed
+[07:47:27.643] [OK] [SYNC] order filled detected
+[07:47:31.378] [OK] [SYNC] order filled detected
+[07:47:42.310] [OK] [SYNC] order filled detected
+[07:47:43.896] [OK] [SYNC] order filled detected
+[07:47:46.897] [OK] [SYNC] order filled detected
+[07:47:50.636] [WARNING] [SYNC] desync fixed
+[07:47:54.167] [WARNING] [SYNC] desync fixed
+[07:47:55.646] [OK] [SYNC] order filled detected
+[07:47:57.156] [OK] [SYNC] order filled detected
+[07:48:00.685] [WARNING] [SYNC] desync fixed
+[07:48:04.165] [WARNING] [SYNC] desync fixed
+[07:48:07.311] [WARNING] [SYNC] desync fixed
+[07:48:08.493] [WARNING] cancel all requested
+[07:48:09.294] [OK] [SYNC] order filled detected
+[07:48:09.312] [WARNING] STOP
+[07:48:28.953] [OK] [SETTINGS] settings saved
+[07:48:30.211] [OK] START
+[07:48:52.365] [OK] [SYNC] order filled detected
+[07:48:59.882] [OK] [SYNC] order filled detected
+[07:49:04.762] [OK] [SYNC] order filled detected
+[07:49:08.130] [WARNING] [SYNC] desync fixed
+[07:49:11.269] [WARNING] [SYNC] desync fixed
+[07:49:14.771] [WARNING] [SYNC] desync fixed
+[07:49:19.922] [OK] [SYNC] order filled detected
+[07:49:23.000] [WARNING] [SYNC] desync fixed
+[07:49:25.558] [OK] [SYNC] order filled detected
+[07:49:27.062] [OK] [SYNC] order filled detected
+[07:49:30.938] [OK] [SYNC] order filled detected
+[07:49:31.401] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[07:49:31.403] [WARNING] [HEALTH] unstable_spread lifetime=0
+[07:49:42.956] [OK] [SYNC] order filled detected
+[07:49:58.728] [OK] [SYNC] order filled detected
+[07:50:01.853] [OK] [SYNC] order filled detected
+[07:50:05.486] [WARNING] [SYNC] desync fixed
+[07:50:09.117] [WARNING] [SYNC] desync fixed
+[07:50:10.628] [OK] [SYNC] order filled detected
+[07:50:22.616] [OK] [SYNC] order filled detected
+[07:50:26.775] [OK] [SYNC] order filled detected
+[07:50:30.915] [OK] [SYNC] order filled detected
+[07:50:35.659] [OK] [SYNC] order filled detected
+[07:51:06.338] [OK] [SYNC] order filled detected
+[07:51:20.442] [OK] [SYNC] order filled detected
+[07:51:24.663] [OK] [SYNC] order filled detected
+[07:51:46.445] [OK] [SYNC] order filled detected
+[07:51:49.951] [OK] [SYNC] order filled detected
+[07:52:04.718] [OK] [SYNC] order filled detected
+[07:52:09.478] [OK] [SYNC] order filled detected
+[07:53:02.741] [OK] [SYNC] order filled detected
+[07:53:05.890] [OK] [SYNC] order filled detected
+[07:53:20.934] [OK] [SYNC] order filled detected
+[07:54:47.685] [OK] [SYNC] order filled detected
+[07:54:48.820] [OK] [SYNC] order filled detected
+[07:54:51.959] [OK] [SYNC] order filled detected
+[07:55:08.892] [OK] [SYNC] order filled detected
+[07:55:10.448] [OK] [SYNC] order filled detected
+[07:55:14.700] [OK] [SYNC] order filled detected
+[07:55:25.819] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-211.00
+[07:55:25.822] [WARNING] [HEALTH] negative_momentum ticks=-211.00
+[07:55:26.920] [OK] [SYNC] order filled detected
+[07:55:30.284] [OK] [SYNC] order filled detected
+[07:55:34.438] [OK] [SYNC] order filled detected
+[07:55:40.870] [OK] [SYNC] order filled detected
+[07:55:47.342] [OK] [SYNC] order filled detected
+[07:56:36.031] [OK] [SYNC] order filled detected
+[07:56:50.354] [OK] [SYNC] order filled detected
+[07:57:22.060] [OK] [SYNC] order filled detected
+[07:57:26.011] [OK] [SYNC] order filled detected
+[07:57:36.453] [OK] [SYNC] order filled detected
+[07:59:02.362] [WARNING] cancel all requested
+[07:59:03.241] [WARNING] [SYNC] desync fixed
+[07:59:03.247] [WARNING] STOP
+[08:01:04.061] [OK] [SETTINGS] settings saved
+[08:01:05.552] [OK] START
+[08:01:18.713] [WARNING] cancel all requested
+[08:01:18.714] [WARNING] STOP
+[08:01:35.314] [OK] START
+[08:01:43.148] [WARNING] cancel all requested
+[08:01:43.151] [WARNING] STOP
+[08:01:52.650] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[08:02:10.246] [OK] [SETTINGS] settings saved
+[08:02:11.834] [OK] START
+[08:02:23.597] [WARNING] cancel all requested
+[08:02:23.602] [WARNING] STOP
+[08:02:39.354] [OK] START
+[08:02:59.561] [OK] START
+[08:04:27.350] [OK] [SETTINGS] settings saved
+[08:04:28.608] [OK] START
+[08:04:29.823] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:04:29.824] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:04:30.112] [WARNING] [HEALTH] block spread_too_young lifetime=289
+[08:04:51.037] [OK] [SYNC] order filled detected
+[08:05:00.876] [OK] [SYNC] order filled detected
+[08:05:05.579] [WARNING] [SYNC] desync fixed
+[08:05:09.175] [WARNING] [SYNC] desync fixed
+[08:05:12.565] [WARNING] [SYNC] desync fixed
+[08:05:15.946] [WARNING] [SYNC] desync fixed
+[08:05:19.619] [WARNING] [SYNC] desync fixed
+[08:05:28.463] [OK] [SYNC] order filled detected
+[08:05:31.587] [OK] [SYNC] order filled detected
+[08:05:42.219] [OK] [SYNC] order filled detected
+[08:05:43.347] [OK] [SYNC] order filled detected
+[08:05:50.629] [OK] [SYNC] order filled detected
+[08:06:38.643] [OK] [SYNC] order filled detected
+[08:06:49.036] [OK] [SYNC] order filled detected
+[08:07:18.186] [OK] [SYNC] order filled detected
+[08:07:30.579] [OK] [SYNC] order filled detected
+[08:07:33.286] [OK] [SYNC] order filled detected
+[08:07:40.014] [OK] [SYNC] order filled detected
+[08:08:02.116] [OK] [SYNC] order filled detected
+[08:08:16.976] [OK] [SYNC] order filled detected
+[08:09:11.022] [OK] [SYNC] order filled detected
+[08:09:43.353] [OK] [SYNC] order filled detected
+[08:09:49.241] [OK] [SYNC] order filled detected
+[08:10:00.937] [OK] [SYNC] order filled detected
+[08:14:56.721] [OK] START
+[08:15:02.191] [WARNING] cancel all requested
+[08:15:02.198] [WARNING] STOP
+[08:15:46.451] [OK] START
+[08:15:52.931] [WARNING] cancel all requested
+[08:15:52.938] [WARNING] STOP
+[08:16:03.276] [OK] [SETTINGS] settings saved
+[08:16:04.454] [OK] START
+[08:16:06.792] [WARNING] cancel all requested
+[08:16:06.801] [WARNING] STOP
+[08:16:25.259] [OK] [SETTINGS] settings saved
+[08:16:46.565] [OK] START
+[08:17:05.519] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:17:05.521] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:17:05.777] [WARNING] [HEALTH] block spread_too_young lifetime=258
+[08:17:05.779] [WARNING] [HEALTH] negative_momentum ticks=-22.50
+[08:17:06.121] [WARNING] cancel all requested
+[08:17:06.129] [WARNING] STOP
+[08:17:28.995] [OK] [SETTINGS] settings saved
+[08:17:30.333] [OK] START
+[08:17:30.597] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:17:30.599] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:17:30.871] [WARNING] [HEALTH] block spread_too_young lifetime=276
+[08:17:37.554] [OK] [SYNC] order filled detected
+[08:17:42.480] [OK] [SYNC] order filled detected
+[08:17:43.723] [OK] [SYNC] order filled detected
+[08:17:45.200] [OK] [SYNC] order filled detected
+[08:17:50.603] [OK] [SYNC] order filled detected
+[08:17:52.754] [OK] [SYNC] order filled detected
+[08:19:04.562] [OK] [SYNC] order filled detected
+[08:19:05.854] [OK] [SYNC] order filled detected
+[08:19:06.926] [OK] [SYNC] order filled detected
+[08:19:10.321] [OK] [SYNC] order filled detected
+[08:19:11.316] [OK] [SYNC] order filled detected
+[08:19:33.466] [OK] [SYNC] order filled detected
+[08:19:37.359] [WARNING] [SYNC] desync fixed
+[08:20:01.335] [WARNING] [HEALTH] block falling_market bid_ticks=-355.00 mid_ticks=-578.00
+[08:20:01.338] [WARNING] [HEALTH] unstable_bid delta_ticks=-355.00
+[08:20:01.340] [WARNING] [HEALTH] negative_momentum ticks=-578.00
+[08:20:01.585] [WARNING] [HEALTH] block falling_market bid_ticks=26.00 mid_ticks=-387.50
+[08:20:01.588] [WARNING] [HEALTH] negative_momentum ticks=-387.50
+[08:20:01.830] [WARNING] [HEALTH] block falling_market bid_ticks=-747.00 mid_ticks=-774.00
+[08:20:01.831] [WARNING] [HEALTH] unstable_bid delta_ticks=-747.00
+[08:20:01.831] [WARNING] [HEALTH] negative_momentum ticks=-774.00
+[08:20:02.081] [WARNING] [HEALTH] block falling_market bid_ticks=-747.00 mid_ticks=-1082.00
+[08:20:02.084] [WARNING] [HEALTH] unstable_bid delta_ticks=-747.00
+[08:20:02.086] [WARNING] [HEALTH] negative_momentum ticks=-1082.00
+[08:20:02.322] [WARNING] [HEALTH] block falling_market bid_ticks=-392.00 mid_ticks=-504.00
+[08:20:02.323] [WARNING] [HEALTH] unstable_bid delta_ticks=-392.00
+[08:20:02.324] [WARNING] [HEALTH] negative_momentum ticks=-504.00
+[08:20:02.582] [WARNING] [HEALTH] block falling_market bid_ticks=-773.00 mid_ticks=-694.50
+[08:20:02.585] [WARNING] [HEALTH] unstable_bid delta_ticks=-773.00
+[08:20:02.587] [WARNING] [HEALTH] negative_momentum ticks=-694.50
+[08:20:02.827] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-308.00
+[08:20:02.830] [WARNING] [HEALTH] negative_momentum ticks=-308.00
+[08:20:06.233] [OK] [SYNC] order filled detected
+[08:20:24.245] [OK] [SYNC] order filled detected
+[08:20:35.649] [OK] [SYNC] order filled detected
+[08:20:51.888] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:20:51.891] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:20:52.145] [WARNING] [HEALTH] block spread_too_young lifetime=256
+[08:20:52.147] [WARNING] [HEALTH] negative_momentum ticks=-15.50
+[08:20:52.394] [WARNING] [HEALTH] block falling_market bid_ticks=-184.00 mid_ticks=-129.00
+[08:20:52.396] [WARNING] [HEALTH] unstable_bid delta_ticks=-184.00
+[08:20:52.398] [WARNING] [HEALTH] negative_momentum ticks=-129.00
+[08:20:52.644] [WARNING] [HEALTH] block falling_market bid_ticks=-184.00 mid_ticks=-152.00
+[08:20:52.647] [WARNING] [HEALTH] unstable_bid delta_ticks=-184.00
+[08:20:52.649] [WARNING] [HEALTH] negative_momentum ticks=-152.00
+[08:20:52.893] [WARNING] [HEALTH] block falling_market bid_ticks=-184.00 mid_ticks=-136.50
+[08:20:52.896] [WARNING] [HEALTH] unstable_bid delta_ticks=-184.00
+[08:20:52.898] [WARNING] [HEALTH] negative_momentum ticks=-136.50
+[08:20:53.393] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-23.00
+[08:20:53.396] [WARNING] [HEALTH] negative_momentum ticks=-23.00
+[08:20:58.147] [OK] [SYNC] order filled detected
+[08:21:03.424] [OK] [SYNC] order filled detected
+[08:21:20.793] [OK] [SYNC] order filled detected
+[08:21:30.358] [OK] [SYNC] order filled detected
+[08:21:30.699] [WARNING] [HEALTH] block falling_market bid_ticks=-501.00 mid_ticks=-251.50
+[08:21:30.701] [WARNING] [HEALTH] unstable_bid delta_ticks=-501.00
+[08:21:30.703] [WARNING] [HEALTH] negative_momentum ticks=-251.50
+[08:21:30.949] [WARNING] [HEALTH] block falling_market bid_ticks=-244.00 mid_ticks=-123.00
+[08:21:30.951] [WARNING] [HEALTH] unstable_bid delta_ticks=-244.00
+[08:21:30.953] [WARNING] [HEALTH] negative_momentum ticks=-123.00
+[08:21:31.198] [WARNING] [HEALTH] block falling_market bid_ticks=-244.00 mid_ticks=-123.00
+[08:22:08.510] [OK] [SYNC] order filled detected
+[08:22:13.734] [OK] [SYNC] order filled detected
+[08:22:50.046] [OK] [SYNC] order filled detected
+[08:23:24.198] [OK] [SYNC] order filled detected
+[08:23:29.699] [OK] [SYNC] order filled detected
+[08:23:30.831] [OK] [SYNC] order filled detected
+[08:23:34.196] [OK] [SYNC] order filled detected
+[08:23:54.509] [OK] [SYNC] order filled detected
+[08:24:06.877] [OK] [SYNC] order filled detected
+[08:25:49.932] [WARNING] [SYNC] desync fixed
+[08:25:51.235] [WARNING] cancel all requested
+[08:25:52.231] [WARNING] [SYNC] desync fixed
+[08:25:52.236] [WARNING] STOP
+[08:31:37.585] [OK] [SETTINGS] settings saved
+[08:31:38.876] [OK] START
+[08:31:39.146] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:31:39.150] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:31:39.500] [WARNING] [HEALTH] block spread_too_young lifetime=357
+[08:32:09.751] [OK] [SYNC] order filled detected
+[08:32:13.786] [WARNING] [SYNC] desync fixed
+[08:33:44.646] [WARNING] cancel all requested
+[08:33:44.651] [WARNING] STOP
+[08:34:01.627] [OK] START
+[08:34:02.115] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:34:02.116] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:34:02.425] [WARNING] [HEALTH] block spread_too_young lifetime=314
+[08:34:05.298] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:34:05.301] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:34:10.682] [OK] [SYNC] order filled detected
+[08:34:26.583] [OK] [SYNC] order filled detected
+[08:34:36.465] [OK] [SYNC] order filled detected
+[08:35:12.210] [OK] [SYNC] order filled detected
+[08:36:12.446] [WARNING] cancel all requested
+[08:36:13.233] [WARNING] [SYNC] desync fixed
+[08:36:13.242] [WARNING] STOP
+[08:37:49.299] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[08:38:31.300] [OK] [SETTINGS] settings saved
+[08:38:32.667] [OK] START
+[08:38:33.783] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:38:33.786] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:38:34.000] [WARNING] [HEALTH] block spread_too_young lifetime=217
+[08:38:34.250] [WARNING] [HEALTH] block spread_too_young lifetime=467
+[08:38:36.288] [WARNING] [HEALTH] block falling_market bid_ticks=-174.00 mid_ticks=-87.00
+[08:38:36.291] [WARNING] [HEALTH] unstable_bid delta_ticks=-174.00
+[08:38:36.293] [WARNING] [HEALTH] negative_momentum ticks=-87.00
+[08:38:36.536] [WARNING] [HEALTH] block falling_market bid_ticks=-174.00 mid_ticks=-87.00
+[08:38:36.952] [WARNING] [HEALTH] block falling_market bid_ticks=-460.00 mid_ticks=-299.00
+[08:38:36.954] [WARNING] [HEALTH] unstable_bid delta_ticks=-460.00
+[08:38:36.954] [WARNING] [HEALTH] negative_momentum ticks=-299.00
+[08:38:37.297] [WARNING] [HEALTH] block falling_market bid_ticks=-286.00 mid_ticks=-409.00
+[08:38:37.299] [WARNING] [HEALTH] unstable_bid delta_ticks=-286.00
+[08:38:37.301] [WARNING] [HEALTH] negative_momentum ticks=-409.00
+[08:38:37.547] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-197.00
+[08:38:37.550] [WARNING] [HEALTH] negative_momentum ticks=-197.00
+[08:38:37.812] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-197.00
+[08:38:50.719] [OK] [SYNC] order filled detected
+[08:38:52.089] [OK] [SYNC] order filled detected
+[08:38:57.238] [OK] [SYNC] order filled detected
+[08:39:19.493] [OK] [SYNC] order filled detected
+[08:39:27.127] [OK] [SYNC] order filled detected
+[08:40:28.329] [WARNING] cancel all requested
+[08:40:29.138] [WARNING] [SYNC] desync fixed
+[08:40:29.145] [WARNING] STOP
+[08:41:11.260] [OK] [SETTINGS] settings saved
+[08:41:12.569] [OK] START
+[08:41:12.579] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:41:12.582] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:41:12.888] [WARNING] [HEALTH] block spread_too_young lifetime=315
+[08:41:13.743] [WARNING] [HEALTH] block falling_market bid_ticks=-173.00 mid_ticks=-86.50
+[08:41:13.745] [WARNING] [HEALTH] unstable_bid delta_ticks=-173.00
+[08:41:13.747] [WARNING] [HEALTH] negative_momentum ticks=-86.50
+[08:41:15.216] [OK] [SYNC] order filled detected
+[08:42:09.580] [WARNING] cancel all requested
+[08:42:10.362] [WARNING] [SYNC] desync fixed
+[08:42:10.364] [WARNING] STOP
+[08:42:24.322] [OK] START
+[08:42:35.288] [WARNING] cancel all requested
+[08:42:35.295] [WARNING] STOP
+[08:43:01.695] [OK] [SETTINGS] settings saved
+[08:43:02.988] [OK] START
+[08:43:07.963] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:43:07.965] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:43:08.202] [WARNING] [HEALTH] block spread_too_young lifetime=240
+[08:43:08.451] [WARNING] [HEALTH] block spread_too_young lifetime=488
+[08:43:46.115] [OK] [SYNC] order filled detected
+[08:44:14.275] [OK] [SYNC] order filled detected
+[08:44:18.394] [WARNING] [SYNC] desync fixed
+[08:44:24.765] [OK] [SYNC] order filled detected
+[08:44:25.790] [OK] [SYNC] order filled detected
+[08:45:00.839] [OK] [SYNC] order filled detected
+[08:45:04.716] [WARNING] [SYNC] desync fixed
+[08:45:12.317] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-236.50
+[08:45:12.319] [WARNING] [HEALTH] negative_momentum ticks=-236.50
+[08:45:12.565] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-241.50
+[08:45:12.569] [WARNING] [HEALTH] negative_momentum ticks=-241.50
+[08:45:12.817] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-5.00
+[08:45:23.202] [OK] [SYNC] order filled detected
+[08:45:24.324] [OK] [SYNC] order filled detected
+[08:45:33.754] [OK] [SYNC] order filled detected
+[08:45:37.896] [WARNING] [SYNC] desync fixed
+[08:45:53.635] [OK] [SYNC] order filled detected
+[08:45:57.277] [WARNING] [SYNC] desync fixed
+[08:46:03.524] [OK] [SYNC] order filled detected
+[08:46:10.505] [OK] [SYNC] order filled detected
+[09:05:31.676] [OK] [SETTINGS] settings saved
+[09:05:39.337] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/1.json
+[09:05:42.444] [OK] [SETTINGS] settings saved
+[09:07:50.924] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[09:07:56.291] [OK] [SETTINGS] settings saved
+[09:08:01.603] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[09:08:03.713] [OK] [SETTINGS] settings saved
+[09:11:04.745] [OK] START
+[09:11:04.760] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:11:04.760] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:11:26.853] [OK] [SYNC] order filled detected
+[09:11:31.135] [WARNING] [SYNC] desync fixed
+[09:11:41.011] [OK] [SYNC] order filled detected
+[09:11:41.760] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:11:41.760] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:11:46.372] [OK] [SYNC] order filled detected
+[09:14:05.468] [WARNING] cancel all requested
+[09:14:06.259] [WARNING] [SYNC] desync fixed
+[09:14:06.259] [WARNING] STOP
+[09:15:25.496] [OK] START
+[09:15:25.791] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:15:25.791] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:15:26.744] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-7.50
+[09:15:33.166] [OK] [SYNC] order filled detected
+[09:15:36.807] [OK] [SYNC] order filled detected
+[09:15:46.880] [OK] [SYNC] order filled detected
+[09:15:56.682] [WARNING] cancel all requested
+[09:15:57.478] [WARNING] [SYNC] desync fixed
+[09:15:57.478] [WARNING] STOP
+[09:16:04.985] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings.json
+[09:16:07.117] [OK] [SETTINGS] settings saved
+[09:16:08.392] [OK] START
+[09:16:12.806] [OK] [SYNC] order filled detected
+[09:16:30.706] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings.json
+[09:16:32.007] [OK] [SETTINGS] settings saved
+[09:16:33.807] [OK] START
+[09:16:34.111] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:16:34.111] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:16:38.982] [OK] [SYNC] order filled detected
+[09:16:44.013] [WARNING] [SYNC] desync fixed
+[09:17:08.401] [WARNING] cancel all requested
+[09:17:09.195] [WARNING] [SYNC] desync fixed
+[09:17:09.197] [WARNING] STOP
+[09:17:19.354] [OK] START
+[09:17:20.631] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:17:20.633] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:17:20.854] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-62.00
+[09:17:20.858] [WARNING] [HEALTH] negative_momentum ticks=-62.00
+[09:17:21.387] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:17:21.389] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:17:21.902] [WARNING] [HEALTH] block falling_market bid_ticks=-522.00 mid_ticks=-630.50
+[09:17:21.905] [WARNING] [HEALTH] unstable_bid delta_ticks=-522.00
+[09:17:21.907] [WARNING] [HEALTH] negative_momentum ticks=-630.50
+[09:17:22.417] [WARNING] [HEALTH] block falling_market bid_ticks=-80.00 mid_ticks=-325.00
+[09:17:22.421] [WARNING] [HEALTH] unstable_bid delta_ticks=-80.00
+[09:17:22.423] [WARNING] [HEALTH] negative_momentum ticks=-325.00
+[09:17:36.666] [OK] [SYNC] order filled detected
+[09:17:38.603] [OK] [SYNC] order filled detected
+[09:17:44.939] [OK] [SYNC] order filled detected
+[09:17:58.577] [OK] [SYNC] order filled detected
+[09:18:12.541] [OK] [SYNC] order filled detected
+[09:18:14.075] [OK] [SYNC] order filled detected
+[09:18:22.233] [OK] [SYNC] order filled detected
+[09:18:23.762] [OK] [SYNC] order filled detected
+[09:18:34.431] [OK] [SYNC] order filled detected
+[09:18:38.254] [OK] [SYNC] order filled detected
+[09:18:38.946] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-27.50
+[09:18:38.946] [WARNING] [HEALTH] negative_momentum ticks=-27.50
+[09:18:49.618] [OK] [SYNC] order filled detected
+[09:18:52.124] [OK] [SYNC] order filled detected
+[09:18:56.728] [OK] [SYNC] order filled detected
+[09:20:07.926] [OK] [SYNC] order filled detected
+[09:20:13.229] [OK] [SYNC] order filled detected
+[09:20:14.775] [OK] [SYNC] order filled detected
+[09:20:16.528] [OK] [SYNC] order filled detected
+[09:20:18.065] [OK] [SYNC] order filled detected
+[09:20:20.603] [OK] [SYNC] order filled detected
+[09:20:24.149] [OK] [SYNC] order filled detected
+[09:20:24.573] [WARNING] [HEALTH] block falling_market bid_ticks=-43.00 mid_ticks=-43.50
+[09:20:24.575] [WARNING] [HEALTH] unstable_bid delta_ticks=-43.00
+[09:20:24.577] [WARNING] [HEALTH] negative_momentum ticks=-43.50
+[09:20:24.908] [WARNING] [HEALTH] block falling_market bid_ticks=-118.00 mid_ticks=-112.00
+[09:20:24.908] [WARNING] [HEALTH] unstable_bid delta_ticks=-118.00
+[09:20:24.908] [WARNING] [HEALTH] negative_momentum ticks=-112.00
+[09:20:25.401] [WARNING] [HEALTH] block falling_market bid_ticks=-550.00 mid_ticks=-150.00
+[09:20:25.401] [WARNING] [HEALTH] unstable_bid delta_ticks=-550.00
+[09:20:25.401] [WARNING] [HEALTH] negative_momentum ticks=-150.00
+[09:20:27.698] [OK] [SYNC] order filled detected
+[09:20:33.259] [OK] [SYNC] order filled detected
+[09:21:18.320] [OK] [SYNC] order filled detected
+[09:21:28.805] [OK] [SYNC] order filled detected
+[09:21:49.698] [OK] [SYNC] order filled detected
+[09:21:53.275] [OK] [SYNC] order filled detected
+[09:21:56.354] [OK] [SYNC] order filled detected
+[09:23:58.556] [WARNING] cancel all requested
+[09:23:59.363] [WARNING] [SYNC] desync fixed
+[09:23:59.368] [WARNING] STOP
+[09:30:15.585] [OK] START
+[09:30:15.881] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:30:15.882] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:30:26.840] [OK] [SYNC] order filled detected
+[09:30:28.442] [OK] [SYNC] order filled detected
+[09:30:37.861] [OK] [SYNC] order filled detected
+[09:30:42.453] [OK] [SYNC] order filled detected
+[09:30:50.004] [OK] [SYNC] order filled detected
+[09:30:54.271] [OK] [SYNC] order filled detected
+[09:30:59.267] [OK] [SYNC] order filled detected
+[09:31:00.815] [OK] [SYNC] order filled detected
+[09:31:01.781] [OK] [SYNC] order filled detected
+[09:31:06.521] [OK] [SYNC] order filled detected
+[09:31:07.235] [WARNING] [HEALTH] block falling_market bid_ticks=-204.00 mid_ticks=-194.50
+[09:31:07.237] [WARNING] [HEALTH] unstable_bid delta_ticks=-204.00
+[09:31:07.238] [WARNING] [HEALTH] negative_momentum ticks=-194.50
+[09:31:07.731] [WARNING] [HEALTH] block falling_market bid_ticks=-316.00 mid_ticks=-250.50
+[09:31:07.733] [WARNING] [HEALTH] unstable_bid delta_ticks=-316.00
+[09:31:07.734] [WARNING] [HEALTH] negative_momentum ticks=-250.50
+[09:31:09.058] [OK] [SYNC] order filled detected
+[09:31:10.583] [OK] [SYNC] order filled detected
+[09:31:11.543] [OK] [SYNC] order filled detected
+[09:32:25.815] [OK] [SYNC] order filled detected
+[09:32:31.723] [OK] [SYNC] order filled detected
+[09:32:44.076] [WARNING] [HEALTH] block falling_market bid_ticks=-147.00 mid_ticks=-146.50
+[09:32:44.079] [WARNING] [HEALTH] unstable_bid delta_ticks=-147.00
+[09:32:44.082] [WARNING] [HEALTH] negative_momentum ticks=-146.50
+[09:32:50.727] [OK] [SYNC] order filled detected
+[09:32:52.200] [OK] [SYNC] order filled detected
+[09:33:08.997] [OK] [SYNC] order filled detected
+[09:33:10.525] [OK] [SYNC] order filled detected
+[09:33:12.947] [OK] [SYNC] order filled detected
+[09:33:19.818] [WARNING] [SYNC] desync fixed
+[09:33:26.917] [OK] [SYNC] order filled detected
+[09:33:35.559] [OK] [SYNC] order filled detected
+[09:33:37.096] [OK] [SYNC] order filled detected
+[09:33:42.903] [OK] [SYNC] order filled detected
+[09:33:49.694] [OK] [SYNC] order filled detected
+[09:33:54.724] [OK] [SYNC] order filled detected
+[09:33:56.246] [OK] [SYNC] order filled detected
+[09:34:01.619] [OK] [SYNC] order filled detected
+[09:34:03.178] [OK] [SYNC] order filled detected
+[09:34:10.138] [OK] [SYNC] order filled detected
+[09:34:13.659] [OK] [SYNC] order filled detected
+[09:34:15.699] [OK] [SYNC] order filled detected
+[09:34:21.289] [WARNING] [SYNC] desync fixed
+[09:34:28.250] [OK] [SYNC] order filled detected
+[09:34:30.485] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:34:30.487] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:34:30.995] [WARNING] [HEALTH] block falling_market bid_ticks=-77.00 mid_ticks=-38.50
+[09:34:30.997] [WARNING] [HEALTH] unstable_bid delta_ticks=-77.00
+[09:34:30.999] [WARNING] [HEALTH] negative_momentum ticks=-38.50
+[09:34:31.507] [WARNING] [HEALTH] block falling_market bid_ticks=-121.00 mid_ticks=-159.00
+[09:34:31.510] [WARNING] [HEALTH] unstable_bid delta_ticks=-121.00
+[09:34:31.512] [WARNING] [HEALTH] negative_momentum ticks=-159.00
+[09:34:34.113] [OK] [SYNC] order filled detected
+[09:34:35.685] [OK] [SYNC] order filled detected
+[09:34:40.286] [OK] [SYNC] order filled detected
+[09:34:42.279] [OK] [SYNC] order filled detected
+[09:34:43.469] [OK] [SYNC] order filled detected
+[09:34:49.589] [WARNING] [SYNC] desync fixed
+[09:34:56.419] [OK] [SYNC] order filled detected
+[09:34:59.471] [OK] [SYNC] order filled detected
+[09:35:00.963] [OK] [SYNC] order filled detected
+[09:35:06.983] [OK] [SYNC] order filled detected
+[09:37:43.625] [WARNING] cancel all requested
+[09:37:44.423] [WARNING] [SYNC] desync fixed
+[09:37:44.427] [WARNING] STOP
+[09:44:59.359] [OK] START
+[09:44:59.653] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:44:59.654] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:45:50.842] [OK] [SYNC] order filled detected
+[09:46:03.269] [WARNING] cancel all requested
+[09:46:05.012] [WARNING] [SYNC] desync fixed
+[09:46:05.017] [WARNING] STOP
+[09:46:14.956] [OK] START
+[09:46:15.729] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:46:15.730] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:46:18.024] [OK] [SYNC] order filled detected
+[09:46:23.743] [WARNING] [SYNC] desync fixed
+[09:47:26.366] [WARNING] cancel all requested
+[09:47:27.153] [WARNING] [SYNC] desync fixed
+[09:47:27.157] [WARNING] STOP
+[09:47:30.530] [OK] START
+[09:48:33.684] [OK] [SYNC] order filled detected
+[09:48:34.424] [WARNING] [HEALTH] block falling_market bid_ticks=-341.00 mid_ticks=-313.00
+[09:48:34.427] [WARNING] [HEALTH] unstable_bid delta_ticks=-341.00
+[09:48:34.429] [WARNING] [HEALTH] negative_momentum ticks=-313.00
+[09:48:50.688] [WARNING] cancel all requested
+[09:48:51.491] [WARNING] [SYNC] desync fixed
+[09:48:51.497] [WARNING] STOP
+[09:49:09.924] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings.json
+[09:49:11.319] [OK] [SETTINGS] settings saved
+[09:49:12.585] [OK] START
+[09:49:13.055] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:49:13.056] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:49:23.947] [OK] [SYNC] order filled detected
+[09:49:31.785] [OK] [SYNC] order filled detected
+[09:49:34.507] [OK] [SYNC] order filled detected
+[09:49:50.890] [OK] [SYNC] order filled detected
+[09:49:55.670] [OK] [SYNC] order filled detected
+[09:50:02.741] [OK] [SYNC] order filled detected
+[09:50:29.240] [OK] [SYNC] order filled detected
+[09:51:11.720] [OK] [SYNC] order filled detected
+[09:51:39.838] [WARNING] cancel all requested
+[09:51:40.644] [WARNING] [SYNC] desync fixed
+[09:51:40.647] [WARNING] STOP
+[09:52:01.032] [OK] START
+[09:52:01.350] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[09:52:01.351] [WARNING] [HEALTH] unstable_spread lifetime=0
+[09:52:06.750] [OK] [SYNC] order filled detected
+[09:52:13.124] [WARNING] [SYNC] desync fixed
+[09:52:20.594] [OK] [SYNC] order filled detected
+[09:52:30.467] [OK] [SYNC] order filled detected
+[09:52:39.281] [OK] [SYNC] order filled detected
+[09:52:55.290] [OK] [SYNC] order filled detected
+[09:54:53.098] [WARNING] cancel all requested
+[09:54:53.104] [WARNING] STOP
+[10:01:00.499] [OK] START
+[10:01:00.796] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:01:00.797] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:01:02.450] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-237.00
+[10:01:02.452] [WARNING] [HEALTH] negative_momentum ticks=-237.00
+[10:01:18.561] [OK] [SYNC] order filled detected
+[10:01:24.221] [WARNING] [SYNC] desync fixed
+[10:01:32.798] [OK] [SYNC] order filled detected
+[10:01:39.177] [OK] [SYNC] order filled detected
+[10:01:44.037] [OK] [SYNC] order filled detected
+[10:02:07.727] [OK] [SYNC] order filled detected
+[10:02:11.806] [OK] [SYNC] order filled detected
+[10:02:21.589] [OK] [SYNC] order filled detected
+[10:03:33.759] [WARNING] cancel all requested
+[10:03:33.775] [WARNING] STOP
+[10:10:14.090] [OK] START
+[10:10:14.385] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:10:14.385] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:10:20.066] [OK] [SYNC] order filled detected
+[10:10:25.620] [WARNING] [SYNC] desync fixed
+[10:10:29.665] [OK] [SYNC] order filled detected
+[10:10:40.069] [OK] [SYNC] order filled detected
+[10:10:41.628] [OK] [SYNC] order filled detected
+[10:10:50.197] [OK] [SYNC] order filled detected
+[10:10:52.991] [OK] [SYNC] order filled detected
+[10:10:54.025] [OK] [SYNC] order filled detected
+[10:10:57.571] [OK] [SYNC] order filled detected
+[10:11:00.657] [OK] [SYNC] order filled detected
+[10:11:05.244] [OK] [SYNC] order filled detected
+[10:11:06.791] [OK] [SYNC] order filled detected
+[10:11:11.681] [OK] [SYNC] order filled detected
+[10:11:13.177] [OK] [SYNC] order filled detected
+[10:11:17.957] [OK] [SYNC] order filled detected
+[10:11:27.556] [OK] [SYNC] order filled detected
+[10:11:29.088] [OK] [SYNC] order filled detected
+[10:12:19.991] [WARNING] cancel all requested
+[10:12:20.007] [WARNING] STOP
+[10:41:11.497] [OK] START
+[10:41:12.961] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:41:12.964] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:41:13.697] [WARNING] cancel all requested
+[10:41:13.697] [WARNING] STOP
+[10:42:19.848] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings.json
+[10:42:21.252] [OK] [SETTINGS] settings saved
+[10:44:42.856] [OK] START
+[10:44:48.995] [WARNING] cancel all requested
+[10:44:48.995] [WARNING] STOP
+[10:45:52.924] [OK] [SETTINGS] settings saved
+[10:45:54.898] [OK] START
+[10:45:54.900] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:45:54.900] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:45:57.760] [OK] [SYNC] order filled detected
+[10:46:01.546] [WARNING] [SYNC] desync fixed
+[10:46:04.759] [OK] [SYNC] order filled detected
+[10:47:17.593] [WARNING] cancel all requested
+[10:47:17.598] [WARNING] STOP
+[10:47:46.539] [OK] START
+[10:47:47.475] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:47:47.476] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:47:49.972] [OK] [SYNC] order filled detected
+[10:48:00.661] [WARNING] [SYNC] desync fixed
+[10:48:05.479] [OK] [SYNC] order filled detected
+[10:48:17.529] [OK] [SYNC] order filled detected
+[10:48:19.065] [OK] [SYNC] order filled detected
+[10:48:43.009] [OK] [SYNC] order filled detected
+[10:48:47.685] [OK] [SYNC] order filled detected
+[10:48:48.589] [WARNING] [HEALTH] block falling_market bid_ticks=-105.00 mid_ticks=-103.00
+[10:48:48.589] [WARNING] [HEALTH] unstable_bid delta_ticks=-105.00
+[10:48:48.589] [WARNING] [HEALTH] negative_momentum ticks=-103.00
+[10:48:49.879] [OK] [SYNC] order filled detected
+[10:49:05.323] [OK] [SYNC] order filled detected
+[10:49:59.682] [WARNING] cancel all requested
+[10:49:59.682] [WARNING] STOP
+[10:58:31.822] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings.json
+[10:58:33.182] [OK] [SETTINGS] settings saved
+[10:58:36.510] [OK] START
+[10:58:39.926] [WARNING] cancel all requested
+[10:58:39.926] [WARNING] STOP
+[11:02:24.893] [OK] START
+[11:02:25.652] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:02:25.654] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:02:25.894] [WARNING] [HEALTH] block spread_too_young lifetime=259
+[11:02:29.923] [OK] [SYNC] order filled detected
+[11:02:38.919] [OK] [SYNC] order filled detected
+[11:02:47.824] [OK] [SYNC] order filled detected
+[11:02:49.376] [OK] [SYNC] order filled detected
+[11:02:55.142] [OK] [SYNC] order filled detected
+[11:02:56.682] [OK] [SYNC] order filled detected
+[11:02:59.431] [OK] [SYNC] order filled detected
+[11:03:13.634] [OK] [SYNC] order filled detected
+[11:03:15.165] [OK] [SYNC] order filled detected
+[11:03:30.634] [OK] [SYNC] order filled detected
+[11:04:02.572] [OK] [SYNC] order filled detected
+[11:04:07.876] [OK] [SYNC] order filled detected
+[11:04:08.135] [WARNING] [HEALTH] block falling_market bid_ticks=-33.00 mid_ticks=-65.50
+[11:04:08.151] [WARNING] [HEALTH] unstable_bid delta_ticks=-33.00
+[11:04:08.151] [WARNING] [HEALTH] negative_momentum ticks=-65.50
+[11:04:11.447] [OK] [SYNC] order filled detected
+[11:04:19.865] [OK] [SYNC] order filled detected
+[11:04:22.927] [OK] [SYNC] order filled detected
+[11:04:25.213] [OK] [SYNC] order filled detected
+[11:04:26.198] [OK] [SYNC] order filled detected
+[11:04:57.411] [OK] [SYNC] order filled detected
+[11:04:59.213] [OK] [SYNC] order filled detected
+[11:05:04.548] [OK] [SYNC] order filled detected
+[11:05:06.259] [OK] [SYNC] order filled detected
+[11:05:11.791] [OK] [SYNC] order filled detected
+[11:05:12.532] [WARNING] [HEALTH] block falling_market bid_ticks=-498.00 mid_ticks=-329.50
+[11:05:12.532] [WARNING] [HEALTH] unstable_bid delta_ticks=-498.00
+[11:05:12.537] [WARNING] [HEALTH] negative_momentum ticks=-329.50
+[11:05:15.353] [OK] [SYNC] order filled detected
+[11:05:20.618] [OK] [SYNC] order filled detected
+[11:05:23.416] [OK] [SYNC] order filled detected
+[11:05:23.798] [WARNING] cancel all requested
+[11:05:23.802] [WARNING] STOP
+[11:07:26.041] [OK] START
+[11:07:26.788] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:07:26.788] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:07:30.369] [OK] [SYNC] order filled detected
+[11:07:36.509] [OK] [SYNC] order filled detected
+[11:07:38.595] [OK] [SYNC] order filled detected
+[11:08:05.338] [OK] [SYNC] order filled detected
+[11:08:17.447] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:08:17.447] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:08:55.306] [OK] [SYNC] order filled detected
+[11:08:59.397] [WARNING] [SYNC] desync fixed
+[11:09:02.070] [OK] [SYNC] order filled detected
+[11:09:05.682] [OK] [SYNC] order filled detected
+[11:09:18.292] [OK] [SYNC] order filled detected
+[11:09:18.527] [WARNING] [HEALTH] block falling_market bid_ticks=68.00 mid_ticks=-187.00
+[11:09:18.530] [WARNING] [HEALTH] negative_momentum ticks=-187.00
+[11:09:25.911] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:09:25.911] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:09:33.604] [OK] [SYNC] order filled detected
+[11:09:40.893] [OK] [SYNC] order filled detected
+[11:09:43.243] [OK] [SYNC] order filled detected
+[11:10:03.212] [OK] [SYNC] order filled detected
+[11:10:08.587] [OK] [SYNC] order filled detected
+[11:10:25.571] [OK] [SYNC] order filled detected
+[11:10:29.171] [OK] [SYNC] order filled detected
+[11:10:34.909] [OK] [SYNC] order filled detected
+[11:10:41.558] [OK] [SYNC] order filled detected
+[11:10:58.386] [OK] [SYNC] order filled detected
+[11:11:21.466] [OK] [SYNC] order filled detected
+[11:11:43.823] [OK] [SYNC] order filled detected
+[11:11:52.266] [OK] [SYNC] order filled detected
+[11:12:03.181] [OK] [SYNC] order filled detected
+[11:12:08.775] [OK] [SYNC] order filled detected
+[11:12:15.605] [OK] [SYNC] order filled detected
+[11:12:42.310] [OK] [SYNC] order filled detected
+[11:12:44.870] [OK] [SYNC] order filled detected
+[11:12:55.424] [OK] [SYNC] order filled detected
+[11:13:00.340] [WARNING] cancel all requested
+[11:13:00.352] [WARNING] STOP
+[11:24:10.673] [OK] START
+[11:24:15.557] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:24:15.557] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:24:34.316] [OK] [SYNC] order filled detected
+[11:24:44.483] [OK] [SYNC] order filled detected
+[11:24:49.008] [OK] [SYNC] order filled detected
+[11:24:49.259] [WARNING] [HEALTH] block falling_market bid_ticks=110.00 mid_ticks=-411.00
+[11:24:49.259] [WARNING] [HEALTH] negative_momentum ticks=-411.00
+[11:24:54.058] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:24:54.061] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:25:12.191] [OK] [SYNC] order filled detected
+[11:25:14.482] [OK] [SYNC] order filled detected
+[11:25:22.797] [OK] [SYNC] order filled detected
+[11:25:25.083] [OK] [SYNC] order filled detected
+[11:25:44.321] [OK] [SYNC] order filled detected
+[11:25:49.697] [OK] [SYNC] order filled detected
+[11:25:52.244] [OK] [SYNC] order filled detected
+[11:25:57.152] [WARNING] [SYNC] desync fixed
+[11:25:59.110] [OK] [SYNC] order filled detected
+[11:26:00.915] [OK] [SYNC] order filled detected
+[11:26:03.907] [OK] [SYNC] order filled detected
+[11:26:11.619] [OK] [SYNC] order filled detected
+[11:26:13.367] [OK] [SYNC] order filled detected
+[11:26:38.432] [OK] [SYNC] order filled detected
+[11:27:31.134] [OK] [SYNC] order filled detected
+[11:27:38.759] [OK] [SYNC] order filled detected
+[11:30:12.359] [OK] [SYNC] order filled detected
+[11:30:14.556] [OK] [SYNC] order filled detected
+[11:30:17.635] [OK] [SYNC] order filled detected
+[11:30:57.962] [OK] [SYNC] order filled detected
+[11:30:59.510] [OK] [SYNC] order filled detected
+[11:31:05.478] [OK] [SYNC] order filled detected
+[11:31:15.290] [WARNING] [SYNC] desync fixed
+[11:31:31.621] [OK] [SYNC] order filled detected
+[11:32:08.147] [OK] [SYNC] order filled detected
+[11:32:46.455] [OK] [SYNC] order filled detected
+[11:33:10.938] [OK] [SYNC] order filled detected
+[11:33:16.041] [WARNING] [SYNC] desync fixed
+[11:33:27.663] [OK] [SYNC] order filled detected
+[11:33:46.838] [OK] [SYNC] order filled detected
+[11:33:51.321] [OK] [SYNC] order filled detected
+[11:33:51.562] [WARNING] [HEALTH] block falling_market bid_ticks=194.00 mid_ticks=-44.00
+[11:33:51.562] [WARNING] [HEALTH] negative_momentum ticks=-44.00
+[11:33:52.069] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:33:52.073] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:36:40.181] [OK] START
+[11:36:49.486] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:36:49.488] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:37:08.585] [OK] [SYNC] order filled detected
+[11:37:11.275] [OK] [SYNC] order filled detected
+[11:37:21.145] [OK] [SYNC] order filled detected
+[11:37:30.207] [WARNING] [SYNC] desync fixed
+[11:37:31.969] [OK] [SYNC] order filled detected
+[11:37:42.356] [OK] [SYNC] order filled detected
+[11:37:43.915] [OK] [SYNC] order filled detected
+[11:37:52.552] [OK] [SYNC] order filled detected
+[11:38:17.872] [OK] [SYNC] order filled detected
+[11:38:19.692] [OK] [SYNC] order filled detected
+[11:38:21.400] [OK] [SYNC] order filled detected
+[11:38:38.556] [OK] [SYNC] order filled detected
+[11:38:42.619] [WARNING] [SYNC] desync fixed
+[11:38:51.016] [OK] [SYNC] order filled detected
+[11:39:22.425] [OK] [SYNC] order filled detected
+[11:39:23.948] [OK] [SYNC] order filled detected
+[11:39:26.470] [OK] [SYNC] order filled detected
+[11:39:27.963] [OK] [SYNC] order filled detected
+[11:39:33.540] [OK] [SYNC] order filled detected
+[11:39:37.744] [WARNING] [SYNC] desync fixed
+[11:39:51.457] [OK] [SYNC] order filled detected
+[11:40:03.885] [OK] [SYNC] order filled detected
+[11:40:12.042] [OK] [SYNC] order filled detected
+[11:40:16.432] [OK] [SYNC] order filled detected
+[11:40:40.557] [OK] [SYNC] order filled detected
+[11:40:45.413] [OK] [SYNC] order filled detected
+[11:40:49.261] [OK] [SYNC] order filled detected
+[11:40:55.130] [OK] [SYNC] order filled detected
+[11:41:54.370] [OK] [SYNC] order filled detected
+[11:41:55.925] [OK] [SYNC] order filled detected
+[11:41:59.712] [OK] [SYNC] order filled detected
+[11:42:02.838] [WARNING] cancel all requested
+[11:42:03.618] [WARNING] [SYNC] desync fixed
+[11:42:03.618] [WARNING] STOP
+[11:43:21.370] [OK] START
+[11:43:23.341] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:43:23.344] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:43:31.713] [OK] [SYNC] order filled detected
+[11:43:36.822] [WARNING] [SYNC] desync fixed
+[11:43:39.076] [OK] [SYNC] order filled detected
+[11:44:32.186] [OK] START
+[11:44:32.916] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:44:32.916] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:44:33.089] [WARNING] [HEALTH] block spread_too_young lifetime=173
+[11:44:54.891] [OK] [SYNC] order filled detected
+[11:44:58.923] [OK] [SYNC] order filled detected
+[11:44:59.931] [OK] [SYNC] order filled detected
+[11:45:09.322] [OK] [SYNC] order filled detected
+[11:45:23.144] [OK] [SYNC] order filled detected
+[11:45:33.065] [OK] [SYNC] order filled detected
+[11:45:36.893] [OK] [SYNC] order filled detected
+[11:46:39.690] [OK] [SYNC] order filled detected
+[11:47:06.969] [OK] [SYNC] order filled detected
+[11:47:22.369] [OK] [SYNC] order filled detected
+[11:47:25.924] [OK] [SYNC] order filled detected
+[11:48:07.603] [OK] [SYNC] order filled detected
+[11:48:09.140] [OK] [SYNC] order filled detected
+[11:48:17.777] [OK] [SYNC] order filled detected
+[11:48:19.589] [OK] [SYNC] order filled detected
+[11:48:35.228] [OK] [SYNC] order filled detected
+[11:48:36.743] [OK] [SYNC] order filled detected
+[11:48:41.291] [OK] [SYNC] order filled detected
+[11:49:02.160] [OK] [SYNC] order filled detected
+[11:49:10.009] [OK] [SYNC] order filled detected
+[11:49:42.814] [OK] [SYNC] order filled detected
+[11:50:08.559] [OK] [SYNC] order filled detected
+[11:50:19.890] [OK] [SYNC] order filled detected
+[11:50:26.259] [OK] [SYNC] order filled detected
+[11:50:31.077] [WARNING] [SYNC] desync fixed
+[11:50:33.229] [WARNING] cancel all requested
+[11:50:34.025] [WARNING] [SYNC] desync fixed
+[11:50:34.041] [WARNING] STOP
+[11:52:17.229] [OK] [SETTINGS] settings saved
+[11:53:27.845] [OK] START
+[11:53:30.908] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:53:30.908] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:53:47.420] [OK] [SYNC] order filled detected
+[11:53:54.114] [OK] [SYNC] order filled detected
+[11:54:16.140] [WARNING] cancel all requested
+[11:54:16.153] [WARNING] STOP
+[11:54:50.181] [OK] START
+[11:54:57.730] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:54:57.734] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:55:00.865] [OK] [SYNC] order filled detected
+[11:55:05.444] [WARNING] [SYNC] desync fixed
+[11:55:08.117] [OK] [SYNC] order filled detected
+[11:55:22.761] [OK] [SYNC] order filled detected
+[11:55:28.978] [WARNING] [SYNC] desync fixed
+[11:55:48.812] [WARNING] cancel all requested
+[11:55:48.816] [WARNING] STOP
+[12:00:30.510] [OK] START
+[12:00:33.353] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[12:00:33.353] [WARNING] [HEALTH] unstable_spread lifetime=0
+[12:00:34.924] [OK] [SYNC] order filled detected
+[12:00:39.412] [WARNING] [SYNC] desync fixed
+[12:00:42.033] [OK] [SYNC] order filled detected
+[12:00:56.732] [OK] [SYNC] order filled detected
+[12:00:58.265] [OK] [SYNC] order filled detected
+[12:01:01.239] [OK] [SYNC] order filled detected
+[12:01:05.863] [WARNING] [SYNC] desync fixed
+[12:01:16.650] [OK] [SYNC] order filled detected
+[12:01:53.543] [OK] [SYNC] order filled detected
+[12:02:01.044] [OK] [SYNC] order filled detected
+[12:02:19.783] [OK] [SYNC] order filled detected
+[12:02:21.317] [OK] [SYNC] order filled detected
+[12:02:27.646] [OK] [SYNC] order filled detected
+[12:02:29.157] [OK] [SYNC] order filled detected
+[12:03:14.163] [OK] [SYNC] order filled detected
+[12:05:57.173] [WARNING] cancel all requested
+[12:05:58.009] [WARNING] [SYNC] desync fixed
+[12:05:58.024] [WARNING] STOP
+[12:07:54.265] [OK] [SETTINGS] settings saved
+[12:07:56.025] [OK] START
+[12:07:56.042] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[12:07:56.043] [WARNING] [HEALTH] unstable_spread lifetime=0
+[12:07:59.631] [OK] [SYNC] order filled detected
+[12:08:02.151] [OK] [SYNC] order filled detected
+[12:08:11.876] [OK] [SYNC] order filled detected
+[12:08:13.446] [OK] [SYNC] order filled detected
+[12:08:43.123] [OK] [SYNC] order filled detected
+[12:08:50.894] [OK] [SYNC] order filled detected
+[12:13:51.899] [OK] START
+[12:13:57.667] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[12:13:57.670] [WARNING] [HEALTH] unstable_spread lifetime=0
+[12:14:02.511] [OK] [SYNC] order filled detected
+[12:14:08.025] [WARNING] [SYNC] desync fixed
+[12:14:09.556] [OK] [SYNC] order filled detected
+[12:14:20.215] [OK] [SYNC] order filled detected
+[12:14:21.962] [OK] [SYNC] order filled detected
+[12:14:29.489] [OK] [SYNC] order filled detected
+[12:14:31.989] [OK] [SYNC] order filled detected
+[12:14:34.572] [OK] [SYNC] order filled detected
+[12:14:36.698] [OK] [SYNC] order filled detected
+[12:15:13.705] [OK] [SYNC] order filled detected
+[12:15:21.803] [OK] [SYNC] order filled detected
+[12:15:24.325] [OK] [SYNC] order filled detected
+[12:15:26.606] [OK] [SYNC] order filled detected
+[12:15:29.483] [OK] [SYNC] order filled detected
+[12:15:42.382] [OK] [SYNC] order filled detected
+[12:15:49.651] [OK] [SYNC] order filled detected
+[12:15:53.243] [OK] [SYNC] order filled detected
+[12:15:55.990] [OK] [SYNC] order filled detected
+[12:15:57.513] [OK] [SYNC] order filled detected
+[12:16:00.052] [OK] [SYNC] order filled detected
+[12:16:05.478] [OK] [SYNC] order filled detected
+[12:16:13.228] [OK] [SYNC] order filled detected
+[12:16:19.338] [OK] [SYNC] order filled detected
+[12:16:28.134] [OK] [SYNC] order filled detected
+[12:16:32.077] [OK] [SYNC] order filled detected
+[12:16:35.463] [OK] [SYNC] order filled detected
+[12:16:40.979] [OK] [SYNC] order filled detected
+[12:16:47.526] [OK] [SYNC] order filled detected
+[12:16:59.276] [OK] [SYNC] order filled detected
+[12:17:16.870] [OK] [SYNC] order filled detected
+[12:17:37.128] [OK] [SYNC] order filled detected
+[12:17:41.057] [OK] [SYNC] order filled detected
+[12:17:48.635] [OK] [SYNC] order filled detected
+[12:17:59.010] [OK] [SYNC] order filled detected
+[12:18:03.806] [OK] [SYNC] order filled detected
+[12:18:09.589] [OK] [SYNC] order filled detected
+[12:18:30.423] [OK] [SYNC] order filled detected
+[12:18:33.463] [OK] [SYNC] order filled detected
+[12:18:39.774] [OK] [SYNC] order filled detected
+[12:18:42.056] [WARNING] cancel all requested
+[12:18:42.066] [WARNING] STOP
+[12:19:17.987] [OK] START
+[12:19:23.950] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[12:19:23.953] [WARNING] [HEALTH] unstable_spread lifetime=0
+[12:19:43.845] [OK] [SYNC] order filled detected
+[12:19:45.393] [OK] [SYNC] order filled detected
+[12:19:48.827] [OK] [SYNC] order filled detected
+[12:20:24.239] [OK] [SYNC] order filled detected
+[12:21:18.457] [OK] [SYNC] order filled detected
+[12:21:36.107] [OK] [SYNC] order filled detected
+[12:22:01.279] [OK] [SYNC] order filled detected
+[12:22:03.003] [OK] [SYNC] order filled detected
+[12:22:13.995] [OK] [SYNC] order filled detected
+[12:22:22.332] [WARNING] [SYNC] desync fixed
+[12:23:29.489] [WARNING] cancel all requested
+[12:23:30.325] [WARNING] [SYNC] desync fixed
+[12:23:30.328] [WARNING] STOP
+[12:31:22.788] [OK] START
+[12:31:23.562] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[12:31:23.564] [WARNING] [HEALTH] unstable_spread lifetime=0
+[12:31:23.734] [WARNING] [HEALTH] block spread_too_young lifetime=178
+[12:31:25.808] [OK] [SYNC] order filled detected
+[12:31:27.623] [OK] [SYNC] order filled detected
+[12:31:30.096] [OK] [SYNC] order filled detected
+[12:31:41.387] [WARNING] [SYNC] desync fixed
+[12:33:21.566] [OK] [SYNC] order filled detected
+[12:33:22.570] [OK] [SYNC] order filled detected
+[12:33:31.901] [OK] [SYNC] order filled detected
+[12:33:35.182] [OK] [SYNC] order filled detected
+[12:33:36.155] [OK] [SYNC] order filled detected
+[12:33:39.429] [OK] [SYNC] order filled detected
+[12:33:41.019] [OK] [SYNC] order filled detected
+[12:33:41.977] [OK] [SYNC] order filled detected
+[12:33:43.536] [OK] [SYNC] order filled detected
+[12:33:44.458] [OK] [SYNC] order filled detected
+[12:34:14.245] [OK] [SYNC] order filled detected
+[12:34:16.492] [OK] [SYNC] order filled detected
+[12:34:21.298] [OK] [SYNC] order filled detected
+[12:34:34.186] [OK] [SYNC] order filled detected
+[12:34:35.720] [OK] [SYNC] order filled detected
+[12:34:36.701] [OK] [SYNC] order filled detected
+[12:34:38.233] [OK] [SYNC] order filled detected
+[12:34:39.924] [OK] [SYNC] order filled detected
+[12:34:46.234] [OK] [SYNC] order filled detected
+[12:34:48.205] [OK] [SYNC] order filled detected
+[12:34:50.996] [OK] [SYNC] order filled detected
+[12:34:52.515] [OK] [SYNC] order filled detected
+[12:34:53.523] [OK] [SYNC] order filled detected
+[12:35:03.366] [OK] [SYNC] order filled detected
+[12:35:13.410] [OK] [SYNC] order filled detected
+[12:35:21.708] [OK] [SYNC] order filled detected
+[12:35:48.991] [OK] [SYNC] order filled detected
+[12:35:50.514] [OK] [SYNC] order filled detected
+[12:36:10.748] [OK] [SYNC] order filled detected
+[12:36:16.140] [WARNING] [SYNC] desync fixed
+[12:36:19.093] [OK] [SYNC] order filled detected
+[12:37:04.235] [WARNING] cancel all requested
+[12:37:04.240] [WARNING] STOP
+[12:38:14.170] [OK] START
+[12:38:26.471] [WARNING] cancel all requested
+[12:38:26.474] [WARNING] STOP
+[12:40:29.475] [OK] [SETTINGS] settings saved
+[12:40:31.187] [OK] START
+[12:40:33.530] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[12:40:33.533] [WARNING] [HEALTH] unstable_spread lifetime=0
+[12:40:33.731] [WARNING] [HEALTH] block falling_market bid_ticks=96.00 mid_ticks=-83.50
+[12:40:33.733] [WARNING] [HEALTH] negative_momentum ticks=-83.50
+[12:40:37.340] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[12:40:37.343] [WARNING] [HEALTH] unstable_spread lifetime=0
+[12:40:37.525] [WARNING] [HEALTH] block spread_too_young lifetime=186
+[12:40:37.528] [WARNING] [HEALTH] negative_momentum ticks=-28.00
+[12:40:45.416] [OK] [SYNC] order filled detected
+[12:40:50.546] [WARNING] [SYNC] desync fixed
+[12:40:59.239] [OK] [SYNC] order filled detected
+[12:41:00.933] [OK] [SYNC] order filled detected
+[12:41:47.113] [OK] [SYNC] order filled detected
+[12:41:56.980] [OK] [SYNC] order filled detected
+[12:42:01.091] [OK] [SYNC] order filled detected
+[12:42:06.396] [OK] [SYNC] order filled detected
+[12:42:17.217] [OK] [SYNC] order filled detected
+[12:42:21.007] [OK] [SYNC] order filled detected
+[12:42:34.663] [WARNING] [SYNC] desync fixed
+[12:44:26.225] [WARNING] cancel all requested
+[12:44:27.028] [WARNING] [SYNC] desync fixed
+[12:44:27.031] [WARNING] STOP
+[12:45:35.144] [OK] START
+[12:45:35.637] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[12:45:35.637] [WARNING] [HEALTH] unstable_spread lifetime=0
+[12:45:36.064] [WARNING] [HEALTH] block spread_too_young lifetime=430
+[12:45:41.364] [OK] [SYNC] order filled detected
+[12:45:43.179] [OK] [SYNC] order filled detected
+[12:45:46.375] [WARNING] cancel all requested
+[12:45:47.173] [WARNING] [SYNC] desync fixed
+[12:45:47.184] [WARNING] STOP
+[12:46:02.445] [OK] START
+[12:46:04.354] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[12:46:04.355] [WARNING] [HEALTH] unstable_spread lifetime=0
+[12:46:19.106] [OK] [SYNC] order filled detected
+[12:46:46.120] [OK] [SYNC] order filled detected
+[12:46:46.965] [WARNING] cancel all requested
+[12:46:46.972] [WARNING] STOP
+[12:46:55.298] [OK] START
+[12:46:57.039] [WARNING] [HEALTH] block falling_market bid_ticks=-78.00 mid_ticks=-500.50
+[12:46:57.041] [WARNING] [HEALTH] unstable_bid delta_ticks=-78.00
+[12:46:57.042] [WARNING] [HEALTH] negative_momentum ticks=-500.50
+[12:46:59.876] [OK] [SYNC] order filled detected
+[12:47:05.422] [OK] [SYNC] order filled detected
+[12:47:06.703] [OK] [SYNC] order filled detected
+[12:47:08.277] [OK] [SYNC] order filled detected
+[12:47:23.369] [OK] [SYNC] order filled detected
+[12:47:27.173] [OK] [SYNC] order filled detected
+[12:47:33.189] [OK] [SYNC] order filled detected
+[12:47:40.455] [OK] [SYNC] order filled detected
+[12:47:56.680] [OK] [SYNC] order filled detected
+[12:48:02.011] [OK] [SYNC] order filled detected
+[12:48:05.520] [OK] [SYNC] order filled detected
+[12:48:08.545] [OK] [SYNC] order filled detected
+[12:48:24.226] [OK] [SYNC] order filled detected
+[12:48:26.349] [OK] [SYNC] order filled detected
+[12:48:30.561] [OK] [SYNC] order filled detected
+[12:48:52.569] [OK] [SYNC] order filled detected
+[12:48:55.059] [OK] [SYNC] order filled detected
+[12:49:05.193] [OK] [SYNC] order filled detected
+[12:49:18.313] [OK] [SYNC] order filled detected
+[12:49:23.704] [WARNING] [SYNC] desync fixed
+[12:49:29.646] [OK] [SYNC] order filled detected
+[12:49:41.539] [OK] [SYNC] order filled detected
+[12:49:43.321] [OK] [SYNC] order filled detected
+[12:49:54.865] [OK] [SYNC] order filled detected
+[12:50:05.196] [OK] [SYNC] order filled detected
+[12:50:07.206] [OK] [SYNC] order filled detected
+[12:50:50.365] [OK] [SYNC] order filled detected
+[12:50:54.392] [OK] [SYNC] order filled detected
+[12:51:02.577] [WARNING] cancel all requested
+[12:51:03.376] [WARNING] [SYNC] desync fixed
+[12:51:03.380] [WARNING] STOP
+[13:02:04.822] [OK] START
+[13:02:09.604] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:02:09.604] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:02:13.509] [OK] [SYNC] order filled detected
+[13:02:15.105] [OK] [SYNC] order filled detected
+[13:02:25.534] [OK] [SYNC] order filled detected
+[13:02:36.931] [OK] [SYNC] order filled detected
+[13:02:42.062] [OK] [SYNC] order filled detected
+[13:02:43.583] [OK] [SYNC] order filled detected
+[13:02:45.088] [OK] [SYNC] order filled detected
+[13:02:47.126] [OK] [SYNC] order filled detected
+[13:02:50.387] [OK] [SYNC] order filled detected
+[13:02:52.941] [OK] [SYNC] order filled detected
+[13:02:56.068] [OK] [SYNC] order filled detected
+[13:03:02.354] [OK] [SYNC] order filled detected
+[13:03:19.170] [OK] [SYNC] order filled detected
+[13:03:24.530] [WARNING] [SYNC] desync fixed
+[13:03:59.172] [WARNING] cancel all requested
+[13:03:59.178] [WARNING] STOP
+[13:04:49.806] [OK] START
+[13:04:52.182] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:04:52.182] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:05:09.354] [OK] [SYNC] order filled detected
+[13:05:11.744] [OK] [SYNC] order filled detected
+[13:05:15.509] [OK] [SYNC] order filled detected
+[13:05:40.086] [OK] [SYNC] order filled detected
+[13:05:51.228] [OK] [SYNC] order filled detected
+[13:05:52.766] [OK] [SYNC] order filled detected
+[13:05:59.317] [OK] [SYNC] order filled detected
+[13:07:31.890] [OK] [SYNC] order filled detected
+[13:07:34.915] [OK] [SYNC] order filled detected
+[13:07:40.759] [OK] [SYNC] order filled detected
+[13:07:42.837] [OK] [SYNC] order filled detected
+[13:07:49.727] [OK] [SYNC] order filled detected
+[13:07:52.229] [OK] [SYNC] order filled detected
+[13:08:01.661] [OK] [SYNC] order filled detected
+[13:08:26.292] [OK] [SYNC] order filled detected
+[13:08:30.847] [OK] [SYNC] order filled detected
+[13:08:34.873] [OK] [SYNC] order filled detected
+[13:08:39.682] [OK] [SYNC] order filled detected
+[13:08:41.280] [OK] [SYNC] order filled detected
+[13:08:51.143] [OK] [SYNC] order filled detected
+[13:08:52.695] [OK] [SYNC] order filled detected
+[13:08:59.229] [OK] [SYNC] order filled detected
+[13:09:03.960] [WARNING] [SYNC] desync fixed
+[13:14:30.541] [OK] START
+[13:14:33.791] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:14:33.791] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:14:40.275] [OK] [SYNC] order filled detected
+[13:15:31.854] [WARNING] cancel all requested
+[13:15:32.637] [WARNING] [SYNC] desync fixed
+[13:15:32.644] [WARNING] STOP
+[13:16:06.623] [OK] START
+[13:16:06.908] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:16:06.908] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:16:17.909] [OK] [SYNC] order filled detected
+[13:16:29.425] [OK] [SYNC] order filled detected
+[13:16:45.791] [OK] [SYNC] order filled detected
+[13:16:49.565] [OK] [SYNC] order filled detected
+[13:16:51.634] [OK] [SYNC] order filled detected
+[13:16:55.761] [WARNING] [SYNC] desync fixed
+[13:20:35.270] [OK] START
+[13:20:36.572] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:20:36.572] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:20:43.431] [OK] [SYNC] order filled detected
+[13:21:01.525] [OK] [SYNC] order filled detected
+[13:21:07.604] [OK] [SYNC] order filled detected
+[13:21:45.850] [OK] [SYNC] order filled detected
+[13:21:54.241] [OK] [SYNC] order filled detected
+[13:21:56.048] [OK] [SYNC] order filled detected
+[13:21:58.026] [OK] [SYNC] order filled detected
+[13:22:07.978] [OK] [SYNC] order filled detected
+[13:22:23.838] [OK] [SYNC] order filled detected
+[13:22:42.085] [OK] [SYNC] order filled detected
+[13:23:08.637] [OK] [SYNC] order filled detected
+[13:23:23.817] [OK] [SYNC] order filled detected
+[13:23:27.649] [OK] [SYNC] order filled detected
+[13:23:36.775] [OK] [SYNC] order filled detected
+[13:23:42.077] [OK] [SYNC] order filled detected
+[13:23:52.822] [OK] [SYNC] order filled detected
+[13:24:02.181] [OK] [SYNC] order filled detected
+[13:24:03.759] [OK] [SYNC] order filled detected
+[13:24:19.287] [OK] [SYNC] order filled detected
+[13:24:22.012] [OK] [SYNC] order filled detected
+[13:24:44.807] [OK] [SYNC] order filled detected
+[13:24:46.353] [OK] [SYNC] order filled detected
+[13:24:49.871] [OK] [SYNC] order filled detected
+[13:27:19.919] [WARNING] cancel all requested
+[13:27:20.744] [WARNING] [SYNC] desync fixed
+[13:27:20.744] [WARNING] STOP
+[13:36:36.414] [OK] START
+[13:36:37.542] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:36:37.544] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:36:37.778] [WARNING] [HEALTH] block spread_too_young lifetime=236
+[13:36:37.781] [WARNING] [HEALTH] unstable_bid delta_ticks=-1044.00
+[13:36:37.783] [WARNING] [HEALTH] negative_momentum ticks=-792.50
+[13:36:39.933] [OK] [SYNC] order filled detected
+[13:36:53.702] [WARNING] [SYNC] desync fixed
+[13:37:03.730] [OK] [SYNC] order filled detected
+[13:37:09.585] [OK] [SYNC] order filled detected
+[13:37:23.666] [WARNING] [SYNC] desync fixed
+[13:37:30.873] [WARNING] [SYNC] desync fixed
+[13:37:38.037] [WARNING] [SYNC] desync fixed
+[13:37:46.750] [OK] [SYNC] order filled detected
+[13:37:57.266] [OK] [SYNC] order filled detected
+[13:38:07.539] [WARNING] [SYNC] desync fixed
+[13:38:17.957] [OK] [SYNC] order filled detected
+[13:38:19.523] [OK] [SYNC] order filled detected
+[13:38:24.072] [OK] [SYNC] order filled detected
+[13:38:27.866] [OK] [SYNC] order filled detected
+[13:38:31.806] [OK] [SYNC] order filled detected
+[13:38:33.864] [OK] [SYNC] order filled detected
+[13:38:38.587] [WARNING] [SYNC] desync fixed
+[13:38:42.862] [OK] [SYNC] order filled detected
+[13:38:45.373] [OK] [SYNC] order filled detected
+[13:38:50.409] [OK] [SYNC] order filled detected
+[13:38:56.452] [OK] [SYNC] order filled detected
+[13:39:01.680] [OK] [SYNC] order filled detected
+[13:39:04.863] [OK] [SYNC] order filled detected
+[13:39:05.748] [OK] [SYNC] order filled detected
+[13:39:07.728] [OK] [SYNC] order filled detected
+[13:39:09.289] [OK] [SYNC] order filled detected
+[13:39:12.041] [OK] [SYNC] order filled detected
+[13:39:13.064] [OK] [SYNC] order filled detected
+[13:39:19.649] [OK] [SYNC] order filled detected
+[13:39:27.195] [OK] [SYNC] order filled detected
+[13:39:37.538] [OK] [SYNC] order filled detected
+[13:39:40.030] [OK] [SYNC] order filled detected
+[13:39:50.627] [OK] [SYNC] order filled detected
+[13:40:06.755] [OK] [SYNC] order filled detected
+[13:40:25.679] [OK] [SYNC] order filled detected
+[13:40:27.167] [OK] [SYNC] order filled detected
+[13:40:37.951] [OK] [SYNC] order filled detected
+[13:40:39.543] [OK] [SYNC] order filled detected
+[13:40:41.534] [OK] [SYNC] order filled detected
+[13:40:55.872] [WARNING] [SYNC] desync fixed
+[13:41:04.439] [OK] [SYNC] order filled detected
+[13:41:11.267] [OK] [SYNC] order filled detected
+[13:41:16.430] [WARNING] [SYNC] desync fixed
+[13:41:29.976] [OK] [SYNC] order filled detected
+[13:41:30.981] [OK] [SYNC] order filled detected
+[13:41:35.275] [OK] [SYNC] order filled detected
+[13:41:36.811] [OK] [SYNC] order filled detected
+[13:41:41.874] [OK] [SYNC] order filled detected
+[13:41:48.434] [OK] [SYNC] order filled detected
+[13:41:53.708] [OK] [SYNC] order filled detected
+[13:42:06.558] [OK] [SYNC] order filled detected
+[13:42:09.092] [OK] [SYNC] order filled detected
+[13:42:25.912] [WARNING] [SYNC] desync fixed
+[13:42:34.651] [WARNING] cancel all requested
+[13:42:34.656] [WARNING] STOP
+[13:43:10.634] [OK] [SETTINGS] settings saved
+[13:43:12.357] [OK] START
+[13:43:13.142] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:43:13.144] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:43:13.432] [WARNING] [HEALTH] block spread_too_young lifetime=293
+[13:43:30.031] [OK] [SYNC] order filled detected
+[13:43:34.556] [WARNING] [SYNC] desync fixed
+[13:43:43.101] [WARNING] [SYNC] desync fixed
+[13:43:50.363] [OK] [SYNC] order filled detected
+[13:43:55.472] [OK] [SYNC] order filled detected
+[13:44:02.969] [OK] [SYNC] order filled detected
+[13:44:12.206] [OK] [SYNC] order filled detected
+[13:44:15.294] [OK] [SYNC] order filled detected
+[13:44:24.540] [OK] [SYNC] order filled detected
+[13:44:39.881] [WARNING] [SYNC] desync fixed
+[13:44:55.223] [OK] [SYNC] order filled detected
+[13:44:56.733] [OK] [SYNC] order filled detected
+[13:44:58.314] [OK] [SYNC] order filled detected
+[13:45:06.546] [OK] [SYNC] order filled detected
+[13:45:09.567] [OK] [SYNC] order filled detected
+[13:45:14.086] [OK] [SYNC] order filled detected
+[13:45:15.588] [OK] [SYNC] order filled detected
+[13:45:32.690] [OK] [SYNC] order filled detected
+[13:45:34.229] [OK] [SYNC] order filled detected
+[13:45:38.179] [OK] [SYNC] order filled detected
+[13:45:45.954] [OK] [SYNC] order filled detected
+[13:45:50.054] [WARNING] [SYNC] desync fixed
+[13:46:00.974] [WARNING] [SYNC] desync fixed
+[13:46:13.571] [OK] [SYNC] order filled detected
+[13:46:20.221] [WARNING] cancel all requested
+[13:46:21.014] [WARNING] [SYNC] desync fixed
+[13:46:21.021] [WARNING] STOP
+[13:56:38.693] [OK] START
+[13:56:38.701] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:56:38.702] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:56:40.897] [WARNING] [HEALTH] block falling_market bid_ticks=-446.00 mid_ticks=-324.50
+[13:56:40.900] [WARNING] [HEALTH] unstable_bid delta_ticks=-446.00
+[13:56:40.902] [WARNING] [HEALTH] negative_momentum ticks=-324.50
+[13:56:41.394] [WARNING] [HEALTH] block falling_market bid_ticks=-353.00 mid_ticks=-374.00
+[13:56:41.397] [WARNING] [HEALTH] unstable_bid delta_ticks=-353.00
+[13:56:41.399] [WARNING] [HEALTH] negative_momentum ticks=-374.00
+[13:56:41.887] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-101.50
+[13:56:41.889] [WARNING] [HEALTH] negative_momentum ticks=-101.50
+[13:56:45.682] [OK] [SYNC] order filled detected
+[13:56:47.506] [OK] [SYNC] order filled detected
+[13:56:49.992] [OK] [SYNC] order filled detected
+[13:57:02.783] [WARNING] [SYNC] desync fixed
+[13:57:40.776] [WARNING] cancel all requested
+[13:57:40.781] [WARNING] STOP
+[13:58:19.149] [OK] START
+[13:58:19.930] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:58:19.931] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:58:25.879] [OK] [SYNC] order filled detected
+[13:58:38.324] [WARNING] [SYNC] desync fixed
+[13:59:06.534] [WARNING] cancel all requested
+[13:59:06.540] [WARNING] STOP
+[14:02:27.484] [OK] START
+[14:02:28.621] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[14:02:28.624] [WARNING] [HEALTH] unstable_spread lifetime=0
+[14:02:28.868] [WARNING] [HEALTH] block spread_too_young lifetime=246
+[14:02:30.467] [OK] [SYNC] order filled detected
+[14:02:34.019] [WARNING] [SYNC] desync fixed
+[14:02:43.787] [OK] [SYNC] order filled detected
+[14:02:45.532] [OK] [SYNC] order filled detected
+[14:02:47.098] [OK] [SYNC] order filled detected
+[14:02:49.107] [OK] [SYNC] order filled detected
+[14:02:52.642] [WARNING] [SYNC] desync fixed
+[14:03:03.443] [WARNING] [SYNC] desync fixed
+[14:03:06.165] [OK] [SYNC] order filled detected
+[14:03:08.740] [OK] [SYNC] order filled detected
+[14:03:12.302] [WARNING] [SYNC] desync fixed
+[14:03:18.659] [WARNING] [SYNC] desync fixed
+[14:03:28.752] [OK] [SYNC] order filled detected
+[14:03:32.058] [OK] [SYNC] order filled detected
+[14:03:35.604] [OK] [SYNC] order filled detected
+[14:03:41.293] [OK] [SYNC] order filled detected
+[14:03:45.583] [WARNING] [SYNC] desync fixed
+[14:03:51.277] [OK] [SYNC] order filled detected
+[14:04:00.289] [OK] [SYNC] order filled detected
+[14:04:01.801] [OK] [SYNC] order filled detected
+[14:04:09.225] [OK] [SYNC] order filled detected
+[14:04:12.763] [WARNING] [SYNC] desync fixed
+[14:04:24.534] [OK] [SYNC] order filled detected
+[14:04:36.936] [OK] [SYNC] order filled detected
+[14:04:40.956] [WARNING] [SYNC] desync fixed
+[14:04:56.330] [WARNING] [HEALTH] block falling_market bid_ticks=90.00 mid_ticks=-90.50
+[14:04:56.333] [WARNING] [HEALTH] negative_momentum ticks=-90.50
+[14:05:09.354] [OK] [SYNC] order filled detected
+[14:05:11.376] [OK] [SYNC] order filled detected
+[14:05:15.623] [OK] [SYNC] order filled detected
+[14:05:18.922] [OK] [SYNC] order filled detected
+[14:05:20.426] [OK] [SYNC] order filled detected
+[14:05:24.455] [OK] [SYNC] order filled detected
+[14:05:28.216] [OK] [SYNC] order filled detected
+[14:05:28.438] [WARNING] [HEALTH] block falling_market bid_ticks=-1723.00 mid_ticks=-1430.50
+[14:05:28.441] [WARNING] [HEALTH] unstable_bid delta_ticks=-1723.00
+[14:05:28.443] [WARNING] [HEALTH] negative_momentum ticks=-1430.50
+[14:05:30.732] [OK] [SYNC] order filled detected
+[14:05:36.597] [OK] [SYNC] order filled detected
+[14:05:38.547] [OK] [SYNC] order filled detected
+[14:05:40.563] [OK] [SYNC] order filled detected
+[14:05:44.115] [OK] [SYNC] order filled detected
+[14:06:01.044] [OK] [SYNC] order filled detected
+[14:06:02.516] [OK] [SYNC] order filled detected
+[14:06:04.038] [OK] [SYNC] order filled detected
+[14:06:14.960] [WARNING] [SYNC] desync fixed
+[14:24:09.961] [WARNING] cancel all requested
+[14:24:09.963] [WARNING] STOP
+[14:34:27.007] [OK] START
+[14:34:27.010] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[14:34:27.010] [WARNING] [HEALTH] unstable_spread lifetime=0
+[14:34:30.181] [OK] [SYNC] order filled detected
+[14:34:39.574] [OK] [SYNC] order filled detected
+[14:34:43.308] [WARNING] [SYNC] desync fixed
+[14:34:48.125] [OK] [SYNC] order filled detected
+[14:34:56.718] [OK] [SYNC] order filled detected
+[14:34:58.713] [OK] [SYNC] order filled detected
+[14:35:03.743] [OK] [SYNC] order filled detected
+[14:35:07.607] [WARNING] [SYNC] desync fixed
+[14:35:11.283] [OK] [SYNC] order filled detected
+[14:35:15.025] [OK] [SYNC] order filled detected
+[14:35:16.040] [OK] [SYNC] order filled detected
+[14:35:19.619] [WARNING] [SYNC] desync fixed
+[14:35:28.964] [WARNING] cancel all requested
+[14:35:29.955] [WARNING] [SYNC] desync fixed
+[14:35:29.959] [WARNING] STOP
+[14:36:20.142] [OK] START
+[14:36:20.149] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[14:36:20.150] [WARNING] [HEALTH] unstable_spread lifetime=0
+[14:36:40.826] [OK] [SYNC] order filled detected
+[14:36:44.697] [WARNING] [SYNC] desync fixed
+[14:36:50.870] [OK] [SYNC] order filled detected
+[14:36:54.588] [OK] [SYNC] order filled detected
+[14:36:58.637] [OK] [SYNC] order filled detected
+[14:37:00.729] [OK] [SYNC] order filled detected
+[14:37:02.161] [OK] [SYNC] order filled detected
+[14:37:03.916] [OK] [SYNC] order filled detected
+[14:37:12.119] [OK] [SYNC] order filled detected
+[14:37:15.981] [WARNING] [SYNC] desync fixed
+[14:37:20.054] [OK] [SYNC] order filled detected
+[14:37:24.553] [OK] [SYNC] order filled detected
+[14:54:48.074] [OK] [SETTINGS] settings saved
+[14:54:49.808] [OK] START
+[14:54:50.121] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[14:54:50.121] [WARNING] [HEALTH] unstable_spread lifetime=0
+[14:54:54.902] [OK] [SYNC] order filled detected
+[14:54:56.957] [OK] [SYNC] order filled detected
+[14:55:12.688] [OK] [SYNC] order filled detected
+[14:55:28.898] [WARNING] [SYNC] desync fixed
+[14:55:39.094] [OK] [SYNC] order filled detected
+[14:55:41.659] [OK] [SYNC] order filled detected
+[14:55:54.840] [WARNING] cancel all requested
+[14:55:55.643] [WARNING] [SYNC] desync fixed
+[14:55:55.651] [WARNING] STOP
+[15:03:39.058] [OK] START
+[15:03:40.206] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:03:40.208] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:03:47.252] [OK] [SYNC] order filled detected
+[15:03:58.951] [OK] [SYNC] order filled detected
+[15:04:06.874] [OK] [SYNC] order filled detected
+[15:04:12.907] [OK] [SYNC] order filled detected
+[15:04:19.912] [WARNING] cancel all requested
+[15:04:20.819] [WARNING] [SYNC] desync fixed
+[15:04:20.829] [WARNING] STOP
+[15:14:22.867] [OK] [SETTINGS] settings saved
+[15:14:24.761] [OK] START
+[15:14:25.354] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:14:25.355] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:14:28.245] [OK] [SYNC] order filled detected
+[15:14:30.481] [OK] [SYNC] order filled detected
+[15:14:32.224] [OK] [SYNC] order filled detected
+[15:14:33.696] [OK] [SYNC] order filled detected
+[15:14:46.478] [WARNING] cancel all requested
+[15:14:46.486] [WARNING] STOP
+[15:16:44.721] [OK] START
+[15:16:45.748] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:16:45.750] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:16:49.370] [OK] [SYNC] order filled detected
+[15:17:07.801] [OK] [SYNC] order filled detected
+[15:17:09.453] [OK] [SYNC] order filled detected
+[15:17:16.237] [OK] [SYNC] order filled detected
+[15:17:17.795] [OK] [SYNC] order filled detected
+[15:17:28.600] [OK] [SYNC] order filled detected
+[15:17:30.429] [OK] [SYNC] order filled detected
+[15:17:36.323] [OK] [SYNC] order filled detected
+[15:17:37.181] [OK] [SYNC] order filled detected
+[15:17:44.421] [OK] [SYNC] order filled detected
+[15:17:53.181] [OK] [SYNC] order filled detected
+[15:18:05.140] [OK] [SYNC] order filled detected
+[15:18:18.598] [WARNING] [SYNC] desync fixed
+[15:18:41.022] [WARNING] cancel all requested
+[15:18:41.030] [WARNING] STOP
+[15:19:58.438] [OK] START
+[15:19:59.385] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:19:59.385] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:20:09.105] [WARNING] [HEALTH] block falling_market bid_ticks=-91.00 mid_ticks=-46.00
+[15:20:09.105] [WARNING] [HEALTH] unstable_bid delta_ticks=-91.00
+[15:20:09.111] [WARNING] [HEALTH] negative_momentum ticks=-46.00
+[15:20:09.603] [WARNING] [HEALTH] block falling_market bid_ticks=-593.00 mid_ticks=-223.00
+[15:20:09.603] [WARNING] [HEALTH] unstable_bid delta_ticks=-593.00
+[15:20:09.603] [WARNING] [HEALTH] negative_momentum ticks=-223.00
+[15:20:11.888] [WARNING] [HEALTH] block falling_market bid_ticks=-494.00 mid_ticks=-644.50
+[15:20:11.888] [WARNING] [HEALTH] unstable_bid delta_ticks=-494.00
+[15:20:11.888] [WARNING] [HEALTH] negative_momentum ticks=-644.50
+[15:20:16.719] [WARNING] [HEALTH] block falling_market bid_ticks=-656.00 mid_ticks=-418.00
+[15:20:16.719] [WARNING] [HEALTH] unstable_bid delta_ticks=-656.00
+[15:20:16.719] [WARNING] [HEALTH] negative_momentum ticks=-418.00
+[15:20:17.214] [WARNING] [HEALTH] block falling_market bid_ticks=-717.00 mid_ticks=-957.50
+[15:20:17.214] [WARNING] [HEALTH] unstable_bid delta_ticks=-717.00
+[15:20:17.214] [WARNING] [HEALTH] negative_momentum ticks=-957.50
+[15:20:19.213] [WARNING] [HEALTH] block falling_market bid_ticks=-57.00 mid_ticks=-28.50
+[15:20:19.213] [WARNING] [HEALTH] unstable_bid delta_ticks=-57.00
+[15:20:19.221] [WARNING] [HEALTH] negative_momentum ticks=-28.50
+[15:20:21.010] [WARNING] [HEALTH] block falling_market bid_ticks=-334.00 mid_ticks=-388.50
+[15:20:21.010] [WARNING] [HEALTH] unstable_bid delta_ticks=-334.00
+[15:20:21.010] [WARNING] [HEALTH] negative_momentum ticks=-388.50
+[15:20:23.045] [WARNING] [HEALTH] block falling_market bid_ticks=-502.00 mid_ticks=-310.00
+[15:20:23.053] [WARNING] [HEALTH] unstable_bid delta_ticks=-502.00
+[15:20:23.053] [WARNING] [HEALTH] negative_momentum ticks=-310.00
+[15:20:27.135] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-236.00
+[15:20:27.135] [WARNING] [HEALTH] negative_momentum ticks=-236.00
+[15:20:30.719] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-11.00
+[15:20:30.719] [WARNING] [HEALTH] negative_momentum ticks=-11.00
+[15:20:32.486] [WARNING] [HEALTH] block falling_market bid_ticks=-255.00 mid_ticks=272.00
+[15:20:32.486] [WARNING] [HEALTH] unstable_bid delta_ticks=-255.00
+[15:20:32.986] [WARNING] [HEALTH] block falling_market bid_ticks=-267.00 mid_ticks=-533.50
+[15:20:32.986] [WARNING] [HEALTH] unstable_bid delta_ticks=-267.00
+[15:20:32.986] [WARNING] [HEALTH] negative_momentum ticks=-533.50
+[15:20:36.751] [WARNING] [HEALTH] block falling_market bid_ticks=-522.00 mid_ticks=-429.50
+[15:20:36.753] [WARNING] [HEALTH] unstable_bid delta_ticks=-522.00
+[15:20:36.753] [WARNING] [HEALTH] negative_momentum ticks=-429.50
+[15:20:38.526] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:20:38.526] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:20:39.529] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-73.00
+[15:20:39.529] [WARNING] [HEALTH] negative_momentum ticks=-73.00
+[15:20:40.547] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:20:40.547] [WARNING] [HEALTH] unstable_bid delta_ticks=-668.00
+[15:20:40.547] [WARNING] [HEALTH] negative_momentum ticks=-434.00
+[15:20:40.547] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:20:42.638] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:20:42.642] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:20:43.922] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-45.00
+[15:20:43.922] [WARNING] [HEALTH] negative_momentum ticks=-45.00
+[15:20:45.442] [WARNING] [HEALTH] block falling_market bid_ticks=-18.00 mid_ticks=-32.00
+[15:20:45.442] [WARNING] [HEALTH] unstable_bid delta_ticks=-18.00
+[15:20:45.442] [WARNING] [HEALTH] negative_momentum ticks=-32.00
+[15:20:47.463] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:20:47.463] [WARNING] [HEALTH] unstable_bid delta_ticks=-113.00
+[15:20:47.463] [WARNING] [HEALTH] negative_momentum ticks=-56.50
+[15:20:47.463] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:20:48.465] [WARNING] [HEALTH] block falling_market bid_ticks=-86.00 mid_ticks=-43.00
+[15:20:48.465] [WARNING] [HEALTH] unstable_bid delta_ticks=-86.00
+[15:20:48.473] [WARNING] [HEALTH] negative_momentum ticks=-43.00
+[15:20:48.963] [WARNING] [HEALTH] block falling_market bid_ticks=-580.00 mid_ticks=-397.50
+[15:20:48.967] [WARNING] [HEALTH] unstable_bid delta_ticks=-580.00
+[15:20:48.969] [WARNING] [HEALTH] negative_momentum ticks=-397.50
+[15:20:50.963] [WARNING] [HEALTH] block falling_market bid_ticks=-404.00 mid_ticks=-245.00
+[15:20:50.971] [WARNING] [HEALTH] unstable_bid delta_ticks=-404.00
+[15:20:50.971] [WARNING] [HEALTH] negative_momentum ticks=-245.00
+[15:20:52.410] [WARNING] cancel all requested
+[15:20:52.418] [WARNING] STOP
+[15:21:18.881] [OK] [SETTINGS] settings saved
+[15:21:20.902] [OK] START
+[15:21:44.325] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:21:44.325] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:21:44.798] [WARNING] [HEALTH] block spread_too_young lifetime=489
+[15:21:45.267] [WARNING] [HEALTH] block falling_market bid_ticks=-386.00 mid_ticks=-193.50
+[15:21:45.267] [WARNING] [HEALTH] unstable_bid delta_ticks=-386.00
+[15:21:45.267] [WARNING] [HEALTH] negative_momentum ticks=-193.50
+[15:21:45.922] [WARNING] [HEALTH] block falling_market bid_ticks=-424.00 mid_ticks=-351.00
+[15:21:45.922] [WARNING] [HEALTH] unstable_bid delta_ticks=-424.00
+[15:21:45.922] [WARNING] [HEALTH] negative_momentum ticks=-351.00
+[15:21:48.479] [WARNING] [HEALTH] block falling_market bid_ticks=-233.00 mid_ticks=-232.00
+[15:21:48.479] [WARNING] [HEALTH] unstable_bid delta_ticks=-233.00
+[15:21:48.479] [WARNING] [HEALTH] negative_momentum ticks=-232.00
+[15:21:48.796] [WARNING] [HEALTH] block falling_market bid_ticks=-233.00 mid_ticks=-232.00
+[15:21:50.752] [WARNING] [HEALTH] block falling_market bid_ticks=-603.00 mid_ticks=-476.50
+[15:21:50.752] [WARNING] [HEALTH] unstable_bid delta_ticks=-603.00
+[15:21:50.752] [WARNING] [HEALTH] negative_momentum ticks=-476.50
+[15:21:51.269] [WARNING] [HEALTH] block falling_market bid_ticks=-196.00 mid_ticks=-277.50
+[15:21:51.269] [WARNING] [HEALTH] unstable_bid delta_ticks=-196.00
+[15:21:51.269] [WARNING] [HEALTH] negative_momentum ticks=-277.50
+[15:21:51.593] [WARNING] [HEALTH] block falling_market bid_ticks=-40.00 mid_ticks=-419.00
+[15:21:51.593] [WARNING] [HEALTH] unstable_bid delta_ticks=-40.00
+[15:21:51.593] [WARNING] [HEALTH] negative_momentum ticks=-419.00
+[15:21:52.274] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:21:52.274] [WARNING] [HEALTH] unstable_bid delta_ticks=-279.00
+[15:21:52.274] [WARNING] [HEALTH] negative_momentum ticks=-139.50
+[15:21:52.274] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:21:52.619] [WARNING] [HEALTH] block spread_too_young lifetime=329
+[15:21:52.762] [WARNING] [HEALTH] block spread_too_young lifetime=488
+[15:21:53.070] [WARNING] [HEALTH] block falling_market bid_ticks=-32.00 mid_ticks=-19.50
+[15:21:53.070] [WARNING] [HEALTH] unstable_bid delta_ticks=-32.00
+[15:21:53.070] [WARNING] [HEALTH] negative_momentum ticks=-19.50
+[15:21:53.794] [WARNING] [HEALTH] block falling_market bid_ticks=-63.00 mid_ticks=-31.50
+[15:21:53.794] [WARNING] [HEALTH] unstable_bid delta_ticks=-63.00
+[15:21:53.794] [WARNING] [HEALTH] negative_momentum ticks=-31.50
+[15:21:56.396] [WARNING] cancel all requested
+[15:21:56.404] [WARNING] STOP
+[15:22:11.399] [OK] START
+[15:22:13.841] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:22:13.856] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:22:15.703] [WARNING] [HEALTH] block falling_market bid_ticks=-60.00 mid_ticks=-30.00
+[15:22:15.703] [WARNING] [HEALTH] unstable_bid delta_ticks=-60.00
+[15:22:15.703] [WARNING] [HEALTH] negative_momentum ticks=-30.00
+[15:22:16.715] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:22:16.715] [WARNING] [HEALTH] unstable_bid delta_ticks=-254.00
+[15:22:16.715] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:22:37.468] [WARNING] [HEALTH] block falling_market bid_ticks=-3508.00 mid_ticks=-3424.50
+[15:22:37.468] [WARNING] [HEALTH] unstable_bid delta_ticks=-3508.00
+[15:22:37.468] [WARNING] [HEALTH] negative_momentum ticks=-3424.50
+[15:22:37.967] [WARNING] [HEALTH] block falling_market bid_ticks=-242.00 mid_ticks=-439.50
+[15:22:37.970] [WARNING] [HEALTH] unstable_bid delta_ticks=-242.00
+[15:22:37.974] [WARNING] [HEALTH] negative_momentum ticks=-439.50
+[15:22:44.575] [WARNING] cancel all requested
+[15:22:44.597] [WARNING] STOP
+[15:32:34.858] [OK] START
+[15:32:35.142] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:32:35.142] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:32:38.020] [OK] [SYNC] order filled detected
+[15:32:39.588] [OK] [SYNC] order filled detected
+[15:32:43.679] [OK] [SYNC] order filled detected
+[15:32:50.073] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:32:50.075] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:32:50.573] [WARNING] [HEALTH] block falling_market bid_ticks=71.00 mid_ticks=-60.50
+[15:32:50.578] [WARNING] [HEALTH] negative_momentum ticks=-60.50
+[15:32:52.930] [OK] [SYNC] order filled detected
+[15:32:55.091] [WARNING] cancel all requested
+[15:32:56.065] [WARNING] [SYNC] desync fixed
+[15:32:56.070] [WARNING] STOP
+[15:33:37.882] [OK] [SETTINGS] settings saved
+[15:33:39.597] [OK] START
+[15:33:48.790] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:33:48.791] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:33:49.275] [WARNING] [HEALTH] block spread_too_young lifetime=485
+[15:33:49.275] [WARNING] [HEALTH] unstable_bid delta_ticks=-190.00
+[15:33:49.275] [WARNING] [HEALTH] negative_momentum ticks=-288.50
+[15:33:56.619] [WARNING] [HEALTH] block falling_market bid_ticks=-126.00 mid_ticks=-263.00
+[15:33:56.619] [WARNING] [HEALTH] unstable_bid delta_ticks=-126.00
+[15:33:56.619] [WARNING] [HEALTH] negative_momentum ticks=-263.00
+[15:33:57.619] [WARNING] [HEALTH] block falling_market bid_ticks=-12.00 mid_ticks=-6.00
+[15:33:57.619] [WARNING] [HEALTH] unstable_bid delta_ticks=-12.00
+[15:33:59.151] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:33:59.153] [WARNING] [HEALTH] unstable_bid delta_ticks=-113.00
+[15:33:59.155] [WARNING] [HEALTH] negative_momentum ticks=-57.00
+[15:33:59.156] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:34:00.666] [WARNING] [HEALTH] block falling_market bid_ticks=-261.00 mid_ticks=25.50
+[15:34:00.666] [WARNING] [HEALTH] unstable_bid delta_ticks=-261.00
+[15:34:05.480] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:34:05.483] [WARNING] [HEALTH] unstable_bid delta_ticks=-408.00
+[15:34:05.485] [WARNING] [HEALTH] negative_momentum ticks=-204.00
+[15:34:05.488] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:34:05.979] [WARNING] [HEALTH] block spread_too_young lifetime=499
+[15:34:07.471] [WARNING] cancel all requested
+[15:34:07.478] [WARNING] STOP
+[15:34:16.368] [OK] START
+[15:34:16.665] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:34:16.665] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:34:23.870] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-35.50
+[15:34:23.873] [WARNING] [HEALTH] negative_momentum ticks=-35.50
+[15:34:25.109] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:34:25.109] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:34:26.111] [WARNING] [HEALTH] block falling_market bid_ticks=103.00 mid_ticks=-31.50
+[15:34:26.112] [WARNING] [HEALTH] negative_momentum ticks=-31.50
+[15:34:28.134] [WARNING] [HEALTH] block falling_market bid_ticks=-42.00 mid_ticks=54.00
+[15:34:28.134] [WARNING] [HEALTH] unstable_bid delta_ticks=-42.00
+[15:34:31.433] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:34:31.436] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:34:33.712] [WARNING] [HEALTH] block falling_market bid_ticks=-654.00 mid_ticks=-451.00
+[15:34:33.712] [WARNING] [HEALTH] unstable_bid delta_ticks=-654.00
+[15:34:33.712] [WARNING] [HEALTH] negative_momentum ticks=-451.00
+[15:34:34.392] [WARNING] cancel all requested
+[15:34:34.402] [WARNING] STOP
+[15:34:46.588] [OK] [SETTINGS] settings saved
+[15:36:07.814] [OK] START
+[15:36:09.556] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:36:09.556] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:36:17.855] [WARNING] [HEALTH] block falling_market bid_ticks=-14.00 mid_ticks=-93.50
+[15:36:17.855] [WARNING] [HEALTH] unstable_bid delta_ticks=-14.00
+[15:36:17.855] [WARNING] [HEALTH] negative_momentum ticks=-93.50
+[15:36:19.357] [WARNING] [HEALTH] block falling_market bid_ticks=-316.00 mid_ticks=0.50
+[15:36:19.358] [WARNING] [HEALTH] unstable_bid delta_ticks=-316.00
+[15:36:23.651] [WARNING] [HEALTH] block falling_market bid_ticks=-84.00 mid_ticks=-66.50
+[15:36:23.651] [WARNING] [HEALTH] unstable_bid delta_ticks=-84.00
+[15:36:23.652] [WARNING] [HEALTH] negative_momentum ticks=-66.50
+[15:36:27.243] [WARNING] [HEALTH] block falling_market bid_ticks=-86.00 mid_ticks=-0.50
+[15:36:27.243] [WARNING] [HEALTH] unstable_bid delta_ticks=-86.00
+[15:36:29.250] [WARNING] [HEALTH] block falling_market bid_ticks=-135.00 mid_ticks=-67.50
+[15:36:29.250] [WARNING] [HEALTH] unstable_bid delta_ticks=-135.00
+[15:36:29.257] [WARNING] [HEALTH] negative_momentum ticks=-67.50
+[15:36:30.260] [WARNING] [HEALTH] block falling_market bid_ticks=-82.00 mid_ticks=-41.50
+[15:36:30.263] [WARNING] [HEALTH] unstable_bid delta_ticks=-82.00
+[15:36:30.263] [WARNING] [HEALTH] negative_momentum ticks=-41.50
+[15:36:35.790] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:36:35.790] [WARNING] [HEALTH] unstable_bid delta_ticks=-786.00
+[15:36:35.790] [WARNING] [HEALTH] negative_momentum ticks=-393.00
+[15:36:35.790] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:36:36.277] [WARNING] [HEALTH] block spread_too_young lifetime=487
+[15:36:36.872] [WARNING] cancel all requested
+[15:36:36.880] [WARNING] STOP
+[15:43:42.288] [OK] START
+[15:43:42.588] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:43:42.588] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:43:43.730] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-26.50
+[15:43:43.733] [WARNING] [HEALTH] negative_momentum ticks=-26.50
+[15:43:49.068] [WARNING] cancel all requested
+[15:43:49.079] [WARNING] STOP
+[15:44:01.589] [OK] [SETTINGS] settings saved
+[15:44:03.369] [OK] START
+[15:44:17.859] [WARNING] [HEALTH] block falling_market bid_ticks=-32.00 mid_ticks=-16.00
+[15:44:17.862] [WARNING] [HEALTH] unstable_bid delta_ticks=-32.00
+[15:44:17.863] [WARNING] [HEALTH] negative_momentum ticks=-16.00
+[15:44:22.159] [WARNING] [HEALTH] block falling_market bid_ticks=-535.00 mid_ticks=-430.50
+[15:44:22.162] [WARNING] [HEALTH] unstable_bid delta_ticks=-535.00
+[15:44:22.164] [WARNING] [HEALTH] negative_momentum ticks=-430.50
+[15:44:23.165] [WARNING] [HEALTH] block falling_market bid_ticks=-433.00 mid_ticks=-315.50
+[15:44:23.165] [WARNING] [HEALTH] unstable_bid delta_ticks=-433.00
+[15:44:23.165] [WARNING] [HEALTH] negative_momentum ticks=-315.50
+[15:44:24.668] [WARNING] [HEALTH] block falling_market bid_ticks=599.00 mid_ticks=-83.00
+[15:44:24.670] [WARNING] [HEALTH] negative_momentum ticks=-83.00
+[15:44:25.166] [WARNING] [HEALTH] block falling_market bid_ticks=-600.00 mid_ticks=-307.50
+[15:44:25.166] [WARNING] [HEALTH] unstable_bid delta_ticks=-600.00
+[15:44:25.166] [WARNING] [HEALTH] negative_momentum ticks=-307.50
+[15:44:26.449] [WARNING] [HEALTH] block falling_market bid_ticks=-41.00 mid_ticks=-243.50
+[15:44:26.451] [WARNING] [HEALTH] unstable_bid delta_ticks=-41.00
+[15:44:26.453] [WARNING] [HEALTH] negative_momentum ticks=-243.50
+[15:44:30.776] [WARNING] [HEALTH] block falling_market bid_ticks=-77.00 mid_ticks=-38.50
+[15:44:30.779] [WARNING] [HEALTH] unstable_bid delta_ticks=-77.00
+[15:44:30.780] [WARNING] [HEALTH] negative_momentum ticks=-38.50
+[15:44:32.306] [WARNING] [HEALTH] block falling_market bid_ticks=-141.00 mid_ticks=-70.50
+[15:44:32.306] [WARNING] [HEALTH] unstable_bid delta_ticks=-141.00
+[15:44:32.306] [WARNING] [HEALTH] negative_momentum ticks=-70.50
+[15:44:41.524] [WARNING] [HEALTH] block falling_market bid_ticks=65.00 mid_ticks=-147.00
+[15:44:41.524] [WARNING] [HEALTH] negative_momentum ticks=-147.00
+[15:44:42.021] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:44:42.024] [WARNING] [HEALTH] unstable_bid delta_ticks=-65.00
+[15:44:42.025] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:44:42.510] [WARNING] [HEALTH] block spread_too_young lifetime=490
+[15:44:42.510] [WARNING] [HEALTH] unstable_bid delta_ticks=-432.00
+[15:44:42.510] [WARNING] [HEALTH] negative_momentum ticks=-216.00
+[15:44:46.041] [WARNING] [HEALTH] block falling_market bid_ticks=-36.00 mid_ticks=-18.00
+[15:44:46.043] [WARNING] [HEALTH] unstable_bid delta_ticks=-36.00
+[15:44:46.045] [WARNING] [HEALTH] negative_momentum ticks=-18.00
+[15:44:49.088] [WARNING] [HEALTH] block falling_market bid_ticks=-19.00 mid_ticks=-9.50
+[15:44:49.092] [WARNING] [HEALTH] unstable_bid delta_ticks=-19.00
+[15:44:49.094] [WARNING] [HEALTH] negative_momentum ticks=-9.50
+[15:44:52.603] [WARNING] [HEALTH] block falling_market bid_ticks=-104.00 mid_ticks=-68.50
+[15:44:52.603] [WARNING] [HEALTH] unstable_bid delta_ticks=-104.00
+[15:44:52.603] [WARNING] [HEALTH] negative_momentum ticks=-68.50
+[15:44:54.104] [WARNING] [HEALTH] block falling_market bid_ticks=-441.00 mid_ticks=-220.50
+[15:44:54.104] [WARNING] [HEALTH] unstable_bid delta_ticks=-441.00
+[15:44:54.104] [WARNING] [HEALTH] negative_momentum ticks=-220.50
+[15:45:04.554] [WARNING] cancel all requested
+[15:45:04.563] [WARNING] STOP
+[15:51:44.120] [OK] START
+[15:51:44.915] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:51:44.915] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:51:48.025] [WARNING] cancel all requested
+[15:51:48.041] [WARNING] STOP
+[15:51:55.479] [OK] START
+[15:53:13.058] [OK] [SYNC] order filled detected
+[15:53:19.568] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:53:19.571] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:54:14.879] [OK] [SYNC] order filled detected
+[15:54:57.541] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:54:57.541] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:55:36.915] [OK] [SYNC] order filled detected
+[15:56:35.984] [WARNING] cancel all requested
+[15:56:35.990] [WARNING] STOP
+[16:02:19.862] [OK] START
+[16:02:22.357] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:22.358] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:02:25.765] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:31.135] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:31.135] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:02:33.249] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:41.206] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:41.208] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:02:48.697] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:48.697] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:03:20.290] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:20.290] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:03:34.308] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:34.311] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:03:48.635] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:48.635] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:03:50.635] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:51.127] [WARNING] [HEALTH] block spread_too_young lifetime=493
+[16:03:54.803] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:54.805] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:03:56.712] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:04:07.731] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:04:07.733] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:04:12.495] [WARNING] cancel all requested
+[16:04:12.510] [WARNING] STOP
+[16:04:13.164] [OK] START
+[16:04:13.463] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:04:13.464] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:04:13.681] [WARNING] [HEALTH] block spread_too_young lifetime=221
+[16:04:39.476] [WARNING] [SYNC] desync fixed
+[16:29:08.234] [OK] [SETTINGS] settings saved
+[16:29:09.956] [OK] START
+[16:29:12.791] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:12.794] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:13.287] [WARNING] [HEALTH] block spread_too_young lifetime=497
+[16:29:13.783] [WARNING] [HEALTH] block falling_market bid_ticks=-376.00 mid_ticks=-395.50
+[16:29:13.786] [WARNING] [HEALTH] unstable_bid delta_ticks=-376.00
+[16:29:13.788] [WARNING] [HEALTH] negative_momentum ticks=-395.50
+[16:29:14.784] [WARNING] [HEALTH] block falling_market bid_ticks=43.00 mid_ticks=-98.50
+[16:29:14.786] [WARNING] [HEALTH] negative_momentum ticks=-98.50
+[16:29:15.280] [WARNING] [HEALTH] block falling_market bid_ticks=-365.00 mid_ticks=-183.00
+[16:29:15.282] [WARNING] [HEALTH] unstable_bid delta_ticks=-365.00
+[16:29:15.284] [WARNING] [HEALTH] negative_momentum ticks=-183.00
+[16:29:16.787] [WARNING] [HEALTH] block falling_market bid_ticks=-294.00 mid_ticks=-147.00
+[16:29:16.790] [WARNING] [HEALTH] unstable_bid delta_ticks=-294.00
+[16:29:16.792] [WARNING] [HEALTH] negative_momentum ticks=-147.00
+[16:29:18.292] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:18.295] [WARNING] [HEALTH] unstable_bid delta_ticks=-816.00
+[16:29:18.297] [WARNING] [HEALTH] negative_momentum ticks=-422.00
+[16:29:18.299] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:18.792] [WARNING] [HEALTH] block falling_market bid_ticks=-1066.00 mid_ticks=-1513.00
+[16:29:18.795] [WARNING] [HEALTH] unstable_bid delta_ticks=-1066.00
+[16:29:18.797] [WARNING] [HEALTH] negative_momentum ticks=-1513.00
+[16:29:19.308] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:19.310] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:20.815] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-19.00
+[16:29:20.818] [WARNING] [HEALTH] negative_momentum ticks=-19.00
+[16:29:22.309] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-26.50
+[16:29:22.312] [WARNING] [HEALTH] negative_momentum ticks=-26.50
+[16:29:23.315] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:23.317] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:23.812] [WARNING] [HEALTH] block spread_too_young lifetime=497
+[16:29:23.817] [WARNING] [HEALTH] unstable_bid delta_ticks=-599.00
+[16:29:23.819] [WARNING] [HEALTH] negative_momentum ticks=-337.50
+[16:29:24.310] [WARNING] [HEALTH] block falling_market bid_ticks=-104.00 mid_ticks=-421.50
+[16:29:24.312] [WARNING] [HEALTH] unstable_bid delta_ticks=-104.00
+[16:29:24.315] [WARNING] [HEALTH] negative_momentum ticks=-421.50
+[16:29:26.812] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:26.813] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:27.817] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-55.50
+[16:29:27.820] [WARNING] [HEALTH] negative_momentum ticks=-55.50
+[16:29:28.313] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-36.00
+[16:29:28.316] [WARNING] [HEALTH] negative_momentum ticks=-36.00
+[16:29:29.334] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:29.336] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:30.937] [OK] [SYNC] order filled detected
+[16:29:34.148] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:34.150] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:35.157] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:36.152] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:36.155] [WARNING] [HEALTH] unstable_bid delta_ticks=-268.00
+[16:29:36.157] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:37.160] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:37.163] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:37.658] [WARNING] [HEALTH] block falling_market bid_ticks=46.00 mid_ticks=-59.00
+[16:29:37.661] [WARNING] [HEALTH] negative_momentum ticks=-59.00
+[16:29:39.441] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:39.444] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:40.736] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:40.737] [WARNING] [HEALTH] unstable_bid delta_ticks=-902.00
+[16:29:40.738] [WARNING] [HEALTH] negative_momentum ticks=-494.50
+[16:29:40.738] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:41.218] [WARNING] [HEALTH] block falling_market bid_ticks=-127.00 mid_ticks=-475.50
+[16:29:41.221] [WARNING] [HEALTH] unstable_bid delta_ticks=-127.00
+[16:29:41.222] [WARNING] [HEALTH] negative_momentum ticks=-475.50
+[16:29:42.730] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-87.00
+[16:29:42.733] [WARNING] [HEALTH] negative_momentum ticks=-87.00
+[16:29:45.987] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-161.00
+[16:29:45.992] [WARNING] [HEALTH] negative_momentum ticks=-161.00
+[16:29:46.488] [WARNING] [HEALTH] block falling_market bid_ticks=-577.00 mid_ticks=-466.50
+[16:29:46.491] [WARNING] [HEALTH] unstable_bid delta_ticks=-577.00
+[16:29:46.493] [WARNING] [HEALTH] negative_momentum ticks=-466.50
+[16:29:52.815] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:52.818] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:29:53.312] [WARNING] [HEALTH] block spread_too_young lifetime=496
+[16:29:59.064] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:29:59.066] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:30:00.090] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:30:00.575] [WARNING] [HEALTH] block spread_too_young lifetime=484
+[16:30:00.577] [WARNING] [HEALTH] unstable_bid delta_ticks=-446.00
+[16:30:00.580] [WARNING] [HEALTH] negative_momentum ticks=-223.00
+[16:30:04.362] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:30:04.364] [WARNING] [HEALTH] unstable_bid delta_ticks=-278.00
+[16:30:04.366] [WARNING] [HEALTH] negative_momentum ticks=-113.00
+[16:30:04.367] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:30:04.855] [WARNING] [HEALTH] block falling_market bid_ticks=142.00 mid_ticks=-47.50
+[16:30:04.856] [WARNING] [HEALTH] negative_momentum ticks=-47.50
+[16:30:05.353] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:30:05.354] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:30:10.123] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-67.00
+[16:30:10.125] [WARNING] [HEALTH] negative_momentum ticks=-67.00
+[16:30:10.627] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:30:10.630] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:30:14.157] [OK] [SYNC] order filled detected
+[16:30:20.284] [OK] [SYNC] order filled detected
+[16:30:21.215] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:30:21.218] [WARNING] [HEALTH] unstable_bid delta_ticks=-800.00
+[16:30:21.219] [WARNING] [HEALTH] negative_momentum ticks=-513.00
+[16:30:21.220] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:30:22.557] [OK] [SYNC] order filled detected
+[16:30:33.084] [OK] [SYNC] order filled detected
+[16:30:36.667] [OK] [SYNC] order filled detected
+[16:30:38.566] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:30:38.569] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:30:51.949] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:30:51.950] [WARNING] [HEALTH] unstable_bid delta_ticks=-131.00
+[16:30:51.953] [WARNING] [HEALTH] negative_momentum ticks=-33.50
+[16:30:51.956] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:30:54.815] [OK] [SYNC] order filled detected
+[16:31:07.129] [OK] [SETTINGS] settings saved
+[16:31:08.521] [WARNING] cancel all requested
+[16:31:09.338] [WARNING] [SYNC] desync fixed
+[16:31:09.344] [WARNING] STOP
+[16:31:11.555] [OK] START
+[16:31:25.904] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:31:25.906] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:31:28.866] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:31:28.869] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:31:35.851] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:31:35.853] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:31:42.207] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:31:42.211] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:32:00.265] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:32:00.267] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:32:20.634] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:32:20.636] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:32:21.934] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:32:22.832] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:32:22.834] [WARNING] [HEALTH] unstable_bid delta_ticks=-407.00
+[16:32:22.835] [WARNING] [HEALTH] negative_momentum ticks=-208.50
+[16:32:22.836] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:32:23.331] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-16.00
+[16:32:23.332] [WARNING] [HEALTH] negative_momentum ticks=-16.00
+[16:32:23.906] [WARNING] cancel all requested
+[16:32:23.913] [WARNING] STOP
+[16:32:56.026] [OK] [SETTINGS] settings saved
+[16:33:04.955] [OK] START
+[16:33:05.737] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:33:05.738] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:33:07.207] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:33:07.210] [WARNING] [HEALTH] unstable_bid delta_ticks=-974.00
+[16:33:07.212] [WARNING] [HEALTH] negative_momentum ticks=-895.00
+[16:33:07.213] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:33:07.373] [WARNING] [HEALTH] block spread_too_young lifetime=167
+[16:33:11.042] [OK] [SYNC] order filled detected
+[16:33:16.372] [OK] [SYNC] order filled detected
+[16:33:31.628] [WARNING] cancel all requested
+[16:33:32.516] [WARNING] [SYNC] desync fixed
+[16:33:32.526] [WARNING] STOP
+[17:08:05.715] [OK] [SETTINGS] settings saved
+[17:08:07.383] [OK] START
+[17:08:08.541] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:08:08.541] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:08:37.288] [WARNING] [SYNC] desync fixed
+[17:08:38.997] [OK] [SYNC] order filled detected
+[17:08:46.196] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:08:46.196] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:08:48.712] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:08:48.714] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:08:51.510] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:08:51.510] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:08:55.541] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:08:55.558] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:09:25.454] [WARNING] [SYNC] desync fixed
+[17:09:45.328] [WARNING] cancel all requested
+[17:09:45.333] [WARNING] STOP
+[17:18:32.241] [OK] START
+[17:18:35.603] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:18:35.603] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:18:35.871] [WARNING] [HEALTH] block falling_market bid_ticks=100.00 mid_ticks=-84.00
+[17:18:35.874] [WARNING] [HEALTH] negative_momentum ticks=-84.00
+[17:18:36.887] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:18:36.887] [WARNING] [HEALTH] unstable_bid delta_ticks=-252.00
+[17:18:36.892] [WARNING] [HEALTH] negative_momentum ticks=-33.00
+[17:18:36.893] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:18:43.181] [WARNING] [HEALTH] block falling_market bid_ticks=-14.00 mid_ticks=-7.00
+[17:18:43.182] [WARNING] [HEALTH] unstable_bid delta_ticks=-14.00
+[17:18:44.969] [WARNING] [HEALTH] block falling_market bid_ticks=-29.00 mid_ticks=24.50
+[17:18:44.971] [WARNING] [HEALTH] unstable_bid delta_ticks=-29.00
+[17:18:45.745] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:18:45.747] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:18:50.405] [OK] [SYNC] order filled detected
+[17:18:51.809] [WARNING] [HEALTH] block falling_market bid_ticks=-77.00 mid_ticks=-56.50
+[17:18:51.811] [WARNING] [HEALTH] unstable_bid delta_ticks=-77.00
+[17:18:51.813] [WARNING] [HEALTH] negative_momentum ticks=-56.50
+[17:18:52.337] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:18:52.338] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:18:52.824] [WARNING] [HEALTH] block spread_too_young lifetime=485
+[17:18:52.825] [WARNING] [HEALTH] negative_momentum ticks=-33.50
+[17:18:54.166] [OK] [SYNC] order filled detected
+[17:19:07.067] [OK] [SYNC] order filled detected
+[17:19:08.010] [OK] [SYNC] order filled detected
+[17:19:10.463] [OK] [SYNC] order filled detected
+[17:19:10.713] [WARNING] [HEALTH] block falling_market bid_ticks=-109.00 mid_ticks=-122.50
+[17:19:10.713] [WARNING] [HEALTH] unstable_bid delta_ticks=-109.00
+[17:19:10.713] [WARNING] [HEALTH] negative_momentum ticks=-122.50
+[17:19:11.493] [WARNING] [HEALTH] block falling_market bid_ticks=-415.00 mid_ticks=-411.00
+[17:19:11.493] [WARNING] [HEALTH] unstable_bid delta_ticks=-415.00
+[17:19:11.493] [WARNING] [HEALTH] negative_momentum ticks=-411.00
+[17:19:11.993] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:19:11.993] [WARNING] [HEALTH] unstable_bid delta_ticks=-1350.00
+[17:19:11.993] [WARNING] [HEALTH] negative_momentum ticks=-599.50
+[17:19:11.993] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:19:12.478] [WARNING] [HEALTH] block falling_market bid_ticks=204.00 mid_ticks=-568.50
+[17:19:12.478] [WARNING] [HEALTH] negative_momentum ticks=-568.50
+[17:19:12.984] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:19:12.986] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:19:15.859] [OK] [SYNC] order filled detected
+[17:19:23.604] [WARNING] [HEALTH] block falling_market bid_ticks=-562.00 mid_ticks=-463.50
+[17:19:23.604] [WARNING] [HEALTH] unstable_bid delta_ticks=-562.00
+[17:19:23.604] [WARNING] [HEALTH] negative_momentum ticks=-463.50
+[17:19:25.650] [WARNING] [HEALTH] block falling_market bid_ticks=-959.00 mid_ticks=-868.00
+[17:19:25.653] [WARNING] [HEALTH] unstable_bid delta_ticks=-959.00
+[17:19:25.655] [WARNING] [HEALTH] negative_momentum ticks=-868.00
+[17:19:27.839] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:19:27.840] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:19:28.172] [WARNING] [HEALTH] block spread_too_young lifetime=333
+[17:19:29.684] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:19:31.042] [OK] [SYNC] order filled detected
+[17:19:32.730] [OK] [SYNC] order filled detected
+[17:19:33.562] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:19:33.565] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:19:38.432] [OK] [SYNC] order filled detected
+[17:19:53.088] [OK] [SYNC] order filled detected
+[17:19:53.353] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:19:53.353] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:19:57.675] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:19:57.678] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:19:58.967] [OK] [SYNC] order filled detected
+[17:20:00.535] [OK] [SYNC] order filled detected
+[17:20:03.166] [OK] [SYNC] order filled detected
+[17:20:07.555] [OK] [SYNC] order filled detected
+[17:20:12.229] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:20:12.232] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:20:13.540] [OK] [SYNC] order filled detected
+[17:20:17.038] [OK] [SYNC] order filled detected
+[17:20:31.431] [WARNING] [SYNC] desync fixed
+[17:20:48.287] [WARNING] cancel all requested
+[17:20:48.293] [WARNING] STOP
+[17:21:09.646] [OK] [SETTINGS] settings saved
+[17:21:11.400] [OK] START
+[17:21:20.425] [WARNING] cancel all requested
+[17:21:20.429] [WARNING] STOP
+[17:21:51.861] [OK] [SETTINGS] settings saved
+[17:21:53.822] [OK] START
+[17:21:55.389] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:21:55.391] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:21:55.572] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-166.50
+[17:21:55.572] [WARNING] [HEALTH] negative_momentum ticks=-166.50
+[17:21:57.072] [WARNING] [HEALTH] block falling_market bid_ticks=-1.00 mid_ticks=-5.00
+[17:21:59.107] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.00
+[17:21:59.110] [WARNING] [HEALTH] negative_momentum ticks=-18.00
+[17:21:59.432] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.00
+[17:21:59.635] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-36.50
+[17:21:59.638] [WARNING] [HEALTH] negative_momentum ticks=-36.50
+[17:22:00.656] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:22:00.659] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:22:00.956] [WARNING] [HEALTH] block spread_too_young lifetime=300
+[17:22:15.008] [WARNING] [SYNC] desync fixed
+[17:22:29.605] [OK] [SYNC] order filled detected
+[17:22:35.681] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:22:35.681] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:22:58.341] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:22:58.343] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:23:39.104] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:23:39.104] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:23:39.494] [WARNING] cancel all requested
+[17:23:39.494] [WARNING] STOP
+[17:25:03.686] [OK] START
+[17:25:04.954] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:25:04.954] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:25:06.493] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:25:06.989] [WARNING] [HEALTH] block falling_market bid_ticks=238.00 mid_ticks=-173.00
+[17:25:06.989] [WARNING] [HEALTH] negative_momentum ticks=-173.00
+[17:25:08.510] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:25:08.510] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:25:10.551] [WARNING] [HEALTH] block falling_market bid_ticks=-488.00 mid_ticks=-794.00
+[17:25:10.554] [WARNING] [HEALTH] unstable_bid delta_ticks=-488.00
+[17:25:10.556] [WARNING] [HEALTH] negative_momentum ticks=-794.00
+[17:25:11.045] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:25:11.047] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:25:21.456] [OK] [SYNC] order filled detected
+[17:25:23.526] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:25:23.529] [WARNING] [HEALTH] unstable_bid delta_ticks=-309.00
+[17:25:23.531] [WARNING] [HEALTH] negative_momentum ticks=-254.00
+[17:25:23.532] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:25:29.406] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:25:29.408] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:25:40.117] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:25:40.119] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:26:03.025] [WARNING] [SYNC] desync fixed
+[17:27:10.803] [WARNING] cancel all requested
+[17:27:10.807] [WARNING] STOP
+[17:33:33.189] [OK] START
+[17:33:33.478] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:33:33.478] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:33:35.541] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:33:35.541] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:33:36.042] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-58.50
+[17:33:36.045] [WARNING] [HEALTH] negative_momentum ticks=-58.50
+[17:33:39.092] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:33:39.094] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:33:40.650] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:33:43.478] [OK] [SYNC] order filled detected
+[17:33:49.834] [OK] [SYNC] order filled detected
+[17:33:55.915] [OK] [SYNC] order filled detected
+[17:34:03.079] [OK] [SYNC] order filled detected
+[17:34:07.371] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:34:07.373] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:34:09.386] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:34:09.389] [WARNING] [HEALTH] unstable_bid delta_ticks=-412.00
+[17:34:09.391] [WARNING] [HEALTH] negative_momentum ticks=-13.50
+[17:34:09.393] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:34:11.432] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:34:11.432] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:34:11.933] [WARNING] [HEALTH] block falling_market bid_ticks=-1.00 mid_ticks=-171.50
+[17:34:11.936] [WARNING] [HEALTH] negative_momentum ticks=-171.50
+[17:34:12.954] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:34:12.956] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:34:17.027] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:34:17.029] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:34:20.185] [OK] [SYNC] order filled detected
+[17:34:23.759] [OK] [SYNC] order filled detected
+[17:34:35.198] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:34:35.202] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:34:35.697] [WARNING] [HEALTH] block falling_market bid_ticks=334.00 mid_ticks=-60.50
+[17:34:35.697] [WARNING] [HEALTH] negative_momentum ticks=-60.50
+[17:34:36.984] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:34:36.986] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:34:39.509] [WARNING] [HEALTH] block falling_market bid_ticks=-127.00 mid_ticks=-88.00
+[17:34:39.509] [WARNING] [HEALTH] unstable_bid delta_ticks=-127.00
+[17:34:39.509] [WARNING] [HEALTH] negative_momentum ticks=-88.00
+[17:34:45.370] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:34:45.373] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:34:47.681] [OK] [SYNC] order filled detected
+[17:34:52.404] [WARNING] cancel all requested
+[17:34:52.409] [WARNING] STOP
+[17:35:05.189] [OK] [SETTINGS] settings saved
+[17:35:06.985] [OK] START
+[17:35:16.866] [WARNING] [SYNC] desync fixed
+[17:35:20.759] [OK] [SYNC] order filled detected
+[17:35:21.434] [WARNING] [HEALTH] block falling_market bid_ticks=-6.00 mid_ticks=-426.50
+[17:35:21.438] [WARNING] [HEALTH] negative_momentum ticks=-426.50
+[17:35:22.948] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:35:22.951] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:36:43.971] [OK] [SETTINGS] settings saved
+[17:36:45.705] [OK] START
+[17:36:46.522] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:36:46.524] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:36:50.158] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:36:50.160] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:37:03.613] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:37:03.616] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:37:07.775] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:37:07.777] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:37:12.214] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:37:12.216] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:37:27.996] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:37:27.997] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:37:28.616] [WARNING] cancel all requested
+[17:37:28.623] [WARNING] STOP
+[17:41:14.041] [OK] [SETTINGS] settings saved
+[17:41:16.214] [OK] START
+[17:41:16.893] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:41:16.895] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:41:37.361] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:41:37.363] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:42:18.810] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:42:18.812] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:42:25.150] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:42:25.153] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:43:09.316] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:43:09.319] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:43:20.402] [OK] [SYNC] order filled detected
+[17:43:37.689] [OK] [SYNC] order filled detected
+[17:43:47.819] [OK] [SYNC] order filled detected
+[17:43:50.577] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:43:50.578] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:43:55.364] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:43:55.367] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:43:55.589] [WARNING] [HEALTH] block spread_too_young lifetime=225
+[17:43:55.590] [WARNING] [HEALTH] unstable_bid delta_ticks=-361.00
+[17:43:55.591] [WARNING] [HEALTH] negative_momentum ticks=-180.00
+[17:44:05.428] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:44:05.431] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:44:23.169] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:44:23.171] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:44:32.134] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:44:32.136] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:44:38.004] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:44:38.006] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:44:46.275] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:44:46.276] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:45:08.525] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:45:08.533] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:45:18.438] [WARNING] cancel all requested
+[17:45:18.446] [WARNING] STOP
+[17:45:19.135] [OK] START
+[17:45:20.640] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:45:20.642] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:45:32.076] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:45:32.077] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:45:39.597] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:45:39.599] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:46:33.107] [WARNING] cancel all requested
+[17:46:33.113] [WARNING] STOP
+[17:46:43.864] [OK] START
+[17:47:05.949] [WARNING] cancel all requested
+[17:47:05.953] [WARNING] STOP
+[17:49:07.870] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings.json
+[17:49:10.826] [OK] [SETTINGS] settings saved
+[17:49:21.172] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/settings_export2.json
+[17:49:26.492] [OK] START
+[17:49:26.799] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:49:26.800] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:49:45.457] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:49:45.460] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:49:45.709] [WARNING] [HEALTH] block spread_too_young lifetime=252
+[17:50:02.931] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:50:02.933] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:50:09.720] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:50:09.723] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:50:21.526] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:50:21.529] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:50:30.428] [WARNING] cancel all requested
+[17:50:30.436] [WARNING] STOP
+[17:55:30.990] [OK] START
+[17:55:31.831] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:55:31.832] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:55:42.944] [OK] [SYNC] order filled detected
+[17:55:45.030] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:55:45.031] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:55:50.027] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:55:50.028] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:56:23.288] [OK] [SYNC] order filled detected
+[17:56:45.515] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:56:45.517] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:57:08.038] [OK] [SYNC] order filled detected
+[17:59:41.299] [OK] START
+[17:59:44.418] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:59:44.418] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:00:19.385] [OK] [SYNC] order filled detected
+[18:00:19.405] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:00:19.407] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:01:19.033] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:01:19.034] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:01:20.206] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:01:22.959] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:01:22.964] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:01:23.452] [WARNING] [HEALTH] block spread_too_young lifetime=493
+[18:01:41.732] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:01:41.735] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:01:45.498] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:01:45.500] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:02:08.687] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:02:08.688] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:02:35.503] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:02:35.506] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:02:35.998] [WARNING] [HEALTH] block spread_too_young lifetime=495
+[18:03:57.516] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:03:57.519] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:03:57.753] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-113.50
+[18:03:57.756] [WARNING] [HEALTH] negative_momentum ticks=-113.50
+[18:03:58.767] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:03:58.770] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:04:46.593] [WARNING] cancel all requested
+[18:04:46.600] [WARNING] STOP
+[18:12:02.139] [OK] START
+[18:12:06.838] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:12:06.838] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:12:09.132] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:12:19.525] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:12:19.525] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:12:20.587] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:12:21.074] [WARNING] [HEALTH] block spread_too_young lifetime=487
+[18:12:22.073] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:12:23.074] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:12:23.076] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:12:35.525] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:12:35.525] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:12:52.604] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:12:52.607] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:12:58.822] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:12:58.822] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:13:23.429] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:13:23.432] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:13:35.150] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:13:35.150] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:13:41.213] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:13:41.213] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:15:59.776] [OK] START
+[18:16:00.080] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:16:00.080] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:16:36.820] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:16:36.823] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:16:42.713] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:16:42.731] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:18:41.725] [OK] START
+[18:18:42.046] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:18:42.047] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:19:11.198] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:19:11.199] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:19:15.165] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:19:15.165] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:19:20.730] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:19:20.733] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:19:27.076] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:19:27.078] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:19:33.272] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:19:33.274] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:19:53.379] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:19:53.380] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:20:32.104] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:20:32.106] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:21:16.806] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:21:16.806] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:21:23.667] [WARNING] cancel all requested
+[18:21:36.807] [WARNING] STOP
+[18:25:28.213] [OK] START
+[18:25:28.518] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:25:28.519] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:30:45.116] [OK] [SETTINGS] settings saved
+[18:30:46.863] [OK] START
+[18:30:52.759] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-34.00
+[18:30:52.760] [WARNING] [HEALTH] negative_momentum ticks=-34.00
+[18:30:53.760] [WARNING] [HEALTH] block falling_market bid_ticks=-147.00 mid_ticks=-109.00
+[18:30:53.760] [WARNING] [HEALTH] unstable_bid delta_ticks=-147.00
+[18:30:53.760] [WARNING] [HEALTH] negative_momentum ticks=-109.00
+[18:30:55.290] [WARNING] [HEALTH] block falling_market bid_ticks=-61.00 mid_ticks=-52.00
+[18:30:55.290] [WARNING] [HEALTH] unstable_bid delta_ticks=-61.00
+[18:30:55.290] [WARNING] [HEALTH] negative_momentum ticks=-52.00
+[18:30:55.790] [WARNING] [HEALTH] block falling_market bid_ticks=-39.00 mid_ticks=-62.00
+[18:30:55.790] [WARNING] [HEALTH] unstable_bid delta_ticks=-39.00
+[18:30:55.790] [WARNING] [HEALTH] negative_momentum ticks=-62.00
+[18:30:56.791] [WARNING] [HEALTH] block falling_market bid_ticks=-135.00 mid_ticks=-68.00
+[18:30:56.791] [WARNING] [HEALTH] unstable_bid delta_ticks=-135.00
+[18:30:56.791] [WARNING] [HEALTH] negative_momentum ticks=-68.00
+[18:31:00.368] [WARNING] [HEALTH] block falling_market bid_ticks=17.00 mid_ticks=-41.50
+[18:31:00.371] [WARNING] [HEALTH] negative_momentum ticks=-41.50
+[18:31:02.401] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:31:02.403] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:31:04.167] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:31:04.170] [WARNING] [HEALTH] unstable_bid delta_ticks=-113.00
+[18:31:04.172] [WARNING] [HEALTH] negative_momentum ticks=-49.50
+[18:31:04.174] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:31:04.666] [WARNING] [HEALTH] block spread_too_young lifetime=499
+[18:31:04.666] [WARNING] [HEALTH] unstable_bid delta_ticks=-327.00
+[18:31:05.166] [WARNING] [HEALTH] block falling_market bid_ticks=405.00 mid_ticks=-232.00
+[18:31:05.166] [WARNING] [HEALTH] negative_momentum ticks=-232.00
+[18:31:06.181] [WARNING] [HEALTH] block falling_market bid_ticks=41.00 mid_ticks=-3.50
+[18:31:07.681] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:31:07.681] [WARNING] [HEALTH] unstable_bid delta_ticks=-257.00
+[18:31:07.681] [WARNING] [HEALTH] negative_momentum ticks=-128.50
+[18:31:07.681] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:31:24.275] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:31:24.275] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:31:39.557] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:31:39.557] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:31:42.230] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:31:42.233] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:31:44.260] [WARNING] [HEALTH] block falling_market bid_ticks=-213.00 mid_ticks=-106.50
+[18:31:44.263] [WARNING] [HEALTH] unstable_bid delta_ticks=-213.00
+[18:31:44.264] [WARNING] [HEALTH] negative_momentum ticks=-106.50
+[18:31:44.777] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:31:44.779] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:31:46.822] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:31:46.822] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:31:47.307] [WARNING] [HEALTH] block falling_market bid_ticks=550.00 mid_ticks=-29.00
+[18:31:47.307] [WARNING] [HEALTH] negative_momentum ticks=-29.00
+[18:31:49.852] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:31:49.855] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:31:58.434] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:31:58.437] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:31:59.938] [WARNING] [HEALTH] block falling_market bid_ticks=-272.00 mid_ticks=-136.50
+[18:31:59.940] [WARNING] [HEALTH] unstable_bid delta_ticks=-272.00
+[18:31:59.942] [WARNING] [HEALTH] negative_momentum ticks=-136.50
+[18:32:01.950] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:32:01.952] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:32:09.503] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:32:09.506] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:32:12.669] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:32:12.669] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:32:21.908] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:32:21.912] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:32:24.425] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:32:24.428] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:32:28.473] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:32:28.476] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:32:34.370] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:32:34.370] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:32:37.425] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:32:37.428] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:32:45.759] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:32:45.759] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:32:52.931] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:32:52.931] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:33:09.541] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:33:09.541] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:33:14.093] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:33:14.095] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:33:46.307] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:33:46.307] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:33:53.392] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:33:53.395] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:34:02.041] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:34:02.041] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:34:08.238] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:34:08.239] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:34:17.555] [WARNING] cancel all requested
+[18:34:21.908] [WARNING] STOP
+[18:41:06.540] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[18:41:07.857] [OK] [SETTINGS] settings saved
+[18:41:09.541] [OK] START
+[18:41:10.370] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:41:10.370] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:41:38.510] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-28.50
+[18:41:38.510] [WARNING] [HEALTH] negative_momentum ticks=-28.50
+[18:41:39.510] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:41:39.510] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:41:53.965] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:41:53.968] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:41:59.033] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:41:59.035] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:42:12.872] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:42:12.878] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:42:27.656] [WARNING] cancel all requested
+[18:42:32.806] [WARNING] STOP
+[18:42:48.784] [OK] START
+[18:42:50.729] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:42:50.729] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:42:54.291] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:42:54.291] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:42:54.776] [WARNING] [HEALTH] block falling_market bid_ticks=-111.00 mid_ticks=-133.00
+[18:42:54.778] [WARNING] [HEALTH] unstable_bid delta_ticks=-111.00
+[18:42:54.780] [WARNING] [HEALTH] negative_momentum ticks=-133.00
+[18:42:56.558] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:42:56.561] [WARNING] [HEALTH] unstable_bid delta_ticks=-665.00
+[18:42:56.562] [WARNING] [HEALTH] negative_momentum ticks=-254.00
+[18:42:56.563] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:43:01.787] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:43:01.790] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:43:02.807] [WARNING] [HEALTH] block falling_market bid_ticks=-68.00 mid_ticks=-73.00
+[18:43:02.808] [WARNING] [HEALTH] unstable_bid delta_ticks=-68.00
+[18:43:02.809] [WARNING] [HEALTH] negative_momentum ticks=-73.00
+[18:43:18.054] [WARNING] [HEALTH] block falling_market bid_ticks=-825.00 mid_ticks=-503.00
+[18:43:18.057] [WARNING] [HEALTH] unstable_bid delta_ticks=-825.00
+[18:43:18.057] [WARNING] [HEALTH] negative_momentum ticks=-503.00
+[18:43:20.808] [WARNING] [HEALTH] block falling_market bid_ticks=-698.00 mid_ticks=-349.00
+[18:43:20.810] [WARNING] [HEALTH] unstable_bid delta_ticks=-698.00
+[18:43:20.811] [WARNING] [HEALTH] negative_momentum ticks=-349.00
+[18:43:22.806] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-34.00
+[18:43:22.806] [WARNING] [HEALTH] negative_momentum ticks=-34.00
+[18:43:36.571] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:43:36.571] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:43:37.057] [WARNING] [HEALTH] block spread_too_young lifetime=485
+[18:43:39.807] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:43:39.807] [WARNING] [HEALTH] unstable_bid delta_ticks=-220.00
+[18:43:39.807] [WARNING] [HEALTH] negative_momentum ticks=-110.00
+[18:43:39.807] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:43:40.971] [WARNING] cancel all requested
+[18:43:41.244] [WARNING] STOP
+[18:46:48.689] [OK] START
+[18:46:48.985] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:46:48.986] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:47:42.155] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:47:42.156] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:47:48.584] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:47:48.587] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:47:55.298] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:47:55.300] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:48:11.823] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:48:11.823] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:48:32.030] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:48:32.033] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:49:19.586] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:49:19.588] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:49:20.764] [WARNING] cancel all requested
+[18:49:37.766] [WARNING] STOP
+[18:53:37.806] [OK] START
+[18:53:49.013] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:53:49.014] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:54:34.735] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:54:34.735] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:54:48.738] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:54:48.741] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:55:11.991] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:55:11.995] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:56:17.629] [WARNING] cancel all requested
+[18:57:16.364] [OK] START
+[18:57:16.710] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:57:16.711] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:01:04.076] [WARNING] cancel all requested
+[19:01:08.633] [WARNING] STOP
+[19:07:49.533] [ERROR] REST lost
+[19:08:33.754] [OK] START
+[19:09:14.429] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:09:14.430] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:09:50.418] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:09:50.421] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:10:47.292] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:10:47.295] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:11:23.648] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:11:23.650] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:11:38.730] [WARNING] cancel all requested
+[19:12:09.041] [OK] START
+[19:13:02.291] [WARNING] cancel all requested
+[19:13:05.695] [WARNING] STOP
+[19:13:17.755] [OK] START
+[19:13:47.721] [WARNING] cancel all requested
+[19:13:51.233] [WARNING] STOP
+[19:14:19.136] [OK] START
+[19:14:24.095] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:14:24.096] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:14:38.759] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:14:38.761] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:15:36.722] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:15:36.725] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:15:45.745] [WARNING] cancel all requested
+[19:16:46.453] [OK] START
+[19:16:51.529] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:16:51.530] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:17:16.142] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:17:16.143] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:17:44.029] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:17:44.030] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:18:13.171] [WARNING] cancel all requested
+[19:18:21.859] [WARNING] STOP
+[19:25:37.809] [OK] START
+[19:25:39.739] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:25:39.741] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:25:41.481] [WARNING] [HEALTH] block falling_market bid_ticks=-186.00 mid_ticks=-208.00
+[19:25:41.484] [WARNING] [HEALTH] unstable_bid delta_ticks=-186.00
+[19:25:41.486] [WARNING] [HEALTH] negative_momentum ticks=-208.00
+[19:25:44.003] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:25:44.006] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:25:50.606] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:25:50.609] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:25:52.626] [WARNING] [HEALTH] block falling_market bid_ticks=-123.00 mid_ticks=-83.50
+[19:25:52.630] [WARNING] [HEALTH] unstable_bid delta_ticks=-123.00
+[19:25:52.631] [WARNING] [HEALTH] negative_momentum ticks=-83.50
+[19:25:59.480] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:25:59.484] [WARNING] [HEALTH] unstable_bid delta_ticks=-742.00
+[19:25:59.487] [WARNING] [HEALTH] negative_momentum ticks=-393.50
+[19:25:59.489] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:26:01.955] [WARNING] [HEALTH] block falling_market bid_ticks=49.00 mid_ticks=-7.50
+[19:26:02.271] [WARNING] [HEALTH] block falling_market bid_ticks=-1.00 mid_ticks=-35.00
+[19:26:02.272] [WARNING] [HEALTH] negative_momentum ticks=-35.00
+[19:26:02.564] [WARNING] [HEALTH] block falling_market bid_ticks=-320.00 mid_ticks=-194.00
+[19:26:02.565] [WARNING] [HEALTH] unstable_bid delta_ticks=-320.00
+[19:26:02.566] [WARNING] [HEALTH] negative_momentum ticks=-194.00
+[19:26:03.993] [WARNING] [HEALTH] block falling_market bid_ticks=-51.00 mid_ticks=-53.50
+[19:26:03.995] [WARNING] [HEALTH] unstable_bid delta_ticks=-51.00
+[19:26:03.995] [WARNING] [HEALTH] negative_momentum ticks=-53.50
+[19:26:06.094] [WARNING] [HEALTH] block falling_market bid_ticks=-120.00 mid_ticks=-60.00
+[19:26:06.095] [WARNING] [HEALTH] unstable_bid delta_ticks=-120.00
+[19:26:06.096] [WARNING] [HEALTH] negative_momentum ticks=-60.00
+[19:26:07.857] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-23.00
+[19:26:07.858] [WARNING] [HEALTH] negative_momentum ticks=-23.00
+[19:26:08.495] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/settings_export2.json
+[19:26:10.090] [OK] [SETTINGS] settings saved
+[19:26:14.715] [WARNING] [HEALTH] block falling_market bid_ticks=-103.00 mid_ticks=-51.50
+[19:26:14.718] [WARNING] [HEALTH] unstable_bid delta_ticks=-103.00
+[19:26:14.720] [WARNING] [HEALTH] negative_momentum ticks=-51.50
+[19:26:15.644] [WARNING] cancel all requested
+[19:26:15.924] [WARNING] STOP
+[19:31:00.837] [OK] START
+[19:31:01.137] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:31:01.138] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:32:12.469] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:32:12.471] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:32:34.022] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:32:34.023] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:32:47.592] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/settings_exportййй.json
+[19:32:53.821] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:32:53.823] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:33:05.874] [WARNING] cancel all requested
+[19:33:21.459] [WARNING] STOP
+[19:36:21.264] [OK] START
+[19:36:21.566] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:36:21.567] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:36:54.807] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:36:54.808] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:36:59.685] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:36:59.687] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:37:01.105] [WARNING] cancel all requested
+[19:37:07.224] [WARNING] STOP
+[19:40:52.457] [OK] START
+[19:40:53.236] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:40:53.237] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:41:58.277] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:41:58.278] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:42:31.943] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:42:31.947] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:42:32.442] [WARNING] [HEALTH] block spread_too_young lifetime=499
+[19:43:45.328] [WARNING] cancel all requested
+[19:43:52.802] [WARNING] STOP
+[19:49:50.330] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings — копия.json
+[19:49:53.637] [OK] [SETTINGS] settings saved
+[19:51:54.944] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings — копия.json
+[19:51:56.881] [OK] [SETTINGS] settings saved
+[19:53:50.712] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings — копия.json
+[19:53:54.731] [OK] [SETTINGS] settings saved
+[19:54:11.945] [OK] START
+[19:54:13.279] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:54:13.281] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:54:15.515] [OK] [SYNC] order filled detected
+[19:54:15.890] [WARNING] cancel all requested
+[19:54:16.162] [WARNING] STOP
+[19:57:25.086] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/settings_exportййй.json
+[19:57:27.005] [OK] [SETTINGS] settings saved
+[19:57:36.125] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/settings_exportййй.json
+[19:57:39.921] [OK] START
+[19:57:40.450] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:57:40.450] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:58:05.121] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:58:05.121] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:58:05.387] [WARNING] [HEALTH] block spread_too_young lifetime=266
+[19:58:06.434] [OK] SESSION RESULT cycles=3 wins=0 losses=3 winrate=0.00% realized=-0.200604 avg=-0.066868 max_loss=-0.067177 max_win=-0.066559 stop_loss_count=3 api_errors=0
+[19:58:06.637] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:58:07.449] [OK] SESSION RESULT cycles=3 wins=0 losses=3 winrate=0.00% realized=-0.200604 avg=-0.066868 max_loss=-0.067177 max_win=-0.066559 stop_loss_count=3 api_errors=0
+[19:58:08.440] [OK] SESSION RESULT cycles=3 wins=0 losses=3 winrate=0.00% realized=-0.200604 avg=-0.066868 max_loss=-0.067177 max_win=-0.066559 stop_loss_count=3 api_errors=0
+[19:58:08.659] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:58:08.659] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:58:09.969] [OK] SESSION RESULT cycles=3 wins=0 losses=3 winrate=0.00% realized=-0.200604 avg=-0.066868 max_loss=-0.067177 max_win=-0.066559 stop_loss_count=3 api_errors=0
+[19:58:10.158] [WARNING] [HEALTH] block spread_too_young lifetime=0

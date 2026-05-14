@@ -1,0 +1,20 @@
+[10:58:10.021] [OK] filters loaded
+[10:58:31.822] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings.json
+[10:58:33.182] [OK] [SETTINGS] settings saved
+[10:58:36.020] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[10:58:36.021] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[10:58:36.022] [INFO] START_PROFILE guard=BALANCED/True entry=BALANCED/repr=True exit=eng:True,timeout:5000 taker=True/900 order=20.0 spread=min:7.0,target:5.0
+[10:58:36.494] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[10:58:36.510] [OK] START
+[10:58:36.510] [OK] START_OK runtime_started
+[10:58:36.510] [INFO] [EXEC] LIVE ON
+[10:58:36.510] [INFO] [EXEC] WAIT READY
+[10:58:36.807] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:58:36.807] [WS] connecting primary
+[10:58:37.641] [WS] connected
+[10:58:39.651] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[10:58:39.926] [WARNING] cancel all requested
+[10:58:39.926] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.297767 locked=0.000000
+[10:58:39.926] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[10:58:39.926] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[10:58:39.926] [WARNING] STOP

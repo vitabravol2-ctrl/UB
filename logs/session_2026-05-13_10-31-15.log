@@ -1,0 +1,72 @@
+[07:31:16.492] [OK] filters loaded
+[07:31:16.918] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[07:31:21.603] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[07:31:21.603] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=222.0
+[07:31:21.603] [INFO] START_PROFILE order_size=222.0 min_spread=6.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=80 taker_exit_after_ms=2500
+[07:31:21.603] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[07:31:22.060] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[07:31:22.060] [OK] START
+[07:31:22.060] [OK] START_OK runtime_started
+[07:31:22.060] [INFO] [EXEC] STREAMS_ENABLED count=20 range_ticks=200 step_ticks=10
+[07:31:22.060] [INFO] [EXEC] GRID_BUDGET_SOURCE source=max_exposure_u budget=5000.00
+[07:31:22.060] [INFO] [EXEC] STREAM_CREATE stream_id=1 buy_price=80892.09000000 budget=250.00 qty=0.00309000
+[07:31:22.060] [INFO] [EXEC] STREAM_CREATE stream_id=2 buy_price=80892.00000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=3 buy_price=80891.90000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=4 buy_price=80891.80000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=5 buy_price=80891.70000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=6 buy_price=80891.59000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=7 buy_price=80891.50000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=8 buy_price=80891.40000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=9 buy_price=80891.30000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=10 buy_price=80891.20000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=11 buy_price=80891.09000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=12 buy_price=80891.00000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=13 buy_price=80890.90000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=14 buy_price=80890.80000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=15 buy_price=80890.70000000 budget=250.00 qty=0.00309000
+[07:31:22.075] [INFO] [EXEC] STREAM_CREATE stream_id=16 buy_price=80890.59000000 budget=250.00 qty=0.00309000
+[07:31:22.091] [INFO] [EXEC] STREAM_CREATE stream_id=17 buy_price=80890.50000000 budget=250.00 qty=0.00309000
+[07:31:22.091] [INFO] [EXEC] STREAM_CREATE stream_id=18 buy_price=80890.40000000 budget=250.00 qty=0.00309000
+[07:31:22.091] [INFO] [EXEC] STREAM_CREATE stream_id=19 buy_price=80890.30000000 budget=250.00 qty=0.00309000
+[07:31:22.091] [INFO] [EXEC] STREAM_CREATE stream_id=20 buy_price=80890.20000000 budget=250.00 qty=0.00309000
+[07:31:22.091] [INFO] [EXEC] STREAM_CREATE_DONE count=20 budget=5000.00 step_ticks=10
+[07:31:22.091] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[07:31:22.355] [INFO] [EXEC] LIVE ON
+[07:31:22.355] [INFO] [EXEC] WAIT READY
+[07:31:22.355] [INFO] [HEALTH] state=DANGER
+[07:31:22.355] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[07:31:22.355] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[07:31:22.887] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=388026341
+[07:31:22.887] [OK] [EXEC] PLACE BUY price=80892.09 qty=0.003090
+[07:31:23.146] [INFO] [EXEC] STREAM_BUY_PLACED level_id=2 order_id=388026342
+[07:31:23.146] [OK] [EXEC] PLACE BUY price=80892.00 qty=0.003090
+[07:31:23.404] [INFO] [EXEC] STREAM_BUY_PLACED level_id=3 order_id=388026349
+[07:31:23.404] [OK] [EXEC] PLACE BUY price=80891.90 qty=0.003090
+[07:31:23.904] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[07:31:23.904] [WS] connecting primary
+[07:31:23.904] [WS] connected
+[07:31:25.066] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[07:31:25.337] [INFO] [EXEC] STREAM_BUY_PLACED level_id=4 order_id=388026429
+[07:31:25.340] [OK] [EXEC] PLACE BUY price=80891.80 qty=0.003090
+[07:31:25.592] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:25.873] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:26.133] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:26.395] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:26.661] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=9 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:26.926] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=10 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:27.192] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=11 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:27.451] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=12 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:27.716] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=13 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:27.982] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=14 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:28.252] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=15 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:28.505] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=16 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:28.770] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=17 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:29.032] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=18 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:29.291] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=19 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:29.551] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=20 error=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[07:31:29.567] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[07:31:30.291] [WARNING] [EXEC] BLOCK reason=balance_low
+[07:31:32.893] [WARNING] cancel all requested
+[07:31:34.208] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[07:31:34.208] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[07:31:34.753] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%

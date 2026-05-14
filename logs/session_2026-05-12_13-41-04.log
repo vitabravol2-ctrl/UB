@@ -1,0 +1,23 @@
+[10:41:06.198] [OK] filters loaded
+[10:41:10.980] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[10:41:10.980] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[10:41:10.980] [INFO] START_PROFILE guard=BALANCED/True entry=BALANCED/repr=True exit=eng:True,timeout:5000 taker=True/900 order=20.0 spread=min:7.0,target:5.0
+[10:41:11.479] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[10:41:11.497] [OK] START
+[10:41:11.500] [OK] START_OK runtime_started
+[10:41:11.504] [INFO] [EXEC] LIVE ON
+[10:41:11.507] [INFO] [EXEC] WAIT READY
+[10:41:11.511] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:41:11.512] [WS] connecting primary
+[10:41:12.961] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:41:12.964] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:41:12.965] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=None spread=7.78 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[10:41:12.967] [WS] connected
+[10:41:13.076] [OK] [PLAN] READY entry=80677.83 exit=80683.61 profit=0.001387 age=112ms
+[10:41:13.400] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[10:41:13.697] [WARNING] cancel all requested
+[10:41:13.697] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[10:41:13.697] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[10:41:13.697] [WARNING] STOP
+[10:42:19.848] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings.json
+[10:42:21.252] [OK] [SETTINGS] settings saved

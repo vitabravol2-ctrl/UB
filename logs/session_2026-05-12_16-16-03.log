@@ -1,0 +1,268 @@
+[13:16:04.989] [OK] filters loaded
+[13:16:06.111] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[13:16:06.111] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[13:16:06.111] [INFO] START_PROFILE order_size=4000.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[13:16:06.126] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[13:16:06.604] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[13:16:06.623] [OK] START
+[13:16:06.626] [OK] START_OK runtime_started
+[13:16:06.892] [INFO] [EXEC] LIVE ON
+[13:16:06.908] [INFO] [EXEC] WAIT READY
+[13:16:06.908] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:16:06.908] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:16:06.908] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=8.25 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[13:16:07.385] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[13:16:07.385] [WS] connecting primary
+[13:16:07.744] [OK] [PLAN] HOT entry=80753.70 exit=80760.45 profit=0.334327 age=836ms
+[13:16:07.744] [WS] connected
+[13:16:09.275] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[13:16:09.291] [OK] [EXEC] BUY ORDER SENT orderId=385519880 price=80762.11 qty=0.049520
+[13:16:09.291] [OK] [EXEC] PLACE BUY price=80762.11 qty=0.049520
+[13:16:10.542] [INFO] [EXEC] ENTRY_REPRICE reason=wide_spread_cross old=80762.11 new=80762.14 count=1
+[13:16:11.134] [OK] [EXEC] ENTRY_PLACE price=80762.14 qty=0.049520
+[13:16:12.085] [INFO] [EXEC] BUY_WATCHDOG_SYNC orderId=385519922 status=NEW
+[13:16:12.089] [WARNING] [EXEC] BUY TIMEOUT orderId=385519922
+[13:16:12.094] [WARNING] [EXEC] CANCEL BUY orderId=385519922
+[13:16:12.361] [OK] [EXEC] BUY CANCELED confirmed
+[13:16:12.634] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=385519922
+[13:16:12.634] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[13:16:13.588] [INFO] [HEALTH] state=GOOD
+[13:16:13.853] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[13:16:13.857] [OK] [EXEC] BUY ORDER SENT orderId=385520004 price=80763.34 qty=0.049520
+[13:16:13.860] [OK] [EXEC] PLACE BUY price=80763.34 qty=0.049520
+[13:16:14.886] [OK] [EXEC] BUY FILL UPDATE delta=0.000070 avg=80763.34
+[13:16:14.886] [OK] [EXEC] CHUNK ADD qty=0.000070 entry=80763.34
+[13:16:14.891] [INFO] [EXEC] CHUNK COUNT n=1
+[13:16:14.891] [OK] [EXEC] INVENTORY qty=0.000070
+[13:16:14.891] [OK] [EXEC] SELL REQUIRED inventory=0.000070
+[13:16:14.891] [OK] [EXEC] BUY PARTIAL delta=0.000070 total=0.000070
+[13:16:14.891] [OK] [EXEC] BUY REMAINING qty=0.049450
+[13:16:14.891] [INFO] [EXEC] ENTRY_REPRICE reason=wide_spread_cross old=80763.34 new=80764.33 count=1
+[13:16:15.431] [OK] [EXEC] ENTRY_PLACE price=80764.33 qty=0.049520
+[13:16:17.909] [OK] [SYNC] order filled detected
+[13:16:17.912] [OK] [SYNC] BUY filled on exchange
+[13:16:17.913] [OK] [EXEC] BUY FILL UPDATE delta=0.049450 avg=80764.32
+[13:16:17.915] [OK] [EXEC] CHUNK ADD qty=0.049450 entry=80764.32
+[13:16:17.917] [INFO] [EXEC] CHUNK COUNT n=2
+[13:16:17.919] [OK] [EXEC] INVENTORY qty=0.049520
+[13:16:17.921] [OK] [EXEC] SELL REQUIRED inventory=0.049520
+[13:16:18.188] [INFO] [EXEC] SELL CHECK inventory=0.049520 reported=0.000000 remaining=0.049520 chunks=2
+[13:16:18.190] [INFO] [EXEC] PLACE_SELL_SOURCE source=plan price=80764.34
+[13:16:18.191] [OK] [EXEC] PLACE SELL price=80764.34 qty=0.049520
+[13:16:18.928] [OK] [EXEC] SELL ORDER SENT orderId=385520384
+[13:16:20.978] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=385520384 status=NEW
+[13:16:20.981] [WARNING] [EXEC] SELL_WATCHDOG_FAR_CANCEL orderId=385520384 price=80764.34 ask=80762.25 dist_ticks=209
+[13:16:21.511] [INFO] [EXEC] SELL_FAR_CANCEL_FINAL_STATUS status=CANCELED
+[13:16:23.012] [INFO] [EXEC] SELL CHECK inventory=0.049520 reported=0.000000 remaining=0.049520 chunks=2
+[13:16:23.012] [INFO] [EXEC] SELL_REPRICE_FRESH_APPLIED old=80764.34 new=80766.84 ask=80766.87 bid=80759.58
+[13:16:23.012] [INFO] [EXEC] SELL_REPRICE_VALIDATION old=80764.34 new=80766.84 ask=80766.87 dist_ticks=2 source=fresh_snapshot
+[13:16:23.027] [INFO] [EXEC] PLACE_SELL_SOURCE source=fresh_after_far_cancel price=80766.84
+[13:16:23.028] [OK] [EXEC] PLACE SELL price=80766.84 qty=0.049520
+[13:16:23.300] [OK] [EXEC] SELL ORDER SENT orderId=385520545
+[13:16:26.230] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=385520545 status=NEW
+[13:16:26.234] [WARNING] [EXEC] SELL_WATCHDOG_FAR_CANCEL orderId=385520545 price=80766.84 ask=80764.55 dist_ticks=228
+[13:16:26.763] [INFO] [EXEC] SELL_FAR_CANCEL_FINAL_STATUS status=CANCELED
+[13:16:27.603] [INFO] [EXEC] SELL CHECK inventory=0.049520 reported=0.000000 remaining=0.049520 chunks=2
+[13:16:27.603] [INFO] [EXEC] SELL_REPRICE_FRESH_APPLIED old=80766.84 new=80765.05 ask=80765.07 bid=80759.12
+[13:16:27.603] [INFO] [EXEC] SELL_REPRICE_VALIDATION old=80766.84 new=80765.05 ask=80765.07 dist_ticks=2 source=fresh_snapshot
+[13:16:27.603] [INFO] [EXEC] PLACE_SELL_SOURCE source=fresh_after_far_cancel price=80765.05
+[13:16:27.603] [OK] [EXEC] PLACE SELL price=80765.05 qty=0.049520
+[13:16:28.338] [OK] [EXEC] SELL ORDER SENT orderId=385520680
+[13:16:29.425] [OK] [SYNC] order filled detected
+[13:16:29.427] [OK] [SYNC] SELL filled on exchange
+[13:16:29.427] [OK] [EXEC] FIFO CLOSE qty=0.000070 entry=80763.34 exit=80765.05 pnl=+0.000120
+[13:16:29.429] [INFO] [EXEC] CHUNK DRAINED
+[13:16:29.431] [OK] [EXEC] FIFO CLOSE qty=0.049450 entry=80764.32 exit=80765.05 pnl=+0.036030
+[13:16:29.433] [INFO] [EXEC] CHUNK DRAINED
+[13:16:29.437] [OK] [EXEC] REALIZED pnl=+0.036150
+[13:16:29.439] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[13:16:29.440] [OK] [EXEC] CYCLE CLOSED pnl=+0.036150
+[13:16:29.441] [INFO] [EXEC] SESSION realized=+0.036150 wins=1 losses=0
+[13:16:31.907] [INFO] [HEALTH] state=GOOD
+[13:16:32.166] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[13:16:32.166] [OK] [EXEC] BUY ORDER SENT orderId=385520857 price=80759.97 qty=0.049520
+[13:16:32.166] [OK] [EXEC] PLACE BUY price=80759.97 qty=0.049520
+[13:16:33.181] [INFO] [EXEC] ENTRY_REPRICE reason=wide_spread_cross old=80759.97 new=80763.58 count=1
+[13:16:33.723] [OK] [EXEC] ENTRY_PLACE price=80763.58 qty=0.049520
+[13:16:35.500] [INFO] [EXEC] BUY_WATCHDOG_SYNC orderId=385520992 status=NEW
+[13:16:35.504] [WARNING] [EXEC] BUY_WATCHDOG_FAR_CANCEL orderId=385520992 price=80763.58 bid=80769.92 dist_ticks=634
+[13:16:36.447] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[13:16:36.462] [OK] [EXEC] BUY ORDER SENT orderId=385521111 price=80771.98 qty=0.049520
+[13:16:36.465] [OK] [EXEC] PLACE BUY price=80771.98 qty=0.049520
+[13:16:37.969] [INFO] [EXEC] BUY_WATCHDOG_SYNC orderId=385521111 status=NEW
+[13:16:37.973] [WARNING] [EXEC] BUY TIMEOUT orderId=385521111
+[13:16:37.976] [WARNING] [EXEC] CANCEL BUY orderId=385521111
+[13:16:38.229] [OK] [EXEC] BUY CANCELED confirmed
+[13:16:38.494] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=385521111
+[13:16:38.510] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[13:16:39.979] [INFO] [HEALTH] state=GOOD
+[13:16:40.245] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[13:16:40.245] [OK] [EXEC] BUY ORDER SENT orderId=385521440 price=80795.62 qty=0.049500
+[13:16:40.245] [OK] [EXEC] PLACE BUY price=80795.62 qty=0.049500
+[13:16:41.792] [INFO] [EXEC] BUY_WATCHDOG_SYNC orderId=385521440 status=NEW
+[13:16:41.792] [WARNING] [EXEC] BUY_WATCHDOG_FAR_CANCEL orderId=385521440 price=80795.62 bid=80798.23 dist_ticks=261
+[13:16:42.777] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[13:16:42.780] [OK] [EXEC] BUY ORDER SENT orderId=385521569 price=80787.38 qty=0.049510
+[13:16:42.782] [OK] [EXEC] PLACE BUY price=80787.38 qty=0.049510
+[13:16:43.791] [INFO] [EXEC] ENTRY_REPRICE reason=wide_spread_cross old=80787.38 new=80790.87 count=1
+[13:16:44.323] [OK] [EXEC] ENTRY_PLACE price=80790.87 qty=0.049510
+[13:16:45.791] [INFO] [EXEC] BUY_WATCHDOG_SYNC orderId=385521617 status=FILLED
+[13:16:45.791] [OK] [SYNC] order filled detected
+[13:16:45.791] [OK] [SYNC] BUY filled on exchange
+[13:16:45.791] [OK] [EXEC] BUY FILL UPDATE delta=0.049510 avg=80790.87
+[13:16:45.806] [OK] [EXEC] CHUNK ADD qty=0.049510 entry=80790.87
+[13:16:45.808] [INFO] [EXEC] CHUNK COUNT n=1
+[13:16:45.809] [OK] [EXEC] INVENTORY qty=0.049510
+[13:16:45.811] [OK] [EXEC] SELL REQUIRED inventory=0.049510
+[13:16:47.910] [INFO] [EXEC] SELL CHECK inventory=0.049510 reported=0.000000 remaining=0.049500 chunks=1
+[13:16:47.926] [INFO] [EXEC] PLACE_SELL_SOURCE source=plan price=80793.49
+[13:16:47.926] [OK] [EXEC] PLACE SELL price=80793.49 qty=0.049500
+[13:16:48.182] [OK] [EXEC] SELL ORDER SENT orderId=385521953
+[13:16:48.202] [OK] [PLAN] HOT entry=80787.01 exit=80793.49 profit=0.320825 age=2248ms
+[13:16:49.565] [OK] [SYNC] order filled detected
+[13:16:49.565] [OK] [SYNC] SELL filled on exchange
+[13:16:49.565] [OK] [EXEC] FIFO CLOSE qty=0.049500 entry=80790.87 exit=80795.03 pnl=+0.206160
+[13:16:49.565] [INFO] [EXEC] CHUNK DRAINED
+[13:16:49.565] [OK] [EXEC] REALIZED pnl=+0.206160
+[13:16:49.565] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[13:16:49.581] [OK] [EXEC] CYCLE CLOSED pnl=+0.206160
+[13:16:49.581] [INFO] [EXEC] SESSION realized=+0.242310 wins=2 losses=0
+[13:16:49.581] [INFO] [HEALTH] state=GOOD
+[13:16:49.853] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[13:16:49.861] [OK] [EXEC] BUY ORDER SENT orderId=385522026 price=80798.65 qty=0.049500
+[13:16:49.861] [OK] [EXEC] PLACE BUY price=80798.65 qty=0.049500
+[13:16:51.634] [OK] [SYNC] order filled detected
+[13:16:51.634] [OK] [SYNC] BUY filled on exchange
+[13:16:51.634] [OK] [EXEC] BUY FILL UPDATE delta=0.049500 avg=80798.65
+[13:16:51.649] [OK] [EXEC] CHUNK ADD qty=0.049500 entry=80798.65
+[13:16:51.649] [INFO] [EXEC] CHUNK COUNT n=1
+[13:16:51.649] [OK] [EXEC] INVENTORY qty=0.049500
+[13:16:51.649] [OK] [EXEC] SELL REQUIRED inventory=0.049500
+[13:16:52.181] [INFO] [EXEC] SELL CHECK inventory=0.049500 reported=0.000000 remaining=0.049500 chunks=1
+[13:16:52.196] [INFO] [EXEC] PLACE_SELL_SOURCE source=plan price=80803.25
+[13:16:52.196] [OK] [EXEC] PLACE SELL price=80803.25 qty=0.049500
+[13:16:52.461] [OK] [EXEC] SELL ORDER SENT orderId=385522097
+[13:16:52.873] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.049500 free=0.000087 final=0.000087
+[13:16:54.150] [WARNING] [EXEC] TAKER_EXIT_TRIGGER reason=timeout_after_ms age=1692 qty=0.049500
+[13:16:54.150] [WARNING] [EXEC] TAKER_EXIT_CANCEL_MAKER orderId=385522097
+[13:16:54.955] [INFO] [EXEC] PLACE_SELL_SOURCE source=taker price=80795.17
+[13:16:55.221] [WARNING] [EXEC] TAKER_EXIT_ORDER_SENT id=385522140 price=80795.17 qty=0.049500
+[13:16:55.761] [WARNING] [SYNC] desync fixed
+[13:16:55.908] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:16:55.908] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:16:56.400] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:16:56.400] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:16:56.902] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:16:56.905] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:16:57.400] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:16:57.400] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:16:58.070] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.049500 free=0.033617 final=0.033617
+[13:16:58.072] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:16:58.073] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:16:58.417] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:16:58.419] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:16:58.923] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:16:58.923] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:16:59.432] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:16:59.432] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:16:59.938] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:16:59.938] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:00.433] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:00.434] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:00.947] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:00.947] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:01.447] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.049500 free=0.033617 final=0.033617
+[13:17:01.447] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:01.447] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:01.932] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:01.932] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:02.462] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:02.462] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:02.975] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:02.975] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:03.463] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:03.463] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:04.020] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:04.023] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:04.290] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:04.290] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:04.572] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.049500 free=0.033617 final=0.033617
+[13:17:04.572] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:04.572] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:04.862] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:04.864] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:05.150] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:05.150] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:05.436] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:05.437] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:05.718] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:05.720] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:05.994] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:05.994] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:06.276] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:06.276] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:07.073] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:07.074] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:07.496] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:07.499] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:08.020] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.049500 free=0.033617 final=0.033617
+[13:17:08.020] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:08.020] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:08.510] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:08.510] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:09.037] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:09.037] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:09.525] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:09.525] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:10.293] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:10.297] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:10.822] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:10.822] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:11.808] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.049500 free=0.033617 final=0.033617
+[13:17:11.812] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:11.815] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:12.309] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:12.313] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:12.807] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:12.811] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:13.306] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:13.306] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:13.822] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:13.822] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:14.309] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:14.313] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:14.807] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:14.807] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:15.323] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.049500 free=0.033617 final=0.033617
+[13:17:15.323] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:15.323] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:16.081] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:16.084] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:16.587] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:16.587] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:17.087] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:17.091] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:17.587] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:17.587] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:18.093] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:18.093] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:18.603] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.049500 free=0.033617 final=0.033617
+[13:17:18.603] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:18.603] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:19.369] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:19.369] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:19.854] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:19.854] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:20.369] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:20.369] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:20.877] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:20.877] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:21.402] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:21.405] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:21.984] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.049500 free=0.033617 final=0.033617
+[13:17:21.987] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:21.989] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:22.418] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:22.421] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell
+[13:17:23.094] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=exit_recovery_inventory_no_sell
+[13:17:23.094] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=place_sell

@@ -1,0 +1,72 @@
+[08:40:57.593] [OK] filters loaded
+[08:41:11.260] [OK] [SETTINGS] settings saved
+[08:41:12.060] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[08:41:12.061] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=3000.0
+[08:41:12.565] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[08:41:12.569] [OK] START
+[08:41:12.572] [OK] START_OK runtime_started
+[08:41:12.574] [INFO] [EXEC] LIVE ON
+[08:41:12.576] [INFO] [EXEC] WAIT READY
+[08:41:12.579] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:41:12.582] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:41:12.584] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=8.68 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[08:41:12.861] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[08:41:12.862] [WS] connecting primary
+[08:41:12.888] [WARNING] [HEALTH] block spread_too_young lifetime=315
+[08:41:12.890] [OK] [PLAN] READY entry=80920.21 exit=80926.89 profit=0.247628 age=315ms
+[08:41:13.743] [WARNING] [HEALTH] block falling_market bid_ticks=-173.00 mid_ticks=-86.50
+[08:41:13.745] [WARNING] [HEALTH] unstable_bid delta_ticks=-173.00
+[08:41:13.747] [WARNING] [HEALTH] negative_momentum ticks=-86.50
+[08:41:13.751] [OK] [PLAN] HOT entry=80918.48 exit=80926.89 profit=0.311759 age=1170ms
+[08:41:13.751] [WS] connected
+[08:41:13.889] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=79 spread=7.57 stable=3/1 mid_delta=-86.50 bid_delta=-173.00
+[08:41:14.688] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[08:41:14.691] [OK] [EXEC] BUY ORDER SENT orderId=384897421 price=80921.32 qty=0.037070
+[08:41:14.693] [OK] [EXEC] PLACE BUY price=80921.32 qty=0.037070
+[08:41:14.695] [OK] [PLAN] READY entry=80921.32 exit=80926.89 profit=0.206480 age=1566ms
+[08:41:15.216] [OK] [SYNC] order filled detected
+[08:41:15.219] [OK] [SYNC] BUY filled on exchange
+[08:41:15.220] [OK] [EXEC] BUY FILL UPDATE delta=0.037070 avg=80921.32
+[08:41:15.222] [OK] [EXEC] CHUNK ADD qty=0.037070 entry=80921.32
+[08:41:15.223] [INFO] [EXEC] CHUNK COUNT n=1
+[08:41:15.229] [OK] [EXEC] INVENTORY qty=0.037070
+[08:41:15.231] [OK] [EXEC] SELL REQUIRED inventory=0.037070
+[08:41:15.962] [INFO] [EXEC] SELL CHECK inventory=0.037070 reported=0.000000 remaining=0.037060 chunks=1
+[08:41:15.965] [OK] [EXEC] PLACE SELL price=80925.83 qty=0.037060
+[08:41:16.227] [OK] [EXEC] SELL ORDER SENT orderId=384897452
+[08:41:17.053] [INFO] [EXEC] SELL UPSIZE old=0.037060 new=0.037070
+[08:41:17.054] [WARNING] [EXEC] SELL TIMEOUT orderId=384897452
+[08:41:17.055] [WARNING] [EXEC] CANCEL SELL orderId=384897452
+[08:41:17.581] [INFO] [EXEC] SELL FINAL STATUS status=CANCELED orderId=384897452
+[08:41:17.583] [INFO] [EXEC] SELL TIMEOUT check fast_exit
+[08:41:17.585] [WARNING] [EXEC] FORCE EXIT hard_sl_triggered
+[08:41:17.586] [ERROR] [EXEC] HARD SL triggered
+[08:41:17.588] [WARNING] [EXEC] PANIC EXIT sl_mode
+[08:41:17.850] [WARNING] [EXEC] FORCE EXIT price=80924.82
+[08:41:17.852] [OK] [EXEC] PLACE SELL price=80924.82 qty=0.037060
+[08:41:18.115] [WARNING] [EXEC] PANIC START price=80924.82
+[08:41:18.117] [OK] [EXEC] SELL ORDER SENT orderId=384897470
+[08:41:18.916] [INFO] [EXEC] SELL_UPSIZE_SKIPPED reason=exit_or_panic_active
+[08:41:22.753] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.037070 free=0.000017 final=0.000017
+[08:41:26.465] [OK] [PLAN] READY entry=80917.85 exit=80923.80 profit=0.220566 age=893ms
+[08:41:27.536] [OK] [PLAN] HOT entry=80913.10 exit=80920.66 profit=0.280249 age=1497ms
+[08:41:29.310] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.037070 free=0.000017 final=0.000017
+[08:41:37.466] [OK] [PLAN] READY entry=80915.01 exit=80920.66 profit=0.209446 age=625ms
+[08:41:39.321] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.037070 free=0.000017 final=0.000017
+[08:41:44.979] [OK] [PLAN] READY entry=80914.97 exit=80920.13 profit=0.191281 age=899ms
+[08:41:45.954] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.037070 free=0.000017 final=0.000017
+[08:41:47.099] [OK] [PLAN] READY entry=80914.33 exit=80919.55 profit=0.193505 age=881ms
+[08:41:48.954] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.037070 free=0.000017 final=0.000017
+[08:41:50.469] [OK] [PLAN] READY entry=80899.66 exit=80905.00 profit=0.198007 age=634ms
+[08:41:51.960] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.037070 free=0.000017 final=0.000017
+[08:41:53.719] [OK] [PLAN] READY entry=80901.73 exit=80906.93 profit=0.192816 age=877ms
+[08:41:55.578] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.037070 free=0.000017 final=0.000017
+[08:41:57.091] [OK] [PLAN] READY entry=80904.27 exit=80910.51 profit=0.231379 age=612ms
+[08:41:58.949] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.037070 free=0.000017 final=0.000017
+[08:42:09.243] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[08:42:09.580] [WARNING] cancel all requested
+[08:42:09.583] [WARNING] [EXEC] STOP canceled panic order, position remains open
+[08:42:10.362] [WARNING] [SYNC] desync fixed
+[08:42:10.364] [WARNING] [EXEC] STOP_SAFE_MANUAL inventory=0.037070 active_order=0
+[08:42:10.364] [WARNING] STOP
+[08:42:10.365] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.037070 free=0.000017 final=0.000017

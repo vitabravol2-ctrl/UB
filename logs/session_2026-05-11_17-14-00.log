@@ -1,0 +1,113 @@
+[14:14:01.972] [OK] filters loaded
+[14:14:04.209] [OK] [PLAN] READY entry=81121.77 exit=81125.39 profit=0.669338 age=327ms
+[14:14:05.016] [OK] [PLAN] HOT entry=81121.77 exit=81126.40 profit=0.856087 age=1131ms
+[14:14:08.225] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[14:14:08.241] [OK] START
+[14:14:08.241] [INFO] [EXEC] LIVE ON
+[14:14:08.241] [INFO] [EXEC] WAIT READY
+[14:14:09.058] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[14:14:09.059] [WS] connecting primary
+[14:14:10.244] [OK] [EXEC] BUY ORDER SENT orderId=382212752 price=81121.95 qty=0.184900
+[14:14:10.249] [OK] [EXEC] PLACE BUY price=81121.95 qty=0.184900
+[14:14:10.804] [OK] [SYNC] order filled detected
+[14:14:10.822] [OK] [SYNC] BUY filled on exchange
+[14:14:12.002] [OK] [EXEC] PLACE SELL price=81126.27 qty=0.184900
+[14:14:12.312] [OK] [EXEC] SELL ORDER SENT orderId=382212882
+[14:14:12.316] [WARNING] [EXEC] BLOCK reason=balance_low
+[14:14:12.633] [WARNING] [EXEC] CANCEL SELL orderId=382212882
+[14:14:12.900] [ERROR] [EXEC] HARD SL triggered
+[14:14:12.903] [WARNING] [EXEC] PANIC EXIT sl_mode
+[14:14:12.905] [WARNING] [EXEC] FORCE EXIT price=81127.27
+[14:14:12.907] [OK] [EXEC] PLACE SELL price=81127.27 qty=0.184900
+[14:14:13.169] [ERROR] [EXEC] PANIC SELL FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[14:14:14.240] [OK] [SYNC] order filled detected
+[14:14:14.240] [OK] [SYNC] SELL filled on exchange
+[14:14:14.240] [OK] [EXEC] REALIZED pnl=+0.798768
+[14:14:17.784] [WARNING] [EXEC] BLOCK reason=balance_low
+[14:14:21.723] [OK] [EXEC] BUY ORDER SENT orderId=382213712 price=81092.98 qty=0.184970
+[14:14:21.725] [OK] [EXEC] PLACE BUY price=81092.98 qty=0.184970
+[14:14:22.007] [OK] [EXEC] BUY FILLED id=382213712
+[14:14:22.007] [OK] [PLAN] HOT entry=81092.98 exit=81098.52 profit=1.024734 age=306ms
+[14:14:23.097] [OK] [SYNC] order filled detected
+[14:14:23.100] [OK] [SYNC] BUY filled on exchange
+[14:14:23.319] [OK] [EXEC] PLACE SELL price=81105.14 qty=0.184970
+[14:14:23.585] [OK] [EXEC] SELL ORDER SENT orderId=382213915
+[14:14:26.228] [OK] [SYNC] order filled detected
+[14:14:26.231] [OK] [SYNC] SELL filled on exchange
+[14:14:26.232] [OK] [EXEC] REALIZED pnl=+2.249235
+[14:14:27.132] [OK] [EXEC] BUY ORDER SENT orderId=382214212 price=81105.82 qty=0.184940
+[14:14:27.135] [OK] [EXEC] PLACE BUY price=81105.82 qty=0.184940
+[14:14:28.024] [OK] [PLAN] HOT entry=81105.82 exit=81116.14 profit=1.908581 age=888ms
+[14:14:30.022] [OK] [PLAN] READY entry=81119.35 exit=81123.30 profit=0.730394 age=2878ms
+[14:14:30.539] [WS] error [WinError 10060] Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера
+[14:14:30.540] [WS] stale/lost
+[14:14:32.174] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[14:14:32.175] [WS] connecting primary
+[14:14:32.480] [WARNING] [EXEC] BUY TIMEOUT orderId=382214212
+[14:14:32.484] [WARNING] [EXEC] CANCEL BUY orderId=382214212
+[14:14:32.787] [OK] [EXEC] BUY CANCELED confirmed
+[14:14:33.083] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=382214212
+[14:14:33.085] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[14:14:33.085] [WARNING] [EXEC] BLOCK reason=balance_low
+[14:14:41.898] [OK] [EXEC] BUY ORDER SENT orderId=382214919 price=81108.01 qty=0.184930
+[14:14:41.901] [OK] [EXEC] PLACE BUY price=81108.01 qty=0.184930
+[14:14:42.226] [OK] [PLAN] HOT entry=81108.01 exit=81117.76 profit=1.803068 age=320ms
+[14:14:43.329] [OK] [SYNC] order filled detected
+[14:14:43.332] [OK] [SYNC] BUY filled on exchange
+[14:14:44.108] [OK] [EXEC] PLACE SELL price=81110.84 qty=0.184930
+[14:14:44.383] [OK] [EXEC] SELL ORDER SENT orderId=382215034
+[14:14:44.978] [OK] [SYNC] order filled detected
+[14:14:44.980] [OK] [SYNC] SELL filled on exchange
+[14:14:44.981] [OK] [EXEC] REALIZED pnl=+0.523352
+[14:14:51.319] [OK] [EXEC] BUY ORDER SENT orderId=382215482 price=81113.73 qty=0.184920
+[14:14:51.319] [OK] [EXEC] PLACE BUY price=81113.73 qty=0.184920
+[14:14:53.125] [WS] error [WinError 10060] Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера
+[14:14:53.125] [WS] stale/lost
+[14:14:54.054] [OK] [EXEC] BUY FILLED id=382215482
+[14:14:54.061] [WARNING] [EXEC] BLOCK reason=balance_low
+[14:14:54.595] [OK] [SYNC] order filled detected
+[14:14:54.598] [OK] [SYNC] BUY filled on exchange
+[14:14:54.601] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[14:14:54.601] [WS] connecting primary
+[14:14:54.620] [OK] [EXEC] PLACE SELL price=81121.08 qty=0.184920
+[14:14:54.882] [OK] [EXEC] SELL ORDER SENT orderId=382215716
+[14:14:56.018] [OK] [SYNC] order filled detected
+[14:14:56.021] [OK] [SYNC] SELL filled on exchange
+[14:14:56.022] [OK] [EXEC] REALIZED pnl=+1.359162
+[14:15:04.631] [OK] [EXEC] BUY ORDER SENT orderId=382216339 price=81136.03 qty=0.184870
+[14:15:04.632] [OK] [EXEC] PLACE BUY price=81136.03 qty=0.184870
+[14:15:05.631] [OK] [EXEC] BUY FILLED id=382216339
+[14:15:05.631] [OK] [PLAN] HOT entry=81136.03 exit=81142.10 profit=1.122161 age=1000ms
+[14:15:06.694] [OK] [SYNC] order filled detected
+[14:15:06.694] [OK] [SYNC] BUY filled on exchange
+[14:15:07.378] [OK] [EXEC] PLACE SELL price=81138.02 qty=0.184870
+[14:15:07.649] [OK] [EXEC] SELL ORDER SENT orderId=382216602
+[14:15:09.367] [WARNING] [EXEC] CANCEL SELL orderId=382216602
+[14:15:09.742] [ERROR] [EXEC] HARD SL triggered
+[14:15:09.746] [WARNING] [EXEC] PANIC EXIT sl_mode
+[14:15:09.749] [WARNING] [EXEC] FORCE EXIT price=81133.37
+[14:15:09.751] [OK] [EXEC] PLACE SELL price=81133.37 qty=0.184870
+[14:15:10.517] [OK] [EXEC] SELL ORDER SENT orderId=382216826
+[14:15:13.148] [WARNING] [EXEC] SELL TIMEOUT orderId=382216826
+[14:15:13.164] [WARNING] [EXEC] CANCEL SELL orderId=382216826
+[14:15:13.722] [INFO] [EXEC] SELL FINAL STATUS status=CANCELED orderId=382216826
+[14:15:13.725] [WARNING] [EXEC] PANIC EXIT final_recover_place_sell
+[14:15:13.725] [WARNING] [EXEC] PANIC EXIT panic_final_recover
+[14:15:13.725] [WARNING] [EXEC] FORCE EXIT price=81132.36
+[14:15:13.725] [OK] [EXEC] PLACE SELL price=81132.36 qty=0.184870
+[14:15:13.991] [ERROR] [EXEC] PANIC SELL FAILED reason=Binance request failed status=400 code=-2010 msg=Account has insufficient balance for requested action. body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[14:15:15.053] [WARNING] [SYNC] desync fixed
+[14:15:15.089] [WARNING] [EXEC] WATCHDOG position open without sell -> recover
+[14:15:15.365] [WS] error [WinError 10060] Попытка установить соединение была безуспешной, т.к. от другого компьютера за требуемое время не получен нужный отклик, или было разорвано уже установленное соединение из-за неверного отклика уже подключенного компьютера
+[14:15:15.367] [WS] stale/lost
+[14:15:15.413] [OK] [EXEC] PLACE SELL price=81136.07 qty=0.184870
+[14:15:16.677] [OK] [EXEC] PLACE SELL price=81141.63 qty=0.184870
+[14:15:17.476] [OK] [EXEC] PLACE SELL price=81142.10 qty=0.184870
+[14:15:18.056] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[14:15:18.057] [WS] connecting primary
+[14:15:18.255] [OK] [EXEC] PLACE SELL price=81142.10 qty=0.184870
+[14:15:20.006] [OK] [EXEC] PLACE SELL price=81136.07 qty=0.184870
+[14:15:28.584] [WARNING] cancel all requested
+[14:15:28.584] [WARNING] STOP
+[14:15:36.026] [OK] [PLAN] READY entry=81138.33 exit=81141.81 profit=0.643313 age=60ms
+[14:15:36.740] [OK] [PLAN] HOT entry=81139.24 exit=81144.00 profit=0.879934 age=775ms

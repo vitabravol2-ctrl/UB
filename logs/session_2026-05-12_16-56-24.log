@@ -1,0 +1,337 @@
+[13:56:25.629] [OK] filters loaded
+[13:56:38.192] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[13:56:38.192] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=500.0
+[13:56:38.193] [INFO] START_PROFILE order_size=500.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[13:56:38.193] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[13:56:38.686] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[13:56:38.693] [OK] START
+[13:56:38.697] [OK] START_OK runtime_started
+[13:56:38.699] [INFO] [EXEC] LIVE ON
+[13:56:38.700] [INFO] [EXEC] WAIT READY
+[13:56:38.701] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[13:56:38.702] [WARNING] [HEALTH] unstable_spread lifetime=0
+[13:56:38.703] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=12.45 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[13:56:39.640] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[13:56:39.641] [WS] connecting primary
+[13:56:40.426] [OK] [PLAN] HOT entry=80555.00 exit=80561.49 profit=0.040238 age=1725ms
+[13:56:40.734] [WS] connected
+[13:56:40.897] [WARNING] [HEALTH] block falling_market bid_ticks=-446.00 mid_ticks=-324.50
+[13:56:40.900] [WARNING] [HEALTH] unstable_bid delta_ticks=-446.00
+[13:56:40.902] [WARNING] [HEALTH] negative_momentum ticks=-324.50
+[13:56:40.903] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=30 spread=10.42 stable=2/1 mid_delta=-324.50 bid_delta=-446.00
+[13:56:41.394] [WARNING] [HEALTH] block falling_market bid_ticks=-353.00 mid_ticks=-374.00
+[13:56:41.397] [WARNING] [HEALTH] unstable_bid delta_ticks=-353.00
+[13:56:41.399] [WARNING] [HEALTH] negative_momentum ticks=-374.00
+[13:56:41.887] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-101.50
+[13:56:41.889] [WARNING] [HEALTH] negative_momentum ticks=-101.50
+[13:56:41.891] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=FAST ws_age=0 spread=7.97 stable=2/1 mid_delta=-101.50 bid_delta=0.00
+[13:56:43.144] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[13:56:43.147] [OK] [EXEC] BUY ORDER SENT orderId=385690527 price=80541.92 qty=0.006200
+[13:56:43.150] [OK] [EXEC] PLACE BUY price=80541.92 qty=0.006200
+[13:56:44.147] [INFO] [EXEC] ENTRY_REPRICE reason=wide_spread_cross old=80541.92 new=80546.03 count=1
+[13:56:44.669] [OK] [EXEC] ENTRY_PLACE price=80546.03 qty=0.006200
+[13:56:45.678] [INFO] [EXEC] BUY_WATCHDOG_SYNC orderId=385690615 status=FILLED
+[13:56:45.682] [OK] [SYNC] order filled detected
+[13:56:45.684] [OK] [SYNC] BUY filled on exchange
+[13:56:45.685] [OK] [EXEC] BUY FILL UPDATE delta=0.006200 avg=80546.02
+[13:56:45.687] [OK] [EXEC] CHUNK ADD qty=0.006200 entry=80546.02
+[13:56:45.689] [INFO] [EXEC] CHUNK COUNT n=1
+[13:56:45.690] [OK] [EXEC] INVENTORY qty=0.006200
+[13:56:45.691] [OK] [EXEC] SELL REQUIRED inventory=0.006200
+[13:56:46.696] [INFO] [EXEC] SELL CHECK inventory=0.006200 reported=0.000000 remaining=0.006190 chunks=1
+[13:56:46.699] [INFO] [EXEC] PLACE_SELL_SOURCE source=plan price=80553.43
+[13:56:46.701] [OK] [EXEC] PLACE SELL price=80553.43 qty=0.006190
+[13:56:46.967] [OK] [EXEC] SELL ORDER SENT orderId=385690777
+[13:56:47.506] [OK] [SYNC] order filled detected
+[13:56:47.509] [OK] [SYNC] SELL filled on exchange
+[13:56:47.510] [OK] [EXEC] FIFO CLOSE qty=0.006190 entry=80546.02 exit=80553.43 pnl=+0.045868
+[13:56:47.513] [INFO] [EXEC] CHUNK DRAINED
+[13:56:47.516] [OK] [EXEC] REALIZED pnl=+0.045868
+[13:56:47.519] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[13:56:47.522] [OK] [EXEC] CYCLE CLOSED pnl=+0.045868
+[13:56:47.525] [INFO] [EXEC] SESSION realized=+0.045868 wins=1 losses=0
+[13:56:47.661] [INFO] [HEALTH] state=GOOD
+[13:56:48.468] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[13:56:48.472] [OK] [EXEC] BUY ORDER SENT orderId=385690908 price=80550.63 qty=0.006200
+[13:56:48.475] [OK] [EXEC] PLACE BUY price=80550.63 qty=0.006200
+[13:56:49.992] [OK] [SYNC] order filled detected
+[13:56:49.995] [OK] [SYNC] BUY filled on exchange
+[13:56:49.995] [OK] [EXEC] BUY FILL UPDATE delta=0.006200 avg=80550.63
+[13:56:49.997] [OK] [EXEC] CHUNK ADD qty=0.006200 entry=80550.63
+[13:56:49.998] [INFO] [EXEC] CHUNK COUNT n=1
+[13:56:49.999] [OK] [EXEC] INVENTORY qty=0.006200
+[13:56:50.000] [OK] [EXEC] SELL REQUIRED inventory=0.006200
+[13:56:50.553] [INFO] [EXEC] SELL CHECK inventory=0.006200 reported=0.000000 remaining=0.006190 chunks=1
+[13:56:50.556] [INFO] [EXEC] PLACE_SELL_SOURCE source=plan price=80556.20
+[13:56:50.559] [OK] [EXEC] PLACE SELL price=80556.20 qty=0.006190
+[13:56:50.873] [OK] [EXEC] SELL ORDER SENT orderId=385691233
+[13:56:51.721] [INFO] [EXEC] SELL UPSIZE old=0.006190 new=0.006200
+[13:56:51.724] [WARNING] [EXEC] SELL TIMEOUT orderId=385691233
+[13:56:51.726] [WARNING] [EXEC] CANCEL SELL orderId=385691233
+[13:56:52.258] [INFO] [EXEC] SELL FINAL STATUS status=CANCELED orderId=385691233
+[13:56:52.261] [INFO] [EXEC] SELL TIMEOUT check fast_exit
+[13:56:52.264] [WARNING] [EXEC] FORCE EXIT hard_sl_triggered
+[13:56:52.266] [ERROR] [EXEC] HARD SL triggered
+[13:56:52.268] [WARNING] [EXEC] PANIC EXIT sl_mode
+[13:56:52.544] [WARNING] [EXEC] FORCE EXIT price=80531.99
+[13:56:52.546] [INFO] [EXEC] PLACE_SELL_SOURCE source=panic price=80531.99
+[13:56:52.547] [OK] [EXEC] PLACE SELL price=80531.99 qty=0.006190
+[13:56:52.811] [WARNING] [EXEC] PANIC START price=80531.99
+[13:56:52.813] [OK] [EXEC] SELL ORDER SENT orderId=385691390
+[13:56:53.685] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=385691390 status=NEW
+[13:56:53.690] [WARNING] [EXEC] SELL_WATCHDOG_FAR_CANCEL orderId=385691390 price=80531.99 ask=80529.89 dist_ticks=210
+[13:56:54.244] [INFO] [EXEC] SELL_FAR_CANCEL_FINAL_STATUS status=CANCELED
+[13:56:55.387] [INFO] [EXEC] SELL CHECK inventory=0.006200 reported=0.000000 remaining=0.006190 chunks=1
+[13:56:55.391] [INFO] [EXEC] SELL_REPRICE_FRESH_APPLIED old=80531.99 new=80522.97 ask=80523.00 bid=80515.19
+[13:56:55.394] [INFO] [EXEC] SELL_REPRICE_VALIDATION old=80531.99 new=80522.97 ask=80523.00 dist_ticks=2 source=fresh_snapshot
+[13:56:55.396] [WARNING] [EXEC] SELL_FLOOR_BLOCKED price=80522.97 floor=80550.64 entry=80550.63 reason=below_min_profit source=fresh_after_far_cancel
+[13:56:55.397] [INFO] [EXEC] PLACE_SELL_SOURCE source=fresh_after_far_cancel price=80550.64
+[13:56:55.398] [OK] [EXEC] PLACE SELL price=80550.64 qty=0.006190
+[13:56:55.675] [OK] [EXEC] SELL ORDER SENT orderId=385691489
+[13:56:56.754] [INFO] [EXEC] SELL_UPSIZE_SKIPPED reason=exit_or_panic_active
+[13:56:57.691] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=385691489 status=NEW
+[13:56:57.696] [INFO] [EXEC] SELL_WATCHDOG_FAR_IGNORE orderId=385691489 reason=protected_sell dist_ticks=3569
+[13:56:59.224] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=385691489 status=NEW
+[13:57:01.217] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.006200 free=0.000027 final=0.000027
+[13:57:01.508] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=385691489 status=NEW
+[13:57:01.512] [WARNING] [EXEC] SMART_EXIT_ACTIVE
+[13:57:01.515] [WARNING] [EXEC] SMART_EXIT_BREAK_HOLD reason=too_far age=5824 dist_ticks=2861
+[13:57:02.039] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=taker_trigger_failed_after_break_hold
+[13:57:02.783] [WARNING] [SYNC] desync fixed
+[13:57:02.787] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:02.788] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:02.789] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:02.790] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:02.909] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:02.912] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:02.914] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:03.411] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:03.414] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:03.416] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:03.907] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:03.909] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:03.910] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:04.402] [WARNING] [EXEC] SELL_QTY_CLAMP inventory=0.006200 free=0.000027 final=0.000027
+[13:57:04.408] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:04.411] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:04.414] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:04.910] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:04.912] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:04.914] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:05.408] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:05.412] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:05.416] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:05.903] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:05.905] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:05.907] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:05.909] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:06.633] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:06.635] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:06.636] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:06.928] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:06.930] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:06.931] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:07.426] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:07.429] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:07.432] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:07.923] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:07.926] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:07.928] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:08.423] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:08.425] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:08.426] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:08.917] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:08.920] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:08.922] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:08.923] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:09.427] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:09.430] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:09.431] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:09.939] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:09.942] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:09.944] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:10.436] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:10.440] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:10.443] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:10.934] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:10.938] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:10.939] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:11.447] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:11.450] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:11.452] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:11.933] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:11.936] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:11.938] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:11.939] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:12.635] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:12.637] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:12.637] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:12.933] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:12.936] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:12.938] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:13.434] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:13.437] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:13.439] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:13.942] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:13.946] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:13.949] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:14.439] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:14.443] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:14.444] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:14.934] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:14.936] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:14.939] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:14.942] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:15.446] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:15.450] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:15.451] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:15.939] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:15.942] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:15.944] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:16.435] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:16.438] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:16.441] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:16.934] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:16.937] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:16.939] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:17.446] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:17.449] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:17.450] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:17.941] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:17.944] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:17.946] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:17.947] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:18.623] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:18.625] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:18.627] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:18.935] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:18.936] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:18.937] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:19.699] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:19.701] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:19.702] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:20.683] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:20.688] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:20.690] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:21.197] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:21.201] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:21.202] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:21.204] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:21.691] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:21.694] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:21.697] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:22.203] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:22.206] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:22.209] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:22.715] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:22.719] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:22.722] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:23.219] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:23.222] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:23.225] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:23.722] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:23.727] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:23.730] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:24.234] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:24.239] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:24.242] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:24.245] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:25.495] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:25.499] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:25.501] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:26.010] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:26.015] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:26.018] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:26.496] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:26.499] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:26.502] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:27.009] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:27.012] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:27.014] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:27.506] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:27.510] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:27.511] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:27.513] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:28.003] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:28.007] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:28.008] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:28.501] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:28.505] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:28.506] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:28.998] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:29.002] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:29.004] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:29.509] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:29.513] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:29.516] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:29.998] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:30.001] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:30.003] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:30.666] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:30.669] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:30.672] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:30.675] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:31.002] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:31.005] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:31.008] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:31.501] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:31.504] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:31.506] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:31.996] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:31.999] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:32.002] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:32.495] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:32.499] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:32.501] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:32.995] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:32.998] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:33.002] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:33.508] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:33.511] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:33.514] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:34.019] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:34.022] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:34.024] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:34.025] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:34.514] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:34.517] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:34.520] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:35.028] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:35.030] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:35.032] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:35.527] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:35.530] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:35.533] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:36.039] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:36.043] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:36.046] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:36.657] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:36.659] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:36.660] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:37.026] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:37.029] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:37.030] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:37.032] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:37.531] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:37.533] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:37.538] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:38.027] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:38.032] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:38.034] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:38.556] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:38.559] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:38.562] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:39.047] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:39.050] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:39.053] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:39.550] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:39.553] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:39.555] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:40.046] [INFO] [EXEC] TAKER_STATUS_GUARD_SKIP reason=smart_exit_wait_taker_or_panic
+[13:57:40.050] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=inventory_no_sell
+[13:57:40.053] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[13:57:40.057] [WARNING] [EXEC] PANIC HOLD active orderId=385691390
+[13:57:40.439] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[13:57:40.776] [WARNING] cancel all requested
+[13:57:40.778] [WARNING] [EXEC] STOP_SAFE_MANUAL inventory=0.006200 active_order=0
+[13:57:40.781] [WARNING] STOP

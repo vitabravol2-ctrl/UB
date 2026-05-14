@@ -1,0 +1,1519 @@
+[13:28:07.822] [OK] START
+[13:28:12.088] [OK] [SYNC] order filled detected
+[13:28:16.743] [OK] [SYNC] order filled detected
+[13:28:18.951] [OK] [SYNC] order filled detected
+[13:28:30.092] [OK] [SYNC] order filled detected
+[13:28:32.732] [OK] [SYNC] order filled detected
+[13:28:39.216] [OK] [SYNC] order filled detected
+[13:28:41.309] [OK] [SYNC] order filled detected
+[13:28:53.355] [OK] [SYNC] order filled detected
+[13:29:29.905] [OK] [SYNC] order filled detected
+[13:29:48.464] [OK] [SYNC] order filled detected
+[13:29:51.007] [OK] [SYNC] order filled detected
+[13:29:57.276] [OK] [SYNC] order filled detected
+[13:30:00.180] [OK] [SYNC] order filled detected
+[13:30:01.967] [OK] [SYNC] order filled detected
+[13:30:06.125] [OK] [SYNC] order filled detected
+[13:30:07.687] [OK] [SYNC] order filled detected
+[13:30:20.076] [OK] [SYNC] order filled detected
+[13:30:26.778] [OK] [SYNC] order filled detected
+[13:30:28.372] [OK] [SYNC] order filled detected
+[13:30:41.761] [OK] [SYNC] order filled detected
+[13:30:42.321] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/settings_export.json
+[13:30:43.119] [OK] [SYNC] order filled detected
+[13:30:44.941] [OK] [SYNC] order filled detected
+[13:30:59.276] [OK] [SYNC] order filled detected
+[13:31:04.803] [OK] [SYNC] order filled detected
+[13:31:10.676] [OK] [SYNC] order filled detected
+[13:31:12.243] [OK] [SYNC] order filled detected
+[13:31:15.147] [OK] [SYNC] order filled detected
+[13:31:16.695] [OK] [SYNC] order filled detected
+[13:31:19.710] [OK] [SYNC] order filled detected
+[13:31:32.935] [OK] [SYNC] order filled detected
+[13:31:34.397] [OK] [SYNC] order filled detected
+[13:31:40.637] [OK] [SYNC] order filled detected
+[13:31:51.314] [OK] [SYNC] order filled detected
+[13:31:54.882] [OK] [SYNC] order filled detected
+[13:32:04.189] [OK] [SYNC] order filled detected
+[13:32:09.225] [OK] [SYNC] order filled detected
+[13:32:16.193] [OK] [SYNC] order filled detected
+[13:32:17.756] [OK] [SYNC] order filled detected
+[13:32:23.256] [OK] [SYNC] order filled detected
+[13:32:32.669] [OK] [SYNC] order filled detected
+[13:32:34.647] [OK] [SYNC] order filled detected
+[13:32:42.631] [OK] [SYNC] order filled detected
+[13:32:45.344] [OK] [SYNC] order filled detected
+[13:32:46.961] [OK] [SYNC] order filled detected
+[13:32:51.123] [OK] [SYNC] order filled detected
+[13:32:52.706] [OK] [SYNC] order filled detected
+[13:32:58.370] [OK] [SYNC] order filled detected
+[13:33:01.132] [OK] [SYNC] order filled detected
+[13:33:06.546] [OK] [SYNC] order filled detected
+[13:33:09.738] [OK] [SYNC] order filled detected
+[13:33:11.209] [OK] [SYNC] order filled detected
+[13:33:14.256] [OK] [SYNC] order filled detected
+[13:33:17.137] [OK] [SYNC] order filled detected
+[13:33:21.303] [OK] [SYNC] order filled detected
+[13:33:22.757] [OK] [SYNC] order filled detected
+[13:33:25.910] [OK] [SYNC] order filled detected
+[13:33:34.022] [OK] [SYNC] order filled detected
+[13:33:42.303] [OK] [SYNC] order filled detected
+[13:33:43.795] [OK] [SYNC] order filled detected
+[13:33:47.101] [OK] [SYNC] order filled detected
+[13:33:54.725] [OK] [SYNC] order filled detected
+[13:33:58.196] [OK] [SYNC] order filled detected
+[13:34:07.265] [OK] [SYNC] order filled detected
+[13:34:09.842] [OK] [SYNC] order filled detected
+[13:34:10.206] [WARNING] cancel all requested
+[13:34:10.207] [WARNING] STOP
+[13:37:25.227] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/settings_export.json
+[13:37:27.542] [OK] [SETTINGS] settings saved
+[13:37:30.350] [OK] START
+[13:37:34.921] [OK] [SYNC] order filled detected
+[13:37:50.116] [OK] [SYNC] order filled detected
+[13:37:54.809] [OK] [SYNC] order filled detected
+[13:38:00.986] [OK] [SYNC] order filled detected
+[13:38:02.355] [OK] [SYNC] order filled detected
+[13:38:07.178] [OK] [SYNC] order filled detected
+[13:38:09.295] [OK] [SYNC] order filled detected
+[13:38:16.757] [OK] [SYNC] order filled detected
+[13:38:21.178] [OK] [SYNC] order filled detected
+[13:38:26.874] [OK] [SYNC] order filled detected
+[13:38:29.851] [OK] [SYNC] order filled detected
+[13:38:31.395] [OK] [SYNC] order filled detected
+[13:38:40.294] [OK] [SYNC] order filled detected
+[13:38:41.819] [OK] [SYNC] order filled detected
+[13:38:43.404] [OK] [SYNC] order filled detected
+[13:38:46.779] [OK] [SYNC] order filled detected
+[13:38:51.655] [OK] [SYNC] order filled detected
+[13:38:53.116] [OK] [SYNC] order filled detected
+[13:38:59.089] [OK] [SYNC] order filled detected
+[13:39:00.369] [OK] [SYNC] order filled detected
+[13:39:24.132] [OK] [SYNC] order filled detected
+[13:39:25.532] [OK] [SYNC] order filled detected
+[13:39:28.007] [OK] [SYNC] order filled detected
+[13:39:31.930] [OK] [SYNC] order filled detected
+[13:39:40.601] [OK] [SYNC] order filled detected
+[13:39:42.178] [OK] [SYNC] order filled detected
+[13:39:55.008] [OK] [SYNC] order filled detected
+[13:39:56.492] [OK] [SYNC] order filled detected
+[13:39:57.413] [OK] [SYNC] order filled detected
+[13:40:16.413] [OK] [SYNC] order filled detected
+[13:40:35.290] [OK] [SYNC] order filled detected
+[13:40:45.278] [OK] [SYNC] order filled detected
+[13:40:50.662] [OK] [SYNC] order filled detected
+[13:40:59.115] [OK] [SYNC] order filled detected
+[13:41:00.426] [OK] [SYNC] order filled detected
+[13:41:07.860] [OK] [SYNC] order filled detected
+[13:41:09.520] [OK] [SYNC] order filled detected
+[13:41:17.607] [OK] [SYNC] order filled detected
+[13:41:18.967] [OK] [SYNC] order filled detected
+[13:41:20.568] [OK] [SYNC] order filled detected
+[13:41:25.445] [OK] [SYNC] order filled detected
+[13:41:29.679] [OK] [SYNC] order filled detected
+[13:41:33.381] [OK] [SYNC] order filled detected
+[13:41:35.522] [OK] [SYNC] order filled detected
+[13:41:37.138] [OK] [SYNC] order filled detected
+[13:41:39.006] [OK] [SYNC] order filled detected
+[13:41:51.959] [OK] [SYNC] order filled detected
+[13:41:53.493] [OK] [SYNC] order filled detected
+[13:41:55.974] [OK] [SYNC] order filled detected
+[13:41:57.320] [OK] [SYNC] order filled detected
+[13:42:08.114] [OK] [SYNC] order filled detected
+[13:42:11.898] [OK] [SYNC] order filled detected
+[13:42:27.614] [OK] [SYNC] order filled detected
+[13:42:29.184] [OK] [SYNC] order filled detected
+[13:42:31.491] [OK] [SYNC] order filled detected
+[13:42:38.212] [OK] [SYNC] order filled detected
+[13:42:39.938] [OK] [SYNC] order filled detected
+[13:42:42.757] [OK] [SYNC] order filled detected
+[13:42:47.961] [OK] [SYNC] order filled detected
+[13:42:57.741] [OK] [SYNC] order filled detected
+[13:42:58.398] [WARNING] cancel all requested
+[13:42:58.398] [WARNING] STOP
+[13:44:44.469] [OK] [SETTINGS] settings saved
+[13:44:46.272] [OK] START
+[13:44:47.882] [OK] [SYNC] order filled detected
+[13:44:49.271] [OK] [SYNC] order filled detected
+[13:44:56.561] [OK] [SYNC] order filled detected
+[13:45:00.499] [OK] [SYNC] order filled detected
+[13:45:16.376] [OK] [SYNC] order filled detected
+[13:45:17.865] [OK] [SYNC] order filled detected
+[13:45:20.353] [OK] [SYNC] order filled detected
+[13:45:32.477] [OK] [SYNC] order filled detected
+[13:45:48.115] [OK] [SYNC] order filled detected
+[13:45:52.737] [OK] [SYNC] order filled detected
+[13:45:54.635] [OK] [SYNC] order filled detected
+[13:45:58.212] [OK] [SYNC] order filled detected
+[13:45:59.657] [OK] [SYNC] order filled detected
+[13:46:05.709] [OK] [SYNC] order filled detected
+[13:46:07.350] [OK] [SYNC] order filled detected
+[13:46:15.038] [OK] [SYNC] order filled detected
+[13:46:16.881] [OK] [SYNC] order filled detected
+[13:46:18.180] [OK] [SYNC] order filled detected
+[13:46:20.711] [OK] [SYNC] order filled detected
+[13:46:29.025] [OK] [SYNC] order filled detected
+[13:46:30.381] [OK] [SYNC] order filled detected
+[13:46:38.647] [OK] [SYNC] order filled detected
+[13:46:40.179] [OK] [SYNC] order filled detected
+[13:46:50.913] [OK] [SYNC] order filled detected
+[13:46:52.508] [OK] [SYNC] order filled detected
+[13:46:54.963] [OK] [SYNC] order filled detected
+[13:47:01.847] [OK] [SYNC] order filled detected
+[13:47:05.083] [OK] [SYNC] order filled detected
+[13:47:09.789] [OK] [SYNC] order filled detected
+[13:47:11.459] [OK] [SYNC] order filled detected
+[13:47:18.051] [OK] [SYNC] order filled detected
+[13:47:21.149] [OK] [SYNC] order filled detected
+[13:47:36.888] [OK] [SYNC] order filled detected
+[13:47:38.222] [OK] [SYNC] order filled detected
+[13:47:40.787] [OK] [SYNC] order filled detected
+[13:47:44.150] [OK] [SYNC] order filled detected
+[13:47:46.100] [OK] [SYNC] order filled detected
+[13:47:48.930] [OK] [SYNC] order filled detected
+[13:47:53.475] [OK] [SYNC] order filled detected
+[13:48:18.203] [OK] [SYNC] order filled detected
+[13:48:23.475] [OK] [SYNC] order filled detected
+[13:48:36.226] [OK] [SYNC] order filled detected
+[13:48:36.554] [WARNING] cancel all requested
+[13:48:36.572] [WARNING] STOP
+[13:49:21.756] [OK] [SETTINGS] settings saved
+[13:49:24.525] [OK] START
+[13:49:35.600] [OK] [SYNC] order filled detected
+[13:49:38.225] [OK] [SYNC] order filled detected
+[13:49:39.521] [OK] [SYNC] order filled detected
+[13:49:42.396] [OK] [SYNC] order filled detected
+[13:49:53.083] [OK] [SYNC] order filled detected
+[13:49:59.120] [OK] [SYNC] order filled detected
+[13:50:01.636] [OK] [SYNC] order filled detected
+[13:50:13.154] [OK] [SYNC] order filled detected
+[13:50:14.645] [OK] [SYNC] order filled detected
+[13:50:18.240] [OK] [SYNC] order filled detected
+[13:50:26.693] [OK] [SYNC] order filled detected
+[13:50:29.273] [OK] [SYNC] order filled detected
+[13:50:36.909] [OK] [SYNC] order filled detected
+[13:50:40.091] [OK] [SYNC] order filled detected
+[13:50:47.060] [OK] [SYNC] order filled detected
+[13:50:54.457] [OK] [SYNC] order filled detected
+[13:50:56.853] [OK] [SYNC] order filled detected
+[13:51:00.614] [OK] [SYNC] order filled detected
+[13:51:05.953] [OK] [SYNC] order filled detected
+[13:51:08.888] [OK] [SYNC] order filled detected
+[13:51:14.756] [OK] [SYNC] order filled detected
+[13:51:16.849] [OK] [SYNC] order filled detected
+[13:51:19.360] [OK] [SYNC] order filled detected
+[13:51:24.431] [WARNING] cancel all requested
+[13:51:25.209] [WARNING] [SYNC] desync fixed
+[13:51:25.225] [WARNING] STOP
+[13:58:00.232] [OK] START
+[13:58:07.304] [OK] [SYNC] order filled detected
+[13:58:14.444] [OK] [SYNC] order filled detected
+[13:58:28.247] [OK] [SYNC] order filled detected
+[13:58:30.135] [OK] [SYNC] order filled detected
+[13:58:35.335] [OK] [SYNC] order filled detected
+[13:59:02.153] [OK] [SYNC] order filled detected
+[13:59:08.729] [OK] [SYNC] order filled detected
+[13:59:43.241] [OK] START
+[13:59:47.873] [OK] [SYNC] order filled detected
+[13:59:51.854] [WARNING] cancel all requested
+[13:59:52.650] [WARNING] [SYNC] desync fixed
+[13:59:52.653] [WARNING] STOP
+[14:00:25.381] [OK] [SETTINGS] settings saved
+[14:00:27.132] [OK] START
+[14:01:00.375] [OK] [SYNC] order filled detected
+[14:01:01.233] [OK] [SYNC] order filled detected
+[14:01:03.678] [WARNING] cancel all requested
+[14:01:04.855] [WARNING] [SYNC] desync fixed
+[14:01:04.858] [WARNING] STOP
+[14:01:18.043] [OK] START
+[14:01:21.147] [OK] [SYNC] order filled detected
+[14:01:24.396] [OK] [SYNC] order filled detected
+[14:01:25.958] [OK] [SYNC] order filled detected
+[14:01:27.925] [WARNING] cancel all requested
+[14:01:29.217] [WARNING] [SYNC] desync fixed
+[14:01:29.220] [WARNING] STOP
+[14:01:35.506] [OK] START
+[14:01:45.085] [OK] [SYNC] order filled detected
+[14:01:47.709] [OK] [SYNC] order filled detected
+[14:01:58.551] [OK] [SYNC] order filled detected
+[14:02:00.066] [OK] [SYNC] order filled detected
+[14:02:07.768] [OK] [SYNC] order filled detected
+[14:02:14.788] [OK] [SYNC] order filled detected
+[14:02:20.442] [OK] [SYNC] order filled detected
+[14:02:20.772] [WARNING] cancel all requested
+[14:02:20.775] [WARNING] STOP
+[14:04:35.447] [OK] START
+[14:04:37.471] [OK] [SYNC] order filled detected
+[14:04:48.771] [OK] [SYNC] order filled detected
+[14:04:50.755] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/settings_export.json
+[14:04:57.237] [OK] [SYNC] order filled detected
+[14:04:58.587] [OK] [SYNC] order filled detected
+[14:05:01.166] [OK] [SYNC] order filled detected
+[14:05:07.195] [OK] [SYNC] order filled detected
+[14:05:14.413] [OK] [SYNC] order filled detected
+[14:05:22.017] [OK] [SYNC] order filled detected
+[14:05:41.164] [OK] [SYNC] order filled detected
+[14:05:49.467] [OK] [SYNC] order filled detected
+[14:05:49.486] [WARNING] cancel all requested
+[14:05:49.487] [WARNING] STOP
+[14:07:53.182] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/settings_export.json
+[14:07:57.224] [OK] [SETTINGS] settings saved
+[14:07:59.019] [OK] START
+[14:08:02.633] [OK] [SYNC] order filled detected
+[14:08:07.913] [OK] [SYNC] order filled detected
+[14:08:28.725] [OK] [SYNC] order filled detected
+[14:08:59.370] [OK] [SYNC] order filled detected
+[14:09:09.592] [OK] [SYNC] order filled detected
+[14:09:12.549] [OK] [SYNC] order filled detected
+[14:09:14.647] [OK] [SYNC] order filled detected
+[14:09:19.735] [OK] [SYNC] order filled detected
+[14:09:23.618] [OK] [SYNC] order filled detected
+[14:09:28.241] [OK] [SYNC] order filled detected
+[14:09:52.628] [OK] [SYNC] order filled detected
+[14:10:00.515] [WARNING] [SYNC] desync fixed
+[14:12:10.065] [OK] [SETTINGS] settings saved
+[14:12:11.852] [OK] START
+[14:12:28.967] [OK] [SYNC] order filled detected
+[14:12:34.771] [OK] [SYNC] order filled detected
+[14:12:36.085] [OK] [SYNC] order filled detected
+[14:12:47.085] [OK] [SYNC] order filled detected
+[14:12:57.932] [OK] [SYNC] order filled detected
+[14:13:10.413] [WARNING] cancel all requested
+[14:13:10.413] [WARNING] STOP
+[14:13:35.553] [OK] [SETTINGS] settings saved
+[14:13:37.341] [OK] START
+[14:14:08.241] [OK] START
+[14:14:10.804] [OK] [SYNC] order filled detected
+[14:14:14.240] [OK] [SYNC] order filled detected
+[14:14:23.097] [OK] [SYNC] order filled detected
+[14:14:26.228] [OK] [SYNC] order filled detected
+[14:14:43.329] [OK] [SYNC] order filled detected
+[14:14:44.978] [OK] [SYNC] order filled detected
+[14:14:54.595] [OK] [SYNC] order filled detected
+[14:14:56.018] [OK] [SYNC] order filled detected
+[14:15:06.694] [OK] [SYNC] order filled detected
+[14:15:15.053] [WARNING] [SYNC] desync fixed
+[14:15:28.584] [WARNING] cancel all requested
+[14:15:28.584] [WARNING] STOP
+[14:16:31.021] [OK] START
+[14:16:35.953] [OK] [SYNC] order filled detected
+[14:16:39.595] [OK] [SYNC] order filled detected
+[14:16:57.405] [OK] [SYNC] order filled detected
+[14:17:19.522] [OK] [SYNC] order filled detected
+[14:17:25.975] [OK] [SYNC] order filled detected
+[14:17:29.305] [OK] [SYNC] order filled detected
+[14:17:30.679] [OK] [SYNC] order filled detected
+[14:17:33.742] [OK] [SYNC] order filled detected
+[14:17:41.084] [OK] [SYNC] order filled detected
+[14:17:51.787] [OK] [SYNC] order filled detected
+[14:17:53.336] [OK] [SYNC] order filled detected
+[14:17:55.318] [OK] [SYNC] order filled detected
+[14:17:58.538] [OK] [SYNC] order filled detected
+[14:17:59.687] [OK] [SYNC] order filled detected
+[14:18:18.603] [OK] [SETTINGS] settings saved
+[14:18:20.413] [OK] START
+[14:18:24.444] [OK] [SYNC] order filled detected
+[14:18:31.125] [OK] [SYNC] order filled detected
+[14:18:35.989] [OK] [SYNC] order filled detected
+[14:18:38.524] [OK] [SYNC] order filled detected
+[14:18:58.268] [OK] [SYNC] order filled detected
+[14:19:18.662] [OK] [SYNC] order filled detected
+[14:19:33.395] [OK] [SYNC] order filled detected
+[14:19:50.067] [WARNING] cancel all requested
+[14:19:50.889] [OK] [SYNC] order filled detected
+[14:19:50.889] [WARNING] STOP
+[14:25:37.174] [OK] [SETTINGS] settings saved
+[14:25:41.661] [OK] START
+[14:25:44.288] [OK] [SYNC] order filled detected
+[14:25:47.757] [OK] [SYNC] order filled detected
+[14:25:51.062] [OK] [SYNC] order filled detected
+[14:25:52.537] [OK] [SYNC] order filled detected
+[14:25:55.550] [OK] [SYNC] order filled detected
+[14:25:56.963] [OK] [SYNC] order filled detected
+[14:25:58.741] [OK] [SYNC] order filled detected
+[14:26:00.074] [OK] [SYNC] order filled detected
+[14:26:01.652] [OK] [SYNC] order filled detected
+[14:26:03.663] [OK] [SYNC] order filled detected
+[14:26:11.388] [OK] [SYNC] order filled detected
+[14:26:19.756] [OK] [SYNC] order filled detected
+[14:26:28.691] [OK] [SYNC] order filled detected
+[14:26:30.303] [OK] [SYNC] order filled detected
+[14:26:31.726] [OK] [SYNC] order filled detected
+[14:26:34.506] [OK] [SYNC] order filled detected
+[14:26:41.701] [OK] [SYNC] order filled detected
+[14:26:43.138] [OK] [SYNC] order filled detected
+[14:26:48.838] [OK] [SYNC] order filled detected
+[14:26:51.584] [OK] [SYNC] order filled detected
+[14:27:01.851] [OK] [SYNC] order filled detected
+[14:27:17.689] [OK] [SYNC] order filled detected
+[14:27:21.536] [OK] [SYNC] order filled detected
+[14:27:41.881] [OK] [SYNC] order filled detected
+[14:27:43.301] [OK] [SYNC] order filled detected
+[14:27:46.282] [OK] [SYNC] order filled detected
+[14:28:01.290] [OK] [SYNC] order filled detected
+[14:28:01.683] [WARNING] cancel all requested
+[14:28:01.686] [WARNING] STOP
+[14:28:54.912] [OK] START
+[14:28:59.781] [OK] [SYNC] order filled detected
+[14:29:01.647] [OK] [SYNC] order filled detected
+[14:29:04.631] [OK] [SYNC] order filled detected
+[14:29:08.832] [OK] [SYNC] order filled detected
+[14:29:12.541] [OK] [SYNC] order filled detected
+[14:29:19.913] [OK] [SYNC] order filled detected
+[14:29:21.549] [OK] [SYNC] order filled detected
+[14:29:23.178] [OK] [SYNC] order filled detected
+[14:29:29.166] [OK] [SYNC] order filled detected
+[14:29:30.569] [OK] [SYNC] order filled detected
+[14:29:32.062] [OK] [SYNC] order filled detected
+[14:29:33.470] [OK] [SYNC] order filled detected
+[14:29:35.584] [OK] [SYNC] order filled detected
+[14:29:39.709] [OK] [SYNC] order filled detected
+[14:29:41.132] [OK] [SYNC] order filled detected
+[14:29:44.426] [OK] [SYNC] order filled detected
+[14:29:48.348] [OK] [SYNC] order filled detected
+[14:29:49.948] [OK] [SYNC] order filled detected
+[14:29:54.061] [OK] [SYNC] order filled detected
+[14:30:01.959] [OK] [SYNC] order filled detected
+[14:30:05.506] [OK] [SYNC] order filled detected
+[14:30:18.318] [OK] [SYNC] order filled detected
+[14:30:20.431] [OK] [SYNC] order filled detected
+[14:30:24.888] [OK] [SYNC] order filled detected
+[14:30:29.491] [OK] [SYNC] order filled detected
+[14:30:34.859] [OK] [SYNC] order filled detected
+[14:30:37.991] [OK] [SYNC] order filled detected
+[14:30:43.809] [OK] [SYNC] order filled detected
+[14:30:47.116] [OK] [SYNC] order filled detected
+[14:30:50.397] [OK] [SYNC] order filled detected
+[14:31:09.592] [OK] [SYNC] order filled detected
+[14:31:25.819] [OK] [SYNC] order filled detected
+[14:31:33.654] [OK] [SYNC] order filled detected
+[14:31:36.836] [OK] [SYNC] order filled detected
+[14:31:38.369] [OK] [SYNC] order filled detected
+[14:31:48.247] [OK] [SYNC] order filled detected
+[14:31:49.738] [OK] [SYNC] order filled detected
+[14:31:51.310] [OK] [SYNC] order filled detected
+[14:32:01.882] [OK] [SYNC] order filled detected
+[14:32:21.678] [OK] [SYNC] order filled detected
+[14:32:24.970] [WARNING] cancel all requested
+[14:32:25.771] [WARNING] [SYNC] desync fixed
+[14:32:25.771] [WARNING] STOP
+[14:32:50.533] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/settings_export.json
+[14:37:24.837] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/settings_export.json
+[14:37:26.266] [OK] [SETTINGS] settings saved
+[14:37:39.651] [OK] [SETTINGS] settings saved
+[14:37:41.407] [OK] START
+[14:37:43.275] [OK] [SYNC] order filled detected
+[14:37:46.583] [OK] [SYNC] order filled detected
+[14:37:50.387] [OK] [SYNC] order filled detected
+[14:37:54.730] [OK] [SYNC] order filled detected
+[14:37:58.287] [OK] [SYNC] order filled detected
+[14:38:01.288] [OK] [SYNC] order filled detected
+[14:38:13.983] [OK] [SYNC] order filled detected
+[14:38:15.389] [OK] [SYNC] order filled detected
+[14:38:16.823] [OK] [SYNC] order filled detected
+[14:38:24.569] [OK] [SYNC] order filled detected
+[14:38:26.065] [OK] [SYNC] order filled detected
+[14:38:28.092] [OK] [SYNC] order filled detected
+[14:38:33.715] [OK] [SYNC] order filled detected
+[14:38:36.252] [OK] [SYNC] order filled detected
+[14:38:38.641] [OK] [SYNC] order filled detected
+[14:38:44.430] [OK] [SYNC] order filled detected
+[14:38:46.137] [OK] [SYNC] order filled detected
+[14:38:57.444] [OK] [SYNC] order filled detected
+[14:38:58.383] [OK] [SYNC] order filled detected
+[14:38:59.785] [OK] [SYNC] order filled detected
+[14:39:02.148] [OK] [SYNC] order filled detected
+[14:39:03.747] [OK] [SYNC] order filled detected
+[14:39:27.855] [OK] [SYNC] order filled detected
+[14:39:29.630] [OK] [SYNC] order filled detected
+[14:39:38.836] [OK] [SYNC] order filled detected
+[14:39:44.241] [OK] [SYNC] order filled detected
+[14:39:54.671] [OK] [SYNC] order filled detected
+[14:39:59.812] [ERROR] REST lost
+[14:40:20.978] [OK] [SYNC] order filled detected
+[14:40:24.803] [OK] [SYNC] order filled detected
+[14:40:26.210] [OK] [SYNC] order filled detected
+[14:40:29.274] [OK] [SYNC] order filled detected
+[14:40:34.313] [OK] [SYNC] order filled detected
+[14:40:39.914] [OK] [SYNC] order filled detected
+[14:40:49.255] [OK] [SYNC] order filled detected
+[14:40:57.757] [OK] [SYNC] order filled detected
+[14:41:01.899] [OK] [SYNC] order filled detected
+[14:41:10.154] [OK] [SYNC] order filled detected
+[14:41:19.748] [OK] [SYNC] order filled detected
+[14:41:21.067] [OK] [SYNC] order filled detected
+[14:41:23.838] [OK] [SYNC] order filled detected
+[14:41:28.662] [OK] [SYNC] order filled detected
+[14:41:32.254] [OK] [SYNC] order filled detected
+[14:41:37.226] [OK] [SYNC] order filled detected
+[14:41:43.147] [OK] [SYNC] order filled detected
+[14:54:41.647] [OK] START
+[14:54:44.961] [OK] [SYNC] order filled detected
+[14:55:00.870] [OK] [SYNC] order filled detected
+[14:55:08.246] [OK] [SYNC] order filled detected
+[14:55:10.658] [OK] [SYNC] order filled detected
+[14:55:18.679] [OK] [SYNC] order filled detected
+[14:55:32.184] [WARNING] [SYNC] desync fixed
+[14:55:38.235] [WARNING] [SYNC] desync fixed
+[14:55:42.054] [OK] [SYNC] order filled detected
+[14:55:51.866] [OK] [SYNC] order filled detected
+[14:55:55.452] [OK] [SYNC] order filled detected
+[14:56:02.616] [OK] [SYNC] order filled detected
+[14:56:08.716] [OK] [SYNC] order filled detected
+[14:56:17.646] [OK] [SYNC] order filled detected
+[14:56:28.336] [OK] [SYNC] order filled detected
+[14:56:44.585] [OK] [SYNC] order filled detected
+[14:57:02.229] [OK] [SYNC] order filled detected
+[14:57:07.632] [OK] [SYNC] order filled detected
+[14:57:09.416] [OK] [SYNC] order filled detected
+[14:57:10.750] [OK] [SYNC] order filled detected
+[14:57:24.637] [OK] [SYNC] order filled detected
+[14:57:35.920] [OK] [SYNC] order filled detected
+[14:57:37.459] [OK] [SYNC] order filled detected
+[14:57:41.361] [OK] [SYNC] order filled detected
+[14:57:45.127] [OK] [SYNC] order filled detected
+[14:58:01.765] [OK] [SYNC] order filled detected
+[14:58:05.287] [OK] [SYNC] order filled detected
+[14:58:12.738] [OK] [SYNC] order filled detected
+[14:58:48.839] [OK] [SYNC] order filled detected
+[14:59:01.399] [OK] [SYNC] order filled detected
+[14:59:02.950] [OK] [SYNC] order filled detected
+[14:59:04.033] [OK] [SYNC] order filled detected
+[14:59:07.029] [OK] [SYNC] order filled detected
+[14:59:25.965] [OK] [SYNC] order filled detected
+[14:59:38.841] [OK] [SYNC] order filled detected
+[14:59:49.530] [WARNING] cancel all requested
+[14:59:50.350] [WARNING] [SYNC] desync fixed
+[14:59:50.367] [WARNING] STOP
+[15:04:09.381] [OK] START
+[15:04:25.338] [OK] [SYNC] order filled detected
+[15:04:26.937] [OK] [SYNC] order filled detected
+[15:04:36.325] [OK] [SYNC] order filled detected
+[15:04:38.538] [OK] [SYNC] order filled detected
+[15:04:40.210] [OK] [SYNC] order filled detected
+[15:04:53.163] [OK] [SYNC] order filled detected
+[15:04:54.584] [OK] [SYNC] order filled detected
+[15:05:39.231] [OK] [SYNC] order filled detected
+[15:05:44.750] [OK] [SYNC] order filled detected
+[15:06:02.084] [OK] [SYNC] order filled detected
+[15:06:20.304] [OK] [SYNC] order filled detected
+[15:06:22.548] [OK] [SYNC] order filled detected
+[15:06:25.960] [OK] [SYNC] order filled detected
+[15:06:35.561] [OK] [SYNC] order filled detected
+[15:06:37.128] [OK] [SYNC] order filled detected
+[15:06:46.568] [OK] [SYNC] order filled detected
+[15:07:00.212] [OK] [SYNC] order filled detected
+[15:07:05.644] [OK] [SYNC] order filled detected
+[15:11:28.025] [OK] START
+[15:11:34.687] [OK] [SYNC] order filled detected
+[15:11:57.033] [OK] [SYNC] order filled detected
+[15:11:58.058] [OK] [SYNC] order filled detected
+[15:12:06.709] [OK] [SYNC] order filled detected
+[15:12:11.100] [OK] [SYNC] order filled detected
+[15:12:13.818] [OK] [SYNC] order filled detected
+[15:12:19.650] [OK] [SYNC] order filled detected
+[15:12:29.361] [OK] [SYNC] order filled detected
+[15:12:33.417] [OK] [SYNC] order filled detected
+[15:12:40.940] [OK] [SYNC] order filled detected
+[15:12:59.598] [OK] [SYNC] order filled detected
+[15:13:04.147] [OK] [SYNC] order filled detected
+[15:13:05.903] [OK] [SYNC] order filled detected
+[15:13:09.921] [OK] [SYNC] order filled detected
+[15:13:11.499] [OK] [SYNC] order filled detected
+[15:13:20.301] [OK] [SYNC] order filled detected
+[15:13:21.854] [OK] [SYNC] order filled detected
+[15:13:24.556] [OK] [SYNC] order filled detected
+[15:13:32.586] [OK] [SYNC] order filled detected
+[15:13:33.469] [OK] [SYNC] order filled detected
+[15:13:36.741] [OK] [SYNC] order filled detected
+[15:13:43.705] [OK] [SYNC] order filled detected
+[15:13:56.199] [OK] [SYNC] order filled detected
+[15:13:59.773] [OK] [SYNC] order filled detected
+[15:14:01.237] [OK] [SYNC] order filled detected
+[15:15:59.267] [OK] START
+[15:16:03.124] [OK] [SYNC] order filled detected
+[15:16:06.335] [OK] [SYNC] order filled detected
+[15:16:07.725] [OK] [SYNC] order filled detected
+[15:16:09.413] [OK] [SYNC] order filled detected
+[15:16:10.804] [OK] [SYNC] order filled detected
+[15:16:18.882] [OK] [SYNC] order filled detected
+[15:16:33.106] [OK] [SYNC] order filled detected
+[15:16:36.991] [OK] [SYNC] order filled detected
+[15:16:39.581] [OK] [SYNC] order filled detected
+[15:16:47.563] [OK] [SYNC] order filled detected
+[15:17:13.490] [OK] [SYNC] order filled detected
+[15:17:23.372] [OK] [SYNC] order filled detected
+[15:17:54.146] [OK] [SYNC] order filled detected
+[15:18:02.193] [OK] [SYNC] order filled detected
+[15:18:04.682] [OK] [SYNC] order filled detected
+[15:18:16.131] [OK] [SYNC] order filled detected
+[15:18:19.076] [OK] [SYNC] order filled detected
+[15:18:28.694] [OK] [SYNC] order filled detected
+[15:18:40.974] [OK] [SYNC] order filled detected
+[15:18:44.098] [OK] [SYNC] order filled detected
+[15:18:47.116] [OK] [SYNC] order filled detected
+[15:18:50.137] [OK] [SYNC] order filled detected
+[15:18:51.616] [OK] [SYNC] order filled detected
+[15:19:02.247] [OK] [SYNC] order filled detected
+[15:20:53.983] [OK] [SETTINGS] settings saved
+[15:20:55.749] [OK] START
+[15:21:13.608] [OK] [SYNC] order filled detected
+[15:21:27.007] [OK] [SYNC] order filled detected
+[15:21:30.518] [OK] [SYNC] order filled detected
+[15:21:44.630] [OK] [SYNC] order filled detected
+[15:22:02.209] [OK] [SYNC] order filled detected
+[15:22:04.727] [OK] [SYNC] order filled detected
+[15:22:16.507] [OK] [SYNC] order filled detected
+[15:22:21.360] [OK] [SYNC] order filled detected
+[15:22:22.177] [OK] [SYNC] order filled detected
+[15:22:24.893] [OK] [SYNC] order filled detected
+[15:22:39.064] [OK] [SYNC] order filled detected
+[15:22:50.943] [OK] [SYNC] order filled detected
+[15:22:53.161] [OK] [SYNC] order filled detected
+[15:22:55.525] [OK] [SYNC] order filled detected
+[15:23:32.340] [OK] [SYNC] order filled detected
+[15:23:53.779] [OK] [SYNC] order filled detected
+[15:24:25.642] [OK] [SYNC] order filled detected
+[15:24:38.461] [OK] [SYNC] order filled detected
+[15:24:47.648] [OK] [SYNC] order filled detected
+[15:24:48.552] [OK] [SYNC] order filled detected
+[15:24:52.648] [OK] [SYNC] order filled detected
+[15:25:17.981] [OK] [SYNC] order filled detected
+[15:25:20.584] [OK] [SYNC] order filled detected
+[15:25:31.691] [OK] [SYNC] order filled detected
+[15:25:33.116] [OK] [SYNC] order filled detected
+[15:25:35.150] [OK] [SYNC] order filled detected
+[15:25:36.397] [OK] [SYNC] order filled detected
+[15:25:37.986] [OK] [SYNC] order filled detected
+[15:25:51.558] [OK] [SYNC] order filled detected
+[15:25:53.240] [OK] [SYNC] order filled detected
+[15:26:07.565] [OK] [SYNC] order filled detected
+[15:26:09.550] [OK] [SYNC] order filled detected
+[15:26:18.413] [OK] [SYNC] order filled detected
+[15:26:20.069] [OK] [SYNC] order filled detected
+[15:26:22.445] [OK] [SYNC] order filled detected
+[15:26:26.486] [OK] [SYNC] order filled detected
+[15:26:33.561] [OK] [SYNC] order filled detected
+[15:26:37.090] [OK] [SYNC] order filled detected
+[15:26:47.077] [OK] [SYNC] order filled detected
+[15:26:50.711] [OK] [SYNC] order filled detected
+[15:27:00.388] [OK] [SYNC] order filled detected
+[15:27:10.999] [OK] [SYNC] order filled detected
+[15:27:12.395] [OK] [SYNC] order filled detected
+[15:27:20.225] [OK] [SYNC] order filled detected
+[15:27:21.804] [OK] [SYNC] order filled detected
+[15:27:29.892] [OK] [SYNC] order filled detected
+[15:27:33.646] [OK] [SYNC] order filled detected
+[15:27:38.508] [OK] [SYNC] order filled detected
+[15:27:41.371] [OK] [SYNC] order filled detected
+[15:27:47.193] [OK] [SYNC] order filled detected
+[15:27:56.657] [OK] [SYNC] order filled detected
+[15:28:02.492] [OK] [SYNC] order filled detected
+[15:28:03.897] [OK] [SYNC] order filled detected
+[15:28:09.957] [OK] [SYNC] order filled detected
+[15:28:14.349] [OK] [SYNC] order filled detected
+[15:28:27.071] [OK] [SYNC] order filled detected
+[15:28:37.084] [WARNING] cancel all requested
+[15:28:37.898] [WARNING] [SYNC] desync fixed
+[15:28:37.901] [WARNING] STOP
+[15:29:06.737] [OK] START
+[15:29:09.850] [OK] [SYNC] order filled detected
+[15:29:34.098] [OK] [SYNC] order filled detected
+[15:29:36.415] [OK] [SYNC] order filled detected
+[15:29:41.101] [OK] [SYNC] order filled detected
+[15:29:50.957] [OK] [SYNC] order filled detected
+[15:29:54.110] [OK] [SYNC] order filled detected
+[15:29:59.891] [OK] [SYNC] order filled detected
+[15:30:02.588] [OK] [SYNC] order filled detected
+[15:30:06.898] [OK] [SYNC] order filled detected
+[15:30:18.994] [OK] [SYNC] order filled detected
+[15:30:39.726] [OK] [SYNC] order filled detected
+[15:31:07.406] [OK] [SYNC] order filled detected
+[15:31:09.008] [OK] [SYNC] order filled detected
+[15:31:11.334] [OK] [SYNC] order filled detected
+[15:31:23.509] [OK] [SYNC] order filled detected
+[15:31:26.140] [OK] [SYNC] order filled detected
+[15:31:29.282] [OK] [SYNC] order filled detected
+[15:31:36.056] [OK] [SYNC] order filled detected
+[15:31:48.613] [OK] [SYNC] order filled detected
+[15:31:53.553] [OK] [SYNC] order filled detected
+[15:33:26.948] [WARNING] cancel all requested
+[15:33:27.753] [WARNING] [SYNC] desync fixed
+[15:33:27.755] [WARNING] STOP
+[15:39:16.726] [OK] START
+[15:39:51.551] [OK] [SYNC] order filled detected
+[15:39:53.241] [OK] [SYNC] order filled detected
+[15:40:01.616] [OK] [SYNC] order filled detected
+[15:40:03.338] [OK] [SYNC] order filled detected
+[15:40:06.081] [OK] [SYNC] order filled detected
+[15:40:34.129] [OK] [SYNC] order filled detected
+[15:40:42.637] [OK] [SYNC] order filled detected
+[15:40:51.832] [OK] [SYNC] order filled detected
+[15:41:09.138] [OK] [SYNC] order filled detected
+[15:41:15.615] [OK] [SYNC] order filled detected
+[15:41:25.928] [OK] [SYNC] order filled detected
+[15:41:32.284] [OK] [SYNC] order filled detected
+[15:41:44.366] [OK] [SYNC] order filled detected
+[15:41:54.186] [OK] [SYNC] order filled detected
+[15:41:58.554] [OK] [SYNC] order filled detected
+[15:42:06.131] [OK] [SYNC] order filled detected
+[15:42:13.856] [OK] [SYNC] order filled detected
+[15:42:15.179] [OK] [SYNC] order filled detected
+[15:42:18.148] [OK] [SYNC] order filled detected
+[15:42:26.242] [OK] [SYNC] order filled detected
+[15:42:27.600] [OK] [SYNC] order filled detected
+[15:42:29.204] [OK] [SYNC] order filled detected
+[15:42:38.681] [OK] [SYNC] order filled detected
+[15:42:45.400] [OK] [SYNC] order filled detected
+[15:42:46.936] [OK] [SYNC] order filled detected
+[15:42:57.002] [OK] [SYNC] order filled detected
+[15:42:57.999] [OK] [SYNC] order filled detected
+[15:43:07.620] [OK] [SYNC] order filled detected
+[15:43:09.044] [OK] [SYNC] order filled detected
+[15:43:25.250] [OK] [SYNC] order filled detected
+[15:43:57.868] [WARNING] [SYNC] desync fixed
+[15:44:06.607] [OK] [SYNC] order filled detected
+[15:44:08.991] [OK] [SYNC] order filled detected
+[15:44:16.532] [OK] [SYNC] order filled detected
+[15:44:28.351] [OK] [SYNC] order filled detected
+[15:44:29.756] [OK] [SYNC] order filled detected
+[15:44:32.609] [OK] [SYNC] order filled detected
+[15:44:41.584] [OK] [SYNC] order filled detected
+[15:44:48.250] [WARNING] [SYNC] desync fixed
+[15:45:07.497] [WARNING] [SYNC] desync fixed
+[15:45:15.728] [WARNING] [SYNC] desync fixed
+[15:45:24.512] [WARNING] [SYNC] desync fixed
+[15:45:31.268] [WARNING] [SYNC] desync fixed
+[15:45:38.756] [WARNING] [SYNC] desync fixed
+[15:45:47.164] [WARNING] [SYNC] desync fixed
+[15:45:56.853] [WARNING] [SYNC] desync fixed
+[15:46:02.954] [WARNING] [SYNC] desync fixed
+[15:46:10.946] [WARNING] [SYNC] desync fixed
+[15:46:19.777] [WARNING] [SYNC] desync fixed
+[15:46:28.533] [WARNING] [SYNC] desync fixed
+[15:46:35.146] [WARNING] [SYNC] desync fixed
+[15:46:41.668] [WARNING] [SYNC] desync fixed
+[15:46:42.694] [WARNING] cancel all requested
+[15:46:42.694] [WARNING] STOP
+[15:51:28.115] [OK] START
+[15:51:43.241] [OK] [SYNC] order filled detected
+[15:52:00.272] [OK] [SYNC] order filled detected
+[15:52:01.855] [OK] [SYNC] order filled detected
+[15:52:23.958] [OK] [SYNC] order filled detected
+[15:52:25.819] [OK] [SYNC] order filled detected
+[15:52:30.234] [OK] [SYNC] order filled detected
+[15:52:34.991] [OK] [SYNC] order filled detected
+[15:52:46.710] [OK] [SYNC] order filled detected
+[15:52:50.318] [OK] [SYNC] order filled detected
+[15:52:58.978] [OK] [SYNC] order filled detected
+[15:53:05.556] [OK] [SYNC] order filled detected
+[15:53:06.908] [OK] [SYNC] order filled detected
+[15:53:18.829] [OK] [SYNC] order filled detected
+[15:53:40.726] [OK] [SYNC] order filled detected
+[15:53:44.584] [OK] [SYNC] order filled detected
+[15:53:46.475] [OK] [SYNC] order filled detected
+[15:53:48.006] [OK] [SYNC] order filled detected
+[15:53:54.537] [OK] [SYNC] order filled detected
+[15:54:04.169] [OK] [SYNC] order filled detected
+[15:54:24.171] [OK] [SYNC] order filled detected
+[15:54:27.534] [OK] [SYNC] order filled detected
+[15:54:40.571] [OK] [SYNC] order filled detected
+[15:54:56.264] [OK] [SYNC] order filled detected
+[15:55:00.718] [OK] [SYNC] order filled detected
+[15:55:22.504] [OK] [SYNC] order filled detected
+[15:55:28.444] [OK] [SYNC] order filled detected
+[15:55:34.050] [OK] [SYNC] order filled detected
+[15:55:42.889] [OK] [SYNC] order filled detected
+[15:55:56.010] [OK] [SYNC] order filled detected
+[15:55:57.468] [OK] [SYNC] order filled detected
+[15:56:09.448] [OK] [SYNC] order filled detected
+[15:56:22.354] [OK] [SYNC] order filled detected
+[15:56:32.648] [OK] [SYNC] order filled detected
+[15:56:34.910] [OK] [SYNC] order filled detected
+[15:56:40.161] [OK] [SYNC] order filled detected
+[15:56:43.886] [OK] [SYNC] order filled detected
+[15:56:47.097] [WARNING] cancel all requested
+[15:56:47.100] [WARNING] STOP
+[16:03:51.904] [OK] START
+[16:03:58.377] [OK] [SYNC] order filled detected
+[16:04:09.290] [OK] [SYNC] order filled detected
+[16:04:16.155] [OK] [SYNC] order filled detected
+[16:04:19.915] [OK] [SYNC] order filled detected
+[16:04:21.533] [OK] [SYNC] order filled detected
+[16:04:31.575] [OK] [SYNC] order filled detected
+[16:04:39.122] [OK] [SYNC] order filled detected
+[16:04:40.553] [OK] [SYNC] order filled detected
+[16:04:43.365] [OK] [SYNC] order filled detected
+[16:04:44.306] [OK] [SYNC] order filled detected
+[16:04:47.725] [OK] [SYNC] order filled detected
+[16:04:50.563] [OK] [SYNC] order filled detected
+[16:04:58.488] [OK] [SYNC] order filled detected
+[16:05:02.522] [OK] [SYNC] order filled detected
+[16:05:17.365] [OK] [SYNC] order filled detected
+[16:05:38.455] [OK] [SYNC] order filled detected
+[16:05:43.358] [OK] [SYNC] order filled detected
+[16:05:46.445] [OK] [SYNC] order filled detected
+[16:05:50.298] [OK] [SYNC] order filled detected
+[16:05:51.421] [OK] [SYNC] order filled detected
+[16:06:15.506] [OK] [SYNC] order filled detected
+[16:06:17.085] [OK] [SYNC] order filled detected
+[16:06:49.284] [OK] [SYNC] order filled detected
+[16:06:50.739] [OK] [SYNC] order filled detected
+[16:07:28.227] [OK] [SYNC] order filled detected
+[16:07:29.768] [OK] [SYNC] order filled detected
+[16:07:33.001] [OK] [SYNC] order filled detected
+[16:07:34.350] [OK] [SYNC] order filled detected
+[16:07:35.934] [OK] [SYNC] order filled detected
+[16:07:58.088] [OK] [SYNC] order filled detected
+[16:08:00.654] [OK] [SYNC] order filled detected
+[16:08:26.031] [OK] [SYNC] order filled detected
+[16:08:31.437] [OK] [SYNC] order filled detected
+[16:08:34.030] [OK] [SYNC] order filled detected
+[16:08:35.073] [OK] [SYNC] order filled detected
+[16:08:41.276] [OK] [SYNC] order filled detected
+[16:08:48.857] [OK] [SYNC] order filled detected
+[16:09:06.203] [OK] [SYNC] order filled detected
+[16:09:11.564] [OK] [SYNC] order filled detected
+[16:09:31.192] [OK] [SYNC] order filled detected
+[16:09:42.097] [OK] [SYNC] order filled detected
+[16:09:43.624] [OK] [SYNC] order filled detected
+[16:09:47.396] [OK] [SYNC] order filled detected
+[16:09:51.224] [OK] [SYNC] order filled detected
+[16:09:54.205] [OK] [SYNC] order filled detected
+[16:10:01.106] [OK] [SYNC] order filled detected
+[16:10:03.448] [OK] [SYNC] order filled detected
+[16:10:05.301] [OK] [SYNC] order filled detected
+[16:10:15.770] [OK] [SYNC] order filled detected
+[16:10:22.576] [OK] [SYNC] order filled detected
+[16:10:33.797] [OK] [SYNC] order filled detected
+[16:10:35.888] [OK] [SYNC] order filled detected
+[16:10:39.331] [OK] [SYNC] order filled detected
+[16:10:41.516] [OK] [SYNC] order filled detected
+[16:10:44.375] [OK] [SYNC] order filled detected
+[16:10:47.841] [OK] [SYNC] order filled detected
+[16:10:55.715] [OK] [SYNC] order filled detected
+[16:11:02.262] [OK] [SYNC] order filled detected
+[16:11:03.747] [OK] [SYNC] order filled detected
+[16:11:06.324] [OK] [SYNC] order filled detected
+[16:11:10.020] [OK] [SYNC] order filled detected
+[16:11:11.556] [OK] [SYNC] order filled detected
+[16:11:13.093] [OK] [SYNC] order filled detected
+[16:11:15.425] [OK] [SYNC] order filled detected
+[16:11:18.110] [OK] [SYNC] order filled detected
+[16:11:19.490] [OK] [SYNC] order filled detected
+[16:11:24.057] [OK] [SYNC] order filled detected
+[16:11:27.124] [OK] [SYNC] order filled detected
+[16:11:31.205] [OK] [SYNC] order filled detected
+[16:11:34.124] [OK] [SYNC] order filled detected
+[16:11:42.136] [OK] [SYNC] order filled detected
+[16:11:53.810] [OK] [SYNC] order filled detected
+[16:12:03.600] [OK] [SYNC] order filled detected
+[16:12:08.403] [OK] [SYNC] order filled detected
+[16:12:18.457] [OK] [SYNC] order filled detected
+[16:12:20.119] [OK] [SYNC] order filled detected
+[16:12:25.265] [OK] [SYNC] order filled detected
+[16:12:26.873] [OK] [SYNC] order filled detected
+[16:12:34.724] [OK] [SYNC] order filled detected
+[16:12:50.925] [OK] [SYNC] order filled detected
+[16:12:52.823] [OK] [SYNC] order filled detected
+[16:13:04.785] [OK] [SYNC] order filled detected
+[16:13:06.252] [OK] [SYNC] order filled detected
+[16:13:15.532] [OK] [SYNC] order filled detected
+[16:13:29.084] [WARNING] cancel all requested
+[16:13:29.884] [OK] [SYNC] order filled detected
+[16:13:29.887] [WARNING] STOP
+[16:19:56.763] [OK] [SETTINGS] settings saved
+[16:19:58.600] [OK] START
+[16:20:00.949] [OK] [SYNC] order filled detected
+[16:20:02.835] [OK] [SYNC] order filled detected
+[16:20:04.341] [OK] [SYNC] order filled detected
+[16:20:10.181] [OK] [SYNC] order filled detected
+[16:20:20.911] [OK] [SYNC] order filled detected
+[16:20:25.022] [OK] [SYNC] order filled detected
+[16:20:28.718] [OK] [SYNC] order filled detected
+[16:20:31.693] [OK] [SYNC] order filled detected
+[16:20:34.034] [OK] [SYNC] order filled detected
+[16:20:46.327] [OK] [SYNC] order filled detected
+[16:20:50.276] [OK] [SYNC] order filled detected
+[16:20:55.764] [OK] [SYNC] order filled detected
+[16:20:58.562] [OK] [SYNC] order filled detected
+[16:21:12.439] [OK] [SYNC] order filled detected
+[16:21:14.301] [OK] [SYNC] order filled detected
+[16:21:49.982] [OK] [SYNC] order filled detected
+[16:22:04.729] [OK] [SYNC] order filled detected
+[16:22:08.130] [OK] [SYNC] order filled detected
+[16:22:10.975] [OK] [SYNC] order filled detected
+[16:22:22.654] [OK] [SYNC] order filled detected
+[16:22:24.284] [OK] [SYNC] order filled detected
+[16:22:29.952] [OK] [SYNC] order filled detected
+[16:23:29.603] [OK] START
+[16:23:36.450] [OK] [SYNC] order filled detected
+[16:23:38.148] [OK] [SYNC] order filled detected
+[16:23:39.625] [OK] [SYNC] order filled detected
+[16:23:41.315] [OK] [SYNC] order filled detected
+[16:24:07.521] [OK] [SYNC] order filled detected
+[16:24:20.305] [OK] [SYNC] order filled detected
+[16:24:21.858] [OK] [SYNC] order filled detected
+[16:24:25.869] [OK] [SYNC] order filled detected
+[16:24:55.953] [OK] [SYNC] order filled detected
+[16:25:07.462] [OK] [SYNC] order filled detected
+[16:25:25.855] [OK] [SYNC] order filled detected
+[16:25:32.142] [OK] [SYNC] order filled detected
+[16:25:36.205] [OK] [SYNC] order filled detected
+[16:25:38.571] [OK] [SYNC] order filled detected
+[16:25:48.947] [OK] [SYNC] order filled detected
+[16:26:14.095] [OK] [SYNC] order filled detected
+[16:26:26.059] [OK] [SYNC] order filled detected
+[16:26:31.500] [OK] [SYNC] order filled detected
+[16:26:50.409] [OK] [SYNC] order filled detected
+[16:26:51.960] [OK] [SYNC] order filled detected
+[16:26:58.192] [OK] [SYNC] order filled detected
+[16:27:13.894] [WARNING] cancel all requested
+[16:27:14.698] [OK] [SYNC] order filled detected
+[16:27:14.705] [WARNING] STOP
+[16:31:09.997] [OK] [SETTINGS] settings saved
+[16:31:11.771] [OK] START
+[16:31:17.066] [OK] [SYNC] order filled detected
+[16:31:24.324] [OK] [SYNC] order filled detected
+[16:31:52.068] [OK] [SYNC] order filled detected
+[16:32:08.303] [OK] [SYNC] order filled detected
+[16:32:10.349] [OK] [SYNC] order filled detected
+[16:32:13.631] [OK] [SYNC] order filled detected
+[16:32:21.283] [OK] [SYNC] order filled detected
+[16:32:25.488] [OK] [SYNC] order filled detected
+[16:32:30.366] [OK] [SYNC] order filled detected
+[16:33:14.882] [OK] START
+[16:33:19.975] [OK] [SYNC] order filled detected
+[16:33:22.414] [OK] [SYNC] order filled detected
+[16:33:24.836] [OK] [SYNC] order filled detected
+[16:33:27.302] [OK] [SYNC] order filled detected
+[16:33:30.913] [OK] [SYNC] order filled detected
+[16:33:34.547] [OK] [SYNC] order filled detected
+[16:33:38.516] [OK] [SYNC] order filled detected
+[16:33:55.982] [OK] [SYNC] order filled detected
+[16:34:11.845] [OK] [SYNC] order filled detected
+[16:34:13.675] [OK] [SYNC] order filled detected
+[16:34:17.935] [OK] [SYNC] order filled detected
+[16:34:30.508] [OK] [SYNC] order filled detected
+[16:34:39.111] [OK] [SYNC] order filled detected
+[16:34:43.751] [OK] [SYNC] order filled detected
+[16:34:53.620] [OK] [SYNC] order filled detected
+[16:34:55.636] [OK] [SYNC] order filled detected
+[16:35:04.788] [OK] [SYNC] order filled detected
+[16:35:10.791] [OK] [SYNC] order filled detected
+[16:35:12.639] [OK] [SYNC] order filled detected
+[16:35:16.298] [OK] [SYNC] order filled detected
+[16:35:17.926] [OK] [SYNC] order filled detected
+[16:35:23.813] [OK] [SYNC] order filled detected
+[16:35:30.644] [OK] [SYNC] order filled detected
+[16:35:38.469] [OK] [SYNC] order filled detected
+[16:35:39.980] [OK] [SYNC] order filled detected
+[16:35:46.801] [OK] [SYNC] order filled detected
+[16:35:50.721] [OK] [SYNC] order filled detected
+[16:35:59.283] [OK] [SYNC] order filled detected
+[16:36:16.941] [OK] [SYNC] order filled detected
+[16:36:19.435] [OK] [SYNC] order filled detected
+[16:36:33.325] [OK] [SYNC] order filled detected
+[16:36:37.920] [OK] [SYNC] order filled detected
+[16:36:39.060] [OK] [SYNC] order filled detected
+[16:36:45.508] [WARNING] cancel all requested
+[16:36:45.512] [WARNING] STOP
+[16:39:44.967] [OK] [SETTINGS] settings saved
+[16:39:46.729] [OK] START
+[16:39:49.480] [OK] [SYNC] order filled detected
+[16:39:51.843] [OK] [SYNC] order filled detected
+[16:40:01.838] [OK] [SYNC] order filled detected
+[16:40:03.975] [OK] [SYNC] order filled detected
+[16:40:07.061] [OK] [SYNC] order filled detected
+[16:40:14.271] [OK] [SYNC] order filled detected
+[16:40:43.043] [OK] [SYNC] order filled detected
+[16:40:44.497] [OK] [SYNC] order filled detected
+[16:40:50.882] [OK] [SYNC] order filled detected
+[16:41:02.541] [OK] [SYNC] order filled detected
+[16:42:07.699] [WARNING] cancel all requested
+[16:42:07.702] [WARNING] STOP
+[16:43:43.398] [OK] START
+[16:44:01.362] [OK] [SYNC] order filled detected
+[16:44:08.150] [OK] [SYNC] order filled detected
+[16:44:20.777] [OK] [SYNC] order filled detected
+[16:44:25.030] [OK] [SYNC] order filled detected
+[16:44:35.436] [OK] [SYNC] order filled detected
+[16:44:44.489] [OK] [SYNC] order filled detected
+[16:44:46.023] [OK] [SYNC] order filled detected
+[16:44:49.137] [OK] [SYNC] order filled detected
+[16:44:55.977] [OK] [SYNC] order filled detected
+[16:44:58.749] [OK] [SYNC] order filled detected
+[16:45:05.808] [OK] [SYNC] order filled detected
+[16:45:07.611] [OK] [SYNC] order filled detected
+[16:45:11.330] [WARNING] cancel all requested
+[16:45:12.148] [WARNING] [SYNC] desync fixed
+[16:45:12.151] [WARNING] STOP
+[16:48:55.350] [OK] START
+[16:48:58.423] [OK] [SYNC] order filled detected
+[16:49:04.269] [OK] [SYNC] order filled detected
+[16:49:07.523] [OK] [SYNC] order filled detected
+[16:49:09.874] [OK] [SYNC] order filled detected
+[16:49:13.914] [OK] [SYNC] order filled detected
+[16:49:16.718] [OK] [SYNC] order filled detected
+[16:49:29.029] [OK] [SYNC] order filled detected
+[16:49:30.526] [OK] [SYNC] order filled detected
+[16:49:34.608] [OK] [SYNC] order filled detected
+[16:49:39.123] [OK] [SYNC] order filled detected
+[16:49:40.672] [OK] [SYNC] order filled detected
+[16:49:51.842] [OK] [SYNC] order filled detected
+[16:50:14.898] [OK] [SYNC] order filled detected
+[16:50:17.856] [OK] [SYNC] order filled detected
+[16:50:22.783] [OK] [SYNC] order filled detected
+[16:50:24.443] [OK] [SYNC] order filled detected
+[16:51:23.971] [WARNING] cancel all requested
+[16:51:24.772] [WARNING] [SYNC] desync fixed
+[16:51:24.775] [WARNING] STOP
+[16:56:43.821] [OK] START
+[16:57:00.274] [OK] [SYNC] order filled detected
+[16:57:03.355] [OK] [SYNC] order filled detected
+[16:57:28.241] [OK] [SYNC] order filled detected
+[16:57:29.545] [OK] [SYNC] order filled detected
+[16:58:02.343] [WARNING] cancel all requested
+[16:58:02.346] [WARNING] STOP
+[16:59:50.304] [OK] START
+[16:59:55.908] [OK] [SYNC] order filled detected
+[17:00:12.616] [OK] [SYNC] order filled detected
+[17:00:21.748] [OK] [SYNC] order filled detected
+[17:00:55.334] [OK] [SYNC] order filled detected
+[17:00:58.252] [OK] [SYNC] order filled detected
+[17:01:02.811] [OK] [SYNC] order filled detected
+[17:01:31.520] [WARNING] cancel all requested
+[17:01:31.523] [WARNING] STOP
+[17:06:13.491] [OK] START
+[17:06:16.587] [OK] [SYNC] order filled detected
+[17:06:32.115] [OK] [SYNC] order filled detected
+[17:06:57.781] [OK] [SYNC] order filled detected
+[17:07:24.178] [WARNING] cancel all requested
+[17:07:24.178] [WARNING] STOP
+[17:09:03.846] [OK] START
+[17:09:08.943] [OK] [SYNC] order filled detected
+[17:09:31.960] [OK] [SYNC] order filled detected
+[17:09:58.189] [OK] [SYNC] order filled detected
+[17:10:01.107] [OK] [SYNC] order filled detected
+[17:10:11.101] [OK] [SYNC] order filled detected
+[17:10:21.913] [OK] [SYNC] order filled detected
+[17:10:28.909] [OK] [SYNC] order filled detected
+[17:11:12.048] [WARNING] cancel all requested
+[17:11:12.051] [WARNING] STOP
+[17:17:22.852] [OK] START
+[17:17:24.450] [OK] [SYNC] order filled detected
+[17:17:33.788] [OK] [SYNC] order filled detected
+[17:17:44.644] [OK] [SYNC] order filled detected
+[17:18:36.840] [OK] [SYNC] order filled detected
+[17:18:46.614] [OK] [SYNC] order filled detected
+[17:18:52.972] [OK] [SYNC] order filled detected
+[17:18:53.860] [OK] [SYNC] order filled detected
+[17:18:58.155] [OK] [SYNC] order filled detected
+[17:18:59.740] [OK] [SYNC] order filled detected
+[17:19:03.873] [OK] [SYNC] order filled detected
+[17:19:11.241] [OK] [SYNC] order filled detected
+[17:19:28.663] [OK] [SYNC] order filled detected
+[17:19:29.615] [OK] [SYNC] order filled detected
+[17:19:59.163] [OK] [SYNC] order filled detected
+[17:20:02.621] [OK] [SYNC] order filled detected
+[17:20:11.664] [OK] [SYNC] order filled detected
+[17:20:13.195] [OK] [SYNC] order filled detected
+[17:20:17.116] [OK] [SYNC] order filled detected
+[17:20:43.421] [OK] [SYNC] order filled detected
+[17:20:55.772] [OK] [SYNC] order filled detected
+[17:20:59.412] [OK] [SYNC] order filled detected
+[17:21:01.527] [OK] [SYNC] order filled detected
+[17:21:06.984] [OK] [SYNC] order filled detected
+[17:21:22.596] [OK] [SYNC] order filled detected
+[17:21:39.138] [OK] [SYNC] order filled detected
+[17:21:43.475] [OK] [SYNC] order filled detected
+[17:21:48.300] [OK] [SYNC] order filled detected
+[17:21:50.064] [OK] [SYNC] order filled detected
+[17:21:50.621] [WARNING] cancel all requested
+[17:21:50.623] [WARNING] STOP
+[17:27:03.414] [OK] START
+[17:27:14.209] [OK] [SYNC] order filled detected
+[17:27:28.160] [OK] [SYNC] order filled detected
+[17:27:33.924] [OK] [SYNC] order filled detected
+[17:27:54.631] [OK] [SYNC] order filled detected
+[17:27:55.641] [OK] [SYNC] order filled detected
+[17:28:16.819] [OK] [SYNC] order filled detected
+[17:28:26.538] [OK] [SYNC] order filled detected
+[17:28:41.475] [OK] [SYNC] order filled detected
+[17:28:59.789] [OK] [SYNC] order filled detected
+[17:29:04.003] [OK] [SYNC] order filled detected
+[17:29:12.100] [OK] [SYNC] order filled detected
+[17:29:17.670] [OK] [SYNC] order filled detected
+[17:29:19.709] [OK] [SYNC] order filled detected
+[17:29:21.442] [OK] [SYNC] order filled detected
+[17:29:23.522] [OK] [SYNC] order filled detected
+[17:29:36.892] [OK] [SYNC] order filled detected
+[17:29:40.663] [OK] [SYNC] order filled detected
+[17:30:10.089] [OK] [SYNC] order filled detected
+[17:30:15.849] [OK] [SYNC] order filled detected
+[17:30:21.893] [OK] [SYNC] order filled detected
+[17:30:36.491] [OK] [SYNC] order filled detected
+[17:31:08.472] [OK] [SYNC] order filled detected
+[17:31:12.366] [OK] [SYNC] order filled detected
+[17:31:17.422] [OK] [SYNC] order filled detected
+[17:31:46.053] [OK] [SYNC] order filled detected
+[17:31:57.274] [OK] [SYNC] order filled detected
+[17:31:59.209] [OK] [SYNC] order filled detected
+[17:32:01.043] [OK] [SYNC] order filled detected
+[17:32:02.694] [OK] [SYNC] order filled detected
+[17:32:04.226] [OK] [SYNC] order filled detected
+[17:32:06.600] [OK] [SYNC] order filled detected
+[17:35:39.801] [OK] [SETTINGS] settings saved
+[17:35:41.615] [OK] START
+[17:35:46.855] [OK] [SYNC] order filled detected
+[17:35:53.569] [OK] [SYNC] order filled detected
+[17:35:55.170] [OK] [SYNC] order filled detected
+[17:36:04.337] [OK] [SYNC] order filled detected
+[17:36:23.569] [OK] [SYNC] order filled detected
+[17:36:31.835] [OK] [SYNC] order filled detected
+[17:36:47.956] [OK] [SYNC] order filled detected
+[17:36:57.170] [OK] [SYNC] order filled detected
+[17:37:03.091] [OK] [SYNC] order filled detected
+[17:37:11.413] [OK] [SYNC] order filled detected
+[17:37:15.225] [OK] [SYNC] order filled detected
+[17:37:31.412] [OK] [SYNC] order filled detected
+[17:37:34.256] [OK] [SYNC] order filled detected
+[17:37:35.788] [OK] [SYNC] order filled detected
+[17:37:37.381] [OK] [SYNC] order filled detected
+[17:38:01.738] [OK] [SYNC] order filled detected
+[17:38:16.084] [OK] [SYNC] order filled detected
+[17:38:28.078] [OK] [SYNC] order filled detected
+[17:39:01.240] [OK] [SYNC] order filled detected
+[17:39:09.912] [OK] [SYNC] order filled detected
+[17:39:12.068] [OK] [SYNC] order filled detected
+[17:39:21.412] [OK] [SYNC] order filled detected
+[17:39:50.303] [OK] [SYNC] order filled detected
+[17:40:02.902] [OK] [SYNC] order filled detected
+[17:40:13.907] [OK] [SYNC] order filled detected
+[17:40:47.587] [OK] [SYNC] order filled detected
+[17:41:00.145] [OK] [SYNC] order filled detected
+[17:41:19.184] [OK] [SYNC] order filled detected
+[17:41:29.615] [WARNING] cancel all requested
+[17:41:29.618] [WARNING] STOP
+[17:42:25.147] [OK] START
+[17:42:26.754] [OK] [SYNC] order filled detected
+[17:42:48.376] [OK] [SYNC] order filled detected
+[17:42:53.484] [OK] [SYNC] order filled detected
+[17:43:09.445] [OK] [SYNC] order filled detected
+[17:43:24.156] [OK] [SYNC] order filled detected
+[17:43:34.294] [OK] [SYNC] order filled detected
+[17:43:36.618] [OK] [SYNC] order filled detected
+[17:43:39.727] [OK] [SYNC] order filled detected
+[17:43:45.564] [OK] [SYNC] order filled detected
+[17:43:54.004] [OK] [SYNC] order filled detected
+[17:43:56.661] [OK] [SYNC] order filled detected
+[17:44:12.187] [OK] [SYNC] order filled detected
+[17:44:17.984] [OK] [SYNC] order filled detected
+[17:44:20.239] [OK] [SYNC] order filled detected
+[17:44:25.431] [OK] [SYNC] order filled detected
+[17:44:27.229] [OK] [SYNC] order filled detected
+[17:44:30.455] [OK] [SYNC] order filled detected
+[17:44:33.892] [OK] [SYNC] order filled detected
+[17:44:46.590] [OK] [SYNC] order filled detected
+[17:44:55.084] [OK] [SYNC] order filled detected
+[17:45:01.074] [OK] [SYNC] order filled detected
+[17:45:10.926] [OK] [SYNC] order filled detected
+[17:45:19.516] [OK] [SYNC] order filled detected
+[17:45:22.281] [OK] [SYNC] order filled detected
+[17:45:23.657] [OK] [SYNC] order filled detected
+[17:45:41.430] [OK] [SYNC] order filled detected
+[17:45:56.603] [OK] [SYNC] order filled detected
+[17:46:13.783] [OK] [SYNC] order filled detected
+[17:46:15.932] [OK] [SYNC] order filled detected
+[17:46:22.407] [WARNING] cancel all requested
+[17:46:23.216] [OK] [SYNC] order filled detected
+[17:46:23.232] [WARNING] STOP
+[17:54:01.805] [OK] START
+[17:54:10.945] [OK] [SYNC] order filled detected
+[17:54:17.110] [OK] [SYNC] order filled detected
+[17:54:19.597] [OK] [SYNC] order filled detected
+[17:54:57.178] [OK] [SYNC] order filled detected
+[17:55:02.423] [OK] [SYNC] order filled detected
+[17:55:05.330] [WARNING] cancel all requested
+[17:55:05.332] [WARNING] STOP
+[17:59:46.807] [OK] START
+[18:00:00.414] [OK] [SYNC] order filled detected
+[18:00:13.339] [WARNING] cancel all requested
+[18:00:13.340] [WARNING] STOP
+[18:04:47.190] [OK] START
+[18:04:47.200] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:04:51.602] [OK] [SYNC] order filled detected
+[18:05:00.894] [OK] [SYNC] order filled detected
+[18:05:36.753] [WARNING] cancel all requested
+[18:05:36.757] [WARNING] STOP
+[18:05:47.665] [OK] START
+[18:05:55.760] [WARNING] cancel all requested
+[18:05:55.765] [WARNING] STOP
+[18:06:21.236] [OK] START
+[18:06:21.246] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:06:44.677] [OK] [SYNC] order filled detected
+[18:06:46.799] [OK] [SYNC] order filled detected
+[18:06:49.824] [OK] [SYNC] order filled detected
+[18:07:07.829] [OK] [SYNC] order filled detected
+[18:07:13.618] [OK] [SYNC] order filled detected
+[18:07:24.727] [OK] [SYNC] order filled detected
+[18:07:28.147] [OK] [SYNC] order filled detected
+[18:07:50.023] [OK] [SYNC] order filled detected
+[18:08:05.040] [OK] [SYNC] order filled detected
+[18:08:37.607] [WARNING] cancel all requested
+[18:08:37.610] [WARNING] STOP
+[18:13:57.428] [OK] START
+[18:13:57.436] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:13:57.437] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:13:58.283] [WARNING] [HEALTH] block falling_market bid_ticks=-417.00 mid_ticks=-387.00
+[18:13:58.287] [WARNING] [HEALTH] unstable_bid delta_ticks=-417.00
+[18:13:58.289] [WARNING] [HEALTH] negative_momentum ticks=-387.00
+[18:14:01.880] [OK] [SYNC] order filled detected
+[18:14:25.234] [OK] [SYNC] order filled detected
+[18:14:46.930] [WARNING] cancel all requested
+[18:14:47.762] [WARNING] [SYNC] desync fixed
+[18:14:47.768] [WARNING] STOP
+[18:15:20.510] [OK] [SETTINGS] settings saved
+[18:15:22.335] [OK] START
+[18:15:24.220] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:15:24.222] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:15:24.478] [WARNING] [HEALTH] block spread_too_young lifetime=258
+[18:15:24.481] [WARNING] [HEALTH] unstable_spread lifetime=258
+[18:15:37.972] [OK] [SYNC] order filled detected
+[18:16:04.070] [OK] [SYNC] order filled detected
+[18:16:07.517] [OK] [SYNC] order filled detected
+[18:16:44.739] [WARNING] [SYNC] desync fixed
+[19:53:02.231] [OK] START
+[19:53:02.715] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:53:02.715] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:53:13.533] [OK] [SYNC] order filled detected
+[19:53:29.219] [OK] [SYNC] order filled detected
+[19:53:43.131] [OK] [SYNC] order filled detected
+[19:53:45.246] [OK] [SYNC] order filled detected
+[19:53:55.623] [OK] [SYNC] order filled detected
+[19:54:01.610] [OK] [SYNC] order filled detected
+[19:54:03.361] [OK] [SYNC] order filled detected
+[19:54:10.871] [OK] [SYNC] order filled detected
+[19:54:12.236] [OK] [SYNC] order filled detected
+[19:54:13.611] [OK] [SYNC] order filled detected
+[19:54:23.203] [OK] [SYNC] order filled detected
+[19:59:59.352] [OK] START
+[19:59:59.352] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:59:59.352] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:00:08.068] [OK] [SYNC] order filled detected
+[20:00:10.831] [OK] [SYNC] order filled detected
+[20:00:17.238] [OK] [SYNC] order filled detected
+[20:00:35.132] [OK] [SYNC] order filled detected
+[20:00:36.909] [OK] [SYNC] order filled detected
+[20:00:51.360] [OK] [SYNC] order filled detected
+[20:00:53.332] [OK] [SYNC] order filled detected
+[20:00:54.927] [OK] [SYNC] order filled detected
+[20:01:05.020] [OK] [SYNC] order filled detected
+[20:01:21.702] [OK] [SYNC] order filled detected
+[20:01:26.402] [OK] [SYNC] order filled detected
+[20:01:49.356] [OK] [SYNC] order filled detected
+[20:02:00.702] [WARNING] cancel all requested
+[20:02:01.493] [WARNING] [SYNC] desync fixed
+[20:02:01.496] [WARNING] STOP
+[20:09:59.309] [OK] START
+[20:09:59.321] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[20:09:59.322] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:10:03.451] [OK] [SYNC] order filled detected
+[20:10:06.686] [OK] [SYNC] order filled detected
+[20:10:10.059] [OK] [SYNC] order filled detected
+[20:10:30.454] [OK] [SYNC] order filled detected
+[20:10:40.730] [OK] [SYNC] order filled detected
+[20:10:48.388] [OK] [SYNC] order filled detected
+[20:10:59.067] [OK] [SYNC] order filled detected
+[20:11:07.433] [OK] [SYNC] order filled detected
+[20:11:22.376] [OK] [SYNC] order filled detected
+[20:11:29.107] [OK] [SYNC] order filled detected
+[20:11:32.487] [OK] [SYNC] order filled detected
+[20:11:49.672] [OK] [SYNC] order filled detected
+[20:11:56.774] [OK] [SYNC] order filled detected
+[20:12:02.710] [OK] [SYNC] order filled detected
+[20:12:04.171] [OK] [SYNC] order filled detected
+[20:12:07.893] [OK] [SYNC] order filled detected
+[20:12:12.442] [OK] [SYNC] order filled detected
+[20:12:14.524] [WARNING] cancel all requested
+[20:12:15.307] [WARNING] [SYNC] desync fixed
+[20:12:15.312] [WARNING] STOP
+[20:19:07.191] [OK] START
+[20:19:07.191] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[20:19:07.191] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:19:17.892] [OK] [SYNC] order filled detected
+[20:19:24.006] [OK] [SYNC] order filled detected
+[20:20:44.066] [OK] [SYNC] order filled detected
+[20:21:01.673] [OK] [SYNC] order filled detected
+[20:21:27.499] [OK] [SYNC] order filled detected
+[20:21:33.279] [OK] [SYNC] order filled detected
+[20:22:19.280] [OK] [SETTINGS] settings saved
+[20:22:20.780] [OK] START
+[20:22:20.780] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[20:22:20.780] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:22:35.513] [OK] [SYNC] order filled detected
+[20:22:59.451] [OK] [SYNC] order filled detected
+[20:23:23.519] [OK] [SYNC] order filled detected
+[20:23:26.644] [OK] [SYNC] order filled detected
+[20:23:30.059] [OK] [SYNC] order filled detected
+[20:23:31.744] [WARNING] cancel all requested
+[20:23:32.597] [WARNING] [SYNC] desync fixed
+[20:23:32.597] [WARNING] STOP
+[20:23:47.359] [OK] START
+[20:23:47.828] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[20:23:47.828] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:23:56.375] [OK] [SYNC] order filled detected
+[20:24:36.127] [OK] [SYNC] order filled detected
+[20:25:03.791] [OK] [SYNC] order filled detected
+[20:25:17.009] [OK] [SYNC] order filled detected
+[20:25:23.284] [WARNING] cancel all requested
+[20:25:24.095] [WARNING] [SYNC] desync fixed
+[20:25:24.095] [WARNING] STOP
+[20:35:35.828] [OK] START
+[20:35:35.828] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[20:35:35.828] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:35:38.219] [OK] [SYNC] order filled detected
+[20:36:04.092] [OK] [SYNC] order filled detected
+[20:36:15.935] [OK] [SYNC] order filled detected
+[20:36:20.525] [OK] [SYNC] order filled detected
+[20:36:31.057] [OK] [SYNC] order filled detected
+[20:36:32.125] [OK] [SYNC] order filled detected
+[20:36:35.907] [WARNING] cancel all requested
+[20:36:36.749] [WARNING] [SYNC] desync fixed
+[20:36:36.749] [WARNING] STOP
+[20:37:11.131] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/settings_export.json
+[20:43:47.733] [OK] START
+[20:43:48.231] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[20:43:48.231] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:43:48.606] [WARNING] [HEALTH] block spread_too_young lifetime=391
+[20:43:48.606] [WARNING] [HEALTH] unstable_spread lifetime=391
+[20:43:56.433] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-254.50
+[20:43:56.433] [WARNING] [HEALTH] negative_momentum ticks=-254.50
+[20:43:56.683] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-254.50
+[20:43:58.936] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.50
+[20:43:58.936] [WARNING] [HEALTH] negative_momentum ticks=-18.50
+[20:43:59.185] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-94.00
+[20:43:59.185] [WARNING] [HEALTH] negative_momentum ticks=-94.00
+[20:43:59.435] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-94.00
+[20:44:03.025] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-157.50
+[20:44:03.040] [WARNING] [HEALTH] negative_momentum ticks=-157.50
+[20:44:03.200] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-157.50
+[20:44:03.497] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-157.50
+[20:44:04.700] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-19.50
+[20:44:04.700] [WARNING] [HEALTH] negative_momentum ticks=-19.50
+[20:44:07.089] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-48.00
+[20:44:07.089] [WARNING] [HEALTH] negative_momentum ticks=-48.00
+[20:44:07.277] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-70.50
+[20:44:07.277] [WARNING] [HEALTH] negative_momentum ticks=-70.50
+[20:44:07.527] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-22.50
+[20:44:07.527] [WARNING] [HEALTH] negative_momentum ticks=-22.50
+[20:44:07.777] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-46.00
+[20:44:07.777] [WARNING] [HEALTH] negative_momentum ticks=-46.00
+[20:44:08.038] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-46.00
+[20:44:08.308] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-23.50
+[20:44:08.308] [WARNING] [HEALTH] negative_momentum ticks=-23.50
+[20:44:08.527] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-23.50
+[20:44:23.938] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-60.00
+[20:44:23.954] [WARNING] [HEALTH] negative_momentum ticks=-60.00
+[20:44:29.125] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-23.00
+[20:44:29.125] [WARNING] [HEALTH] negative_momentum ticks=-23.00
+[20:44:29.640] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-56.00
+[20:44:29.640] [WARNING] [HEALTH] negative_momentum ticks=-56.00
+[20:44:30.407] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-23.50
+[20:44:30.407] [WARNING] [HEALTH] negative_momentum ticks=-23.50
+[20:44:30.657] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-23.50
+[20:44:32.688] [WARNING] [HEALTH] block falling_market bid_ticks=-1225.00 mid_ticks=-613.00
+[20:44:32.688] [WARNING] [HEALTH] unstable_bid delta_ticks=-1225.00
+[20:44:32.688] [WARNING] [HEALTH] negative_momentum ticks=-613.00
+[20:44:33.043] [WARNING] [HEALTH] block falling_market bid_ticks=-1340.00 mid_ticks=-817.50
+[20:44:33.052] [WARNING] [HEALTH] unstable_bid delta_ticks=-1340.00
+[20:44:33.052] [WARNING] [HEALTH] negative_momentum ticks=-817.50
+[20:44:33.202] [WARNING] [HEALTH] block falling_market bid_ticks=-1339.00 mid_ticks=-1140.50
+[20:44:33.202] [WARNING] [HEALTH] unstable_bid delta_ticks=-1339.00
+[20:44:33.202] [WARNING] [HEALTH] negative_momentum ticks=-1140.50
+[20:44:33.577] [WARNING] [HEALTH] block falling_market bid_ticks=-114.00 mid_ticks=-445.00
+[20:44:33.593] [WARNING] [HEALTH] unstable_bid delta_ticks=-114.00
+[20:44:33.593] [WARNING] [HEALTH] negative_momentum ticks=-445.00
+[20:44:33.973] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-240.50
+[20:44:33.973] [WARNING] [HEALTH] negative_momentum ticks=-240.50
+[20:44:34.218] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-171.50
+[20:44:34.218] [WARNING] [HEALTH] negative_momentum ticks=-171.50
+[20:44:34.468] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-171.50
+[20:44:34.765] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-171.50
+[20:44:35.483] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-20.00
+[20:44:35.483] [WARNING] [HEALTH] negative_momentum ticks=-20.00
+[20:44:35.981] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-20.00
+[20:44:36.233] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-20.00
+[20:44:38.373] [WARNING] [HEALTH] block falling_market bid_ticks=-470.00 mid_ticks=-425.50
+[20:44:38.373] [WARNING] [HEALTH] unstable_bid delta_ticks=-470.00
+[20:44:38.373] [WARNING] [HEALTH] negative_momentum ticks=-425.50
+[20:44:38.545] [WARNING] [HEALTH] block falling_market bid_ticks=-161.00 mid_ticks=-201.00
+[20:44:38.545] [WARNING] [HEALTH] unstable_bid delta_ticks=-161.00
+[20:44:38.545] [WARNING] [HEALTH] negative_momentum ticks=-201.00
+[20:44:38.795] [WARNING] [HEALTH] block falling_market bid_ticks=-161.00 mid_ticks=-201.00
+[20:44:39.052] [WARNING] [HEALTH] block falling_market bid_ticks=-143.00 mid_ticks=-192.00
+[20:44:39.052] [WARNING] [HEALTH] unstable_bid delta_ticks=-143.00
+[20:44:39.057] [WARNING] [HEALTH] negative_momentum ticks=-192.00
+[20:44:39.310] [WARNING] [HEALTH] block falling_market bid_ticks=-141.00 mid_ticks=-280.00
+[20:44:39.310] [WARNING] [HEALTH] unstable_bid delta_ticks=-141.00
+[20:44:39.310] [WARNING] [HEALTH] negative_momentum ticks=-280.00
+[20:44:39.591] [WARNING] [HEALTH] block falling_market bid_ticks=20.00 mid_ticks=-79.00
+[20:44:39.591] [WARNING] [HEALTH] negative_momentum ticks=-79.00
+[20:44:39.810] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-88.00
+[20:44:39.810] [WARNING] [HEALTH] negative_momentum ticks=-88.00
+[20:44:46.811] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-31.00
+[20:44:46.811] [WARNING] [HEALTH] negative_momentum ticks=-31.00
+[20:44:47.155] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-31.00
+[20:44:47.404] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-31.00
+[20:44:55.685] [WARNING] [HEALTH] block falling_market bid_ticks=89.00 mid_ticks=-15.00
+[20:44:55.685] [WARNING] [HEALTH] negative_momentum ticks=-15.00
+[20:44:55.943] [WARNING] [HEALTH] block falling_market bid_ticks=45.00 mid_ticks=-37.00
+[20:44:55.943] [WARNING] [HEALTH] negative_momentum ticks=-37.00
+[20:44:56.420] [WARNING] [HEALTH] block falling_market bid_ticks=8.00 mid_ticks=-79.00
+[20:44:56.420] [WARNING] [HEALTH] negative_momentum ticks=-79.00
+[20:44:56.686] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-120.00
+[20:44:56.686] [WARNING] [HEALTH] negative_momentum ticks=-120.00
+[20:44:56.943] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-119.50
+[20:44:56.946] [WARNING] [HEALTH] negative_momentum ticks=-119.50
+[20:44:57.184] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-96.00
+[20:44:57.184] [WARNING] [HEALTH] negative_momentum ticks=-96.00
+[20:44:59.184] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-13.50
+[20:44:59.184] [WARNING] [HEALTH] negative_momentum ticks=-13.50
+[20:44:59.434] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-13.50
+[20:45:00.055] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-214.00
+[20:45:00.055] [WARNING] [HEALTH] negative_momentum ticks=-214.00
+[20:45:00.432] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-192.00
+[20:45:00.432] [WARNING] [HEALTH] negative_momentum ticks=-192.00
+[20:45:01.434] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-133.00
+[20:45:01.434] [WARNING] [HEALTH] negative_momentum ticks=-133.00
+[20:45:02.449] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-67.50
+[20:45:02.449] [WARNING] [HEALTH] negative_momentum ticks=-67.50
+[20:45:02.684] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-39.00
+[20:45:02.684] [WARNING] [HEALTH] negative_momentum ticks=-39.00
+[20:45:04.189] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-27.00
+[20:45:04.189] [WARNING] [HEALTH] negative_momentum ticks=-27.00
+[20:45:04.439] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-56.00
+[20:45:04.439] [WARNING] [HEALTH] negative_momentum ticks=-56.00
+[20:45:04.854] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-28.00
+[20:45:04.854] [WARNING] [HEALTH] negative_momentum ticks=-28.00
+[20:45:05.188] [WARNING] [HEALTH] block falling_market bid_ticks=-806.00 mid_ticks=-523.50
+[20:45:05.188] [WARNING] [HEALTH] unstable_bid delta_ticks=-806.00
+[20:45:05.188] [WARNING] [HEALTH] negative_momentum ticks=-523.50
+[20:45:05.438] [WARNING] [HEALTH] block falling_market bid_ticks=-806.00 mid_ticks=-822.00
+[20:45:05.438] [WARNING] [HEALTH] unstable_bid delta_ticks=-806.00
+[20:45:05.438] [WARNING] [HEALTH] negative_momentum ticks=-822.00
+[20:45:05.688] [WARNING] [HEALTH] block falling_market bid_ticks=-806.00 mid_ticks=-822.00
+[20:45:06.058] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-327.50
+[20:45:06.061] [WARNING] [HEALTH] negative_momentum ticks=-327.50
+[20:45:07.283] [WARNING] [HEALTH] block falling_market bid_ticks=4.00 mid_ticks=-118.00
+[20:45:07.283] [WARNING] [HEALTH] negative_momentum ticks=-118.00
+[20:45:09.674] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-37.00
+[20:45:09.674] [WARNING] [HEALTH] negative_momentum ticks=-37.00
+[20:45:10.096] [WARNING] cancel all requested
+[20:45:10.096] [WARNING] STOP
+[20:54:41.439] [OK] START
+[20:54:42.664] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[20:54:42.667] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:54:44.185] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-21.50
+[20:54:44.188] [WARNING] [HEALTH] negative_momentum ticks=-21.50
+[20:54:44.445] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-21.50
+[20:54:44.696] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-21.50
+[20:55:05.221] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-8.00
+[20:55:05.224] [WARNING] [HEALTH] negative_momentum ticks=-8.00
+[20:55:05.505] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-8.00
+[20:55:05.736] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-8.00
+[20:55:14.698] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[20:55:14.700] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:55:15.140] [WARNING] [HEALTH] block spread_too_young lifetime=443
+[20:55:15.143] [WARNING] [HEALTH] unstable_spread lifetime=443
+[20:55:15.486] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-17.00
+[20:55:15.487] [WARNING] [HEALTH] negative_momentum ticks=-17.00
+[20:55:15.731] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-16.50
+[20:55:15.732] [WARNING] [HEALTH] negative_momentum ticks=-16.50
+[20:55:15.994] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-16.50
+[20:55:16.335] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-24.00
+[20:55:16.337] [WARNING] [HEALTH] negative_momentum ticks=-24.00
+[20:55:16.507] [WARNING] [HEALTH] block falling_market bid_ticks=-52.00 mid_ticks=-50.00
+[20:55:16.509] [WARNING] [HEALTH] unstable_bid delta_ticks=-52.00
+[20:55:16.511] [WARNING] [HEALTH] negative_momentum ticks=-50.00
+[20:55:16.772] [WARNING] [HEALTH] block falling_market bid_ticks=-52.00 mid_ticks=-50.00
+[20:55:17.016] [WARNING] [HEALTH] block falling_market bid_ticks=-52.00 mid_ticks=-26.00
+[20:55:17.018] [WARNING] [HEALTH] unstable_bid delta_ticks=-52.00
+[20:55:17.020] [WARNING] [HEALTH] negative_momentum ticks=-26.00
+[20:55:17.264] [WARNING] [HEALTH] block falling_market bid_ticks=-52.00 mid_ticks=-26.00
+[20:55:17.774] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.50
+[20:55:17.777] [WARNING] [HEALTH] negative_momentum ticks=-18.50
+[20:55:18.039] [WARNING] [HEALTH] block falling_market bid_ticks=-1.00 mid_ticks=-37.50
+[20:55:18.041] [WARNING] [HEALTH] negative_momentum ticks=-37.50
+[20:55:18.286] [WARNING] [HEALTH] block falling_market bid_ticks=-338.00 mid_ticks=-276.00
+[20:55:18.288] [WARNING] [HEALTH] unstable_bid delta_ticks=-338.00
+[20:55:18.290] [WARNING] [HEALTH] negative_momentum ticks=-276.00
+[20:55:18.741] [WARNING] [HEALTH] block falling_market bid_ticks=-170.00 mid_ticks=-173.50
+[20:55:18.744] [WARNING] [HEALTH] unstable_bid delta_ticks=-170.00
+[20:55:18.745] [WARNING] [HEALTH] negative_momentum ticks=-173.50
+[20:55:20.544] [WARNING] [HEALTH] block falling_market bid_ticks=-694.00 mid_ticks=-615.00
+[20:55:20.547] [WARNING] [HEALTH] unstable_bid delta_ticks=-694.00
+[20:55:20.549] [WARNING] [HEALTH] negative_momentum ticks=-615.00
+[20:55:20.813] [WARNING] [HEALTH] block falling_market bid_ticks=-632.00 mid_ticks=-584.00
+[20:55:20.816] [WARNING] [HEALTH] unstable_bid delta_ticks=-632.00
+[20:55:20.818] [WARNING] [HEALTH] negative_momentum ticks=-584.00
+[20:55:21.309] [WARNING] [HEALTH] block falling_market bid_ticks=-101.00 mid_ticks=-86.50
+[20:55:21.312] [WARNING] [HEALTH] unstable_bid delta_ticks=-101.00
+[20:55:21.314] [WARNING] [HEALTH] negative_momentum ticks=-86.50
+[20:55:21.559] [WARNING] [HEALTH] block falling_market bid_ticks=-163.00 mid_ticks=-117.50
+[20:55:21.561] [WARNING] [HEALTH] unstable_bid delta_ticks=-163.00
+[20:55:21.562] [WARNING] [HEALTH] negative_momentum ticks=-117.50
+[20:55:21.810] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-36.00
+[20:55:21.813] [WARNING] [HEALTH] negative_momentum ticks=-36.00
+[20:55:22.057] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-36.00
+[20:55:29.863] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-66.50
+[20:55:29.865] [WARNING] [HEALTH] negative_momentum ticks=-66.50
+[20:55:31.677] [WARNING] [HEALTH] block falling_market bid_ticks=-89.00 mid_ticks=-221.00
+[20:55:31.680] [WARNING] [HEALTH] unstable_bid delta_ticks=-89.00
+[20:55:31.682] [WARNING] [HEALTH] negative_momentum ticks=-221.00
+[20:55:31.983] [WARNING] [HEALTH] block falling_market bid_ticks=-144.00 mid_ticks=-248.50
+[20:55:31.984] [WARNING] [HEALTH] unstable_bid delta_ticks=-144.00
+[20:55:31.984] [WARNING] [HEALTH] negative_momentum ticks=-248.50
+[20:55:32.189] [WARNING] [HEALTH] block falling_market bid_ticks=-143.00 mid_ticks=-197.00
+[20:55:32.192] [WARNING] [HEALTH] unstable_bid delta_ticks=-143.00
+[20:55:32.194] [WARNING] [HEALTH] negative_momentum ticks=-197.00
+[20:55:33.686] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-187.00
+[20:55:33.689] [WARNING] [HEALTH] negative_momentum ticks=-187.00
+[20:55:33.938] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-187.00
+[20:55:36.196] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-35.50
+[20:55:36.199] [WARNING] [HEALTH] negative_momentum ticks=-35.50
+[20:55:36.443] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-58.50
+[20:55:36.446] [WARNING] [HEALTH] negative_momentum ticks=-58.50
+[20:55:36.798] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-23.00
+[20:55:36.799] [WARNING] [HEALTH] negative_momentum ticks=-23.00
+[20:55:36.970] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-23.00
+[20:55:37.995] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-30.00
+[20:55:37.997] [WARNING] [HEALTH] negative_momentum ticks=-30.00
+[20:55:38.235] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-30.00
+[20:55:38.496] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-54.50
+[20:55:38.499] [WARNING] [HEALTH] negative_momentum ticks=-54.50
+[20:55:38.748] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-94.00
+[20:55:38.748] [WARNING] [HEALTH] negative_momentum ticks=-94.00
+[20:55:39.191] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-94.00
+[20:55:45.208] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-21.50
+[20:55:45.209] [WARNING] [HEALTH] negative_momentum ticks=-21.50
+[20:55:46.829] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-18.50
+[20:55:46.832] [WARNING] [HEALTH] negative_momentum ticks=-18.50
+[20:55:47.076] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-18.50
+[20:55:47.325] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-18.50
+[20:55:51.890] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-46.50
+[20:55:51.892] [WARNING] [HEALTH] negative_momentum ticks=-46.50
+[20:55:52.137] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-46.50
+[20:55:52.427] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-46.50
+[20:55:52.636] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-73.00
+[20:55:52.639] [WARNING] [HEALTH] negative_momentum ticks=-73.00
+[20:55:52.886] [WARNING] [HEALTH] block falling_market bid_ticks=-861.00 mid_ticks=-663.00
+[20:55:52.888] [WARNING] [HEALTH] unstable_bid delta_ticks=-861.00
+[20:55:52.890] [WARNING] [HEALTH] negative_momentum ticks=-663.00
+[20:55:53.152] [WARNING] [HEALTH] block falling_market bid_ticks=-1115.00 mid_ticks=-1073.50
+[20:55:53.155] [WARNING] [HEALTH] unstable_bid delta_ticks=-1115.00
+[20:55:53.158] [WARNING] [HEALTH] negative_momentum ticks=-1073.50
+[20:55:53.638] [WARNING] [HEALTH] block falling_market bid_ticks=-254.00 mid_ticks=-442.00
+[20:55:53.641] [WARNING] [HEALTH] unstable_bid delta_ticks=-254.00
+[20:55:53.643] [WARNING] [HEALTH] negative_momentum ticks=-442.00
+[20:59:08.577] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/1.json

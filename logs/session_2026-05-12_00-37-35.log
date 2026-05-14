@@ -1,0 +1,18 @@
+[21:37:42.215] [OK] [SETTINGS] settings saved
+[21:37:43.906] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[21:37:43.906] [OK] START
+[21:37:43.906] [INFO] [EXEC] LIVE ON
+[21:37:43.921] [INFO] [EXEC] WAIT READY
+[21:37:43.921] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[21:37:43.921] [WS] connecting primary
+[21:37:45.024] [WS] connected
+[21:37:49.419] [WARNING] cancel all requested
+[21:37:49.419] [WARNING] STOP
+[21:37:58.746] [OK] [SETTINGS] settings saved
+[21:38:00.136] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[21:38:00.152] [OK] START
+[21:38:00.152] [INFO] [EXEC] LIVE ON
+[21:38:00.152] [INFO] [EXEC] WAIT READY
+[21:38:00.152] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[21:38:00.152] [WS] connecting primary
+[21:38:01.267] [WS] connected

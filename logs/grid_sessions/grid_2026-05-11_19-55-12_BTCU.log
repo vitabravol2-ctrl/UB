@@ -1,0 +1,4 @@
+[19:55:13] [GRID] terminal opened
+[19:55:13] [GRID] session log path=logs\grid_sessions\grid_2026-05-11_19-55-12_BTCU.log
+[19:55:13] [GRID] [GRID][ERROR] balance refresh: API NOT SET
+[19:55:14] [GRID] open orders read n=1

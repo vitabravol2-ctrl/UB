@@ -1,0 +1,45 @@
+[06:44:11.493] [OK] filters loaded
+[06:44:11.501] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=0
+[06:44:11.969] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[06:44:17.687] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[06:44:17.687] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=2
+[06:44:17.687] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=15.0
+[06:44:17.687] [INFO] START_PROFILE_STREAM order_size=15.0 min_spread_ticks=8 guard_mode=FAST entry_mode=AGGRESSIVE stream_sell_timeout_ms=2800 stream_target_ticks=28
+[06:44:17.703] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[06:44:18.298] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[06:44:18.298] [OK] START
+[06:44:18.298] [OK] START_OK runtime_started
+[06:44:18.298] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=20
+[06:44:18.298] [INFO] [EXEC] STREAM_MULTI_MODE count=20
+[06:44:18.298] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=20 range_ticks=100 step_ticks=5
+[06:44:18.298] [INFO] [EXEC] STREAM_BUDGET_SOURCE source=order_size_u order_size_u=15.00
+[06:44:18.298] [INFO] [EXEC] STREAM_CREATE stream_id=1 buy_price=79851.30000000 budget=15.00 qty=0.00018000
+[06:44:18.298] [INFO] [EXEC] STREAM_CREATE stream_id=2 buy_price=79851.25000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=3 buy_price=79851.20000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=4 buy_price=79851.15000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=5 buy_price=79851.10000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=6 buy_price=79851.05000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=7 buy_price=79851.00000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=8 buy_price=79850.95000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=9 buy_price=79850.90000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=10 buy_price=79850.85000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=11 buy_price=79850.80000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=12 buy_price=79850.75000000 budget=15.00 qty=0.00018000
+[06:44:18.313] [INFO] [EXEC] STREAM_CREATE stream_id=13 buy_price=79850.70000000 budget=15.00 qty=0.00018000
+[06:44:18.321] [INFO] [EXEC] STREAM_CREATE stream_id=14 buy_price=79850.65000000 budget=15.00 qty=0.00018000
+[06:44:18.322] [INFO] [EXEC] STREAM_CREATE stream_id=15 buy_price=79850.60000000 budget=15.00 qty=0.00018000
+[06:44:18.322] [INFO] [EXEC] STREAM_CREATE stream_id=16 buy_price=79850.55000000 budget=15.00 qty=0.00018000
+[06:44:18.322] [INFO] [EXEC] STREAM_CREATE stream_id=17 buy_price=79850.50000000 budget=15.00 qty=0.00018000
+[06:44:18.322] [INFO] [EXEC] STREAM_CREATE stream_id=18 buy_price=79850.45000000 budget=15.00 qty=0.00018000
+[06:44:18.322] [INFO] [EXEC] STREAM_CREATE stream_id=19 buy_price=79850.40000000 budget=15.00 qty=0.00018000
+[06:44:18.322] [INFO] [EXEC] STREAM_CREATE stream_id=20 buy_price=79850.35000000 budget=15.00 qty=0.00018000
+[06:44:18.322] [INFO] [EXEC] STREAM_CREATE_DONE count=20 budget_per_level=15.00 step_ticks=5
+[06:44:18.615] [INFO] [EXEC] LIVE ON
+[06:44:18.640] [INFO] [EXEC] WAIT READY
+[06:44:18.640] [WARNING] [EXEC] BLOCK reason=balance_low
+[06:44:19.155] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[06:44:19.155] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=37
+[06:44:19.155] [WS] connecting primary
+[06:44:19.614] [WS] connected
+[06:44:22.200] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[06:44:22.200] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=40

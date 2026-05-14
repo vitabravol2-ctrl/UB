@@ -1,0 +1,7 @@
+[09:31:15.032] [OK] filters loaded
+[09:31:15.034] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=0
+[09:31:15.407] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[09:31:32.679] [OK] [SETTINGS] settings saved
+[09:31:32.680] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=2
+[09:31:36.359] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[09:31:36.360] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=3

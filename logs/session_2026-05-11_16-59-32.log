@@ -1,0 +1,32 @@
+[13:59:33.458] [OK] filters loaded
+[13:59:37.151] [OK] [PLAN] READY entry=81049.44 exit=81053.72 profit=0.792100 age=219ms
+[13:59:41.651] [OK] [PLAN] HOT entry=81036.01 exit=81047.43 profit=2.113842 age=673ms
+[13:59:42.191] [OK] [PLAN] READY entry=81044.74 exit=81048.05 profit=0.612615 age=1213ms
+[13:59:43.237] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[13:59:43.241] [OK] START
+[13:59:43.246] [INFO] [EXEC] LIVE ON
+[13:59:43.248] [INFO] [EXEC] WAIT READY
+[13:59:43.788] [OK] [EXEC] BUY ORDER SENT orderId=382148753 price=81044.74 qty=0.185080
+[13:59:43.788] [OK] [EXEC] PLACE BUY price=81044.74 qty=0.185080
+[13:59:44.855] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[13:59:44.856] [WS] connecting primary
+[13:59:44.858] [WS] connected
+[13:59:44.858] [WS] LIVE bid=81044.75 ask=81049.92
+[13:59:46.854] [OK] [EXEC] BUY FILLED id=382148753
+[13:59:47.873] [OK] [SYNC] order filled detected
+[13:59:47.873] [OK] [SYNC] BUY filled on exchange
+[13:59:48.148] [OK] [EXEC] PLACE SELL price=81047.29 qty=0.185080
+[13:59:48.412] [OK] [EXEC] SELL ORDER SENT orderId=382148885
+[13:59:49.726] [WARNING] [EXEC] CANCEL SELL orderId=382148885
+[13:59:49.988] [ERROR] [EXEC] HARD SL triggered
+[13:59:49.988] [WARNING] [EXEC] PANIC EXIT sl_mode
+[13:59:49.988] [WARNING] [EXEC] FORCE EXIT price=81046.28
+[13:59:50.004] [OK] [EXEC] PLACE SELL price=81046.28 qty=0.185080
+[13:59:50.278] [OK] [EXEC] SELL ORDER SENT orderId=382148919
+[13:59:51.353] [WS] LIVE bid=81034.00 ask=81047.28
+[13:59:51.854] [WARNING] cancel all requested
+[13:59:52.650] [WARNING] [SYNC] desync fixed
+[13:59:52.653] [WARNING] STOP
+[13:59:53.679] [WS] stale/lost
+[13:59:55.241] [OK] [PLAN] READY entry=81044.64 exit=81048.33 profit=0.682945 age=993ms
+[13:59:56.276] [OK] [PLAN] HOT entry=81044.01 exit=81055.12 profit=2.056239 age=2023ms

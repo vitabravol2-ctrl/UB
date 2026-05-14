@@ -1,0 +1,326 @@
+[20:48:30.494] [OK] filters loaded
+[20:54:41.434] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[20:54:41.439] [OK] START
+[20:54:41.444] [INFO] [EXEC] LIVE ON
+[20:54:41.445] [INFO] [EXEC] WAIT READY
+[20:54:42.234] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[20:54:42.234] [WS] connecting primary
+[20:54:42.664] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[20:54:42.667] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:54:42.668] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=None spread=8.21 bid_delta=0.00 mid_delta=0.00
+[20:54:43.184] [WS] connected
+[20:54:43.421] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=202 spread=8.20 bid_delta=1.00 mid_delta=0.50
+[20:54:43.425] [OK] [PLAN] READY entry=81823.54 exit=81827.74 profit=0.282282 age=756ms
+[20:54:43.855] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=640 spread=8.20 bid_delta=0.00 mid_delta=0.00
+[20:54:43.933] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=45 spread=7.75 bid_delta=0.00 mid_delta=0.00
+[20:54:44.185] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-21.50
+[20:54:44.188] [WARNING] [HEALTH] negative_momentum ticks=-21.50
+[20:54:44.190] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=0 spread=7.73 bid_delta=2.00 mid_delta=-21.50
+[20:54:44.445] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-21.50
+[20:54:44.448] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=266 spread=7.73 bid_delta=2.00 mid_delta=-21.50
+[20:54:44.696] [WARNING] [HEALTH] block falling_market bid_ticks=2.00 mid_ticks=-21.50
+[20:54:44.698] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=516 spread=7.73 bid_delta=2.00 mid_delta=-21.50
+[20:54:45.062] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=875 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:45.208] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1016 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:45.459] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1266 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:45.717] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=47 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:45.973] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=297 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:46.267] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=594 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:46.470] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=797 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:46.718] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1047 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:46.986] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1312 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:47.470] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=1797 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:47.964] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2297 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:48.473] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2797 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:48.980] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=250 spread=7.73 bid_delta=0.00 mid_delta=0.00
+[20:54:49.230] [INFO] [HEALTH] state=GOOD
+[20:54:49.230] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=92 spread=7.71 bid_delta=2.00 mid_delta=1.00
+[20:54:49.677] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=530 spread=7.71 bid_delta=2.00 mid_delta=1.00
+[20:54:50.006] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=859 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:50.269] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1125 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:50.519] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1375 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:50.770] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=1625 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:51.561] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2420 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:51.781] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2640 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:52.763] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=3625 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:52.810] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=3670 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:53.506] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=4359 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:53.821] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=4670 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:54.535] [INFO] [HEALTH] state=GOOD
+[20:54:54.536] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=5390 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:54.819] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=5670 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:55.539] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=6390 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:56.030] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=6890 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:56.328] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=7187 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:57.046] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=7905 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:57.358] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=8217 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:58.048] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=8905 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:58.399] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=9250 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:59.062] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=9920 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:54:59.571] [INFO] [HEALTH] state=GOOD
+[20:54:59.572] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=10437 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:55:00.161] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=11015 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:55:00.411] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=11265 spread=7.71 bid_delta=0.00 mid_delta=0.00
+[20:55:01.668] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=12530 spread=9.15 bid_delta=0.00 mid_delta=0.00
+[20:55:01.671] [OK] [PLAN] HOT entry=81822.01 exit=81827.16 profit=0.346131 age=19004ms
+[20:55:01.903] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=234 spread=9.15 bid_delta=0.00 mid_delta=0.00
+[20:55:02.168] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=500 spread=9.15 bid_delta=0.00 mid_delta=0.00
+[20:55:02.432] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=765 spread=9.15 bid_delta=0.00 mid_delta=0.00
+[20:55:02.698] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1031 spread=9.15 bid_delta=0.00 mid_delta=0.00
+[20:55:03.115] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1437 spread=9.15 bid_delta=0.00 mid_delta=0.00
+[20:55:03.225] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=1547 spread=9.15 bid_delta=0.00 mid_delta=0.00
+[20:55:03.476] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=1797 spread=9.15 bid_delta=0.00 mid_delta=0.00
+[20:55:04.099] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2422 spread=10.75 bid_delta=22.00 mid_delta=102.00
+[20:55:04.472] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=32 spread=10.20 bid_delta=77.00 mid_delta=129.50
+[20:55:04.722] [INFO] [HEALTH] state=GOOD
+[20:55:04.723] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=282 spread=10.20 bid_delta=55.00 mid_delta=27.50
+[20:55:04.971] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=532 spread=10.20 bid_delta=55.00 mid_delta=27.50
+[20:55:05.221] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-8.00
+[20:55:05.224] [WARNING] [HEALTH] negative_momentum ticks=-8.00
+[20:55:05.226] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=125 spread=10.04 bid_delta=0.00 mid_delta=-8.00
+[20:55:05.505] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-8.00
+[20:55:05.508] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=406 spread=10.04 bid_delta=0.00 mid_delta=-8.00
+[20:55:05.736] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-8.00
+[20:55:05.739] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=640 spread=10.04 bid_delta=0.00 mid_delta=-8.00
+[20:55:06.001] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=906 spread=10.04 bid_delta=0.00 mid_delta=0.00
+[20:55:06.247] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=234 spread=9.63 bid_delta=41.00 mid_delta=20.50
+[20:55:06.718] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=702 spread=9.63 bid_delta=41.00 mid_delta=20.50
+[20:55:06.746] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=734 spread=9.63 bid_delta=41.00 mid_delta=20.50
+[20:55:07.012] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1000 spread=9.63 bid_delta=0.00 mid_delta=0.00
+[20:55:07.261] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1250 spread=9.63 bid_delta=0.00 mid_delta=0.00
+[20:55:07.541] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=1530 spread=9.63 bid_delta=0.00 mid_delta=0.00
+[20:55:08.416] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2390 spread=8.57 bid_delta=424.00 mid_delta=371.00
+[20:55:08.540] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=62 spread=6.72 bid_delta=424.00 mid_delta=371.00
+[20:55:08.788] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=172 spread=9.08 bid_delta=223.00 mid_delta=248.50
+[20:55:09.127] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=516 spread=9.08 bid_delta=223.00 mid_delta=248.50
+[20:55:09.289] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=155 spread=6.31 bid_delta=225.00 mid_delta=112.00
+[20:55:14.698] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[20:55:14.700] [WARNING] [HEALTH] unstable_spread lifetime=0
+[20:55:14.702] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young ws_age=47 spread=8.54 bid_delta=0.00 mid_delta=0.00
+[20:55:15.140] [WARNING] [HEALTH] block spread_too_young lifetime=443
+[20:55:15.143] [WARNING] [HEALTH] unstable_spread lifetime=443
+[20:55:15.144] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young ws_age=329 spread=8.53 bid_delta=0.00 mid_delta=-0.50
+[20:55:15.146] [OK] [PLAN] HOT entry=81830.22 exit=81834.75 profit=0.304461 age=443ms
+[20:55:15.224] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=77 spread=8.20 bid_delta=0.00 mid_delta=-0.50
+[20:55:15.486] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-17.00
+[20:55:15.487] [WARNING] [HEALTH] negative_momentum ticks=-17.00
+[20:55:15.490] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=342 spread=8.20 bid_delta=0.00 mid_delta=-17.00
+[20:55:15.494] [OK] [PLAN] READY entry=81830.22 exit=81834.42 profit=0.282282 age=787ms
+[20:55:15.731] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-16.50
+[20:55:15.732] [WARNING] [HEALTH] negative_momentum ticks=-16.50
+[20:55:15.733] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=592 spread=8.20 bid_delta=0.00 mid_delta=-16.50
+[20:55:15.994] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-16.50
+[20:55:15.997] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=859 spread=8.20 bid_delta=0.00 mid_delta=-16.50
+[20:55:16.335] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-24.00
+[20:55:16.337] [WARNING] [HEALTH] negative_momentum ticks=-24.00
+[20:55:16.339] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=297 spread=7.72 bid_delta=0.00 mid_delta=-24.00
+[20:55:16.507] [WARNING] [HEALTH] block falling_market bid_ticks=-52.00 mid_ticks=-50.00
+[20:55:16.509] [WARNING] [HEALTH] unstable_bid delta_ticks=-52.00
+[20:55:16.511] [WARNING] [HEALTH] negative_momentum ticks=-50.00
+[20:55:16.513] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=157 spread=8.24 bid_delta=-52.00 mid_delta=-50.00
+[20:55:16.772] [WARNING] [HEALTH] block falling_market bid_ticks=-52.00 mid_ticks=-50.00
+[20:55:16.775] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=407 spread=8.24 bid_delta=-52.00 mid_delta=-50.00
+[20:55:17.016] [WARNING] [HEALTH] block falling_market bid_ticks=-52.00 mid_ticks=-26.00
+[20:55:17.018] [WARNING] [HEALTH] unstable_bid delta_ticks=-52.00
+[20:55:17.020] [WARNING] [HEALTH] negative_momentum ticks=-26.00
+[20:55:17.022] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=657 spread=8.24 bid_delta=-52.00 mid_delta=-26.00
+[20:55:17.264] [WARNING] [HEALTH] block falling_market bid_ticks=-52.00 mid_ticks=-26.00
+[20:55:17.267] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=907 spread=8.24 bid_delta=-52.00 mid_delta=-26.00
+[20:55:17.558] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1202 spread=8.24 bid_delta=0.00 mid_delta=0.00
+[20:55:17.774] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.50
+[20:55:17.777] [WARNING] [HEALTH] negative_momentum ticks=-18.50
+[20:55:17.779] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=77 spread=7.87 bid_delta=0.00 mid_delta=-18.50
+[20:55:18.039] [WARNING] [HEALTH] block falling_market bid_ticks=-1.00 mid_ticks=-37.50
+[20:55:18.041] [WARNING] [HEALTH] negative_momentum ticks=-37.50
+[20:55:18.044] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=62 spread=7.51 bid_delta=-1.00 mid_delta=-37.50
+[20:55:18.286] [WARNING] [HEALTH] block falling_market bid_ticks=-338.00 mid_ticks=-276.00
+[20:55:18.288] [WARNING] [HEALTH] unstable_bid delta_ticks=-338.00
+[20:55:18.290] [WARNING] [HEALTH] negative_momentum ticks=-276.00
+[20:55:18.291] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=15 spread=9.48 bid_delta=-338.00 mid_delta=-276.00
+[20:55:18.741] [WARNING] [HEALTH] block falling_market bid_ticks=-170.00 mid_ticks=-173.50
+[20:55:18.744] [WARNING] [HEALTH] unstable_bid delta_ticks=-170.00
+[20:55:18.745] [WARNING] [HEALTH] negative_momentum ticks=-173.50
+[20:55:18.746] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=406 spread=7.80 bid_delta=-170.00 mid_delta=-173.50
+[20:55:18.783] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=30 spread=6.41 bid_delta=-170.00 mid_delta=-173.50
+[20:55:19.955] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=266 spread=7.72 bid_delta=0.00 mid_delta=0.00
+[20:55:20.044] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=93 spread=6.04 bid_delta=0.00 mid_delta=0.00
+[20:55:20.050] [OK] [PLAN] READY entry=81826.32 exit=81830.04 profit=0.250021 age=88ms
+[20:55:20.544] [WARNING] [HEALTH] block falling_market bid_ticks=-694.00 mid_ticks=-615.00
+[20:55:20.547] [WARNING] [HEALTH] unstable_bid delta_ticks=-694.00
+[20:55:20.549] [WARNING] [HEALTH] negative_momentum ticks=-615.00
+[20:55:20.552] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=0 spread=9.30 bid_delta=-694.00 mid_delta=-615.00
+[20:55:20.813] [WARNING] [HEALTH] block falling_market bid_ticks=-632.00 mid_ticks=-584.00
+[20:55:20.816] [WARNING] [HEALTH] unstable_bid delta_ticks=-632.00
+[20:55:20.818] [WARNING] [HEALTH] negative_momentum ticks=-584.00
+[20:55:20.819] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=155 spread=8.68 bid_delta=-632.00 mid_delta=-584.00
+[20:55:20.821] [OK] [PLAN] HOT entry=81820.00 exit=81824.68 profit=0.314590 age=269ms
+[20:55:21.151] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=500 spread=8.68 bid_delta=62.00 mid_delta=31.00
+[20:55:21.309] [WARNING] [HEALTH] block falling_market bid_ticks=-101.00 mid_ticks=-86.50
+[20:55:21.312] [WARNING] [HEALTH] unstable_bid delta_ticks=-101.00
+[20:55:21.314] [WARNING] [HEALTH] negative_momentum ticks=-86.50
+[20:55:21.316] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=92 spread=9.59 bid_delta=-101.00 mid_delta=-86.50
+[20:55:21.559] [WARNING] [HEALTH] block falling_market bid_ticks=-163.00 mid_ticks=-117.50
+[20:55:21.561] [WARNING] [HEALTH] unstable_bid delta_ticks=-163.00
+[20:55:21.562] [WARNING] [HEALTH] negative_momentum ticks=-117.50
+[20:55:21.563] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=342 spread=9.59 bid_delta=-163.00 mid_delta=-117.50
+[20:55:21.810] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-36.00
+[20:55:21.813] [WARNING] [HEALTH] negative_momentum ticks=-36.00
+[20:55:21.814] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=186 spread=7.96 bid_delta=0.00 mid_delta=-36.00
+[20:55:21.817] [OK] [PLAN] READY entry=81820.00 exit=81823.96 profit=0.266191 age=1265ms
+[20:55:22.057] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-36.00
+[20:55:22.060] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=436 spread=7.96 bid_delta=0.00 mid_delta=-36.00
+[20:55:22.350] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=718 spread=7.96 bid_delta=163.00 mid_delta=81.50
+[20:55:22.566] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=936 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:22.814] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1186 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:23.059] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1436 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:23.987] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2358 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:24.065] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2436 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:24.713] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=3093 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:25.072] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=3452 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:25.727] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=4093 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:26.068] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=4436 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:26.722] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=5093 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:26.809] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=92 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:27.178] [INFO] [HEALTH] state=GOOD
+[20:55:27.178] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=452 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:27.333] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=609 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:27.584] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=0 spread=7.96 bid_delta=0.00 mid_delta=0.00
+[20:55:27.842] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=234 spread=7.95 bid_delta=1.00 mid_delta=0.50
+[20:55:28.376] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=766 spread=7.95 bid_delta=1.00 mid_delta=0.50
+[20:55:28.606] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=233 spread=7.04 bid_delta=95.00 mid_delta=49.50
+[20:55:28.855] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=108 spread=17.14 bid_delta=685.00 mid_delta=1144.50
+[20:55:28.861] [OK] [PLAN] HOT entry=81826.86 exit=81840.00 profit=0.883139 age=8311ms
+[20:55:29.119] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=63 spread=13.52 bid_delta=917.00 mid_delta=1195.50
+[20:55:29.863] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-66.50
+[20:55:29.865] [WARNING] [HEALTH] negative_momentum ticks=-66.50
+[20:55:29.866] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=15 spread=12.19 bid_delta=0.00 mid_delta=-66.50
+[20:55:30.128] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=281 spread=12.19 bid_delta=0.00 mid_delta=0.00
+[20:55:30.134] [OK] [PLAN] HOT entry=81829.18 exit=81837.37 profit=0.550450 age=264ms
+[20:55:30.386] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=547 spread=12.19 bid_delta=0.00 mid_delta=0.00
+[20:55:30.776] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=327 spread=11.31 bid_delta=88.00 mid_delta=44.00
+[20:55:30.885] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=109 spread=10.76 bid_delta=88.00 mid_delta=44.00
+[20:55:31.137] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=359 spread=10.76 bid_delta=143.00 mid_delta=71.50
+[20:55:31.403] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=0 spread=10.76 bid_delta=55.00 mid_delta=27.50
+[20:55:31.677] [WARNING] [HEALTH] block falling_market bid_ticks=-89.00 mid_ticks=-221.00
+[20:55:31.680] [WARNING] [HEALTH] unstable_bid delta_ticks=-89.00
+[20:55:31.682] [WARNING] [HEALTH] negative_momentum ticks=-221.00
+[20:55:31.683] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=265 spread=8.67 bid_delta=-89.00 mid_delta=-221.00
+[20:55:31.983] [WARNING] [HEALTH] block falling_market bid_ticks=-144.00 mid_ticks=-248.50
+[20:55:31.984] [WARNING] [HEALTH] unstable_bid delta_ticks=-144.00
+[20:55:31.984] [WARNING] [HEALTH] negative_momentum ticks=-248.50
+[20:55:31.985] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=562 spread=8.67 bid_delta=-144.00 mid_delta=-248.50
+[20:55:32.189] [WARNING] [HEALTH] block falling_market bid_ticks=-143.00 mid_ticks=-197.00
+[20:55:32.192] [WARNING] [HEALTH] unstable_bid delta_ticks=-143.00
+[20:55:32.194] [WARNING] [HEALTH] negative_momentum ticks=-197.00
+[20:55:32.195] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=92 spread=9.68 bid_delta=-143.00 mid_delta=-197.00
+[20:55:32.441] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=342 spread=9.68 bid_delta=1.00 mid_delta=51.50
+[20:55:32.692] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=155 spread=14.81 bid_delta=1.00 mid_delta=308.00
+[20:55:33.184] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=655 spread=14.81 bid_delta=0.00 mid_delta=256.50
+[20:55:33.438] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=202 spread=11.07 bid_delta=0.00 mid_delta=69.50
+[20:55:33.686] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-187.00
+[20:55:33.689] [WARNING] [HEALTH] negative_momentum ticks=-187.00
+[20:55:33.691] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=452 spread=11.07 bid_delta=0.00 mid_delta=-187.00
+[20:55:33.938] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-187.00
+[20:55:33.939] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=702 spread=11.07 bid_delta=0.00 mid_delta=-187.00
+[20:55:34.385] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=329 spread=11.05 bid_delta=2.00 mid_delta=1.00
+[20:55:34.436] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=375 spread=11.05 bid_delta=2.00 mid_delta=1.00
+[20:55:34.686] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=625 spread=11.05 bid_delta=2.00 mid_delta=1.00
+[20:55:34.936] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=875 spread=11.05 bid_delta=2.00 mid_delta=1.00
+[20:55:35.183] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=30 spread=11.28 bid_delta=25.00 mid_delta=36.50
+[20:55:35.587] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=422 spread=11.28 bid_delta=25.00 mid_delta=36.50
+[20:55:35.682] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=92 spread=10.57 bid_delta=25.00 mid_delta=36.50
+[20:55:35.932] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=342 spread=10.57 bid_delta=25.00 mid_delta=1.00
+[20:55:36.196] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-35.50
+[20:55:36.199] [WARNING] [HEALTH] negative_momentum ticks=-35.50
+[20:55:36.201] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=609 spread=10.57 bid_delta=0.00 mid_delta=-35.50
+[20:55:36.443] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-58.50
+[20:55:36.446] [WARNING] [HEALTH] negative_momentum ticks=-58.50
+[20:55:36.448] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=234 spread=10.11 bid_delta=0.00 mid_delta=-58.50
+[20:55:36.798] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-23.00
+[20:55:36.799] [WARNING] [HEALTH] negative_momentum ticks=-23.00
+[20:55:36.800] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=577 spread=10.11 bid_delta=0.00 mid_delta=-23.00
+[20:55:36.970] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-23.00
+[20:55:36.973] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=750 spread=10.11 bid_delta=0.00 mid_delta=-23.00
+[20:55:37.234] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=250 spread=11.64 bid_delta=5.00 mid_delta=81.50
+[20:55:37.484] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=500 spread=11.64 bid_delta=5.00 mid_delta=81.50
+[20:55:37.995] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-30.00
+[20:55:37.997] [WARNING] [HEALTH] negative_momentum ticks=-30.00
+[20:55:37.999] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=484 spread=11.04 bid_delta=0.00 mid_delta=-30.00
+[20:55:38.235] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-30.00
+[20:55:38.238] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=717 spread=11.04 bid_delta=0.00 mid_delta=-30.00
+[20:55:38.496] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-54.50
+[20:55:38.499] [WARNING] [HEALTH] negative_momentum ticks=-54.50
+[20:55:38.501] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=63 spread=9.95 bid_delta=0.00 mid_delta=-54.50
+[20:55:38.748] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-94.00
+[20:55:38.748] [WARNING] [HEALTH] negative_momentum ticks=-94.00
+[20:55:38.749] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=172 spread=9.16 bid_delta=0.00 mid_delta=-94.00
+[20:55:39.191] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-94.00
+[20:55:39.194] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=608 spread=9.16 bid_delta=0.00 mid_delta=-94.00
+[20:55:39.271] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=687 spread=9.16 bid_delta=0.00 mid_delta=-94.00
+[20:55:39.689] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1108 spread=9.16 bid_delta=0.00 mid_delta=0.00
+[20:55:39.785] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1202 spread=9.16 bid_delta=0.00 mid_delta=0.00
+[20:55:40.037] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1452 spread=9.16 bid_delta=0.00 mid_delta=0.00
+[20:55:40.404] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=1827 spread=9.16 bid_delta=0.00 mid_delta=0.00
+[20:55:41.365] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2780 spread=9.16 bid_delta=0.00 mid_delta=0.00
+[20:55:41.784] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=3202 spread=9.16 bid_delta=0.00 mid_delta=0.00
+[20:55:42.371] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=3797 spread=9.16 bid_delta=0.00 mid_delta=0.00
+[20:55:43.130] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=4547 spread=9.16 bid_delta=0.00 mid_delta=0.00
+[20:55:43.313] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=4733 spread=9.16 bid_delta=0.00 mid_delta=0.00
+[20:55:43.911] [INFO] [HEALTH] state=GOOD
+[20:55:43.912] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=5327 spread=9.16 bid_delta=0.00 mid_delta=0.00
+[20:55:44.311] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=140 spread=9.53 bid_delta=0.00 mid_delta=18.50
+[20:55:44.558] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=61 spread=9.10 bid_delta=0.00 mid_delta=-3.00
+[20:55:44.808] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=311 spread=9.10 bid_delta=0.00 mid_delta=-3.00
+[20:55:45.208] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-21.50
+[20:55:45.209] [WARNING] [HEALTH] negative_momentum ticks=-21.50
+[20:55:45.210] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=702 spread=9.10 bid_delta=0.00 mid_delta=-21.50
+[20:55:45.320] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=811 spread=9.10 bid_delta=0.00 mid_delta=-21.50
+[20:55:45.569] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1061 spread=9.10 bid_delta=0.00 mid_delta=0.00
+[20:55:45.819] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=186 spread=9.10 bid_delta=0.00 mid_delta=0.00
+[20:55:46.067] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=436 spread=9.10 bid_delta=0.00 mid_delta=0.00
+[20:55:46.424] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=796 spread=9.10 bid_delta=0.00 mid_delta=0.00
+[20:55:46.566] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=140 spread=8.71 bid_delta=0.00 mid_delta=0.00
+[20:55:46.829] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-18.50
+[20:55:46.832] [WARNING] [HEALTH] negative_momentum ticks=-18.50
+[20:55:46.834] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=406 spread=8.71 bid_delta=1.00 mid_delta=-18.50
+[20:55:47.076] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-18.50
+[20:55:47.079] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=656 spread=8.71 bid_delta=1.00 mid_delta=-18.50
+[20:55:47.325] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-18.50
+[20:55:47.326] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=906 spread=8.71 bid_delta=1.00 mid_delta=-18.50
+[20:55:47.617] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1187 spread=8.71 bid_delta=0.00 mid_delta=0.00
+[20:55:47.854] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1437 spread=8.71 bid_delta=0.00 mid_delta=0.00
+[20:55:48.484] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2062 spread=8.71 bid_delta=0.00 mid_delta=0.00
+[20:55:49.240] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2812 spread=8.71 bid_delta=0.00 mid_delta=0.00
+[20:55:49.368] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=108 spread=8.69 bid_delta=0.00 mid_delta=0.00
+[20:55:49.679] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=421 spread=8.69 bid_delta=2.00 mid_delta=1.00
+[20:55:50.033] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=780 spread=8.69 bid_delta=2.00 mid_delta=1.00
+[20:55:50.117] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=858 spread=8.69 bid_delta=2.00 mid_delta=1.00
+[20:55:50.366] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1108 spread=8.69 bid_delta=0.00 mid_delta=0.00
+[20:55:50.615] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient ws_age=1358 spread=8.69 bid_delta=0.00 mid_delta=0.00
+[20:55:50.878] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=1625 spread=8.69 bid_delta=0.00 mid_delta=0.00
+[20:55:51.714] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale ws_age=2468 spread=8.70 bid_delta=-1.00 mid_delta=-0.50
+[20:55:51.890] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-46.50
+[20:55:51.892] [WARNING] [HEALTH] negative_momentum ticks=-46.50
+[20:55:51.894] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=79 spread=7.77 bid_delta=0.00 mid_delta=-46.50
+[20:55:52.137] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-46.50
+[20:55:52.140] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=329 spread=7.77 bid_delta=0.00 mid_delta=-46.50
+[20:55:52.143] [OK] [PLAN] READY entry=81829.52 exit=81833.29 profit=0.253382 age=22274ms
+[20:55:52.427] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-46.50
+[20:55:52.429] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=609 spread=7.77 bid_delta=0.00 mid_delta=-46.50
+[20:55:52.636] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-73.00
+[20:55:52.639] [WARNING] [HEALTH] negative_momentum ticks=-73.00
+[20:55:52.641] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative ws_age=204 spread=7.24 bid_delta=0.00 mid_delta=-73.00
+[20:55:52.886] [WARNING] [HEALTH] block falling_market bid_ticks=-861.00 mid_ticks=-663.00
+[20:55:52.888] [WARNING] [HEALTH] unstable_bid delta_ticks=-861.00
+[20:55:52.890] [WARNING] [HEALTH] negative_momentum ticks=-663.00
+[20:55:52.891] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=0 spread=11.73 bid_delta=-861.00 mid_delta=-663.00
+[20:55:52.893] [OK] [PLAN] HOT entry=81820.91 exit=81828.64 profit=0.519533 age=23022ms
+[20:55:53.152] [WARNING] [HEALTH] block falling_market bid_ticks=-1115.00 mid_ticks=-1073.50
+[20:55:53.155] [WARNING] [HEALTH] unstable_bid delta_ticks=-1115.00
+[20:55:53.158] [WARNING] [HEALTH] negative_momentum ticks=-1073.50
+[20:55:53.160] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=94 spread=8.60 bid_delta=-1115.00 mid_delta=-1073.50
+[20:55:53.638] [WARNING] [HEALTH] block falling_market bid_ticks=-254.00 mid_ticks=-442.00
+[20:55:53.641] [WARNING] [HEALTH] unstable_bid delta_ticks=-254.00
+[20:55:53.643] [WARNING] [HEALTH] negative_momentum ticks=-442.00
+[20:55:53.645] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable ws_age=469 spread=7.97 bid_delta=-254.00 mid_delta=-442.00
+[20:55:53.652] [OK] [PLAN] READY entry=81818.37 exit=81822.34 profit=0.266863 age=23775ms

@@ -1,0 +1,94 @@
+[08:00:54.628] [OK] filters loaded
+[08:01:04.061] [OK] [SETTINGS] settings saved
+[08:01:05.097] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[08:01:05.097] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=10000.0
+[08:01:05.550] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[08:01:05.552] [OK] START
+[08:01:05.553] [OK] START_OK runtime_started
+[08:01:05.553] [INFO] [EXEC] LIVE ON
+[08:01:05.554] [INFO] [EXEC] WAIT READY
+[08:01:05.555] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[08:01:05.558] [WS] connecting primary
+[08:01:06.532] [WS] connected
+[08:01:07.161] [OK] [PLAN] HOT entry=80896.34 exit=80904.99 profit=1.069227 age=13ms
+[08:01:07.411] [OK] [PLAN] READY entry=80896.63 exit=80902.99 profit=0.786160 age=260ms
+[08:01:08.664] [OK] [PLAN] READY entry=80898.63 exit=80904.10 profit=0.676147 age=257ms
+[08:01:11.198] [OK] [PLAN] READY entry=80893.51 exit=80900.56 profit=0.871451 age=74ms
+[08:01:11.452] [OK] [PLAN] HOT entry=80891.00 exit=80900.56 profit=1.181807 age=327ms
+[08:01:11.708] [OK] [PLAN] READY entry=80891.01 exit=80897.00 profit=0.740484 age=583ms
+[08:01:12.457] [OK] [PLAN] HOT entry=80883.00 exit=80897.00 profit=1.730820 age=246ms
+[08:01:12.714] [OK] [PLAN] READY entry=80889.89 exit=80896.99 profit=0.877702 age=502ms
+[08:01:13.740] [OK] [PLAN] READY entry=80891.88 exit=80896.99 profit=0.631698 age=254ms
+[08:01:15.242] [OK] [PLAN] READY entry=80890.89 exit=80896.99 profit=0.754082 age=74ms
+[08:01:17.197] [OK] [PLAN] READY entry=80897.84 exit=80904.99 profit=0.883811 age=435ms
+[08:01:17.527] [OK] [PLAN] HOT entry=80896.04 exit=80904.36 profit=1.028435 age=766ms
+[08:01:18.288] [OK] [PLAN] READY entry=80896.29 exit=80902.03 profit=0.709521 age=249ms
+[08:01:18.335] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[08:01:18.713] [WARNING] cancel all requested
+[08:01:18.713] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[08:01:18.714] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[08:01:18.714] [WARNING] STOP
+[08:01:34.838] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[08:01:34.839] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=10000.0
+[08:01:35.313] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[08:01:35.314] [OK] START
+[08:01:35.315] [OK] START_OK runtime_started
+[08:01:35.316] [INFO] [EXEC] LIVE ON
+[08:01:35.317] [INFO] [EXEC] WAIT READY
+[08:01:35.588] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[08:01:35.589] [WS] connecting primary
+[08:01:35.616] [OK] [PLAN] HOT entry=80907.01 exit=80914.78 profit=0.960294 age=299ms
+[08:01:36.094] [WS] connected
+[08:01:36.570] [OK] [PLAN] READY entry=80902.96 exit=80909.28 profit=0.781152 age=1253ms
+[08:01:37.114] [OK] [PLAN] HOT entry=80888.12 exit=80905.77 profit=2.181893 age=1797ms
+[08:01:37.872] [OK] [PLAN] READY entry=80883.01 exit=80889.89 profit=0.850574 age=2555ms
+[08:01:40.127] [OK] [PLAN] READY entry=80883.03 exit=80888.87 profit=0.721999 age=251ms
+[08:01:41.126] [OK] [PLAN] HOT entry=80854.71 exit=80868.97 profit=1.763534 age=252ms
+[08:01:41.379] [OK] [PLAN] READY entry=80854.71 exit=80860.97 profit=0.774174 age=506ms
+[08:01:41.872] [OK] [PLAN] HOT entry=80854.71 exit=80868.97 profit=1.763534 age=997ms
+[08:01:42.824] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[08:01:43.148] [WARNING] cancel all requested
+[08:01:43.149] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[08:01:43.150] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[08:01:43.151] [WARNING] STOP
+[08:01:52.650] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[08:02:10.246] [OK] [SETTINGS] settings saved
+[08:02:11.330] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[08:02:11.331] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=10000.0
+[08:02:11.832] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[08:02:11.834] [OK] START
+[08:02:11.836] [OK] START_OK runtime_started
+[08:02:12.096] [INFO] [EXEC] LIVE ON
+[08:02:12.097] [INFO] [EXEC] WAIT READY
+[08:02:12.098] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[08:02:12.098] [WS] connecting primary
+[08:02:12.734] [OK] [PLAN] READY entry=80851.01 exit=80858.19 profit=0.888022 age=638ms
+[08:02:13.017] [WS] connected
+[08:02:14.251] [OK] [PLAN] READY entry=80851.01 exit=80858.18 profit=0.886786 age=98ms
+[08:02:14.497] [OK] [PLAN] HOT entry=80851.01 exit=80859.43 profit=1.041386 age=346ms
+[08:02:14.997] [OK] [PLAN] READY entry=80851.01 exit=80857.71 profit=0.828656 age=844ms
+[08:02:15.250] [OK] [PLAN] HOT entry=80851.01 exit=80860.27 profit=1.145277 age=1096ms
+[08:02:21.270] [OK] [PLAN] READY entry=80853.36 exit=80860.78 profit=0.917706 age=7119ms
+[08:02:23.288] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[08:02:23.597] [WARNING] cancel all requested
+[08:02:23.599] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[08:02:23.601] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[08:02:23.602] [WARNING] STOP
+[08:02:38.853] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[08:02:38.854] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=10000.0
+[08:02:39.348] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[08:02:39.354] [OK] START
+[08:02:39.357] [OK] START_OK runtime_started
+[08:02:39.633] [INFO] [EXEC] LIVE ON
+[08:02:39.657] [INFO] [EXEC] WAIT READY
+[08:02:39.660] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[08:02:39.660] [WS] connecting primary
+[08:02:39.803] [OK] [PLAN] HOT entry=80859.41 exit=80868.67 profit=1.145184 age=167ms
+[08:02:41.026] [WS] connected
+[08:02:42.557] [OK] [PLAN] READY entry=80866.62 exit=80873.00 profit=0.788951 age=2921ms
+[08:02:43.051] [OK] [PLAN] HOT entry=80860.18 exit=80879.00 profit=2.327469 age=3415ms
+[08:02:45.052] [OK] [PLAN] HOT entry=80875.01 exit=80884.99 profit=1.233927 age=248ms
+[08:02:45.303] [OK] [PLAN] READY entry=80875.01 exit=80881.43 profit=0.793769 age=499ms
+[08:02:46.315] [OK] [PLAN] HOT entry=80860.24 exit=80880.64 profit=2.522868 age=1510ms
+[08:02:50.579] [OK] [PLAN] HOT entry=80875.01 exit=80884.98 profit=1.232691 age=481ms
+[08:02:50.843] [OK] [PLAN] READY entry=80875.01 exit=80882.39 profit=0.912463 age=743ms

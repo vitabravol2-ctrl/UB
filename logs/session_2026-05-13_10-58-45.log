@@ -1,0 +1,141 @@
+[07:58:46.995] [OK] filters loaded
+[07:58:46.995] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=0
+[07:58:53.964] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[07:58:53.964] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=1
+[07:58:53.964] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[07:58:53.964] [INFO] START_PROFILE order_size=4000.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[07:58:53.964] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=10
+[07:58:54.449] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[07:58:54.466] [OK] START
+[07:58:54.467] [OK] START_OK runtime_started
+[07:58:54.470] [INFO] [EXEC] LIVE ON
+[07:58:54.470] [INFO] [EXEC] WAIT READY
+[07:58:54.471] [INFO] [HEALTH] state=DANGER
+[07:58:54.472] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=5.44 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:58:55.205] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[07:58:55.205] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=12
+[07:58:55.205] [WS] connecting primary
+[07:58:55.251] [OK] [PLAN] HOT entry=81019.48 exit=81024.12 profit=0.229077 age=779ms
+[07:58:55.543] [WS] connected
+[07:58:56.495] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=4.65 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[07:58:56.495] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=16
+[07:58:56.997] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=234 spread=4.65 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:58:57.495] [WARNING] [HEALTH] block falling_market bid_ticks=-60.00 mid_ticks=-30.00
+[07:58:57.495] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=18
+[07:58:57.495] [WARNING] [HEALTH] unstable_bid delta_ticks=-60.00
+[07:58:57.495] [WARNING] [HEALTH] negative_momentum ticks=-30.00
+[07:58:57.495] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=125 spread=5.25 stable=2/1 mid_delta=-30.00 bid_delta=-60.00
+[07:58:58.254] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=875 spread=5.25 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:58:58.745] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[07:58:58.745] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=23
+[07:58:58.745] [WARNING] [HEALTH] unstable_bid delta_ticks=-227.00
+[07:58:58.745] [WARNING] [HEALTH] negative_momentum ticks=-113.50
+[07:58:58.745] [WARNING] [HEALTH] unstable_spread lifetime=0
+[07:58:58.745] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=234 spread=7.52 stable=2/1 mid_delta=-113.50 bid_delta=-227.00
+[07:58:59.776] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[07:58:59.776] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=28
+[07:58:59.776] [OK] [EXEC] BUY ORDER SENT orderId=388061244 price=81016.61 qty=0.049370
+[07:58:59.776] [OK] [EXEC] PLACE BUY price=81016.61 qty=0.049370
+[07:59:00.776] [INFO] [EXEC] ENTRY_REPRICE reason=bid_moved_up old=81016.61 new=81019.39 count=1
+[07:59:00.776] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=31
+[07:59:01.294] [OK] [EXEC] ENTRY_PLACE price=81019.39 qty=0.049370
+[07:59:02.262] [INFO] [EXEC] BUY_WATCHDOG_SYNC orderId=388061246 status=NEW
+[07:59:02.262] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=33
+[07:59:02.277] [WARNING] [EXEC] BUY_WATCHDOG_FAR_CANCEL orderId=388061246 price=81019.39 bid=81019.93 dist_ticks=53
+[07:59:03.012] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=62 spread=5.42 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:04.261] [INFO] [HEALTH] state=DANGER
+[07:59:04.261] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=36
+[07:59:04.761] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[07:59:04.761] [WARNING] [HEALTH] unstable_bid delta_ticks=-908.00
+[07:59:04.761] [WARNING] [HEALTH] negative_momentum ticks=-446.50
+[07:59:04.761] [WARNING] [HEALTH] unstable_spread lifetime=0
+[07:59:04.761] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=79 spread=14.65 stable=2/1 mid_delta=-446.50 bid_delta=-908.00
+[07:59:05.277] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=250 spread=5.29 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:05.278] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=42
+[07:59:07.276] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2250 spread=5.29 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[07:59:07.276] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=43
+[07:59:08.277] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[07:59:08.277] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=44
+[07:59:08.277] [WARNING] [HEALTH] unstable_bid delta_ticks=-139.00
+[07:59:08.277] [WARNING] [HEALTH] negative_momentum ticks=-21.50
+[07:59:08.277] [WARNING] [HEALTH] unstable_spread lifetime=0
+[07:59:08.277] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=234 spread=7.64 stable=2/1 mid_delta=-21.50 bid_delta=-139.00
+[07:59:08.776] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=172 spread=5.18 stable=2/1 mid_delta=123.00 bid_delta=246.00
+[07:59:10.777] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=250 spread=5.88 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:10.777] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=50
+[07:59:12.276] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-28.50
+[07:59:12.276] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=51
+[07:59:12.276] [WARNING] [HEALTH] negative_momentum ticks=-28.50
+[07:59:12.276] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=FAST ws_age=234 spread=5.31 stable=2/1 mid_delta=-28.50 bid_delta=0.00
+[07:59:12.777] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[07:59:12.777] [WARNING] [HEALTH] unstable_spread lifetime=0
+[07:59:12.777] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=62 spread=15.17 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:13.276] [WARNING] [HEALTH] block spread_too_young lifetime=499
+[07:59:13.276] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=57
+[07:59:13.276] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=562 spread=15.17 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[07:59:14.041] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[07:59:14.042] [OK] [EXEC] BUY ORDER SENT orderId=388061345 price=81016.65 qty=0.049370
+[07:59:14.043] [OK] [EXEC] PLACE BUY price=81016.65 qty=0.049370
+[07:59:16.251] [INFO] [EXEC] BUY_WATCHDOG_SYNC orderId=388061345 status=NEW
+[07:59:16.252] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=62
+[07:59:16.253] [WARNING] [EXEC] BUY_WATCHDOG_FAR_CANCEL orderId=388061345 price=81016.65 bid=81019.15 dist_ticks=250
+[07:59:17.026] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=250 spread=5.37 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:18.027] [INFO] [HEALTH] state=DANGER
+[07:59:18.027] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=65
+[07:59:19.027] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1015 spread=5.36 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[07:59:19.029] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=66
+[07:59:20.027] [WARNING] [HEALTH] block falling_market bid_ticks=-40.00 mid_ticks=-46.00
+[07:59:20.027] [WARNING] [HEALTH] unstable_bid delta_ticks=-40.00
+[07:59:20.027] [WARNING] [HEALTH] negative_momentum ticks=-46.00
+[07:59:20.027] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=234 spread=5.24 stable=2/1 mid_delta=-46.00 bid_delta=-40.00
+[07:59:20.527] [WARNING] [HEALTH] block falling_market bid_ticks=-47.00 mid_ticks=-23.50
+[07:59:20.528] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=71
+[07:59:20.529] [WARNING] [HEALTH] unstable_bid delta_ticks=-47.00
+[07:59:20.529] [WARNING] [HEALTH] negative_momentum ticks=-23.50
+[07:59:21.027] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=172 spread=5.31 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:23.276] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=734 spread=4.81 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[07:59:23.276] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=75
+[07:59:24.778] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2234 spread=4.81 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[07:59:24.778] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=76
+[07:59:25.776] [WARNING] [HEALTH] block falling_market bid_ticks=-101.00 mid_ticks=-50.50
+[07:59:25.776] [WARNING] [HEALTH] unstable_bid delta_ticks=-101.00
+[07:59:25.776] [WARNING] [HEALTH] negative_momentum ticks=-50.50
+[07:59:25.776] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=219 spread=5.82 stable=2/1 mid_delta=-50.50 bid_delta=-101.00
+[07:59:26.291] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=734 spread=5.82 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:26.292] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=81
+[07:59:28.777] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1734 spread=4.99 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[07:59:28.777] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=82
+[07:59:29.289] [OK] [PLAN] READY entry=81020.26 exit=81024.65 profit=0.216734 age=34820ms
+[07:59:29.777] [WARNING] [HEALTH] block falling_market bid_ticks=-58.00 mid_ticks=-29.00
+[07:59:29.777] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=84
+[07:59:29.777] [WARNING] [HEALTH] unstable_bid delta_ticks=-58.00
+[07:59:29.777] [WARNING] [HEALTH] negative_momentum ticks=-29.00
+[07:59:29.777] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=140 spread=4.97 stable=2/1 mid_delta=-29.00 bid_delta=-58.00
+[07:59:29.777] [OK] [PLAN] HOT entry=81019.68 exit=81024.65 profit=0.245369 age=35308ms
+[07:59:30.288] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=640 spread=4.97 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:31.776] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2140 spread=4.97 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[07:59:31.776] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=90
+[07:59:34.778] [INFO] [HEALTH] state=DANGER
+[07:59:34.778] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=91
+[07:59:34.778] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=5140 spread=4.97 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:36.843] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=7202 spread=4.97 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:36.843] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=93
+[07:59:38.526] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[07:59:38.526] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=94
+[07:59:38.526] [WARNING] [HEALTH] unstable_spread lifetime=0
+[07:59:38.526] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=15 spread=8.45 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[07:59:39.304] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[07:59:39.305] [OK] [EXEC] BUY ORDER SENT orderId=388061456 price=81016.14 qty=0.049370
+[07:59:39.306] [OK] [EXEC] PLACE BUY price=81016.14 qty=0.049370
+[07:59:40.542] [INFO] [EXEC] ENTRY_REPRICE reason=bid_moved_up old=81016.14 new=81019.80 count=1
+[07:59:40.542] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=100
+[07:59:41.073] [OK] [EXEC] ENTRY_PLACE price=81019.80 qty=0.049370
+[07:59:42.204] [INFO] [EXEC] BUY_WATCHDOG_SYNC orderId=388061459 status=FILLED
+[07:59:42.204] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=102
+[07:59:42.204] [OK] [SYNC] order filled detected
+[07:59:42.204] [OK] [SYNC] BUY filled on exchange
+[07:59:42.204] [OK] [EXEC] BUY FILL UPDATE delta=0.049370 avg=81019.79
+[07:59:42.204] [OK] [EXEC] CHUNK ADD qty=0.049370 entry=81019.79
+[07:59:42.204] [INFO] [EXEC] CHUNK COUNT n=1
+[07:59:42.204] [OK] [EXEC] INVENTORY qty=0.049370
+[07:59:42.204] [OK] [EXEC] SELL REQUIRED inventory=0.049370

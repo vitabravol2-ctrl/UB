@@ -1,0 +1,7 @@
+[21:38:21.087] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[21:38:21.094] [OK] START
+[21:38:21.094] [INFO] [EXEC] LIVE ON
+[21:38:21.094] [INFO] [EXEC] WAIT READY
+[21:38:21.094] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[21:38:21.094] [WS] connecting primary
+[21:38:22.295] [WS] connected

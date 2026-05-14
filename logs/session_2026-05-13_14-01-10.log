@@ -1,0 +1,1152 @@
+[11:01:11.542] [OK] filters loaded
+[11:01:11.542] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:11.902] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:01:16.995] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[11:01:16.995] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:16.995] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=223.0
+[11:01:16.995] [INFO] START_PROFILE_STREAM order_size=223.0 min_spread_ticks=8 guard_mode=FAST entry_mode=AGGRESSIVE stream_sell_timeout_ms=2800 stream_target_ticks=28
+[11:01:17.010] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[11:01:17.496] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[11:01:17.496] [OK] START
+[11:01:17.496] [OK] START_OK runtime_started
+[11:01:17.496] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=8
+[11:01:17.496] [INFO] [EXEC] STREAM_MULTI_MODE count=8
+[11:01:17.496] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=8 range_ticks=180 step_ticks=22
+[11:01:17.496] [INFO] [EXEC] GRID_BUDGET_SOURCE source=max_exposure_u budget=5000.00
+[11:01:17.496] [INFO] [EXEC] STREAM_CREATE stream_id=1 buy_price=80825.78000000 budget=625.00 qty=0.00773000
+[11:01:17.496] [INFO] [EXEC] STREAM_CREATE stream_id=2 buy_price=80825.56000000 budget=625.00 qty=0.00773000
+[11:01:17.511] [INFO] [EXEC] STREAM_CREATE stream_id=3 buy_price=80825.34000000 budget=625.00 qty=0.00773000
+[11:01:17.511] [INFO] [EXEC] STREAM_CREATE stream_id=4 buy_price=80825.12000000 budget=625.00 qty=0.00773000
+[11:01:17.511] [INFO] [EXEC] STREAM_CREATE stream_id=5 buy_price=80824.90000000 budget=625.00 qty=0.00773000
+[11:01:17.511] [INFO] [EXEC] STREAM_CREATE stream_id=6 buy_price=80824.68000000 budget=625.00 qty=0.00773000
+[11:01:17.511] [INFO] [EXEC] STREAM_CREATE stream_id=7 buy_price=80824.46000000 budget=625.00 qty=0.00773000
+[11:01:17.511] [INFO] [EXEC] STREAM_CREATE stream_id=8 buy_price=80824.24000000 budget=625.00 qty=0.00773000
+[11:01:17.511] [INFO] [EXEC] STREAM_CREATE_DONE count=8 budget=5000.00 step_ticks=22
+[11:01:17.511] [INFO] [EXEC] LIVE ON
+[11:01:17.511] [INFO] [EXEC] WAIT READY
+[11:01:17.511] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:01:17.511] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:01:17.511] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[11:01:18.058] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=388392472
+[11:01:18.058] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:18.058] [OK] [EXEC] PLACE BUY price=80825.78 qty=0.007730
+[11:01:18.777] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[11:01:18.777] [WS] connecting primary
+[11:01:18.777] [WS] connected
+[11:01:19.533] [INFO] [EXEC] STREAM_BUY_PLACED level_id=2 order_id=388392498
+[11:01:19.535] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:19.536] [OK] [EXEC] PLACE BUY price=80825.56 qty=0.007730
+[11:01:20.808] [INFO] [EXEC] STREAM_BUY_PLACED level_id=3 order_id=388392529
+[11:01:20.808] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:20.808] [OK] [EXEC] PLACE BUY price=80825.34 qty=0.007730
+[11:01:21.562] [INFO] [EXEC] STREAM_BUY_FILLED level_id=1
+[11:01:21.562] [OK] [EXEC] CHUNK ADD qty=0.007730 entry=80825.78
+[11:01:21.562] [INFO] [EXEC] CHUNK COUNT n=1
+[11:01:21.562] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=80826.06
+[11:01:21.823] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=1 chunk_id=2227130396272 order_id=388392543 price=80826.06 qty=0.007730
+[11:01:21.823] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:22.089] [INFO] [EXEC] STREAM_BUY_FILLED level_id=2
+[11:01:22.089] [OK] [EXEC] CHUNK ADD qty=0.007730 entry=80825.56
+[11:01:22.089] [INFO] [EXEC] CHUNK COUNT n=2
+[11:01:22.089] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=80825.84
+[11:01:22.361] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=2 chunk_id=2227130388352 order_id=388392550 price=80825.84 qty=0.007730
+[11:01:22.620] [INFO] [EXEC] STREAM_BUY_FILLED level_id=3
+[11:01:22.620] [OK] [EXEC] CHUNK ADD qty=0.007730 entry=80825.34
+[11:01:22.620] [INFO] [EXEC] CHUNK COUNT n=3
+[11:01:22.620] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=80825.62
+[11:01:22.871] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=3 chunk_id=2227130391424 order_id=388392566 price=80825.62 qty=0.007730
+[11:01:22.886] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:23.145] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396272 order_id=388392543 status=NEW
+[11:01:23.398] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130388352 order_id=388392550 status=FILLED
+[11:01:23.398] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=2 chunk_id=2227130388352 order_id=388392550
+[11:01:23.398] [OK] [EXEC] FIFO CLOSE qty=0.007730 entry=80825.56 exit=80825.84 pnl=+0.002164
+[11:01:23.398] [INFO] [EXEC] STREAM_PNL stream_id=2 pnl=+0.002164
+[11:01:23.398] [INFO] [EXEC] STREAM_RECYCLED level_id=2
+[11:01:23.398] [INFO] [EXEC] STREAM_RECYCLED stream_id=2
+[11:01:23.665] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=3 chunk_id=2227130391424 order_id=388392566 status=FILLED
+[11:01:23.665] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=3 chunk_id=2227130391424 order_id=388392566
+[11:01:23.665] [OK] [EXEC] FIFO CLOSE qty=0.007730 entry=80825.34 exit=80825.62 pnl=+0.002164
+[11:01:23.665] [INFO] [EXEC] STREAM_PNL stream_id=3 pnl=+0.002164
+[11:01:23.666] [INFO] [EXEC] STREAM_RECYCLED level_id=3
+[11:01:23.666] [INFO] [EXEC] STREAM_RECYCLED stream_id=3
+[11:01:23.666] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:23.666] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:23.666] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:23.918] [INFO] [EXEC] STREAM_STATS_UI cycles=2 wins=2 losses=0 pnl=+0.004329 winrate=100.00%
+[11:01:23.918] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:24.901] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396272 order_id=388392543 status=FILLED
+[11:01:24.901] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=1 chunk_id=2227130396272 order_id=388392543
+[11:01:24.901] [OK] [EXEC] FIFO CLOSE qty=0.007730 entry=80825.78 exit=80826.06 pnl=+0.002164
+[11:01:24.917] [INFO] [EXEC] STREAM_PNL stream_id=1 pnl=+0.002164
+[11:01:24.917] [INFO] [EXEC] STREAM_RECYCLED level_id=1
+[11:01:24.917] [INFO] [EXEC] STREAM_RECYCLED stream_id=1
+[11:01:24.917] [INFO] [HEALTH] state=GOOD
+[11:01:24.917] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[11:01:25.174] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=388392624
+[11:01:25.174] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:25.174] [OK] [EXEC] PLACE BUY price=80825.78 qty=0.007730
+[11:01:26.232] [INFO] [EXEC] STREAM_BUY_PLACED level_id=2 order_id=388392631
+[11:01:26.235] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:26.236] [OK] [EXEC] PLACE BUY price=80825.56 qty=0.007730
+[11:01:27.207] [INFO] [EXEC] STREAM_BUY_FILLED level_id=2
+[11:01:27.207] [OK] [EXEC] CHUNK ADD qty=0.007730 entry=80825.56
+[11:01:27.207] [INFO] [EXEC] CHUNK COUNT n=1
+[11:01:27.207] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=80825.84
+[11:01:27.484] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=2 chunk_id=2227130339440 order_id=388392656 price=80825.84 qty=0.007730
+[11:01:27.486] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:27.746] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392656 status=NEW
+[11:01:27.746] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:27.746] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:27.746] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:28.480] [INFO] [EXEC] STREAM_BUY_FILLED level_id=1
+[11:01:28.480] [OK] [EXEC] CHUNK ADD qty=0.007730 entry=80825.78
+[11:01:28.480] [INFO] [EXEC] CHUNK COUNT n=2
+[11:01:28.480] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=80826.06
+[11:01:28.746] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=1 chunk_id=2227130349856 order_id=388392705 price=80826.06 qty=0.007730
+[11:01:28.746] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:28.996] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392656 status=NEW
+[11:01:29.258] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392705 status=NEW
+[11:01:29.274] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:29.537] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.006493 winrate=100.00%
+[11:01:30.250] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392656 status=NEW
+[11:01:30.250] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:30.250] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=2 chunk_id=2227130339440 order_id=388392656 age_ms=3290 timeout_ms=2800
+[11:01:30.511] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=2 chunk_id=2227130339440 order_id=388392656
+[11:01:30.511] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=0 retry_max=2 stream_id=2 chunk_id=2227130339440 order_id=388392656
+[11:01:30.511] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=2 chunk_id=2227130339440 prev_order_id=388392656 retry_count=1 price=80825.66 qty=0.007730
+[11:01:31.034] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392705 status=NEW
+[11:01:31.035] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:31.035] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:31.035] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:31.761] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392705 status=NEW
+[11:01:31.761] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:31.761] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130349856 order_id=388392705 age_ms=3274 timeout_ms=2800
+[11:01:32.028] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130349856 order_id=388392705
+[11:01:32.028] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=0 retry_max=2 stream_id=1 chunk_id=2227130349856 order_id=388392705
+[11:01:32.028] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=1 chunk_id=2227130349856 prev_order_id=388392705 retry_count=1 price=80825.88 qty=0.007730
+[11:01:32.555] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392767 status=NEW
+[11:01:32.556] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:33.274] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392767 status=NEW
+[11:01:33.274] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:33.274] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=2 chunk_id=2227130339440 order_id=388392767 age_ms=3020 timeout_ms=2800
+[11:01:33.538] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=2 chunk_id=2227130339440 order_id=388392767
+[11:01:33.539] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=1 retry_max=2 stream_id=2 chunk_id=2227130339440 order_id=388392767
+[11:01:33.539] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=2 chunk_id=2227130339440 prev_order_id=388392767 retry_count=2 price=80825.66 qty=0.007730
+[11:01:34.058] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392785 status=NEW
+[11:01:34.058] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:34.058] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:34.058] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:34.761] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392785 status=NEW
+[11:01:34.761] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:34.761] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130349856 order_id=388392785 age_ms=3014 timeout_ms=2800
+[11:01:35.026] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130349856 order_id=388392785
+[11:01:35.026] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=1 retry_max=2 stream_id=1 chunk_id=2227130349856 order_id=388392785
+[11:01:35.026] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=1 chunk_id=2227130349856 prev_order_id=388392785 retry_count=2 price=80825.88 qty=0.007730
+[11:01:35.557] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392788 status=NEW
+[11:01:35.557] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:35.823] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.006493 winrate=100.00%
+[11:01:35.823] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:36.591] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392788 status=NEW
+[11:01:36.592] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=2 chunk_id=2227130339440 order_id=388392788 age_ms=3324 timeout_ms=2800
+[11:01:36.855] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=2 chunk_id=2227130339440 order_id=388392788
+[11:01:36.855] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:36.855] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=2 chunk_id=2227130339440 order_id=388392788 stop_price=80823.36 retry_count=2 retry_max=2
+[11:01:37.370] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392792 status=NEW
+[11:01:37.370] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:37.370] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:37.370] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:38.074] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392792 status=NEW
+[11:01:38.074] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:38.074] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130349856 order_id=388392792 age_ms=3299 timeout_ms=2800
+[11:01:38.342] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130349856 order_id=388392792
+[11:01:38.342] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2227130349856 order_id=388392792 stop_price=80823.58 retry_count=2 retry_max=2
+[11:01:38.856] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392814 status=NEW
+[11:01:38.856] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:39.589] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392814 status=NEW
+[11:01:39.589] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:39.589] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=2 chunk_id=2227130339440 order_id=388392814 age_ms=3001 timeout_ms=2800
+[11:01:39.857] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=2 chunk_id=2227130339440 order_id=388392814
+[11:01:39.859] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=2 chunk_id=2227130339440 order_id=388392814 stop_price=80823.36 retry_count=2 retry_max=2
+[11:01:40.374] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392852 status=NEW
+[11:01:40.374] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:40.374] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:40.374] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:41.344] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392852 status=NEW
+[11:01:41.344] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:41.344] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130349856 order_id=388392852 age_ms=3267 timeout_ms=2800
+[11:01:41.604] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130349856 order_id=388392852
+[11:01:41.604] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2227130349856 order_id=388392852 stop_price=80823.58 retry_count=2 retry_max=2
+[11:01:42.122] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392869 status=NEW
+[11:01:42.124] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:42.125] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.006493 winrate=100.00%
+[11:01:42.839] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392869 status=NEW
+[11:01:42.839] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:42.839] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=2 chunk_id=2227130339440 order_id=388392869 age_ms=3242 timeout_ms=2800
+[11:01:43.097] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=2 chunk_id=2227130339440 order_id=388392869
+[11:01:43.097] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=2 chunk_id=2227130339440 order_id=388392869 stop_price=80823.36 retry_count=2 retry_max=2
+[11:01:43.636] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392907 status=NEW
+[11:01:43.636] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:43.636] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:43.636] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:44.406] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388392907 status=NEW
+[11:01:44.406] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:44.406] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130349856 order_id=388392907 age_ms=3043 timeout_ms=2800
+[11:01:44.667] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130349856 order_id=388392907
+[11:01:44.667] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2227130349856 order_id=388392907 stop_price=80823.58 retry_count=2 retry_max=2
+[11:01:45.197] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2227130339440 order_id=388392944 status=FILLED
+[11:01:45.197] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=2 chunk_id=2227130339440 order_id=388392944
+[11:01:45.197] [OK] [EXEC] FIFO CLOSE qty=0.007730 entry=80825.56 exit=80823.36 pnl=-0.017006
+[11:01:45.197] [INFO] [EXEC] STREAM_PNL stream_id=2 pnl=-0.017006
+[11:01:45.197] [WARNING] [EXEC] STREAM_LOSS_COOLDOWN stream_id=2 cooldown_ms=6000
+[11:01:45.197] [INFO] [EXEC] STREAM_RECYCLED level_id=2
+[11:01:45.197] [INFO] [EXEC] STREAM_RECYCLED stream_id=2
+[11:01:45.199] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:45.886] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130349856 order_id=388393037 status=FILLED
+[11:01:45.901] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:45.901] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=1 chunk_id=2227130349856 order_id=388393037
+[11:01:45.901] [OK] [EXEC] FIFO CLOSE qty=0.007730 entry=80825.78 exit=80823.58 pnl=-0.017006
+[11:01:45.901] [INFO] [EXEC] STREAM_PNL stream_id=1 pnl=-0.017006
+[11:01:45.901] [WARNING] [EXEC] STREAM_LOSS_COOLDOWN stream_id=1 cooldown_ms=6000
+[11:01:45.901] [INFO] [EXEC] STREAM_RECYCLED level_id=1
+[11:01:45.901] [INFO] [EXEC] STREAM_RECYCLED stream_id=1
+[11:01:45.901] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:01:45.901] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:01:45.901] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[11:01:46.158] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=388393099
+[11:01:46.158] [OK] [EXEC] PLACE BUY price=80825.78 qty=0.007730
+[11:01:47.101] [INFO] [EXEC] STREAM_BUY_FILLED level_id=1
+[11:01:47.101] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:47.101] [OK] [EXEC] CHUNK ADD qty=0.007730 entry=80825.78
+[11:01:47.101] [INFO] [EXEC] CHUNK COUNT n=1
+[11:01:47.101] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=80826.06
+[11:01:47.374] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=1 chunk_id=2227130418240 order_id=388393183 price=80826.06 qty=0.007730
+[11:01:47.636] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130418240 order_id=388393183 status=NEW
+[11:01:47.636] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:47.636] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:47.636] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:47.636] [INFO] [EXEC] STREAM_STATS_UI cycles=5 wins=3 losses=2 pnl=-0.027519 winrate=60.00%
+[11:01:48.174] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130418240 order_id=388393183 status=NEW
+[11:01:48.174] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:48.174] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:48.979] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130418240 order_id=388393183 status=NEW
+[11:01:48.980] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:49.736] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130418240 order_id=388393183 status=NEW
+[11:01:49.738] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:49.739] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:50.526] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130418240 order_id=388393183 status=NEW
+[11:01:50.526] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130418240 order_id=388393183 age_ms=3429 timeout_ms=2800
+[11:01:50.792] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130418240 order_id=388393183
+[11:01:50.792] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:50.792] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=0 retry_max=2 stream_id=1 chunk_id=2227130418240 order_id=388393183
+[11:01:50.792] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=1 chunk_id=2227130418240 prev_order_id=388393183 retry_count=1 price=80825.88 qty=0.007730
+[11:01:51.058] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:51.058] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:51.058] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:51.746] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130418240 order_id=388393283 status=NEW
+[11:01:51.746] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:52.496] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130418240 order_id=388393283 status=FILLED
+[11:01:52.496] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:52.496] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=1 chunk_id=2227130418240 order_id=388393283
+[11:01:52.496] [OK] [EXEC] FIFO CLOSE qty=0.007730 entry=80825.78 exit=80825.88 pnl=+0.000773
+[11:01:52.496] [INFO] [EXEC] STREAM_PNL stream_id=1 pnl=+0.000773
+[11:01:52.511] [INFO] [EXEC] STREAM_RECYCLED level_id=1
+[11:01:52.511] [INFO] [EXEC] STREAM_RECYCLED stream_id=1
+[11:01:52.511] [INFO] [HEALTH] state=GOOD
+[11:01:52.511] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[11:01:52.761] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=388393371
+[11:01:52.761] [OK] [EXEC] PLACE BUY price=80825.78 qty=0.007730
+[11:01:52.761] [INFO] [EXEC] STREAM_STATS_UI cycles=6 wins=4 losses=2 pnl=-0.026746 winrate=66.67%
+[11:01:53.511] [INFO] [EXEC] STREAM_BUY_FILLED level_id=1
+[11:01:53.511] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:53.511] [OK] [EXEC] CHUNK ADD qty=0.007730 entry=80825.78
+[11:01:53.511] [INFO] [EXEC] CHUNK COUNT n=1
+[11:01:53.511] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=80826.06
+[11:01:53.782] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=1 chunk_id=2227130396848 order_id=388393418 price=80826.06 qty=0.007730
+[11:01:54.042] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393418 status=NEW
+[11:01:54.042] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:54.042] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:54.042] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:54.808] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393418 status=NEW
+[11:01:54.808] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:54.808] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:55.574] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393418 status=NEW
+[11:01:55.574] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:56.308] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393418 status=NEW
+[11:01:56.308] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:56.308] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130396848 order_id=388393418 age_ms=2805 timeout_ms=2800
+[11:01:56.574] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130396848 order_id=388393418
+[11:01:56.574] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=0 retry_max=2 stream_id=1 chunk_id=2227130396848 order_id=388393418
+[11:01:56.574] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=1 chunk_id=2227130396848 prev_order_id=388393418 retry_count=1 price=80825.88 qty=0.007730
+[11:01:56.845] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:56.845] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:56.846] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:01:57.590] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393540 status=NEW
+[11:01:57.590] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:57.606] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:57.855] [INFO] [EXEC] STREAM_STATS_UI cycles=6 wins=4 losses=2 pnl=-0.026746 winrate=66.67%
+[11:01:58.363] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393540 status=NEW
+[11:01:58.364] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:59.386] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393540 status=NEW
+[11:01:59.386] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:01:59.386] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130396848 order_id=388393540 age_ms=3079 timeout_ms=2800
+[11:01:59.656] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130396848 order_id=388393540
+[11:01:59.656] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=1 retry_max=2 stream_id=1 chunk_id=2227130396848 order_id=388393540
+[11:01:59.656] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=1 chunk_id=2227130396848 prev_order_id=388393540 retry_count=2 price=80825.88 qty=0.007730
+[11:01:59.917] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:01:59.917] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:01:59.917] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:02:00.684] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393669 status=NEW
+[11:02:00.684] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:00.684] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:01.433] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393669 status=NEW
+[11:02:01.434] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:02.194] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393669 status=NEW
+[11:02:02.194] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:02.194] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:02.977] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393669 status=NEW
+[11:02:02.978] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130396848 order_id=388393669 age_ms=3578 timeout_ms=2800
+[11:02:03.239] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130396848 order_id=388393669
+[11:02:03.244] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:03.246] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2227130396848 order_id=388393669 stop_price=80823.58 retry_count=2 retry_max=2
+[11:02:03.506] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:03.506] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:02:03.507] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:02:03.761] [INFO] [EXEC] STREAM_STATS_UI cycles=6 wins=4 losses=2 pnl=-0.026746 winrate=66.67%
+[11:02:04.279] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393822 status=NEW
+[11:02:04.279] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:04.279] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:05.559] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393822 status=NEW
+[11:02:05.560] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:05.561] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:06.331] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130396848 order_id=388393822 status=FILLED
+[11:02:06.332] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=1 chunk_id=2227130396848 order_id=388393822
+[11:02:06.333] [OK] [EXEC] FIFO CLOSE qty=0.007730 entry=80825.78 exit=80823.58 pnl=-0.017006
+[11:02:06.333] [INFO] [EXEC] STREAM_PNL stream_id=1 pnl=-0.017006
+[11:02:06.333] [WARNING] [EXEC] STREAM_LOSS_COOLDOWN stream_id=1 cooldown_ms=6000
+[11:02:06.334] [INFO] [EXEC] STREAM_RECYCLED level_id=1
+[11:02:06.336] [INFO] [EXEC] STREAM_RECYCLED stream_id=1
+[11:02:06.337] [INFO] [HEALTH] state=GOOD
+[11:02:06.338] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[11:02:06.589] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=388393905
+[11:02:06.589] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:06.589] [OK] [EXEC] PLACE BUY price=80825.78 qty=0.007730
+[11:02:07.362] [INFO] [EXEC] STREAM_BUY_FILLED level_id=1
+[11:02:07.362] [OK] [EXEC] CHUNK ADD qty=0.007730 entry=80825.78
+[11:02:07.362] [INFO] [EXEC] CHUNK COUNT n=1
+[11:02:07.362] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=80826.06
+[11:02:07.621] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=1 chunk_id=2227130405168 order_id=388393968 price=80826.06 qty=0.007730
+[11:02:07.621] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:07.885] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388393968 status=NEW
+[11:02:07.885] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:07.885] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:02:07.885] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:02:08.608] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388393968 status=NEW
+[11:02:08.608] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:08.823] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:02:08.823] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:09.364] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388393968 status=NEW
+[11:02:09.364] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:10.141] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388393968 status=NEW
+[11:02:10.146] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:10.148] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:11.151] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388393968 status=NEW
+[11:02:11.153] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:11.154] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130405168 order_id=388393968 age_ms=3813 timeout_ms=2800
+[11:02:11.411] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130405168 order_id=388393968
+[11:02:11.411] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=0 retry_max=2 stream_id=1 chunk_id=2227130405168 order_id=388393968
+[11:02:11.426] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=1 chunk_id=2227130405168 prev_order_id=388393968 retry_count=1 price=80825.88 qty=0.007730
+[11:02:11.703] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:11.703] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:02:11.703] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:02:12.420] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394227 status=NEW
+[11:02:12.420] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:12.435] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:13.167] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394227 status=NEW
+[11:02:13.167] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:13.698] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394227 status=NEW
+[11:02:13.698] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:13.698] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:13.854] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:02:14.453] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394227 status=NEW
+[11:02:14.453] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130405168 order_id=388394227 age_ms=3306 timeout_ms=2800
+[11:02:14.746] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130405168 order_id=388394227
+[11:02:14.746] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:14.746] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=1 retry_max=2 stream_id=1 chunk_id=2227130405168 order_id=388394227
+[11:02:14.746] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=1 chunk_id=2227130405168 prev_order_id=388394227 retry_count=2 price=80825.88 qty=0.007730
+[11:02:15.011] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:15.011] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:02:15.011] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:02:15.722] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394402 status=NEW
+[11:02:15.724] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:16.456] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394402 status=NEW
+[11:02:16.456] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:16.472] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:17.233] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394402 status=NEW
+[11:02:17.234] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:17.964] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394402 status=NEW
+[11:02:17.981] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:17.982] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130405168 order_id=388394402 age_ms=3523 timeout_ms=2800
+[11:02:18.243] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130405168 order_id=388394402
+[11:02:18.243] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2227130405168 order_id=388394402 stop_price=80823.58 retry_count=2 retry_max=2
+[11:02:18.511] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:18.511] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:02:18.511] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:02:18.918] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:02:19.235] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394512 status=NEW
+[11:02:19.235] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:19.241] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:19.996] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394512 status=NEW
+[11:02:20.012] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:20.776] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394512 status=NEW
+[11:02:20.776] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:20.776] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:21.542] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394512 status=NEW
+[11:02:21.542] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2227130405168 order_id=388394512 age_ms=3575 timeout_ms=2800
+[11:02:21.807] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2227130405168 order_id=388394512
+[11:02:21.807] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:21.807] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2227130405168 order_id=388394512 stop_price=80823.58 retry_count=2 retry_max=2
+[11:02:22.073] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:22.073] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[11:02:22.073] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[11:02:22.854] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394638 status=NEW
+[11:02:22.854] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:22.854] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:23.573] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2227130405168 order_id=388394638 status=NEW
+[11:02:23.573] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:23.854] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[11:02:23.854] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:24.222] [WARNING] cancel all requested
+[11:02:26.840] [WARNING] [EXEC] STOP_SAFE_MANUAL inventory=0.007730 active_order=0
+[11:02:26.840] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:26.840] [WARNING] [EXEC] STREAM_STOP_OPEN_INVENTORY qty=0.007730 locked=0.007730 free=0.015467
+[11:02:26.840] [WARNING] STOP
+[11:02:26.840] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:02:26.855] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:31.851] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:02:31.851] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:31.872] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:36.866] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:02:36.866] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:36.984] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:42.531] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:02:42.531] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:42.560] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:48.157] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:02:48.157] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:48.866] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:53.246] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:02:53.246] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:53.501] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:02:58.964] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:02:58.966] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:02:58.966] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:04.379] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:04.379] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:04.379] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:10.023] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:10.023] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:10.028] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:15.037] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:15.037] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:15.669] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:20.590] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:20.590] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:20.590] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:25.617] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:25.617] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:26.316] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:31.246] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:31.248] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:31.979] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:36.242] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:36.246] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:36.248] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:41.262] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:41.262] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:41.472] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:46.834] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:46.834] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:47.277] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:51.842] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:51.843] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:52.460] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:03:57.382] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:03:57.382] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:03:57.432] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:03.084] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:03.084] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:03.782] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:09.119] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:09.119] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:09.119] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:14.308] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:14.308] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:15.049] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:19.342] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:19.343] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:20.018] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:24.915] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:24.915] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:24.963] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:30.544] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:30.545] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:31.239] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:36.203] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:36.204] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:36.900] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:41.349] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:41.355] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:41.486] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:46.828] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:46.829] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:47.297] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:51.855] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:51.855] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:51.875] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:04:57.471] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:04:57.472] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:04:57.522] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:03.077] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:03.077] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:03.837] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:08.139] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:08.139] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:08.738] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:13.692] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:13.692] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:13.698] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:18.740] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:18.740] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:18.740] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:24.333] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:24.334] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:24.336] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:30.033] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:30.034] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:30.773] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:35.664] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:35.664] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:36.369] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:40.757] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:40.757] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:41.993] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:41.993] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:45.829] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:45.829] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:46.000] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:51.261] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:51.262] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:51.680] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:56.335] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:05:56.336] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:05:57.341] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:05:57.343] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:01.651] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:01.651] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:01.659] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:06:06.796] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:06.796] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:07.137] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:06:12.433] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:12.433] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:12.731] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:06:18.079] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:18.079] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:18.615] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:06:23.263] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:23.263] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:23.762] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:06:28.622] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:28.622] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:29.406] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:06:34.338] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:34.339] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:35.002] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:06:39.953] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:39.969] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:39.969] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:06:45.637] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:45.637] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:45.637] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:06:50.675] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:50.675] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:51.305] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:06:56.227] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:06:56.227] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:06:56.227] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:01.895] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:01.896] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:01.896] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:07.518] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:07.518] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:08.046] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:13.248] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:13.249] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:13.658] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:18.829] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:18.829] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:19.268] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:24.447] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:24.449] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:24.949] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:29.526] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:29.527] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:29.529] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:35.126] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:35.126] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:35.388] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:40.681] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:40.681] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:41.371] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:46.380] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:46.380] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:47.058] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:51.393] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:51.393] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:52.402] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:07:52.403] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:56.980] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:07:56.980] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:07:57.262] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:02.617] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:02.617] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:02.915] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:08.240] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:08.246] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:08.530] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:13.261] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:13.261] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:13.664] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:18.308] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:18.308] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:18.315] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:23.336] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:23.337] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:23.559] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:28.718] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:28.719] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:28.981] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:34.621] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:34.621] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:35.089] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:40.271] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:40.271] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:40.432] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:45.466] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:45.466] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:45.518] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:50.636] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:50.636] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:50.912] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:08:56.542] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:08:56.542] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:08:56.773] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:01.964] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:01.964] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:02.391] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:07.590] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:07.590] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:08.084] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:13.269] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:13.269] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:13.700] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:18.847] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:18.847] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:19.341] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:23.871] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:23.871] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:23.944] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:29.328] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:29.329] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:29.331] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:34.761] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:34.761] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:35.193] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:40.157] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:40.158] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:40.418] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:45.519] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:45.521] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:45.521] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:50.691] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:50.707] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:50.707] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:09:55.745] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:09:55.745] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:09:56.338] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:01.288] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:01.288] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:01.991] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:06.897] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:06.897] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:06.897] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:11.933] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:11.933] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:11.980] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:17.102] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:17.102] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:17.102] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:22.488] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:22.488] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:23.423] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:28.574] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:28.574] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:28.668] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:33.769] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:33.769] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:34.851] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:34.851] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:39.365] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:39.366] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:39.368] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:45.006] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:45.006] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:45.006] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:50.044] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:50.046] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:50.652] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:10:55.637] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:10:55.637] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:10:55.637] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:00.683] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:00.683] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:01.300] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:06.197] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:06.197] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:06.927] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:11.433] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:11.433] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:11.433] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:16.839] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:16.839] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:16.839] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:22.484] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:22.484] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:22.484] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:27.531] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:27.531] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:28.124] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:33.138] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:33.138] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:33.138] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:38.824] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:38.825] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:39.421] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:44.390] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:44.390] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:44.495] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:50.034] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:50.035] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:50.780] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:11:55.051] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:11:55.052] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:11:55.668] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:00.682] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:00.682] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:00.709] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:06.495] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:06.497] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:06.555] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:11.511] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:11.511] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:11.511] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:16.886] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:16.886] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:17.334] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:21.920] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:21.920] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:22.559] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:27.293] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:27.293] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:27.558] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:32.422] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:32.422] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:33.142] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:37.486] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:37.487] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:38.105] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:43.058] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:43.058] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:43.105] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:48.649] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:48.649] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:49.329] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:53.918] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:53.918] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:54.186] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:12:59.474] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:12:59.474] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:12:59.612] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:04.867] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:04.867] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:05.218] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:09.876] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:09.877] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:10.480] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:15.042] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:15.042] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:15.309] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:20.339] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:20.339] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:20.688] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:25.964] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:25.964] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:26.316] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:30.993] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:30.993] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:31.433] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:36.670] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:36.670] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:37.105] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:41.684] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:41.684] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:42.709] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:42.710] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:47.244] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:47.245] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:47.794] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:52.916] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:52.916] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:53.709] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:13:58.628] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:13:58.628] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:13:58.632] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:04.185] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:04.185] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:04.650] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:09.188] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:09.189] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:09.189] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:15.081] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:15.081] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:15.145] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:20.417] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:20.417] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:20.759] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:26.059] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:26.059] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:26.372] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:31.715] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:31.715] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:31.995] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:37.370] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:37.370] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:37.867] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:42.996] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:42.997] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:43.438] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:48.035] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:48.035] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:48.036] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:53.834] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:53.835] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:53.835] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:14:59.171] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:14:59.173] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:14:59.175] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:04.447] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:04.447] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:05.439] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:09.716] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:09.717] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:09.979] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:15.373] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:15.373] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:15.373] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:20.406] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:20.406] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:21.018] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:25.433] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:25.433] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:25.562] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:30.909] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:30.910] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:30.959] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:36.543] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:36.543] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:36.543] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:41.788] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:41.788] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:41.970] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:47.090] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:47.090] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:47.576] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:52.768] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:52.769] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:53.424] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:15:57.790] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:15:57.790] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:15:58.368] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:03.279] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:03.280] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:03.281] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:08.950] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:08.951] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:08.951] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:13.953] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:13.953] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:14.623] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:19.572] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:19.572] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:20.266] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:24.607] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:24.607] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:25.194] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:29.757] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:29.758] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:29.979] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:35.133] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:35.133] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:35.606] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:40.760] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:40.760] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:41.471] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:45.778] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:45.778] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:46.416] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:51.360] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:51.361] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:52.055] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:16:56.976] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:16:56.976] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:16:56.977] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:02.574] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:02.574] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:03.310] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:07.575] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:07.576] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:08.277] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:13.198] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:13.198] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:14.441] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:14.442] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:18.842] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:18.842] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:18.901] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:23.948] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:23.948] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:24.014] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:29.472] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:29.472] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:29.937] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:34.528] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:34.528] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:35.127] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:40.071] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:40.071] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:40.189] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:45.761] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:45.762] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:45.816] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:51.386] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:51.386] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:51.386] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:17:56.419] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:17:56.420] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:17:57.033] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:01.955] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:01.955] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:02.674] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:07.599] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:07.599] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:08.328] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:12.626] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:12.626] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:12.649] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:18.201] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:18.201] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:18.201] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:23.401] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:23.401] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:24.153] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:28.410] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:28.410] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:28.492] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:33.549] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:33.549] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:33.801] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:38.651] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:38.651] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:39.156] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:44.302] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:44.302] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:44.608] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:49.963] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:49.963] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:50.450] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:18:55.589] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:18:55.589] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:18:55.605] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:00.605] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:00.605] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:00.605] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:05.786] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:05.786] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:05.980] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:11.161] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:11.161] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:11.177] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:16.233] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:16.233] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:17.096] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:21.765] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:21.769] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:22.465] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:27.409] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:27.409] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:27.409] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:32.449] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:32.450] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:33.061] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:37.993] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:37.995] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:37.996] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:43.607] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:43.607] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:44.345] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:49.279] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:49.280] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:49.977] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:19:54.898] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:19:54.900] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:19:54.911] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:00.017] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:00.018] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:00.027] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:05.474] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:05.474] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:05.903] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:11.112] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:11.117] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:12.042] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:16.139] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:16.140] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:16.759] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:21.685] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:21.685] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:21.716] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:27.330] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:27.331] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:28.060] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:32.423] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:32.423] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:32.424] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:37.943] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:37.944] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:37.945] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:43.558] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:43.558] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:43.558] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:48.578] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:48.578] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:48.578] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:53.911] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:53.911] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:54.156] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:20:59.063] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:20:59.063] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:20:59.063] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:04.724] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:04.725] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:04.726] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:09.756] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:09.756] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:10.348] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:15.283] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:15.289] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:16.018] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:20.290] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:20.290] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:20.879] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:25.846] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:25.847] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:25.847] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:31.457] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:31.457] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:31.457] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:36.516] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:36.517] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:37.114] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:41.768] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:41.770] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:42.022] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:46.973] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:46.974] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:46.976] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:52.605] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:52.605] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:52.605] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:21:57.632] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:21:57.632] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:21:58.359] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:02.813] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:02.814] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:02.839] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:08.207] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:08.214] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:08.474] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:13.783] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:13.783] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:13.789] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:18.788] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:18.788] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:18.788] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:24.235] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:24.235] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:24.483] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:29.334] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:29.338] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:29.341] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:34.932] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:34.932] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:35.564] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:39.953] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:39.953] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:40.953] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:40.953] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:45.542] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:45.542] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:45.542] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:51.120] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:51.120] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:51.124] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:22:56.797] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:22:56.797] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:22:57.231] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:01.845] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:01.845] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:02.853] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:02.854] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:07.355] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:07.358] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:07.690] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:12.980] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:12.980] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:13.254] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:18.095] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:18.096] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:18.307] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:23.502] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:23.503] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:24.169] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:29.155] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:29.155] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:29.772] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:34.780] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:34.780] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:35.079] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:40.396] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:40.396] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:40.730] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:46.063] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:46.064] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:46.527] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:51.687] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:51.687] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:52.124] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:23:57.360] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:23:57.360] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:23:57.684] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:24:02.870] [INFO] [EXEC] STREAM_STATS_UI cycles=7 wins=4 losses=3 pnl=-0.043752 winrate=57.14%
+[11:24:02.870] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=0
+[11:24:03.249] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory

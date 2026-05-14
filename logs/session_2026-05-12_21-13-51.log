@@ -1,0 +1,81 @@
+[18:13:52.987] [OK] filters loaded
+[18:15:59.305] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[18:15:59.305] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=222.0
+[18:15:59.305] [INFO] START_PROFILE order_size=222.0 min_spread=6.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=900 far_sell_ticks=80 taker_exit_after_ms=850
+[18:15:59.305] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[18:15:59.776] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[18:15:59.776] [OK] START
+[18:15:59.793] [OK] START_OK runtime_started
+[18:15:59.794] [INFO] [EXEC] STREAMS_ENABLED count=20 range_ticks=200 step_ticks=10
+[18:15:59.794] [INFO] [EXEC] GRID_BUDGET_SOURCE source=max_exposure_u budget=5000.00
+[18:15:59.795] [INFO] [EXEC] STREAM_CREATE stream_id=1 buy_price=80522.79000000 budget=250.00 qty=0.00310000
+[18:15:59.796] [INFO] [EXEC] STREAM_CREATE stream_id=2 buy_price=80522.69000000 budget=250.00 qty=0.00310000
+[18:15:59.796] [INFO] [EXEC] STREAM_CREATE stream_id=3 buy_price=80522.59000000 budget=250.00 qty=0.00310000
+[18:15:59.797] [INFO] [EXEC] STREAM_CREATE stream_id=4 buy_price=80522.49000000 budget=250.00 qty=0.00310000
+[18:15:59.797] [INFO] [EXEC] STREAM_CREATE stream_id=5 buy_price=80522.39000000 budget=250.00 qty=0.00310000
+[18:15:59.798] [INFO] [EXEC] STREAM_CREATE stream_id=6 buy_price=80522.29000000 budget=250.00 qty=0.00310000
+[18:15:59.798] [INFO] [EXEC] STREAM_CREATE stream_id=7 buy_price=80522.19000000 budget=250.00 qty=0.00310000
+[18:15:59.799] [INFO] [EXEC] STREAM_CREATE stream_id=8 buy_price=80522.09000000 budget=250.00 qty=0.00310000
+[18:15:59.800] [INFO] [EXEC] STREAM_CREATE stream_id=9 buy_price=80521.99000000 budget=250.00 qty=0.00310000
+[18:15:59.801] [INFO] [EXEC] STREAM_CREATE stream_id=10 buy_price=80521.89000000 budget=250.00 qty=0.00310000
+[18:15:59.801] [INFO] [EXEC] STREAM_CREATE stream_id=11 buy_price=80521.79000000 budget=250.00 qty=0.00310000
+[18:15:59.802] [INFO] [EXEC] STREAM_CREATE stream_id=12 buy_price=80521.69000000 budget=250.00 qty=0.00310000
+[18:15:59.802] [INFO] [EXEC] STREAM_CREATE stream_id=13 buy_price=80521.59000000 budget=250.00 qty=0.00310000
+[18:15:59.803] [INFO] [EXEC] STREAM_CREATE stream_id=14 buy_price=80521.49000000 budget=250.00 qty=0.00310000
+[18:15:59.803] [INFO] [EXEC] STREAM_CREATE stream_id=15 buy_price=80521.39000000 budget=250.00 qty=0.00310000
+[18:15:59.804] [INFO] [EXEC] STREAM_CREATE stream_id=16 buy_price=80521.29000000 budget=250.00 qty=0.00310000
+[18:15:59.804] [INFO] [EXEC] STREAM_CREATE stream_id=17 buy_price=80521.19000000 budget=250.00 qty=0.00310000
+[18:15:59.805] [INFO] [EXEC] STREAM_CREATE stream_id=18 buy_price=80521.09000000 budget=250.00 qty=0.00310000
+[18:15:59.805] [INFO] [EXEC] STREAM_CREATE stream_id=19 buy_price=80520.99000000 budget=250.00 qty=0.00310000
+[18:15:59.806] [INFO] [EXEC] STREAM_CREATE stream_id=20 buy_price=80520.89000000 budget=250.00 qty=0.00310000
+[18:15:59.806] [INFO] [EXEC] STREAM_CREATE_DONE count=20 budget=5000.00 step_ticks=10
+[18:16:00.078] [INFO] [EXEC] LIVE ON
+[18:16:00.079] [INFO] [EXEC] WAIT READY
+[18:16:00.080] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:16:00.080] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:16:00.080] [INFO] [EXEC] STREAM_GUARD_BYPASS reason=ws_stale_rest_ok
+[18:16:00.081] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[18:16:00.635] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=386702246
+[18:16:00.635] [OK] [EXEC] PLACE BUY price=80522.79 qty=0.003100
+[18:16:00.914] [INFO] [EXEC] STREAM_BUY_PLACED level_id=2 order_id=386702255
+[18:16:00.915] [OK] [EXEC] PLACE BUY price=80522.69 qty=0.003100
+[18:16:01.179] [INFO] [EXEC] STREAM_BUY_PLACED level_id=3 order_id=386702309
+[18:16:01.180] [OK] [EXEC] PLACE BUY price=80522.59 qty=0.003100
+[18:16:01.941] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[18:16:01.942] [WS] connecting primary
+[18:16:01.946] [WS] connected
+[18:16:03.451] [INFO] [EXEC] STREAM_BUY_PLACED level_id=4 order_id=386702547
+[18:16:03.455] [OK] [EXEC] PLACE BUY price=80522.49 qty=0.003100
+[18:16:03.713] [INFO] [EXEC] STREAM_BUY_PLACED level_id=5 order_id=386702599
+[18:16:03.713] [OK] [EXEC] PLACE BUY price=80522.39 qty=0.003100
+[18:16:04.007] [INFO] [EXEC] STREAM_BUY_PLACED level_id=6 order_id=386702625
+[18:16:04.007] [OK] [EXEC] PLACE BUY price=80522.29 qty=0.003100
+[18:16:06.996] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2984 spread=8.43 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[18:16:07.001] [OK] [PLAN] READY entry=80545.56 exit=80554.00 profit=0.023210 age=4243ms
+[18:16:09.085] [INFO] [HEALTH] state=GOOD
+[18:16:09.086] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[18:16:09.361] [INFO] [EXEC] STREAM_BUY_PLACED level_id=7 order_id=386702764
+[18:16:09.364] [OK] [EXEC] PLACE BUY price=80522.19 qty=0.003100
+[18:16:09.642] [INFO] [EXEC] STREAM_BUY_PLACED level_id=8 order_id=386702800
+[18:16:09.645] [OK] [EXEC] PLACE BUY price=80522.09 qty=0.003100
+[18:16:09.907] [INFO] [EXEC] STREAM_BUY_PLACED level_id=9 order_id=386702819
+[18:16:09.925] [OK] [EXEC] PLACE BUY price=80521.99 qty=0.003100
+[18:16:12.790] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2827 spread=7.30 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[18:16:15.852] [INFO] [HEALTH] state=GOOD
+[18:16:15.853] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2780 spread=6.23 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[18:16:23.150] [INFO] [HEALTH] state=GOOD
+[18:16:23.165] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=3484 spread=9.61 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[18:16:27.478] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=3547 spread=6.34 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[18:16:30.790] [INFO] [HEALTH] state=GOOD
+[18:16:30.790] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=3250 spread=6.64 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[18:16:33.593] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2812 spread=5.84 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[18:16:36.820] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:16:36.823] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:16:36.825] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2734 spread=8.99 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[18:16:42.713] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[18:16:42.731] [WARNING] [HEALTH] unstable_spread lifetime=0
+[18:16:42.734] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2717 spread=11.19 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[18:16:49.024] [INFO] [HEALTH] state=GOOD
+[18:16:49.024] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2812 spread=6.74 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[18:16:55.081] [INFO] [HEALTH] state=GOOD
+[18:16:55.082] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=2656 spread=6.80 stable=1/1 mid_delta=0.00 bid_delta=0.00

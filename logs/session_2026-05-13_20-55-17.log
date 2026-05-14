@@ -1,0 +1,252 @@
+[17:55:18.433] [OK] filters loaded
+[17:55:18.433] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=0
+[17:55:18.822] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:55:29.622] [OK] [SETTINGS] settings saved
+[17:55:29.623] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=2
+[17:55:30.793] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[17:55:30.793] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=3
+[17:55:30.793] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=15.0
+[17:55:30.793] [INFO] START_PROFILE_STREAM order_size=15.0 min_spread_ticks=8 guard_mode=FAST entry_mode=AGGRESSIVE stream_sell_timeout_ms=2800 stream_target_ticks=28
+[17:55:30.793] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[17:55:31.291] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[17:55:31.291] [OK] START
+[17:55:31.291] [OK] START_OK runtime_started
+[17:55:31.291] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=20
+[17:55:31.291] [INFO] [EXEC] STREAM_MULTI_MODE count=20
+[17:55:31.306] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=20 range_ticks=100 step_ticks=5
+[17:55:31.306] [INFO] [EXEC] STREAM_BUDGET_SOURCE source=order_size_u order_size_u=15.00
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=1 buy_price=79481.36000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=2 buy_price=79481.31000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=3 buy_price=79481.26000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=4 buy_price=79481.21000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=5 buy_price=79481.16000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=6 buy_price=79481.11000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=7 buy_price=79481.06000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=8 buy_price=79481.01000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=9 buy_price=79480.96000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=10 buy_price=79480.91000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=11 buy_price=79480.86000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=12 buy_price=79480.81000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=13 buy_price=79480.76000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=14 buy_price=79480.71000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=15 buy_price=79480.66000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=16 buy_price=79480.61000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=17 buy_price=79480.56000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=18 buy_price=79480.51000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=19 buy_price=79480.46000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE stream_id=20 buy_price=79480.41000000 budget=15.00 qty=0.00018000
+[17:55:31.306] [INFO] [EXEC] STREAM_CREATE_DONE count=20 budget_per_level=15.00 step_ticks=5
+[17:55:31.592] [INFO] [EXEC] LIVE ON
+[17:55:31.592] [INFO] [EXEC] WAIT READY
+[17:55:31.593] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[17:55:31.593] [WARNING] [HEALTH] unstable_spread lifetime=0
+[17:55:31.593] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[17:55:32.105] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=389763319
+[17:55:32.105] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=40
+[17:55:32.105] [OK] [EXEC] PLACE BUY price=79481.36 qty=0.000180
+[17:55:32.588] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[17:55:32.589] [WS] connecting primary
+[17:55:32.590] [WS] connected
+[17:55:33.177] [INFO] [EXEC] STREAM_BUY_FILLED level_id=1
+[17:55:33.177] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=45
+[17:55:33.177] [OK] [EXEC] CHUNK ADD qty=0.000180 entry=79481.36
+[17:55:33.189] [INFO] [EXEC] CHUNK COUNT n=1
+[17:55:33.190] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=79481.64
+[17:55:33.515] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=1 chunk_id=2496493092832 order_id=389763389 price=79481.64 qty=0.000180
+[17:55:33.823] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389763389 status=NEW
+[17:55:33.826] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:55:33.827] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:55:33.828] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:55:34.980] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389763389 status=NEW
+[17:55:34.980] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=54
+[17:55:34.980] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:55:35.737] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389763389 status=NEW
+[17:55:36.721] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389763389 age_ms=3536 timeout_ms=2800
+[17:55:36.722] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=57
+[17:55:36.978] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389763389
+[17:55:36.978] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=0 retry_max=2 stream_id=1 chunk_id=2496493092832 order_id=389763389
+[17:55:36.978] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=1 chunk_id=2496493092832 prev_order_id=389763389 retry_count=1 price=79481.46 qty=0.000180
+[17:55:37.242] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:55:37.242] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:55:37.249] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:55:37.521] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389763672 status=NEW
+[17:55:39.694] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389763672 age_ms=2984 timeout_ms=2800
+[17:55:39.694] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=65
+[17:55:40.447] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389763672
+[17:55:40.448] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=1 retry_max=2 stream_id=1 chunk_id=2496493092832 order_id=389763672
+[17:55:40.448] [INFO] [EXEC] STREAM_SELL_RETRY_PLACED stream_id=1 chunk_id=2496493092832 prev_order_id=389763672 retry_count=2 price=79481.46 qty=0.000180
+[17:55:41.206] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:55:41.207] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=69
+[17:55:41.208] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:55:41.209] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:55:41.576] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389764098 status=NEW
+[17:55:41.578] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:55:43.204] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389764098 status=NEW
+[17:55:43.206] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=74
+[17:55:43.207] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389764098 age_ms=3506 timeout_ms=2800
+[17:55:43.947] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389764098
+[17:55:43.948] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389764098 stop_price=79479.16 retry_count=2 retry_max=2
+[17:55:44.211] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:55:44.212] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=78
+[17:55:44.212] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:55:44.213] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:55:44.609] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389764336 status=NEW
+[17:55:46.610] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:55:46.611] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=82
+[17:55:47.242] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389764336 status=NEW
+[17:55:47.242] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389764336 age_ms=4021 timeout_ms=2800
+[17:55:47.509] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389764336
+[17:55:47.509] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389764336 stop_price=79479.16 retry_count=2 retry_max=2
+[17:55:47.760] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:55:47.760] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=87
+[17:55:47.760] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:55:47.760] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:55:48.394] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389764452 status=NEW
+[17:55:50.537] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389764452 age_ms=3314 timeout_ms=2800
+[17:55:50.537] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=91
+[17:55:50.810] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389764452
+[17:55:50.812] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389764452 stop_price=79479.16 retry_count=2 retry_max=2
+[17:55:51.074] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:55:51.075] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:55:51.075] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:55:51.439] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389764573 status=NEW
+[17:55:51.714] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:55:51.714] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=98
+[17:55:52.352] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389764573 status=NEW
+[17:55:53.894] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389764573 age_ms=3311 timeout_ms=2800
+[17:55:53.894] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=100
+[17:55:54.243] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389764573
+[17:55:54.243] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389764573 stop_price=79479.16 retry_count=2 retry_max=2
+[17:55:54.519] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:55:54.519] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:55:54.519] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:55:55.401] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389764837 status=NEW
+[17:55:55.401] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=106
+[17:55:57.144] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389764837 age_ms=3283 timeout_ms=2800
+[17:55:57.145] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=107
+[17:55:57.480] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389764837
+[17:55:57.483] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389764837 stop_price=79479.16 retry_count=2 retry_max=2
+[17:55:57.748] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:55:57.748] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:55:57.748] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:55:57.748] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:55:58.376] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389764876 status=NEW
+[17:55:58.376] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=114
+[17:56:00.179] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389764876 age_ms=3046 timeout_ms=2800
+[17:56:00.180] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=115
+[17:56:00.496] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389764876
+[17:56:00.497] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389764876 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:00.769] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:00.770] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:00.771] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:01.955] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765031 status=NEW
+[17:56:01.955] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=121
+[17:56:03.002] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:56:03.003] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=122
+[17:56:04.011] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765031 status=NEW
+[17:56:04.011] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=123
+[17:56:04.011] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389765031 age_ms=3751 timeout_ms=2800
+[17:56:04.295] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389765031
+[17:56:04.295] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389765031 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:04.622] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:04.622] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:04.622] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:05.012] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765174 status=NEW
+[17:56:05.012] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=130
+[17:56:06.932] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389765174 age_ms=2998 timeout_ms=2800
+[17:56:06.932] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=131
+[17:56:07.234] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389765174
+[17:56:07.234] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389765174 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:07.538] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:07.538] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:07.544] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:08.255] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765247 status=NEW
+[17:56:08.255] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=137
+[17:56:08.255] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:56:08.571] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765247 status=NEW
+[17:56:10.066] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389765247 age_ms=3141 timeout_ms=2800
+[17:56:10.067] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=140
+[17:56:10.349] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389765247
+[17:56:10.349] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389765247 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:10.618] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:10.620] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:10.620] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:11.434] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765392 status=NEW
+[17:56:11.434] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=146
+[17:56:13.012] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389765392 age_ms=2875 timeout_ms=2800
+[17:56:13.012] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=147
+[17:56:13.276] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389765392
+[17:56:13.276] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389765392 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:13.595] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:13.596] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:13.596] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:14.240] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765621 status=NEW
+[17:56:14.241] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=153
+[17:56:14.242] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:56:14.604] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765621 status=NEW
+[17:56:15.880] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389765621 age_ms=2926 timeout_ms=2800
+[17:56:15.881] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=156
+[17:56:16.147] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389765621
+[17:56:16.147] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389765621 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:16.413] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:16.413] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:16.413] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:17.161] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765791 status=NEW
+[17:56:17.161] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=162
+[17:56:18.973] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389765791 age_ms=3059 timeout_ms=2800
+[17:56:18.974] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=163
+[17:56:19.311] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389765791
+[17:56:19.312] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389765791 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:19.595] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:19.595] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:19.596] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:19.885] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:56:20.382] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765879 status=NEW
+[17:56:20.382] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=170
+[17:56:21.730] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389765879 age_ms=2802 timeout_ms=2800
+[17:56:21.730] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=171
+[17:56:21.996] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389765879
+[17:56:21.996] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389765879 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:22.258] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:22.258] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:22.258] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:22.995] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389765980 status=NEW
+[17:56:22.995] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=177
+[17:56:24.745] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389765980 age_ms=3025 timeout_ms=2800
+[17:56:24.745] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=178
+[17:56:25.021] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389765980
+[17:56:25.021] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389765980 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:25.298] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:25.298] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:25.299] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:25.555] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:56:26.019] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389766166 status=NEW
+[17:56:26.019] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=185
+[17:56:28.302] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389766166 age_ms=3547 timeout_ms=2800
+[17:56:28.302] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=186
+[17:56:28.556] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389766166
+[17:56:28.556] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389766166 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:28.863] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:28.864] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:28.864] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:29.563] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389766346 status=NEW
+[17:56:29.564] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=192
+[17:56:30.870] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[17:56:30.870] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=193
+[17:56:32.054] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389766346 status=NEW
+[17:56:32.054] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=194
+[17:56:32.054] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389766346 age_ms=3753 timeout_ms=2800
+[17:56:32.308] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389766346
+[17:56:32.308] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389766346 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:32.589] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:32.589] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:32.589] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell
+[17:56:34.043] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2496493092832 order_id=389766381 status=NEW
+[17:56:34.043] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=201
+[17:56:35.089] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=2496493092832 order_id=389766381 age_ms=3046 timeout_ms=2800
+[17:56:35.089] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=202
+[17:56:35.362] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=2496493092832 order_id=389766381
+[17:56:35.362] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=2496493092832 order_id=389766381 stop_price=79479.16 retry_count=2 retry_max=2
+[17:56:35.623] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[17:56:35.638] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=exit_recovery_inventory_no_sell
+[17:56:35.638] [INFO] [EXEC] STREAM_GLOBAL_SELL_SKIP reason=place_sell

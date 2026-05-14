@@ -1,0 +1,143 @@
+[15:34:13.892] [OK] filters loaded
+[15:34:15.892] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[15:34:15.892] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[15:34:15.892] [INFO] START_PROFILE order_size=4000.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[15:34:15.892] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[15:34:16.361] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[15:34:16.368] [OK] START
+[15:34:16.370] [OK] START_OK runtime_started
+[15:34:16.370] [INFO] [EXEC] GRID_PARALLEL_START levels=10 budget=5000.00
+[15:34:16.370] [INFO] [EXEC] GRID_BUDGET_ALLOC levels=10 budget=5000.00 per_level=500.00
+[15:34:16.370] [INFO] [EXEC] GRID_LEVELS_CREATED count=10 budget=5000.00 step=20 size=200
+[15:34:16.665] [INFO] [EXEC] LIVE ON
+[15:34:16.665] [INFO] [EXEC] WAIT READY
+[15:34:16.665] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:34:16.665] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:34:16.665] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=7.99 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:34:17.170] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[15:34:17.171] [WS] connecting primary
+[15:34:17.447] [OK] [PLAN] HOT entry=80427.06 exit=80439.86 profit=0.636544 age=779ms
+[15:34:17.447] [WS] connected
+[15:34:19.035] [INFO] [EXEC] GRID_BUY_PLACED level_id=1 order_id=386119233
+[15:34:19.038] [OK] [EXEC] PLACE BUY price=80433.80 qty=0.006210
+[15:34:19.306] [INFO] [EXEC] GRID_BUY_PLACED level_id=2 order_id=386119259
+[15:34:19.306] [OK] [EXEC] PLACE BUY price=80433.60 qty=0.006210
+[15:34:19.580] [INFO] [EXEC] GRID_BUY_PLACED level_id=3 order_id=386119277
+[15:34:19.583] [OK] [EXEC] PLACE BUY price=80433.40 qty=0.006210
+[15:34:20.556] [INFO] [EXEC] GRID_BUY_PLACED level_id=4 order_id=386119333
+[15:34:20.556] [OK] [EXEC] PLACE BUY price=80433.20 qty=0.006210
+[15:34:20.838] [INFO] [EXEC] GRID_BUY_PLACED level_id=5 order_id=386119351
+[15:34:20.838] [OK] [EXEC] PLACE BUY price=80433.00 qty=0.006210
+[15:34:21.118] [INFO] [EXEC] GRID_BUY_PLACED level_id=6 order_id=386119512
+[15:34:21.118] [OK] [EXEC] PLACE BUY price=80432.80 qty=0.006210
+[15:34:21.997] [INFO] [EXEC] GRID_BUY_PLACED level_id=7 order_id=386119686
+[15:34:22.012] [OK] [EXEC] PLACE BUY price=80432.60 qty=0.006210
+[15:34:22.400] [INFO] [EXEC] GRID_BUY_PLACED level_id=8 order_id=386119743
+[15:34:22.415] [OK] [EXEC] PLACE BUY price=80432.40 qty=0.006210
+[15:34:22.854] [INFO] [HEALTH] state=GOOD
+[15:34:23.370] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=47 spread=5.12 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:34:23.870] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-35.50
+[15:34:23.873] [WARNING] [HEALTH] negative_momentum ticks=-35.50
+[15:34:23.876] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=FAST ws_age=156 spread=4.41 stable=2/1 mid_delta=-35.50 bid_delta=0.00
+[15:34:23.879] [OK] [PLAN] READY entry=80426.01 exit=80430.42 profit=0.219309 age=7205ms
+[15:34:24.357] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=155 spread=4.41 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[15:34:25.109] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:34:25.109] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:34:25.109] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=15 spread=7.98 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:34:25.109] [OK] [PLAN] HOT entry=80426.01 exit=80433.99 profit=0.396845 age=8444ms
+[15:34:26.111] [WARNING] [HEALTH] block falling_market bid_ticks=103.00 mid_ticks=-31.50
+[15:34:26.112] [WARNING] [HEALTH] negative_momentum ticks=-31.50
+[15:34:26.114] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=FAST ws_age=92 spread=11.60 stable=2/1 mid_delta=-31.50 bid_delta=103.00
+[15:34:28.134] [WARNING] [HEALTH] block falling_market bid_ticks=-42.00 mid_ticks=54.00
+[15:34:28.134] [WARNING] [HEALTH] unstable_bid delta_ticks=-42.00
+[15:34:28.134] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=62 spread=9.13 stable=2/1 mid_delta=54.00 bid_delta=-42.00
+[15:34:30.889] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=375 spread=6.79 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:34:31.433] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:34:31.436] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:34:31.439] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=186 spread=15.98 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:34:33.712] [WARNING] [HEALTH] block falling_market bid_ticks=-654.00 mid_ticks=-451.00
+[15:34:33.712] [WARNING] [HEALTH] unstable_bid delta_ticks=-654.00
+[15:34:33.712] [WARNING] [HEALTH] negative_momentum ticks=-451.00
+[15:34:33.712] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=109 spread=14.65 stable=2/1 mid_delta=-451.00 bid_delta=-654.00
+[15:34:34.090] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[15:34:34.392] [WARNING] cancel all requested
+[15:34:34.396] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.099447 locked=0.000000
+[15:34:34.397] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[15:34:34.400] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[15:34:34.402] [WARNING] STOP
+[15:34:46.588] [OK] [SETTINGS] settings saved
+[15:36:07.304] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[15:36:07.305] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[15:36:07.305] [INFO] START_PROFILE order_size=4000.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[15:36:07.306] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[15:36:07.814] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[15:36:07.814] [OK] START
+[15:36:07.814] [OK] START_OK runtime_started
+[15:36:07.814] [INFO] [EXEC] GRID_PARALLEL_START levels=10 budget=5000.00
+[15:36:07.814] [INFO] [EXEC] GRID_BUDGET_ALLOC levels=10 budget=5000.00 per_level=500.00
+[15:36:07.830] [INFO] [EXEC] GRID_LEVELS_CREATED count=10 budget=5000.00 step=20 size=200
+[15:36:07.830] [INFO] [EXEC] LIVE ON
+[15:36:07.830] [INFO] [EXEC] WAIT READY
+[15:36:07.830] [INFO] [HEALTH] state=GOOD
+[15:36:07.830] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=93766 spread=10.39 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:36:08.792] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[15:36:08.793] [WS] connecting primary
+[15:36:08.884] [WS] connected
+[15:36:09.041] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=46 spread=6.76 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:36:09.556] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:36:09.556] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:36:09.556] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=109 spread=10.74 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[15:36:10.376] [INFO] [EXEC] GRID_BUY_PLACED level_id=1 order_id=386126936
+[15:36:10.381] [OK] [EXEC] PLACE BUY price=80350.03 qty=0.006220
+[15:36:10.665] [INFO] [EXEC] GRID_BUY_PLACED level_id=2 order_id=386126940
+[15:36:10.665] [OK] [EXEC] PLACE BUY price=80349.83 qty=0.006220
+[15:36:11.043] [INFO] [EXEC] GRID_BUY_PLACED level_id=3 order_id=386126951
+[15:36:11.044] [OK] [EXEC] PLACE BUY price=80349.62 qty=0.006220
+[15:36:12.431] [INFO] [EXEC] GRID_BUY_PLACED level_id=4 order_id=386127028
+[15:36:12.433] [OK] [EXEC] PLACE BUY price=80349.43 qty=0.006220
+[15:36:12.694] [INFO] [EXEC] GRID_BUY_PLACED level_id=5 order_id=386127041
+[15:36:12.695] [OK] [EXEC] PLACE BUY price=80349.23 qty=0.006220
+[15:36:12.958] [INFO] [EXEC] GRID_BUY_PLACED level_id=6 order_id=386127051
+[15:36:12.959] [OK] [EXEC] PLACE BUY price=80349.03 qty=0.006220
+[15:36:13.611] [INFO] [EXEC] GRID_BUY_PLACED level_id=7 order_id=386127055
+[15:36:13.612] [OK] [EXEC] PLACE BUY price=80348.83 qty=0.006220
+[15:36:13.867] [INFO] [EXEC] GRID_BUY_PLACED level_id=8 order_id=386127057
+[15:36:13.869] [OK] [EXEC] PLACE BUY price=80348.62 qty=0.006220
+[15:36:15.091] [INFO] [HEALTH] state=GOOD
+[15:36:17.855] [WARNING] [HEALTH] block falling_market bid_ticks=-14.00 mid_ticks=-93.50
+[15:36:17.855] [WARNING] [HEALTH] unstable_bid delta_ticks=-14.00
+[15:36:17.855] [WARNING] [HEALTH] negative_momentum ticks=-93.50
+[15:36:17.855] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=47 spread=10.64 stable=2/1 mid_delta=-93.50 bid_delta=-14.00
+[15:36:19.357] [WARNING] [HEALTH] block falling_market bid_ticks=-316.00 mid_ticks=0.50
+[15:36:19.358] [WARNING] [HEALTH] unstable_bid delta_ticks=-316.00
+[15:36:19.359] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=30 spread=19.98 stable=2/1 mid_delta=0.50 bid_delta=-316.00
+[15:36:23.651] [WARNING] [HEALTH] block falling_market bid_ticks=-84.00 mid_ticks=-66.50
+[15:36:23.651] [WARNING] [HEALTH] unstable_bid delta_ticks=-84.00
+[15:36:23.652] [WARNING] [HEALTH] negative_momentum ticks=-66.50
+[15:36:23.652] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=0 spread=13.16 stable=2/1 mid_delta=-66.50 bid_delta=-84.00
+[15:36:27.243] [WARNING] [HEALTH] block falling_market bid_ticks=-86.00 mid_ticks=-0.50
+[15:36:27.243] [WARNING] [HEALTH] unstable_bid delta_ticks=-86.00
+[15:36:27.243] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=172 spread=15.78 stable=2/1 mid_delta=-0.50 bid_delta=-86.00
+[15:36:29.250] [WARNING] [HEALTH] block falling_market bid_ticks=-135.00 mid_ticks=-67.50
+[15:36:29.250] [WARNING] [HEALTH] unstable_bid delta_ticks=-135.00
+[15:36:29.257] [WARNING] [HEALTH] negative_momentum ticks=-67.50
+[15:36:29.257] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=31 spread=15.78 stable=2/1 mid_delta=-67.50 bid_delta=-135.00
+[15:36:30.260] [WARNING] [HEALTH] block falling_market bid_ticks=-82.00 mid_ticks=-41.50
+[15:36:30.263] [WARNING] [HEALTH] unstable_bid delta_ticks=-82.00
+[15:36:30.263] [WARNING] [HEALTH] negative_momentum ticks=-41.50
+[15:36:30.263] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=FAST ws_age=172 spread=15.24 stable=2/1 mid_delta=-41.50 bid_delta=-82.00
+[15:36:35.291] [INFO] [HEALTH] state=DANGER
+[15:36:35.291] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=62 spread=6.46 stable=2/1 mid_delta=393.00 bid_delta=786.00
+[15:36:35.790] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[15:36:35.790] [WARNING] [HEALTH] unstable_bid delta_ticks=-786.00
+[15:36:35.790] [WARNING] [HEALTH] negative_momentum ticks=-393.00
+[15:36:35.790] [WARNING] [HEALTH] unstable_spread lifetime=0
+[15:36:35.790] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=30 spread=14.32 stable=2/1 mid_delta=-393.00 bid_delta=-786.00
+[15:36:36.277] [WARNING] [HEALTH] block spread_too_young lifetime=487
+[15:36:36.277] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=62 spread=13.26 stable=2/1 mid_delta=53.00 bid_delta=106.00
+[15:36:36.605] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[15:36:36.872] [WARNING] cancel all requested
+[15:36:36.874] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.149207 locked=0.000000
+[15:36:36.874] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[15:36:36.880] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[15:36:36.880] [WARNING] STOP

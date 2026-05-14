@@ -1,0 +1,4 @@
+[19:29:54] [GRID] terminal started
+[19:29:54] [GRID] filters loaded tickSize=0.01 stepSize=1e-05
+[19:29:59] [GRID] grid calculated levels=20 valid=20 invalid=0
+[19:30:01] [GRID] balances updated BTC=0.000007 U=38022.80

@@ -1,0 +1,1200 @@
+[11:35:01.435] [OK] filters loaded
+[11:35:01.436] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=0
+[11:35:01.802] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=0 wait_buy=0 buy_placed=0 sell_active=0 exiting=0 recycle=0 chunks_total=0 stream_chunks=0 orphan_chunks=0 inventory_qty=0.000000 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000000
+[11:35:01.817] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:01.817] [INFO] [EXEC] STREAMS_EXITING count=0 EXITING_QTY=0.000000
+[11:35:01.818] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=0 exiting_streams=0 recycled_streams=0 waiting_streams=0
+[11:35:03.376] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=0 wait_buy=0 buy_placed=0 sell_active=0 exiting=0 recycle=0 chunks_total=0 stream_chunks=0 orphan_chunks=0 inventory_qty=0.000000 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000000
+[11:35:03.377] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=5
+[11:35:06.456] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[11:35:06.456] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=6
+[11:35:06.457] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=15.0
+[11:35:06.457] [INFO] START_PROFILE_STREAM order_size=15.0 min_spread_ticks=8 guard_mode=FAST entry_mode=AGGRESSIVE stream_sell_timeout_ms=2800 stream_target_ticks=28
+[11:35:06.457] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[11:35:06.962] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[11:35:06.964] [OK] START
+[11:35:06.965] [OK] START_OK runtime_started
+[11:35:06.965] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=20
+[11:35:06.966] [INFO] [EXEC] STREAM_MULTI_MODE count=20
+[11:35:06.966] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=20 range_ticks=100 step_ticks=5
+[11:35:06.966] [INFO] [EXEC] STREAM_BUDGET_SOURCE source=order_size_u order_size_u=15.00
+[11:35:06.967] [INFO] [EXEC] STREAM_CREATE stream_id=1 buy_price=79315.98000000 budget=15.00 qty=0.00018000
+[11:35:06.967] [INFO] [EXEC] STREAM_WAIT_START stream_id=1 start_at_ms=1778758506966
+[11:35:06.968] [INFO] [EXEC] STREAM_CREATE stream_id=2 buy_price=79315.93000000 budget=15.00 qty=0.00018000
+[11:35:06.968] [INFO] [EXEC] STREAM_WAIT_START stream_id=2 start_at_ms=1778758507266
+[11:35:06.968] [INFO] [EXEC] STREAM_CREATE stream_id=3 buy_price=79315.88000000 budget=15.00 qty=0.00018000
+[11:35:06.968] [INFO] [EXEC] STREAM_WAIT_START stream_id=3 start_at_ms=1778758507566
+[11:35:06.969] [INFO] [EXEC] STREAM_CREATE stream_id=4 buy_price=79315.83000000 budget=15.00 qty=0.00018000
+[11:35:06.969] [INFO] [EXEC] STREAM_WAIT_START stream_id=4 start_at_ms=1778758507866
+[11:35:06.969] [INFO] [EXEC] STREAM_CREATE stream_id=5 buy_price=79315.78000000 budget=15.00 qty=0.00018000
+[11:35:06.970] [INFO] [EXEC] STREAM_WAIT_START stream_id=5 start_at_ms=1778758508166
+[11:35:06.970] [INFO] [EXEC] STREAM_CREATE stream_id=6 buy_price=79315.73000000 budget=15.00 qty=0.00018000
+[11:35:06.970] [INFO] [EXEC] STREAM_WAIT_START stream_id=6 start_at_ms=1778758508466
+[11:35:06.971] [INFO] [EXEC] STREAM_CREATE stream_id=7 buy_price=79315.68000000 budget=15.00 qty=0.00018000
+[11:35:06.971] [INFO] [EXEC] STREAM_WAIT_START stream_id=7 start_at_ms=1778758508766
+[11:35:06.971] [INFO] [EXEC] STREAM_CREATE stream_id=8 buy_price=79315.63000000 budget=15.00 qty=0.00018000
+[11:35:06.971] [INFO] [EXEC] STREAM_WAIT_START stream_id=8 start_at_ms=1778758509066
+[11:35:06.972] [INFO] [EXEC] STREAM_CREATE stream_id=9 buy_price=79315.58000000 budget=15.00 qty=0.00018000
+[11:35:06.972] [INFO] [EXEC] STREAM_WAIT_START stream_id=9 start_at_ms=1778758509366
+[11:35:06.972] [INFO] [EXEC] STREAM_CREATE stream_id=10 buy_price=79315.53000000 budget=15.00 qty=0.00018000
+[11:35:06.973] [INFO] [EXEC] STREAM_WAIT_START stream_id=10 start_at_ms=1778758509666
+[11:35:06.973] [INFO] [EXEC] STREAM_CREATE stream_id=11 buy_price=79315.48000000 budget=15.00 qty=0.00018000
+[11:35:06.973] [INFO] [EXEC] STREAM_WAIT_START stream_id=11 start_at_ms=1778758509966
+[11:35:06.974] [INFO] [EXEC] STREAM_CREATE stream_id=12 buy_price=79315.43000000 budget=15.00 qty=0.00018000
+[11:35:06.974] [INFO] [EXEC] STREAM_WAIT_START stream_id=12 start_at_ms=1778758510266
+[11:35:06.974] [INFO] [EXEC] STREAM_CREATE stream_id=13 buy_price=79315.38000000 budget=15.00 qty=0.00018000
+[11:35:06.975] [INFO] [EXEC] STREAM_WAIT_START stream_id=13 start_at_ms=1778758510566
+[11:35:06.975] [INFO] [EXEC] STREAM_CREATE stream_id=14 buy_price=79315.33000000 budget=15.00 qty=0.00018000
+[11:35:06.975] [INFO] [EXEC] STREAM_WAIT_START stream_id=14 start_at_ms=1778758510866
+[11:35:06.975] [INFO] [EXEC] STREAM_CREATE stream_id=15 buy_price=79315.28000000 budget=15.00 qty=0.00018000
+[11:35:06.976] [INFO] [EXEC] STREAM_WAIT_START stream_id=15 start_at_ms=1778758511166
+[11:35:06.976] [INFO] [EXEC] STREAM_CREATE stream_id=16 buy_price=79315.23000000 budget=15.00 qty=0.00018000
+[11:35:06.976] [INFO] [EXEC] STREAM_WAIT_START stream_id=16 start_at_ms=1778758511466
+[11:35:06.977] [INFO] [EXEC] STREAM_CREATE stream_id=17 buy_price=79315.18000000 budget=15.00 qty=0.00018000
+[11:35:06.977] [INFO] [EXEC] STREAM_WAIT_START stream_id=17 start_at_ms=1778758511766
+[11:35:06.977] [INFO] [EXEC] STREAM_CREATE stream_id=18 buy_price=79315.13000000 budget=15.00 qty=0.00018000
+[11:35:06.978] [INFO] [EXEC] STREAM_WAIT_START stream_id=18 start_at_ms=1778758512066
+[11:35:06.978] [INFO] [EXEC] STREAM_CREATE stream_id=19 buy_price=79315.08000000 budget=15.00 qty=0.00018000
+[11:35:06.978] [INFO] [EXEC] STREAM_WAIT_START stream_id=19 start_at_ms=1778758512366
+[11:35:06.978] [INFO] [EXEC] STREAM_CREATE stream_id=20 buy_price=79315.03000000 budget=15.00 qty=0.00018000
+[11:35:06.979] [INFO] [EXEC] STREAM_WAIT_START stream_id=20 start_at_ms=1778758512666
+[11:35:06.979] [INFO] [EXEC] STREAM_ACTIVATED stream_id=1 at_ms=1778758506966
+[11:35:06.979] [INFO] [EXEC] STREAM_CREATE_DONE count=20 budget_per_level=15.00 step_ticks=5
+[11:35:06.980] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:06.980] [INFO] [EXEC] STREAMS_EXITING count=0 EXITING_QTY=0.000000
+[11:35:06.981] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=0 exiting_streams=0 recycled_streams=0 waiting_streams=1
+[11:35:07.281] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.282] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.282] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.282] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.282] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.282] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.282] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.282] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.282] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.283] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.283] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.283] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.283] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.283] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.283] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.284] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.284] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.284] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.284] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.284] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:07.284] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=0 exiting=0 recycle=0 chunks_total=0 stream_chunks=0 orphan_chunks=0 inventory_qty=0.000000 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000000
+[11:35:07.284] [INFO] [EXEC] LIVE ON
+[11:35:07.285] [INFO] [EXEC] WAIT READY
+[11:35:07.285] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[11:35:07.285] [WARNING] [HEALTH] unstable_spread lifetime=0
+[11:35:07.285] [INFO] [EXEC] STREAM_SHUTDOWN_STATE active=false reason=runtime_tick
+[11:35:07.285] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[11:35:07.285] [INFO] [EXEC] STREAM_ACTIVATED stream_id=2 at_ms=1778758507281
+[11:35:07.285] [INFO] [EXEC] STREAM_SWARM_STATE wait_start=18 wait_buy=2 buy_placed=0 sell_active=0 recycle=0 active_buys=0 active_sells=0
+[11:35:07.285] [INFO] [EXEC] STREAM_BUY_CAPACITY active_buys=0 active_sells=0 waiting_streams=2 max_active_buys=10 free_buy_slots=10 batch_size=1
+[11:35:08.227] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=391910682
+[11:35:08.228] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=92
+[11:35:08.228] [OK] [EXEC] PLACE BUY price=79315.98 qty=0.000180
+[11:35:08.228] [INFO] [EXEC] STREAM_PLACEMENT_TICK active_buys=1 active_sells=0 waiting_streams=2 free_buy_slots=10 placed=1
+[11:35:08.229] [INFO] [EXEC] STREAM_CONCURRENCY_STATE buys=1 sells=0 waiting=2 inventory_u=0.00 exposure_u=0.00 buy_allowed=true reason=none
+[11:35:08.705] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[11:35:08.706] [WS] connecting primary
+[11:35:08.706] [WS] connected
+[11:35:09.440] [INFO] [EXEC] STREAM_BUY_FILLED level_id=1
+[11:35:09.441] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=99
+[11:35:09.441] [INFO] [EXEC] STREAM_SIGNAL_BUY_FILL stream_id=1 fill_price=79315.98000000 effect=log_only
+[11:35:09.442] [OK] [EXEC] CHUNK ADD qty=0.000180 entry=79315.98
+[11:35:09.442] [INFO] [EXEC] CHUNK COUNT n=1
+[11:35:09.443] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=79316.26
+[11:35:09.713] [INFO] [EXEC] STREAM_CHUNK_OWNED stream_id=1 chunk_id=1163675860528 qty=0.000180
+[11:35:09.713] [INFO] [EXEC] STREAM_SELL_OWNED stream_id=1 chunk_id=1163675860528 order_id=391910705
+[11:35:09.714] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=1 chunk_id=1163675860528 order_id=391910705 price=79316.26 qty=0.000180
+[11:35:09.976] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910705 status=NEW
+[11:35:09.977] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910705 chunk_id=1163675860528 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:09.977] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.977] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.977] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.977] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.978] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.978] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.978] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.978] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.978] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.978] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.978] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.978] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.979] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.979] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.979] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.979] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.979] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.979] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.979] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:09.979] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:09.980] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=1 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:09.980] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:35:09.980] [WARNING] [EXEC] STATE REPAIR reason=inventory_cannot_be_flat
+[11:35:09.980] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:09.980] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:35:09.980] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:09.980] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:35:10.741] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910705 status=NEW
+[11:35:10.742] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=136
+[11:35:10.744] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:12.464] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910705 status=NEW
+[11:35:12.465] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=138
+[11:35:12.466] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910705 chunk_id=1163675860528 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:12.467] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.467] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.468] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.468] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.468] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.469] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.469] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.469] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.470] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.470] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.470] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.471] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.471] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.472] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.472] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.472] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.473] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.473] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.473] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:12.474] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:12.474] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=1 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:12.475] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:12.475] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:12.475] [INFO] [EXEC] STREAMS_EXITING count=1 EXITING_QTY=0.000000
+[11:35:12.476] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=1 exiting_streams=1 recycled_streams=0 waiting_streams=1
+[11:35:13.971] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910705 status=NEW
+[11:35:13.972] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=165
+[11:35:13.973] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=1163675860528 order_id=391910705 age_ms=4535 timeout_ms=2800
+[11:35:14.235] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=1163675860528 order_id=391910705
+[11:35:14.236] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=0 retry_max=2 stream_id=1 chunk_id=1163675860528 order_id=391910705
+[11:35:14.236] [WARNING] [EXEC] STREAM_EXIT_RETRY_PLACED stream_id=1 chunk_id=1163675860528 order_id=pending qty=0.000180 price=79316.08 retry_count=1
+[11:35:14.497] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910845 chunk_id=1163675860528 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:14.498] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.498] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.498] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.498] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.498] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.498] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.498] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.498] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.499] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.499] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.499] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.499] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.500] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.500] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.500] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.500] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.500] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.500] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.500] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:14.500] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:14.500] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=1 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:14.501] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:35:14.501] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:14.501] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:35:14.501] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:14.501] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:35:15.250] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910845 status=NEW
+[11:35:15.251] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=197
+[11:35:15.251] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:16.015] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910845 status=NEW
+[11:35:16.017] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910845 chunk_id=1163675860528 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:16.018] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.019] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.019] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.020] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.021] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.021] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.022] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.023] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.024] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.025] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.025] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.025] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.026] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.026] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.027] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.027] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.027] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.028] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.028] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:16.028] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:16.029] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=1 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:16.029] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:16.792] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910845 status=NEW
+[11:35:16.793] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=223
+[11:35:16.793] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=1163675860528 order_id=391910845 age_ms=2821 timeout_ms=2800
+[11:35:17.053] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=1163675860528 order_id=391910845
+[11:35:17.054] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=1 retry_max=2 stream_id=1 chunk_id=1163675860528 order_id=391910845
+[11:35:17.054] [WARNING] [EXEC] STREAM_EXIT_RETRY_PLACED stream_id=1 chunk_id=1163675860528 order_id=pending qty=0.000180 price=79316.08 retry_count=2
+[11:35:17.313] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:35:17.313] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:17.314] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:35:17.314] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:17.314] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:35:18.057] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910931 status=NEW
+[11:35:18.059] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=233
+[11:35:18.060] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910931 chunk_id=1163675860528 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:18.060] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.061] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.062] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.063] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.064] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.065] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.065] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.066] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.067] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.067] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.068] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.068] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.068] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.069] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.069] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.070] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.070] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.070] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.071] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:18.071] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:18.071] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=1 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:18.072] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:18.072] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:18.073] [INFO] [EXEC] STREAMS_EXITING count=1 EXITING_QTY=0.000000
+[11:35:18.073] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=1 exiting_streams=1 recycled_streams=0 waiting_streams=1
+[11:35:19.347] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910931 status=NEW
+[11:35:19.348] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=260
+[11:35:19.348] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:20.064] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910931 status=NEW
+[11:35:20.066] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=1163675860528 order_id=391910931 age_ms=3268 timeout_ms=2800
+[11:35:20.329] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=1163675860528 order_id=391910931
+[11:35:20.330] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=1 chunk_id=1163675860528 order_id=391910931 stop_price=79313.78 retry_count=2 retry_max=2
+[11:35:20.330] [WARNING] [EXEC] STREAM_EXIT_ISOLATED stream_id=1 chunk_id=1163675860528 action=stop_loss_exit
+[11:35:20.587] [WARNING] [EXEC] STREAM_EXIT_RETRY_PLACED stream_id=1 chunk_id=1163675860528 order_id=391910997 qty=0.000180 price=79313.78
+[11:35:20.588] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=267
+[11:35:20.588] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=EXITING buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:20.588] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.589] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.589] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.589] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.589] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.589] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.589] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.590] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.590] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.590] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.590] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.590] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.590] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.591] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.591] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.592] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.592] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.592] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.592] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:20.592] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:20.592] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=0 exiting=1 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:20.593] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:35:20.593] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:20.593] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:35:20.593] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:20.593] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:35:21.336] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910997 status=NEW
+[11:35:21.337] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:22.562] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910997 status=NEW
+[11:35:22.564] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=297
+[11:35:22.565] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:22.565] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.566] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.567] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.568] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.568] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.569] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.570] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.571] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.571] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.572] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.572] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.573] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.573] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.574] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.574] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.574] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.575] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.575] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.575] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:22.576] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:22.576] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=1 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:22.576] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:23.853] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=1 chunk_id=1163675860528 order_id=391910997 status=NEW
+[11:35:23.854] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=321
+[11:35:23.856] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=1 chunk_id=1163675860528 order_id=391910997 age_ms=3305 timeout_ms=2800
+[11:35:24.598] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=1 chunk_id=1163675860528 order_id=391910997
+[11:35:24.600] [ERROR] [EXEC] STREAM_EXIT_STUCK stream_id=1 chunk_id=1163675860528 order_id=391910997
+[11:35:24.601] [WARNING] [EXEC] STREAM_EXIT_ISOLATED stream_id=1 chunk_id=1163675860528 action=force_sell_reprice
+[11:35:24.601] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:24.602] [INFO] [EXEC] EXIT RECOVERY inventory_no_sell qty=0.000180
+[11:35:24.603] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:25.126] [INFO] [EXEC] SELL CHECK inventory=0.000180 reported=0.000000 remaining=0.000180 chunks=1
+[11:35:25.126] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=329
+[11:35:25.127] [INFO] [EXEC] PLACE_SELL_SOURCE source=plan price=79316.00
+[11:35:25.127] [OK] [EXEC] PLACE SELL price=79316.00 qty=0.000180
+[11:35:25.386] [WARNING] [EXEC] SELL_HOLD_RECOVERY_START orderId=391911108 entry=79315.98 floor=79316.00 ask=79298.00
+[11:35:25.387] [OK] [EXEC] SELL ORDER SENT orderId=391911108
+[11:35:25.391] [OK] [PLAN] READY entry=79290.51 exit=79297.99 profit=0.001346 age=15825ms
+[11:35:25.391] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:25.392] [INFO] [EXEC] STREAMS_EXITING count=1 EXITING_QTY=0.000000
+[11:35:25.392] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=1 exiting_streams=1 recycled_streams=0 waiting_streams=1
+[11:35:26.369] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:26.370] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=338
+[11:35:26.371] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.371] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.372] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.372] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.373] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.373] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.374] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.374] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.375] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.375] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.376] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.376] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.376] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.377] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.377] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.378] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.378] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.378] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.379] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:26.379] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:26.379] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=1 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:28.149] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=391911108 status=NEW
+[11:35:28.150] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=360
+[11:35:28.151] [INFO] [EXEC] SELL_WATCHDOG_FAR_IGNORE orderId=391911108 reason=protected_sell dist_ticks=1869
+[11:35:28.927] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:28.928] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.928] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.929] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.929] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.930] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.930] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.931] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.931] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.931] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.932] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.932] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.932] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.932] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.933] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.933] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.933] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.934] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.934] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.934] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:28.934] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:28.935] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=1 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:29.196] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=391911108 status=NEW
+[11:35:29.197] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=384
+[11:35:30.194] [INFO] [EXEC] HOLD_PROTECTED_SKIP_EXIT_ESCALATION reason=force_flat_after_ms orderId=391911108 hold_age=4548 soft=5000 hard=12000
+[11:35:30.195] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:30.195] [INFO] [EXEC] STREAMS_EXITING count=1 EXITING_QTY=0.000000
+[11:35:30.196] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=1 exiting_streams=1 recycled_streams=0 waiting_streams=1
+[11:35:30.651] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:30.652] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=389
+[11:35:30.652] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.652] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.653] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.653] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.654] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.654] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.654] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.654] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.655] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.655] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.655] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.656] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.656] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.656] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.656] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.657] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.657] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.657] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.657] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:30.658] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:30.658] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=1 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:30.930] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=391911108 status=NEW
+[11:35:30.930] [WARNING] [EXEC] SMART_EXIT_ACTIVE
+[11:35:30.930] [WARNING] [EXEC] SMART_EXIT_BREAK_HOLD reason=too_far age=5273 dist_ticks=2030
+[11:35:31.447] [WARNING] [EXEC] TAKER_EXIT_TRIGGER reason=smart_break_hold_too_far age=5532 qty=0.000180
+[11:35:31.448] [WARNING] [EXEC] SMART_EXIT_TO_TAKER reason=smart_break_hold_too_far
+[11:35:31.448] [WARNING] [EXEC] TAKER_EXIT_CANCEL_MAKER orderId=391911108
+[11:35:32.231] [INFO] [EXEC] PLACE_SELL_SOURCE source=taker price=79287.81
+[11:35:32.232] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=417
+[11:35:32.495] [WARNING] [EXEC] TAKER_EXIT_ORDER_SENT id=391911264 price=79287.81 qty=0.000180
+[11:35:33.021] [OK] [SYNC] order filled detected
+[11:35:33.022] [OK] [SYNC] SELL filled on exchange
+[11:35:33.024] [OK] [EXEC] FIFO CLOSE qty=0.000180 entry=79315.98 exit=79287.84 pnl=-0.005065
+[11:35:33.024] [INFO] [EXEC] CHUNK DRAINED
+[11:35:33.025] [OK] [EXEC] REALIZED pnl=-0.005065
+[11:35:33.026] [OK] [EXEC] SMART_EXIT_DONE_FLAT
+[11:35:33.027] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[11:35:33.028] [OK] [EXEC] CYCLE CLOSED pnl=-0.005065
+[11:35:33.028] [INFO] [EXEC] SESSION realized=-0.005065 wins=0 losses=1
+[11:35:33.166] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:33.167] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.167] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.167] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.168] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.168] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.168] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.169] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.169] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.169] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.170] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.170] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.171] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.171] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.171] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.172] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.172] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.173] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.173] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.173] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_START buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:33.174] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=1 buy_placed=0 sell_active=1 exiting=0 recycle=0 chunks_total=0 stream_chunks=0 orphan_chunks=0 inventory_qty=0.000000 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000000
+[11:35:33.174] [INFO] [HEALTH] state=DANGER
+[11:35:33.175] [INFO] [EXEC] STREAM_SHUTDOWN_STATE active=false reason=runtime_tick
+[11:35:33.175] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[11:35:33.175] [INFO] [EXEC] STREAM_ACTIVATED stream_id=3 at_ms=1778758533166
+[11:35:33.176] [INFO] [EXEC] STREAM_ACTIVATED stream_id=4 at_ms=1778758533166
+[11:35:33.176] [INFO] [EXEC] STREAM_ACTIVATED stream_id=5 at_ms=1778758533166
+[11:35:33.176] [INFO] [EXEC] STREAM_ACTIVATED stream_id=6 at_ms=1778758533166
+[11:35:33.176] [INFO] [EXEC] STREAM_ACTIVATED stream_id=7 at_ms=1778758533166
+[11:35:33.177] [INFO] [EXEC] STREAM_ACTIVATED stream_id=8 at_ms=1778758533166
+[11:35:33.177] [INFO] [EXEC] STREAM_ACTIVATED stream_id=9 at_ms=1778758533166
+[11:35:33.177] [INFO] [EXEC] STREAM_ACTIVATED stream_id=10 at_ms=1778758533166
+[11:35:33.177] [INFO] [EXEC] STREAM_ACTIVATED stream_id=11 at_ms=1778758533166
+[11:35:33.178] [INFO] [EXEC] STREAM_ACTIVATED stream_id=12 at_ms=1778758533166
+[11:35:33.178] [INFO] [EXEC] STREAM_ACTIVATED stream_id=13 at_ms=1778758533166
+[11:35:33.178] [INFO] [EXEC] STREAM_ACTIVATED stream_id=14 at_ms=1778758533166
+[11:35:33.179] [INFO] [EXEC] STREAM_ACTIVATED stream_id=15 at_ms=1778758533166
+[11:35:33.179] [INFO] [EXEC] STREAM_ACTIVATED stream_id=16 at_ms=1778758533166
+[11:35:33.179] [INFO] [EXEC] STREAM_ACTIVATED stream_id=17 at_ms=1778758533166
+[11:35:33.180] [INFO] [EXEC] STREAM_ACTIVATED stream_id=18 at_ms=1778758533166
+[11:35:33.180] [INFO] [EXEC] STREAM_ACTIVATED stream_id=19 at_ms=1778758533166
+[11:35:33.180] [INFO] [EXEC] STREAM_ACTIVATED stream_id=20 at_ms=1778758533166
+[11:35:33.180] [INFO] [EXEC] STREAM_SWARM_STATE wait_start=0 wait_buy=19 buy_placed=0 sell_active=1 recycle=0 active_buys=0 active_sells=1
+[11:35:33.181] [INFO] [EXEC] STREAM_BUY_CAPACITY active_buys=0 active_sells=1 waiting_streams=19 max_active_buys=10 free_buy_slots=10 batch_size=1
+[11:35:33.441] [INFO] [EXEC] STREAM_BUY_PLACED level_id=2 order_id=391911272
+[11:35:33.442] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=472
+[11:35:33.442] [OK] [EXEC] PLACE BUY price=79315.93 qty=0.000180
+[11:35:33.442] [INFO] [EXEC] STREAM_PLACEMENT_TICK active_buys=1 active_sells=1 waiting_streams=19 free_buy_slots=10 placed=1
+[11:35:33.444] [INFO] [EXEC] STREAM_CONCURRENCY_STATE buys=1 sells=1 waiting=19 inventory_u=0.00 exposure_u=0.00 buy_allowed=true reason=none
+[11:35:34.181] [INFO] [EXEC] STREAM_BUY_FILLED level_id=2
+[11:35:34.182] [INFO] [EXEC] STREAM_SIGNAL_BUY_FILL stream_id=2 fill_price=79315.93000000 effect=log_only
+[11:35:34.182] [OK] [EXEC] CHUNK ADD qty=0.000180 entry=79315.93
+[11:35:34.182] [INFO] [EXEC] CHUNK COUNT n=1
+[11:35:34.182] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=79316.20
+[11:35:34.447] [INFO] [EXEC] STREAM_CHUNK_OWNED stream_id=2 chunk_id=1163671855776 qty=0.000180
+[11:35:34.447] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=481
+[11:35:34.447] [INFO] [EXEC] STREAM_SELL_OWNED stream_id=2 chunk_id=1163671855776 order_id=391911295
+[11:35:34.448] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=2 chunk_id=1163671855776 order_id=391911295 price=79316.20 qty=0.000180
+[11:35:34.705] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911295 status=NEW
+[11:35:34.705] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:35:34.706] [WARNING] [EXEC] STATE REPAIR reason=inventory_cannot_be_flat
+[11:35:34.706] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:34.706] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:35:34.707] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:34.707] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:35:35.432] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911295 status=NEW
+[11:35:35.434] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:35.435] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911295 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:35.436] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.437] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.438] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.439] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.440] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.440] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.441] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.441] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.442] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.442] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.443] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.443] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.444] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.444] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.445] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.445] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.445] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.446] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:35.446] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:35.446] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:35.447] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=513
+[11:35:35.447] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:36.182] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911295 status=NEW
+[11:35:36.183] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:36.707] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:36.707] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=517
+[11:35:36.708] [INFO] [EXEC] STREAMS_EXITING count=2 EXITING_QTY=0.000000
+[11:35:36.708] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=2 exiting_streams=2 recycled_streams=0 waiting_streams=18
+[11:35:37.206] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911295 status=NEW
+[11:35:37.206] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=2 chunk_id=1163671855776 order_id=391911295 age_ms=3026 timeout_ms=2800
+[11:35:37.463] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=2 chunk_id=1163671855776 order_id=391911295
+[11:35:37.464] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=0 retry_max=2 stream_id=2 chunk_id=1163671855776 order_id=391911295
+[11:35:37.464] [WARNING] [EXEC] STREAM_EXIT_RETRY_PLACED stream_id=2 chunk_id=1163671855776 order_id=pending qty=0.000180 price=79316.03 retry_count=1
+[11:35:37.724] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:37.725] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=525
+[11:35:37.725] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911516 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:37.726] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.726] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.726] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.727] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.727] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.727] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.728] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.728] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.728] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.729] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.729] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.729] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.729] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.730] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.730] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.730] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.730] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.731] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:37.731] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:37.731] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:37.732] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:35:37.732] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:37.733] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:35:37.733] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:37.733] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:35:38.443] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911516 status=NEW
+[11:35:38.444] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:39.219] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911516 status=NEW
+[11:35:39.219] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=554
+[11:35:39.220] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:39.220] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911516 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:39.220] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.220] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.220] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.221] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.222] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.222] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.222] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.222] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.222] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.223] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.223] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.223] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.223] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.223] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.223] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.224] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.224] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.224] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:39.224] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:39.224] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:39.225] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:39.972] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911516 status=NEW
+[11:35:39.973] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:40.711] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911516 status=NEW
+[11:35:40.712] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=580
+[11:35:40.712] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=2 chunk_id=1163671855776 order_id=391911516 age_ms=3507 timeout_ms=2800
+[11:35:40.979] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=2 chunk_id=1163671855776 order_id=391911516
+[11:35:40.979] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=1 retry_max=2 stream_id=2 chunk_id=1163671855776 order_id=391911516
+[11:35:40.979] [WARNING] [EXEC] STREAM_EXIT_RETRY_PLACED stream_id=2 chunk_id=1163671855776 order_id=pending qty=0.000180 price=79316.03 retry_count=2
+[11:35:41.244] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:35:41.245] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:41.245] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:35:41.245] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:41.245] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:35:41.739] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:41.741] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=590
+[11:35:41.742] [INFO] [EXEC] STREAMS_EXITING count=2 EXITING_QTY=0.000000
+[11:35:41.743] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=2 exiting_streams=2 recycled_streams=0 waiting_streams=18
+[11:35:42.008] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911611 status=NEW
+[11:35:42.009] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:42.010] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911611 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:42.011] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.012] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.013] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.014] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.015] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.015] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.016] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.017] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.018] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.019] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.020] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.021] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.022] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.022] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.023] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.024] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.024] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.025] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:42.026] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:42.027] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:42.028] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:43.272] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911611 status=NEW
+[11:35:43.272] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=617
+[11:35:43.273] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:44.058] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911611 status=NEW
+[11:35:44.058] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=2 chunk_id=1163671855776 order_id=391911611 age_ms=3344 timeout_ms=2800
+[11:35:44.323] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=2 chunk_id=1163671855776 order_id=391911611
+[11:35:44.324] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=621
+[11:35:44.324] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=2 chunk_id=1163671855776 order_id=391911611 stop_price=79313.72 retry_count=2 retry_max=2
+[11:35:44.324] [WARNING] [EXEC] STREAM_EXIT_ISOLATED stream_id=2 chunk_id=1163671855776 action=stop_loss_exit
+[11:35:44.583] [WARNING] [EXEC] STREAM_EXIT_RETRY_PLACED stream_id=2 chunk_id=1163671855776 order_id=391911664 qty=0.000180 price=79313.72
+[11:35:44.584] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:44.584] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=EXITING buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:44.585] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.585] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.585] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.586] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.586] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.586] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.586] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.586] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.586] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.587] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.587] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.587] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.588] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.588] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.588] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.588] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.588] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.588] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:44.589] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:44.589] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=1 exiting=1 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:44.589] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:35:44.589] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:44.589] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:35:44.589] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:44.589] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:35:45.282] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911664 status=NEW
+[11:35:45.283] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:46.078] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911664 status=NEW
+[11:35:46.079] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=654
+[11:35:46.081] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:46.081] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:46.082] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.083] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.084] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.084] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.085] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.086] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.086] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.087] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.088] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.089] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.089] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.090] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.090] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.091] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.091] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.091] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.092] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.092] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:46.092] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:46.093] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:46.093] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:46.819] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911664 status=NEW
+[11:35:46.821] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:47.590] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=2 chunk_id=1163671855776 order_id=391911664 status=NEW
+[11:35:47.591] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=680
+[11:35:47.592] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=2 chunk_id=1163671855776 order_id=391911664 age_ms=3535 timeout_ms=2800
+[11:35:47.860] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=2 chunk_id=1163671855776 order_id=391911664
+[11:35:47.862] [ERROR] [EXEC] STREAM_EXIT_STUCK stream_id=2 chunk_id=1163671855776 order_id=391911664
+[11:35:47.862] [WARNING] [EXEC] STREAM_EXIT_ISOLATED stream_id=2 chunk_id=1163671855776 action=force_sell_reprice
+[11:35:47.863] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:47.864] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:47.865] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.866] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.867] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.868] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.869] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.870] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.870] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.871] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.872] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.873] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.874] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.875] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.875] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.876] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.877] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.878] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.878] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.879] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:47.880] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:47.881] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:47.882] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:47.882] [INFO] [EXEC] EXIT RECOVERY inventory_no_sell qty=0.000180
+[11:35:47.883] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:48.410] [INFO] [EXEC] SELL CHECK inventory=0.000180 reported=0.000000 remaining=0.000180 chunks=1
+[11:35:48.410] [INFO] [EXEC] PLACE_SELL_SOURCE source=plan price=79315.95
+[11:35:48.411] [OK] [EXEC] PLACE SELL price=79315.95 qty=0.000180
+[11:35:48.673] [WARNING] [EXEC] SELL_HOLD_RECOVERY_START orderId=391911770 entry=79315.93 floor=79315.95 ask=79282.58
+[11:35:48.674] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=713
+[11:35:48.674] [OK] [EXEC] SELL ORDER SENT orderId=391911770
+[11:35:48.677] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:48.677] [INFO] [EXEC] STREAMS_EXITING count=2 EXITING_QTY=0.000000
+[11:35:48.678] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=2 exiting_streams=2 recycled_streams=0 waiting_streams=18
+[11:35:49.620] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:49.620] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:49.620] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.620] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.620] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.620] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.621] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.621] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.621] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.621] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.621] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.621] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.621] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.622] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.622] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.622] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.622] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.622] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.622] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.622] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:49.622] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:49.623] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:50.896] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=391911770 status=NEW
+[11:35:50.896] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=740
+[11:35:50.897] [INFO] [EXEC] SELL_WATCHDOG_FAR_IGNORE orderId=391911770 reason=protected_sell dist_ticks=3406
+[11:35:51.658] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:51.659] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:51.660] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.660] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.661] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.662] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.663] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.663] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.664] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.664] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.664] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.664] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.665] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.665] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.665] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.665] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.666] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.666] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.666] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.666] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:51.666] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:51.667] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:51.931] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=391911770 status=NEW
+[11:35:51.932] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=764
+[11:35:52.945] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:52.946] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=765
+[11:35:52.947] [INFO] [EXEC] STREAMS_EXITING count=2 EXITING_QTY=0.000000
+[11:35:52.947] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=2 exiting_streams=2 recycled_streams=0 waiting_streams=18
+[11:35:53.709] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:53.710] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:53.710] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.711] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.713] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.713] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.714] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.715] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.715] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.716] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.716] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.717] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.717] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.718] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.719] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.720] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.720] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.721] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.721] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.722] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:53.722] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:53.723] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:53.983] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=391911770 status=NEW
+[11:35:53.985] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=790
+[11:35:53.986] [WARNING] [EXEC] SMART_EXIT_ACTIVE
+[11:35:53.986] [WARNING] [EXEC] SMART_EXIT_BREAK_HOLD reason=too_far age=5050 dist_ticks=3580
+[11:35:54.511] [WARNING] [EXEC] TAKER_EXIT_TRIGGER reason=smart_break_hold_too_far age=5313 qty=0.000180
+[11:35:54.511] [WARNING] [EXEC] SMART_EXIT_TO_TAKER reason=smart_break_hold_too_far
+[11:35:54.512] [WARNING] [EXEC] TAKER_EXIT_CANCEL_MAKER orderId=391911770
+[11:35:55.291] [INFO] [EXEC] PLACE_SELL_SOURCE source=taker price=79274.69
+[11:35:55.292] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=796
+[11:35:55.553] [WARNING] [EXEC] TAKER_EXIT_ORDER_SENT id=391911997 price=79274.69 qty=0.000180
+[11:35:56.433] [WARNING] [SYNC] desync fixed
+[11:35:56.434] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=798
+[11:35:56.434] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:56.435] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:35:56.435] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.436] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.436] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.437] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.437] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.437] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.438] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.438] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.439] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.439] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.439] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.440] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.440] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.441] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.441] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.441] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.442] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.442] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:56.442] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:35:56.443] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:35:56.443] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:56.444] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.000180
+[11:35:56.444] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:56.444] [WARNING] [EXEC] SMART_EXIT_PANIC_RETRY reason=inventory_no_sell attempt=1
+[11:35:56.445] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:56.445] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[11:35:56.445] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:56.445] [WARNING] [EXEC] PANIC EXIT smart_exit_inventory_no_sell
+[11:35:56.707] [WARNING] [EXEC] FORCE EXIT price=79274.00
+[11:35:56.708] [INFO] [EXEC] PLACE_SELL_SOURCE source=panic price=79274.00
+[11:35:56.708] [OK] [EXEC] PLACE SELL price=79274.00 qty=0.000180
+[11:35:56.970] [WARNING] [EXEC] PANIC START price=79274.00
+[11:35:56.971] [OK] [EXEC] SELL ORDER SENT orderId=391912025
+[11:35:58.159] [OK] [SYNC] order filled detected
+[11:35:58.160] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=834
+[11:35:58.161] [OK] [SYNC] SELL filled on exchange
+[11:35:58.162] [OK] [EXEC] FIFO CLOSE qty=0.000180 entry=79315.93 exit=79274.00 pnl=-0.007547
+[11:35:58.163] [INFO] [EXEC] CHUNK DRAINED
+[11:35:58.163] [OK] [EXEC] REALIZED pnl=-0.007547
+[11:35:58.164] [OK] [EXEC] SMART_EXIT_DONE_FLAT
+[11:35:58.165] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[11:35:58.165] [OK] [EXEC] CYCLE CLOSED pnl=-0.007547
+[11:35:58.166] [INFO] [EXEC] SESSION realized=-0.012613 wins=0 losses=2
+[11:35:58.167] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:58.168] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:35:58.168] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.169] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.169] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.170] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.170] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.171] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.171] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.172] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.172] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.172] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.172] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.173] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.173] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.173] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.173] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.174] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.174] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.174] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:35:58.174] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=18 buy_placed=0 sell_active=2 exiting=0 recycle=0 chunks_total=0 stream_chunks=0 orphan_chunks=0 inventory_qty=0.000000 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000000
+[11:35:58.175] [INFO] [HEALTH] state=DANGER
+[11:35:58.175] [INFO] [EXEC] STREAM_SHUTDOWN_STATE active=false reason=runtime_tick
+[11:35:58.175] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[11:35:58.176] [INFO] [EXEC] STREAM_SWARM_STATE wait_start=0 wait_buy=18 buy_placed=0 sell_active=2 recycle=0 active_buys=0 active_sells=2
+[11:35:58.176] [INFO] [EXEC] STREAM_BUY_CAPACITY active_buys=0 active_sells=2 waiting_streams=18 max_active_buys=10 free_buy_slots=10 batch_size=1
+[11:35:58.440] [INFO] [EXEC] STREAM_BUY_PLACED level_id=3 order_id=391912109
+[11:35:58.440] [OK] [EXEC] PLACE BUY price=79315.88 qty=0.000180
+[11:35:58.441] [INFO] [EXEC] STREAM_PLACEMENT_TICK active_buys=1 active_sells=2 waiting_streams=18 free_buy_slots=10 placed=1
+[11:35:58.441] [INFO] [EXEC] STREAM_CONCURRENCY_STATE buys=1 sells=2 waiting=18 inventory_u=0.00 exposure_u=0.00 buy_allowed=true reason=none
+[11:35:58.441] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:35:58.442] [INFO] [EXEC] STREAMS_EXITING count=2 EXITING_QTY=0.000000
+[11:35:58.442] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=1 active_sell_streams=2 exiting_streams=2 recycled_streams=0 waiting_streams=17
+[11:35:59.199] [INFO] [EXEC] STREAM_BUY_FILLED level_id=3
+[11:35:59.200] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=876
+[11:35:59.200] [INFO] [EXEC] STREAM_SIGNAL_BUY_FILL stream_id=3 fill_price=79315.88000000 effect=log_only
+[11:35:59.201] [OK] [EXEC] CHUNK ADD qty=0.000180 entry=79315.88
+[11:35:59.201] [INFO] [EXEC] CHUNK COUNT n=1
+[11:35:59.202] [INFO] [EXEC] STREAM_TARGET_USED ticks=28 sell_price=79316.16
+[11:35:59.466] [INFO] [EXEC] STREAM_CHUNK_OWNED stream_id=3 chunk_id=1163675880192 qty=0.000180
+[11:35:59.467] [INFO] [EXEC] STREAM_SELL_OWNED stream_id=3 chunk_id=1163675880192 order_id=391912129
+[11:35:59.467] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=3 chunk_id=1163675880192 order_id=391912129 price=79316.16 qty=0.000180
+[11:35:59.734] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912129 status=NEW
+[11:35:59.735] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:35:59.736] [WARNING] [EXEC] STATE REPAIR reason=inventory_cannot_be_flat
+[11:35:59.737] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:59.737] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:35:59.738] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:35:59.739] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:36:00.439] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912129 status=NEW
+[11:36:00.439] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=891
+[11:36:00.440] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:00.440] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:00.441] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=SELL_PLACED buy_order_id=0 sell_order_id=391912129 chunk_id=1163675880192 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:36:00.441] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.441] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.442] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.442] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.442] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.443] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.443] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.443] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.443] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.444] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.444] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.444] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.444] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.445] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.445] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.445] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.446] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:00.446] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:36:00.446] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=17 buy_placed=0 sell_active=3 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:36:00.447] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:01.465] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912129 status=NEW
+[11:36:01.466] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=915
+[11:36:01.467] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:02.233] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912129 status=NEW
+[11:36:02.234] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=3 chunk_id=1163675880192 order_id=391912129 age_ms=3035 timeout_ms=2800
+[11:36:02.498] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=3 chunk_id=1163675880192 order_id=391912129
+[11:36:02.498] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=919
+[11:36:02.499] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=0 retry_max=2 stream_id=3 chunk_id=1163675880192 order_id=391912129
+[11:36:02.499] [WARNING] [EXEC] STREAM_EXIT_RETRY_PLACED stream_id=3 chunk_id=1163675880192 order_id=pending qty=0.000180 price=79315.99 retry_count=1
+[11:36:02.759] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:02.760] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:02.760] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=SELL_PLACED buy_order_id=0 sell_order_id=391912168 chunk_id=1163675880192 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:36:02.760] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.761] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.761] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.761] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.761] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.762] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.762] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.762] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.762] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.763] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.763] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.763] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.763] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.764] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.764] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.764] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.764] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:02.765] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:36:02.765] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=17 buy_placed=0 sell_active=3 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:36:02.765] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:36:02.766] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:02.766] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:36:02.766] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:02.766] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:36:03.485] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912168 status=NEW
+[11:36:03.486] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:03.486] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:36:03.487] [INFO] [EXEC] STREAMS_EXITING count=3 EXITING_QTY=0.000000
+[11:36:03.487] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=3 exiting_streams=3 recycled_streams=0 waiting_streams=17
+[11:36:04.245] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912168 status=NEW
+[11:36:04.246] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=954
+[11:36:04.247] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:04.248] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:04.249] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=SELL_PLACED buy_order_id=0 sell_order_id=391912168 chunk_id=1163675880192 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:36:04.250] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.251] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.252] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.253] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.253] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.254] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.254] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.255] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.255] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.256] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.256] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.257] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.257] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.257] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.258] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.258] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.258] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:04.259] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:36:04.259] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=17 buy_placed=0 sell_active=3 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:36:04.260] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:05.014] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912168 status=NEW
+[11:36:05.017] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:05.754] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912168 status=NEW
+[11:36:05.755] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=980
+[11:36:05.756] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=3 chunk_id=1163675880192 order_id=391912168 age_ms=3519 timeout_ms=2800
+[11:36:06.020] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=3 chunk_id=1163675880192 order_id=391912168
+[11:36:06.022] [INFO] [EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count=1 retry_max=2 stream_id=3 chunk_id=1163675880192 order_id=391912168
+[11:36:06.024] [WARNING] [EXEC] STREAM_EXIT_RETRY_PLACED stream_id=3 chunk_id=1163675880192 order_id=pending qty=0.000180 price=79315.99 retry_count=2
+[11:36:06.285] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:06.285] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:06.286] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=SELL_PLACED buy_order_id=0 sell_order_id=391912271 chunk_id=1163675880192 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:36:06.287] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.287] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.288] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.288] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.289] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.289] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.289] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.290] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.290] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.290] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.291] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.291] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.291] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.292] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.292] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.292] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.293] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:06.293] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:36:06.294] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=17 buy_placed=0 sell_active=3 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:36:06.295] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:36:06.295] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:06.296] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:36:06.296] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:06.296] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:36:07.282] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912271 status=NEW
+[11:36:07.283] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=1012
+[11:36:07.284] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:07.285] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:07.286] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=SELL_PLACED buy_order_id=0 sell_order_id=391912271 chunk_id=1163675880192 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:36:07.287] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.288] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.289] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.289] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.290] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.290] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.291] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.291] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.291] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.292] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.292] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.292] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.293] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.293] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.294] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.294] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.294] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:07.295] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:36:07.295] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=17 buy_placed=0 sell_active=3 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:36:07.296] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:08.017] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912271 status=NEW
+[11:36:08.020] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:08.774] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912271 status=NEW
+[11:36:08.775] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=1038
+[11:36:08.776] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=3 chunk_id=1163675880192 order_id=391912271 age_ms=3018 timeout_ms=2800
+[11:36:09.041] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=3 chunk_id=1163675880192 order_id=391912271
+[11:36:09.043] [WARNING] [EXEC] STREAM_STOP_LOSS_EXIT stream_id=3 chunk_id=1163675880192 order_id=391912271 stop_price=79313.68 retry_count=2 retry_max=2
+[11:36:09.044] [WARNING] [EXEC] STREAM_EXIT_ISOLATED stream_id=3 chunk_id=1163675880192 action=stop_loss_exit
+[11:36:09.313] [WARNING] [EXEC] STREAM_EXIT_RETRY_PLACED stream_id=3 chunk_id=1163675880192 order_id=391912337 qty=0.000180 price=79313.68
+[11:36:09.315] [INFO] [EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory
+[11:36:09.315] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:09.315] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=exit_recovery_inventory_no_sell
+[11:36:09.316] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:09.316] [INFO] [EXEC] STREAM_GLOBAL_SMART_EXIT_BLOCKED reason=stream_owned_inventory qty=0.000180 trigger=place_sell
+[11:36:09.317] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:36:09.317] [INFO] [EXEC] STREAMS_EXITING count=3 EXITING_QTY=0.000000
+[11:36:09.318] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=3 exiting_streams=3 recycled_streams=0 waiting_streams=17
+[11:36:10.023] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912337 status=NEW
+[11:36:10.025] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=1052
+[11:36:10.026] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:10.026] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:10.027] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=SELL_PLACED buy_order_id=0 sell_order_id=391912337 chunk_id=1163675880192 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:36:10.028] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.029] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.030] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.030] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.031] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.032] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.032] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.032] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.033] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.033] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.034] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.034] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.035] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.035] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.035] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.036] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.036] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:10.037] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:36:10.037] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=17 buy_placed=0 sell_active=3 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:36:10.038] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:11.281] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912337 status=NEW
+[11:36:11.282] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=1076
+[11:36:11.283] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:12.046] [INFO] [EXEC] STREAM_EXIT_RETRY_STATUS stream_id=3 chunk_id=1163675880192 order_id=391912337 status=NEW
+[11:36:12.048] [WARNING] [EXEC] STREAM_SELL_TIMEOUT stream_id=3 chunk_id=1163675880192 order_id=391912337 age_ms=3270 timeout_ms=2800
+[11:36:12.317] [INFO] [EXEC] STREAM_SELL_CANCEL_OLD stream_id=3 chunk_id=1163675880192 order_id=391912337
+[11:36:12.318] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=1080
+[11:36:12.319] [ERROR] [EXEC] STREAM_EXIT_STUCK stream_id=3 chunk_id=1163675880192 order_id=391912337
+[11:36:12.319] [WARNING] [EXEC] STREAM_EXIT_ISOLATED stream_id=3 chunk_id=1163675880192 action=force_sell_reprice
+[11:36:12.320] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:12.321] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:12.321] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=SELL_PLACED buy_order_id=0 sell_order_id=391912337 chunk_id=1163675880192 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:36:12.322] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.322] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.322] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.322] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.323] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.323] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.323] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.324] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.324] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.324] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.324] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.325] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.325] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.325] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.325] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.326] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.326] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:12.326] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:36:12.326] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=17 buy_placed=0 sell_active=3 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:36:12.327] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:12.327] [INFO] [EXEC] EXIT RECOVERY inventory_no_sell qty=0.000180
+[11:36:12.328] [ERROR] [EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty=0.000180
+[11:36:12.849] [INFO] [EXEC] SELL CHECK inventory=0.000180 reported=0.000000 remaining=0.000180 chunks=1
+[11:36:12.850] [INFO] [EXEC] PLACE_SELL_SOURCE source=plan price=79315.90
+[11:36:12.851] [OK] [EXEC] PLACE SELL price=79315.90 qty=0.000180
+[11:36:13.113] [OK] [EXEC] SELL ORDER SENT orderId=391912539
+[11:36:13.388] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[11:36:13.388] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=1112
+[11:36:13.746] [WARNING] cancel all requested
+[11:36:13.747] [WARNING] [EXEC] STREAM_SHUTDOWN_STARTED
+[11:36:13.748] [WARNING] [EXEC] STOP canceled panic order, position remains open
+[11:36:14.562] [WARNING] [SYNC] desync fixed
+[11:36:14.563] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=1116
+[11:36:15.615] [WARNING] [EXEC] STOP_SAFE_MANUAL inventory=0.000180 active_order=0
+[11:36:15.616] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=1117
+[11:36:15.616] [WARNING] [EXEC] STREAM_STOP_OPEN_INVENTORY qty=0.000180 locked=0.000000 free=0.484587
+[11:36:15.617] [WARNING] STOP
+[11:36:15.621] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=1 state=SELL_PLACED buy_order_id=0 sell_order_id=391910997 chunk_id=1163675860528 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:15.622] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=2 state=SELL_PLACED buy_order_id=0 sell_order_id=391911664 chunk_id=1163671855776 chunk_qty=0.000000 buy_live=false sell_live=true chunk_live=false
+[11:36:15.623] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=3 state=SELL_PLACED buy_order_id=0 sell_order_id=391912337 chunk_id=1163675880192 chunk_qty=0.000180 buy_live=false sell_live=true chunk_live=true
+[11:36:15.623] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=4 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.624] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=5 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.625] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=6 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.625] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=7 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.626] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=8 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.626] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=9 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.627] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=10 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.627] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=11 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.627] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=12 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.628] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=13 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.628] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=14 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.629] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=15 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.629] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=16 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.629] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=17 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.630] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=18 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.630] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=19 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.630] [INFO] [EXEC] STREAM_OWNERSHIP_AUDIT stream_id=20 state=WAIT_BUY buy_order_id=0 sell_order_id=0 chunk_id=0 chunk_qty=0.000000 buy_live=false sell_live=false chunk_live=false
+[11:36:15.631] [ERROR] [EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty=0.000180 stream_chunks=0
+[11:36:15.631] [INFO] [EXEC] STREAM_OWNERSHIP_SUMMARY streams_total=20 wait_buy=17 buy_placed=0 sell_active=3 exiting=0 recycle=0 chunks_total=1 stream_chunks=0 orphan_chunks=1 inventory_qty=0.000180 stream_inventory_qty=0.000000 orphan_inventory_qty=0.000180
+[11:36:15.633] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[11:36:15.633] [INFO] [EXEC] STREAMS_EXITING count=3 EXITING_QTY=0.000000
+[11:36:15.633] [INFO] [EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams=0 active_sell_streams=3 exiting_streams=3 recycled_streams=0 waiting_streams=17

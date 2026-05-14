@@ -1,0 +1,15 @@
+[18:05:45.097] [OK] filters loaded
+[18:05:46.016] [WARNING] [EXEC] BLOCK reason=balance_low
+[18:05:47.661] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[18:05:47.665] [OK] START
+[18:05:47.671] [INFO] [EXEC] LIVE ON
+[18:05:47.674] [INFO] [EXEC] WAIT READY
+[18:05:48.507] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[18:05:48.508] [WS] connecting primary
+[18:05:49.525] [WS] connected
+[18:05:49.526] [WS] LIVE bid=81979.65 ask=81986.97
+[18:05:55.332] [WS] LIVE bid=81978.00 ask=81987.42
+[18:05:55.760] [WARNING] cancel all requested
+[18:05:55.765] [WARNING] STOP
+[18:05:56.666] [WS] stale/lost
+[18:06:08.519] [WARNING] [EXEC] BLOCK reason=balance_low

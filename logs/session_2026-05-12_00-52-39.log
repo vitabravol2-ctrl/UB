@@ -1,0 +1,120 @@
+[21:52:41.013] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:41.013] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:41.013] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:43.642] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:43.642] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:43.642] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:44.498] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:44.498] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:44.498] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:44.560] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:44.560] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:44.576] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:44.923] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:44.923] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:44.923] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:45.093] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:45.093] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:45.093] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:45.281] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:45.281] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:45.281] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:45.468] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:45.468] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:45.468] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:45.656] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:45.656] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:45.671] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:45.854] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:45.855] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:45.855] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:46.544] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:46.544] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:46.544] [WARNING] START_BLOCKED reason=api_not_ready
+[21:52:46.544] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[21:52:46.544] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:52:46.544] [WARNING] START_BLOCKED reason=api_not_ready
+[21:53:26.704] [INFO] API keys loaded key=yxug...DbHq
+[21:53:27.977] [OK] filters loaded
+[21:53:31.376] [OK] [SETTINGS] settings saved
+[21:53:32.313] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[21:53:32.313] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:53:32.813] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[21:53:32.829] [OK] START
+[21:53:32.829] [OK] START_OK runtime_started
+[21:53:32.829] [INFO] [EXEC] LIVE ON
+[21:53:32.829] [INFO] [EXEC] WAIT READY
+[21:53:32.829] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:53:32.829] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:53:32.829] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=None spread=9.41 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:53:32.845] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[21:53:32.845] [WS] connecting primary
+[21:53:33.266] [WARNING] [HEALTH] block spread_too_young lifetime=437
+[21:53:33.266] [OK] [PLAN] READY entry=81766.48 exit=81773.89 profit=0.001778 age=437ms
+[21:53:33.871] [OK] [PLAN] HOT entry=81766.48 exit=81777.00 profit=0.002525 age=1042ms
+[21:53:33.891] [WS] connected
+[21:53:34.594] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:53:34.594] [OK] [EXEC] BUY ORDER SENT orderId=383662298 price=81766.48 qty=0.000240
+[21:53:34.594] [OK] [EXEC] PLACE BUY price=81766.48 qty=0.000240
+[21:53:36.766] [INFO] [EXEC] ENTRY_REPRICE reason=bid_moved_up old=81766.48 new=81770.01 count=1
+[21:53:37.313] [OK] [EXEC] ENTRY_PLACE price=81770.01 qty=0.000240
+[21:53:39.625] [WARNING] [EXEC] BUY TIMEOUT orderId=383662312
+[21:53:39.625] [WARNING] [EXEC] CANCEL BUY orderId=383662312
+[21:53:39.890] [OK] [EXEC] BUY CANCELED confirmed
+[21:53:40.140] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383662312
+[21:53:40.156] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:53:41.156] [INFO] [HEALTH] state=GOOD
+[21:53:41.156] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=15 spread=8.00 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:53:41.640] [OK] [PLAN] HOT entry=81771.00 exit=81788.58 profit=0.004219 age=484ms
+[21:53:42.156] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:53:42.156] [OK] [EXEC] BUY ORDER SENT orderId=383662373 price=81778.56 qty=0.000240
+[21:53:42.171] [OK] [EXEC] PLACE BUY price=81778.56 qty=0.000240
+[21:53:42.171] [OK] [PLAN] READY entry=81778.56 exit=81785.00 profit=0.001546 age=751ms
+[21:53:42.718] [OK] [SETTINGS] settings saved
+[21:53:46.974] [WARNING] [EXEC] BUY TIMEOUT orderId=383662373
+[21:53:46.978] [WARNING] [EXEC] CANCEL BUY orderId=383662373
+[21:53:47.233] [OK] [EXEC] BUY CANCELED confirmed
+[21:53:47.514] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383662373
+[21:53:47.514] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:53:48.686] [INFO] [HEALTH] state=GOOD
+[21:53:48.686] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=125 spread=8.00 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:53:49.937] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:53:49.937] [OK] [EXEC] BUY ORDER SENT orderId=383662445 price=81779.00 qty=0.000240
+[21:53:49.953] [OK] [EXEC] PLACE BUY price=81779.00 qty=0.000240
+[21:53:49.953] [OK] [PLAN] READY entry=81779.00 exit=81785.00 profit=0.001440 age=250ms
+[21:53:51.800] [INFO] [EXEC] ENTRY_REPRICE reason=bid_moved_up old=81779.00 new=81780.29 count=1
+[21:53:52.330] [OK] [EXEC] ENTRY_PLACE price=81780.29 qty=0.000240
+[21:53:53.966] [INFO] [EXEC] ENTRY_REPRICE reason=bid_moved_up old=81780.29 new=81781.22 count=2
+[21:53:54.498] [OK] [EXEC] ENTRY_PLACE price=81781.22 qty=0.000240
+[21:53:55.326] [WARNING] [EXEC] BUY TIMEOUT orderId=383662466
+[21:53:55.341] [WARNING] [EXEC] CANCEL BUY orderId=383662466
+[21:53:55.607] [OK] [EXEC] BUY CANCELED confirmed
+[21:53:55.869] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383662466
+[21:53:55.869] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:53:57.970] [INFO] [SETTINGS] exported path=C:/Users/Art/Desktop/UB/1.json
+[21:53:59.669] [OK] [SETTINGS] settings saved
+[21:54:34.516] [INFO] [HEALTH] state=GOOD
+[21:54:34.517] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=62 spread=12.16 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:54:34.884] [OK] [PLAN] HOT entry=81787.86 exit=81798.01 profit=0.002436 age=362ms
+[21:54:35.027] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=BALANCED ws_age=155 spread=6.76 stable=3/3 mid_delta=178.00 bid_delta=448.00
+[21:54:35.281] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:54:35.281] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:54:35.281] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=BALANCED ws_age=94 spread=7.23 stable=4/3 mid_delta=81.50 bid_delta=328.00
+[21:54:35.281] [OK] [PLAN] READY entry=81791.14 exit=81796.37 profit=0.001255 age=766ms
+[21:54:36.027] [WARNING] [HEALTH] block falling_market bid_ticks=-448.00 mid_ticks=232.00
+[21:54:36.027] [WARNING] [HEALTH] unstable_bid delta_ticks=-448.00
+[21:54:36.027] [WARNING] [EXEC] BLOCK_BUY reason=bid_unstable mode=BALANCED ws_age=125 spread=20.36 stable=3/3 mid_delta=232.00 bid_delta=-448.00
+[21:54:36.281] [WARNING] [HEALTH] block falling_market bid_ticks=-13.00 mid_ticks=486.00
+[21:54:36.281] [WARNING] [HEALTH] unstable_bid delta_ticks=-13.00
+[21:54:36.281] [OK] [PLAN] HOT entry=81791.01 exit=81806.22 profit=0.003650 age=254ms
+[21:54:41.042] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=155 spread=7.34 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:54:41.311] [INFO] [HEALTH] state=GOOD
+[21:54:41.311] [OK] [PLAN] READY entry=81799.39 exit=81804.73 profit=0.001282 age=269ms
+[21:54:41.823] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:54:41.823] [OK] [EXEC] BUY ORDER SENT orderId=383662806 price=81799.39 qty=0.000240
+[21:54:41.838] [OK] [EXEC] PLACE BUY price=81799.39 qty=0.000240
+[21:54:46.838] [WARNING] [EXEC] BUY TIMEOUT orderId=383662806
+[21:54:46.854] [WARNING] [EXEC] CANCEL BUY orderId=383662806
+[21:54:47.107] [OK] [EXEC] BUY CANCELED confirmed
+[21:54:47.376] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383662806
+[21:54:47.382] [WARNING] [EXEC] BLOCK reason=buy_not_filled

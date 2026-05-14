@@ -1,0 +1,70 @@
+[21:48:17.625] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:17.625] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:21.973] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:21.973] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:22.868] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:22.868] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:23.639] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:23.639] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:23.870] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:23.870] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:24.042] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:24.042] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:46.992] [OK] [SETTINGS] settings saved
+[21:48:47.784] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:47.799] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:48.454] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:48.454] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:48.657] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:48.657] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:48.858] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:48.858] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:49.484] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:49.484] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:49.828] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:49.828] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:50.022] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:50.022] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:50.204] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:50.204] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:50.392] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:50.392] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:50.595] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:50.595] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:51.964] [WARNING] cancel all requested
+[21:48:52.752] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:52.767] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:52.963] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:52.963] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:53.469] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:53.469] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:53.469] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:53.469] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:53.484] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:53.484] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:53.641] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:53.641] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:53.828] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:53.828] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:54.858] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:54.858] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:55.515] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:55.515] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:55.515] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:55.515] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:55.515] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:55.515] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:55.562] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:55.562] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:57.561] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:57.561] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:57.561] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:57.561] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:58.469] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:58.469] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:58.641] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:58.641] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:58.829] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:58.829] [WARNING] START_BLOCKED reason=api_not_ready
+[21:48:59.499] [INFO] START_SETTINGS live_enabled=True guard_mode=BALANCED entry_mode=BALANCED exit_engine=True order_size=20.0
+[21:48:59.499] [WARNING] START_BLOCKED reason=api_not_ready

@@ -1,0 +1,393 @@
+[21:01:47.765] [OK] filters loaded
+[21:01:55.527] [ERROR] [SETTINGS] import failed reason=Extra data: line 70 column 1 (char 1358)
+[21:01:57.622] [OK] [SETTINGS] settings saved
+[21:01:59.575] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[21:01:59.575] [OK] START
+[21:01:59.575] [INFO] [EXEC] LIVE OFF
+[21:01:59.575] [INFO] [EXEC] WAIT READY
+[21:01:59.590] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[21:01:59.590] [WS] connecting primary
+[21:02:00.105] [OK] [PLAN] READY entry=81814.08 exit=81820.24 profit=0.001478 age=30ms
+[21:02:00.620] [WS] connected
+[21:02:12.689] [OK] [PLAN] HOT entry=81811.01 exit=81818.92 profit=0.001898 age=250ms
+[21:02:12.941] [OK] [PLAN] READY entry=81812.87 exit=81818.92 profit=0.001452 age=502ms
+[21:02:24.641] [WARNING] cancel all requested
+[21:02:24.641] [WARNING] STOP
+[21:02:25.850] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[21:02:25.852] [OK] START
+[21:02:25.856] [INFO] [EXEC] LIVE OFF
+[21:02:25.856] [INFO] [EXEC] WAIT READY
+[21:02:25.863] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[21:02:25.863] [WS] connecting primary
+[21:02:26.939] [WS] connected
+[21:02:29.036] [OK] [PLAN] HOT entry=81813.79 exit=81823.48 profit=0.002326 age=3180ms
+[21:02:29.547] [OK] [PLAN] READY entry=81813.92 exit=81820.96 profit=0.001690 age=3675ms
+[21:02:37.562] [OK] [PLAN] HOT entry=81815.96 exit=81825.00 profit=0.002170 age=11706ms
+[21:02:38.529] [OK] [PLAN] READY entry=81830.55 exit=81835.75 profit=0.001248 age=12673ms
+[21:02:46.591] [OK] [PLAN] HOT entry=81827.01 exit=81835.33 profit=0.001997 age=250ms
+[21:02:46.861] [OK] [PLAN] READY entry=81827.01 exit=81832.99 profit=0.001435 age=515ms
+[21:02:47.107] [OK] [PLAN] HOT entry=81827.01 exit=81835.32 profit=0.001994 age=766ms
+[21:02:50.435] [OK] [PLAN] READY entry=81827.01 exit=81834.47 profit=0.001790 age=4094ms
+[21:02:52.700] [OK] [PLAN] HOT entry=81817.36 exit=81830.66 profit=0.003192 age=6359ms
+[21:02:53.450] [OK] [PLAN] READY entry=81819.78 exit=81825.00 profit=0.001253 age=7109ms
+[21:02:55.984] [OK] [PLAN] HOT entry=81824.55 exit=81833.19 profit=0.002074 age=9639ms
+[21:02:56.755] [OK] [PLAN] READY entry=81827.01 exit=81832.59 profit=0.001339 age=10409ms
+[21:02:57.262] [OK] [PLAN] HOT entry=81819.79 exit=81828.92 profit=0.002191 age=10921ms
+[21:03:05.361] [OK] [PLAN] READY entry=81824.58 exit=81831.68 profit=0.001704 age=19005ms
+[21:03:08.221] [OK] [SETTINGS] settings saved
+[21:03:08.362] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:03:08.362] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:03:08.362] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=BALANCED ws_age=1467 spread=8.76 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:03:08.612] [WARNING] [HEALTH] block spread_too_young lifetime=250
+[21:03:08.612] [WARNING] [HEALTH] unstable_spread lifetime=250
+[21:03:08.612] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=1717 spread=8.76 stable=2/3 mid_delta=0.00 bid_delta=0.00
+[21:03:10.096] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-28.50
+[21:03:10.111] [WARNING] [HEALTH] negative_momentum ticks=-28.50
+[21:03:10.111] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=BALANCED ws_age=375 spread=8.19 stable=4/3 mid_delta=-28.50 bid_delta=0.00
+[21:03:10.377] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-28.50
+[21:03:11.502] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:03:11.502] [OK] [EXEC] BUY ORDER SENT orderId=383603699 price=81824.58 qty=0.000240
+[21:03:11.502] [OK] [EXEC] PLACE BUY price=81824.58 qty=0.000240
+[21:03:16.423] [WARNING] [EXEC] BUY TIMEOUT orderId=383603699
+[21:03:16.439] [WARNING] [EXEC] CANCEL BUY orderId=383603699
+[21:03:16.704] [OK] [EXEC] BUY CANCELED confirmed
+[21:03:16.976] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383603699
+[21:03:16.976] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:03:17.963] [INFO] [HEALTH] state=GOOD
+[21:03:17.964] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=125 spread=10.59 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:03:18.470] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-28.50
+[21:03:18.486] [WARNING] [HEALTH] negative_momentum ticks=-28.50
+[21:03:18.486] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=BALANCED ws_age=405 spread=10.02 stable=2/3 mid_delta=-28.50 bid_delta=0.00
+[21:03:18.486] [OK] [PLAN] HOT entry=81821.44 exit=81829.46 profit=0.001925 age=507ms
+[21:03:18.720] [WARNING] [HEALTH] block falling_market bid_ticks=16.00 mid_ticks=-20.50
+[21:03:18.720] [WARNING] [HEALTH] negative_momentum ticks=-20.50
+[21:03:19.234] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:03:19.234] [OK] [EXEC] BUY ORDER SENT orderId=383603781 price=81821.60 qty=0.000240
+[21:03:19.234] [OK] [EXEC] PLACE BUY price=81821.60 qty=0.000240
+[21:03:19.734] [OK] [PLAN] READY entry=81822.61 exit=81829.46 profit=0.001644 age=1521ms
+[21:03:24.625] [WARNING] [EXEC] BUY TIMEOUT orderId=383603781
+[21:03:24.625] [WARNING] [EXEC] CANCEL BUY orderId=383603781
+[21:03:24.923] [OK] [EXEC] BUY CANCELED confirmed
+[21:03:25.219] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383603781
+[21:03:25.234] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:03:25.562] [INFO] [HEALTH] state=GOOD
+[21:03:25.562] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=2140 spread=8.56 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:03:27.982] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=4562 spread=8.56 stable=4/3 mid_delta=0.00 bid_delta=0.00
+[21:03:30.058] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=6640 spread=8.56 stable=4/3 mid_delta=0.00 bid_delta=0.00
+[21:03:30.922] [INFO] [HEALTH] state=GOOD
+[21:03:31.076] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=0 spread=8.62 stable=2/3 mid_delta=3.00 bid_delta=0.00
+[21:03:31.606] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:03:31.606] [OK] [EXEC] BUY ORDER SENT orderId=383603833 price=81822.61 qty=0.000240
+[21:03:31.606] [OK] [EXEC] PLACE BUY price=81822.61 qty=0.000240
+[21:03:36.862] [WARNING] [EXEC] BUY TIMEOUT orderId=383603833
+[21:03:36.863] [WARNING] [EXEC] CANCEL BUY orderId=383603833
+[21:03:37.123] [OK] [EXEC] BUY CANCELED confirmed
+[21:03:37.389] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383603833
+[21:03:37.389] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:03:37.717] [INFO] [HEALTH] state=GOOD
+[21:03:37.717] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=1984 spread=7.56 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:03:40.155] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=4422 spread=7.56 stable=4/3 mid_delta=0.00 bid_delta=0.00
+[21:03:42.201] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:03:42.201] [OK] [EXEC] BUY ORDER SENT orderId=383603905 price=81823.64 qty=0.000240
+[21:03:42.201] [OK] [EXEC] PLACE BUY price=81823.64 qty=0.000240
+[21:03:47.685] [WARNING] [EXEC] BUY TIMEOUT orderId=383603905
+[21:03:47.685] [WARNING] [EXEC] CANCEL BUY orderId=383603905
+[21:03:47.951] [OK] [EXEC] BUY CANCELED confirmed
+[21:03:48.216] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383603905
+[21:03:48.231] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:03:49.481] [INFO] [HEALTH] state=GOOD
+[21:03:49.481] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=437 spread=10.60 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:03:49.731] [OK] [PLAN] HOT entry=81820.20 exit=81828.80 profit=0.002064 age=250ms
+[21:03:50.247] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:03:50.247] [OK] [EXEC] BUY ORDER SENT orderId=383603951 price=81820.20 qty=0.000240
+[21:03:50.247] [OK] [EXEC] PLACE BUY price=81820.20 qty=0.000240
+[21:03:55.543] [WARNING] [EXEC] BUY TIMEOUT orderId=383603951
+[21:03:55.543] [WARNING] [EXEC] CANCEL BUY orderId=383603951
+[21:03:55.793] [OK] [EXEC] BUY CANCELED confirmed
+[21:03:56.068] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383603951
+[21:03:56.069] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:03:56.565] [INFO] [HEALTH] state=GOOD
+[21:03:56.565] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=1545 spread=9.51 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:03:57.844] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.50
+[21:03:57.844] [WARNING] [HEALTH] negative_momentum ticks=-18.50
+[21:03:57.851] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=BALANCED ws_age=172 spread=9.14 stable=4/3 mid_delta=-18.50 bid_delta=0.00
+[21:03:57.857] [OK] [PLAN] READY entry=81821.23 exit=81828.37 profit=0.001714 age=8363ms
+[21:03:58.089] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.50
+[21:03:59.112] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:03:59.112] [OK] [EXEC] BUY ORDER SENT orderId=383604002 price=81821.23 qty=0.000240
+[21:03:59.127] [OK] [EXEC] PLACE BUY price=81821.23 qty=0.000240
+[21:03:59.893] [OK] [SYNC] order filled detected
+[21:03:59.894] [OK] [SYNC] BUY filled on exchange
+[21:03:59.894] [OK] [EXEC] BUY FILL UPDATE delta=0.000240 avg=81821.23
+[21:03:59.894] [OK] [EXEC] CHUNK ADD qty=0.000240 entry=81821.23
+[21:03:59.894] [INFO] [EXEC] CHUNK COUNT n=1
+[21:03:59.894] [OK] [EXEC] INVENTORY qty=0.000240
+[21:03:59.910] [OK] [EXEC] SELL REQUIRED inventory=0.000240
+[21:04:00.392] [INFO] [EXEC] SELL CHECK inventory=0.000240 reported=0.000000 remaining=0.000240 chunks=1
+[21:04:00.392] [OK] [EXEC] PLACE SELL price=81823.77 qty=0.000240
+[21:04:00.658] [OK] [EXEC] SELL ORDER SENT orderId=383604068
+[21:04:01.298] [INFO] [EXEC] RECOVERY WAIT hard_sl_pending_recovery
+[21:04:06.127] [WARNING] [EXEC] SELL TIMEOUT orderId=383604068
+[21:04:06.127] [WARNING] [EXEC] CANCEL SELL orderId=383604068
+[21:04:06.658] [INFO] [EXEC] SELL FINAL STATUS status=CANCELED orderId=383604068
+[21:04:06.658] [INFO] [EXEC] SELL TIMEOUT check fast_exit
+[21:04:06.658] [WARNING] [EXEC] FORCE EXIT hard_sl_triggered
+[21:04:06.658] [ERROR] [EXEC] HARD SL triggered
+[21:04:06.674] [WARNING] [EXEC] PANIC EXIT sl_mode
+[21:04:06.674] [WARNING] [EXEC] FORCE EXIT price=81822.76
+[21:04:06.674] [OK] [EXEC] PLACE SELL price=81822.76 qty=0.000240
+[21:04:06.940] [WARNING] [EXEC] PANIC START price=81822.76
+[21:04:06.940] [OK] [EXEC] SELL ORDER SENT orderId=383604108
+[21:04:08.220] [OK] [SYNC] order filled detected
+[21:04:08.220] [OK] [SYNC] SELL filled on exchange
+[21:04:08.220] [OK] [EXEC] FIFO CLOSE qty=0.000240 entry=81821.23 exit=81822.76 pnl=+0.000367
+[21:04:08.220] [INFO] [EXEC] CHUNK DRAINED
+[21:04:08.220] [OK] [EXEC] REALIZED pnl=+0.000367
+[21:04:08.220] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[21:04:08.220] [OK] [EXEC] CYCLE CLOSED pnl=+0.000367
+[21:04:08.220] [INFO] [EXEC] SESSION realized=+0.000367 wins=1 losses=0
+[21:04:08.532] [INFO] [HEALTH] state=GOOD
+[21:04:08.532] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=297 spread=7.66 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:04:08.689] [WARNING] [HEALTH] block falling_market bid_ticks=11.00 mid_ticks=-9.00
+[21:04:08.689] [WARNING] [HEALTH] negative_momentum ticks=-9.00
+[21:04:08.689] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=BALANCED ws_age=155 spread=7.26 stable=2/3 mid_delta=-9.00 bid_delta=11.00
+[21:04:08.689] [OK] [PLAN] READY entry=81819.62 exit=81825.28 profit=0.001358 age=157ms
+[21:04:08.940] [WARNING] [HEALTH] block falling_market bid_ticks=11.00 mid_ticks=-9.00
+[21:04:09.189] [WARNING] [HEALTH] block falling_market bid_ticks=13.00 mid_ticks=-8.00
+[21:04:09.189] [WARNING] [HEALTH] negative_momentum ticks=-8.00
+[21:04:09.439] [WARNING] [HEALTH] block falling_market bid_ticks=13.00 mid_ticks=-8.00
+[21:04:09.969] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:04:09.975] [OK] [EXEC] BUY ORDER SENT orderId=383604152 price=81819.75 qty=0.000240
+[21:04:09.975] [OK] [EXEC] PLACE BUY price=81819.75 qty=0.000240
+[21:04:15.021] [WARNING] [EXEC] BUY TIMEOUT orderId=383604152
+[21:04:15.037] [WARNING] [EXEC] CANCEL BUY orderId=383604152
+[21:04:15.297] [OK] [EXEC] BUY CANCELED confirmed
+[21:04:15.563] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383604152
+[21:04:15.578] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:04:22.687] [INFO] [HEALTH] state=GOOD
+[21:04:22.687] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=15 spread=18.13 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:04:22.938] [OK] [PLAN] HOT entry=81835.00 exit=81848.99 profit=0.003358 age=251ms
+[21:04:23.219] [WARNING] [HEALTH] block falling_market bid_ticks=221.00 mid_ticks=-133.00
+[21:04:23.219] [WARNING] [HEALTH] negative_momentum ticks=-133.00
+[21:04:23.234] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=BALANCED ws_age=280 spread=11.05 stable=3/3 mid_delta=-133.00 bid_delta=221.00
+[21:04:23.453] [WARNING] [HEALTH] block falling_market bid_ticks=222.00 mid_ticks=-135.00
+[21:04:23.453] [WARNING] [HEALTH] negative_momentum ticks=-135.00
+[21:04:23.718] [WARNING] [HEALTH] block falling_market bid_ticks=9.00 mid_ticks=-310.00
+[21:04:23.718] [WARNING] [HEALTH] negative_momentum ticks=-310.00
+[21:04:23.974] [WARNING] [HEALTH] block falling_market bid_ticks=6.00 mid_ticks=-68.50
+[21:04:23.974] [WARNING] [HEALTH] negative_momentum ticks=-68.50
+[21:04:24.233] [WARNING] [HEALTH] block falling_market bid_ticks=5.00 mid_ticks=-66.50
+[21:04:24.233] [WARNING] [HEALTH] negative_momentum ticks=-66.50
+[21:04:24.749] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:04:24.749] [OK] [EXEC] BUY ORDER SENT orderId=383604422 price=81835.54 qty=0.000240
+[21:04:24.749] [OK] [EXEC] PLACE BUY price=81835.54 qty=0.000240
+[21:04:24.749] [OK] [PLAN] READY entry=81835.54 exit=81842.85 profit=0.001754 age=1796ms
+[21:04:29.327] [OK] [PLAN] HOT entry=81844.29 exit=81854.01 profit=0.002333 age=6355ms
+[21:04:29.989] [WARNING] [EXEC] BUY TIMEOUT orderId=383604422
+[21:04:29.995] [WARNING] [EXEC] CANCEL BUY orderId=383604422
+[21:04:30.248] [OK] [EXEC] BUY CANCELED confirmed
+[21:04:30.514] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383604422
+[21:04:30.514] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:04:30.561] [INFO] [HEALTH] state=GOOD
+[21:04:30.561] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=30 spread=10.19 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:04:31.342] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:04:31.342] [OK] [EXEC] BUY ORDER SENT orderId=383604661 price=81844.31 qty=0.000240
+[21:04:31.342] [OK] [EXEC] PLACE BUY price=81844.31 qty=0.000240
+[21:04:36.123] [WARNING] [EXEC] BUY TIMEOUT orderId=383604661
+[21:04:36.123] [WARNING] [EXEC] CANCEL BUY orderId=383604661
+[21:04:36.388] [OK] [EXEC] BUY CANCELED confirmed
+[21:04:36.685] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383604661
+[21:04:36.685] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:04:37.138] [INFO] [HEALTH] state=GOOD
+[21:04:37.138] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=187 spread=9.97 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:04:37.910] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:04:37.910] [OK] [EXEC] BUY ORDER SENT orderId=383605258 price=81860.52 qty=0.000240
+[21:04:37.926] [OK] [EXEC] PLACE BUY price=81860.52 qty=0.000240
+[21:04:38.433] [OK] [PLAN] READY entry=81861.53 exit=81868.49 profit=0.001670 age=15480ms
+[21:04:41.912] [OK] [SYNC] order filled detected
+[21:04:41.912] [OK] [SYNC] BUY filled on exchange
+[21:04:41.912] [OK] [EXEC] BUY FILL UPDATE delta=0.000240 avg=81860.52
+[21:04:41.912] [OK] [EXEC] CHUNK ADD qty=0.000240 entry=81860.52
+[21:04:41.912] [INFO] [EXEC] CHUNK COUNT n=1
+[21:04:41.912] [OK] [EXEC] INVENTORY qty=0.000240
+[21:04:41.927] [OK] [EXEC] SELL REQUIRED inventory=0.000240
+[21:04:42.184] [INFO] [EXEC] SELL CHECK inventory=0.000240 reported=0.000000 remaining=0.000240 chunks=1
+[21:04:42.200] [OK] [EXEC] PLACE SELL price=81868.49 qty=0.000240
+[21:04:42.466] [OK] [EXEC] SELL ORDER SENT orderId=383605404
+[21:04:45.450] [OK] [PLAN] HOT entry=81856.03 exit=81864.99 profit=0.002150 age=22482ms
+[21:04:47.559] [WARNING] [EXEC] PANIC WAIT still_open orderId=383605404
+[21:04:50.612] [OK] [PLAN] READY entry=81851.01 exit=81857.93 profit=0.001661 age=27675ms
+[21:04:53.941] [WARNING] [EXEC] PANIC WAIT still_open orderId=383605404
+[21:04:55.455] [OK] [PLAN] HOT entry=81845.32 exit=81856.47 profit=0.002676 age=32503ms
+[21:04:55.992] [OK] [PLAN] READY entry=81851.00 exit=81856.47 profit=0.001313 age=33050ms
+[21:04:57.674] [WARNING] [EXEC] PANIC WAIT still_open orderId=383605404
+[21:04:57.689] [OK] [PLAN] HOT entry=81833.78 exit=81844.13 profit=0.002484 age=34690ms
+[21:04:58.424] [OK] [PLAN] READY entry=81833.79 exit=81840.08 profit=0.001510 age=35471ms
+[21:04:59.221] [OK] [PLAN] HOT entry=81826.18 exit=81840.08 profit=0.003336 age=36253ms
+[21:04:59.705] [OK] [PLAN] READY entry=81827.00 exit=81832.99 profit=0.001438 age=36753ms
+[21:05:00.885] [WARNING] [EXEC] PANIC WAIT still_open orderId=383605404
+[21:05:00.886] [WARNING] [EXEC] PANIC STALE detected orderId=383605404
+[21:05:00.886] [WARNING] [EXEC] PANIC ESCALATE old=81822.76 new=81816.16 qty=0.000240
+[21:05:02.283] [WARNING] [EXEC] PANIC ESCALATE placed orderId=383606261
+[21:05:02.751] [OK] [EXEC] FIFO CLOSE qty=0.000240 entry=81860.52 exit=81819.51 pnl=-0.009842
+[21:05:02.751] [INFO] [EXEC] CHUNK DRAINED
+[21:05:02.751] [OK] [EXEC] REALIZED pnl=-0.009842
+[21:05:02.751] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[21:05:02.767] [OK] [EXEC] CYCLE CLOSED pnl=-0.009842
+[21:05:02.767] [INFO] [EXEC] SESSION realized=-0.009475 wins=1 losses=1
+[21:05:02.767] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[21:05:02.767] [INFO] [EXEC] CYCLE SKIP no_fifo_pnl
+[21:05:02.767] [OK] [EXEC] SELL FILLED id=383606261
+[21:05:02.767] [OK] [EXEC] SELL FILLED qty=0.000240 remaining=0.000000
+[21:05:02.767] [INFO] [EXEC] SELL ACCOUNTING RESET inventory_drained
+[21:05:02.767] [INFO] [EXEC] INVENTORY DRAINED epsilon_cleanup qty=0.000000
+[21:05:02.783] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[21:05:02.783] [INFO] [EXEC] CYCLE SKIP no_fifo_pnl
+[21:05:03.991] [INFO] [HEALTH] state=GOOD
+[21:05:03.991] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=62 spread=7.98 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:05:04.236] [OK] [PLAN] READY entry=81819.01 exit=81824.99 profit=0.001435 age=245ms
+[21:05:04.736] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:05:04.751] [OK] [EXEC] BUY ORDER SENT orderId=383606308 price=81819.01 qty=0.000240
+[21:05:04.751] [OK] [EXEC] PLACE BUY price=81819.01 qty=0.000240
+[21:05:04.751] [OK] [PLAN] HOT entry=81819.01 exit=81829.57 profit=0.002534 age=495ms
+[21:05:09.500] [WARNING] [EXEC] BUY TIMEOUT orderId=383606308
+[21:05:09.500] [WARNING] [EXEC] CANCEL BUY orderId=383606308
+[21:05:09.766] [OK] [EXEC] BUY CANCELED confirmed
+[21:05:10.037] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383606308
+[21:05:10.037] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:05:10.052] [OK] [PLAN] READY entry=81823.67 exit=81831.07 profit=0.001776 age=5259ms
+[21:05:10.532] [INFO] [HEALTH] state=GOOD
+[21:05:10.532] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=1452 spread=9.40 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:05:10.797] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=1718 spread=9.40 stable=2/3 mid_delta=0.00 bid_delta=0.00
+[21:05:13.266] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=4187 spread=9.40 stable=2/3 mid_delta=0.00 bid_delta=0.00
+[21:05:14.562] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-46.50
+[21:05:14.562] [WARNING] [HEALTH] negative_momentum ticks=-46.50
+[21:05:14.562] [WARNING] [EXEC] BLOCK_BUY reason=mid_momentum_negative mode=BALANCED ws_age=77 spread=8.47 stable=5/3 mid_delta=-46.50 bid_delta=0.00
+[21:05:14.812] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-111.00
+[21:05:14.812] [WARNING] [HEALTH] negative_momentum ticks=-111.00
+[21:05:15.234] [WARNING] [HEALTH] block falling_market bid_ticks=1.00 mid_ticks=-110.50
+[21:05:15.234] [WARNING] [HEALTH] negative_momentum ticks=-110.50
+[21:05:15.562] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-64.50
+[21:05:15.562] [WARNING] [HEALTH] negative_momentum ticks=-64.50
+[21:05:16.109] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:05:16.109] [OK] [EXEC] BUY ORDER SENT orderId=383606486 price=81823.68 qty=0.000240
+[21:05:16.109] [OK] [EXEC] PLACE BUY price=81823.68 qty=0.000240
+[21:05:20.869] [OK] [EXEC] BUY FILL UPDATE delta=0.000240 avg=81823.68
+[21:05:20.870] [OK] [EXEC] CHUNK ADD qty=0.000240 entry=81823.68
+[21:05:20.875] [INFO] [EXEC] CHUNK COUNT n=1
+[21:05:20.876] [OK] [EXEC] INVENTORY qty=0.000240
+[21:05:20.876] [OK] [EXEC] SELL REQUIRED inventory=0.000240
+[21:05:20.876] [OK] [EXEC] BUY PARTIAL delta=0.000240 total=0.000240
+[21:05:20.881] [OK] [EXEC] BUY REMAINING qty=0.000000
+[21:05:20.882] [OK] [EXEC] BUY FILLED id=383606486
+[21:05:21.139] [OK] [SYNC] order filled detected
+[21:05:21.139] [OK] [SYNC] BUY filled on exchange
+[21:05:21.623] [INFO] [EXEC] SELL CHECK inventory=0.000240 reported=0.000000 remaining=0.000240 chunks=1
+[21:05:21.623] [OK] [EXEC] PLACE SELL price=81825.05 qty=0.000240
+[21:05:21.904] [OK] [EXEC] SELL ORDER SENT orderId=383606543
+[21:05:22.529] [INFO] [EXEC] RECOVERY WAIT hard_sl_pending_recovery
+[21:05:23.280] [OK] [PLAN] READY entry=81819.01 exit=81824.04 profit=0.001207 age=1171ms
+[21:05:23.405] [INFO] [EXEC] RECOVERY WAIT hard_sl_pending_recovery
+[21:05:24.685] [OK] [EXEC] FIFO CLOSE qty=0.000240 entry=81823.68 exit=81825.05 pnl=+0.000329
+[21:05:24.685] [INFO] [EXEC] CHUNK DRAINED
+[21:05:24.701] [OK] [EXEC] REALIZED pnl=+0.000329
+[21:05:24.701] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[21:05:24.701] [OK] [EXEC] CYCLE CLOSED pnl=+0.000329
+[21:05:24.701] [INFO] [EXEC] SESSION realized=-0.009146 wins=2 losses=1
+[21:05:24.701] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[21:05:24.701] [INFO] [EXEC] CYCLE SKIP no_fifo_pnl
+[21:05:24.701] [OK] [EXEC] SELL FILLED id=383606543
+[21:05:24.701] [OK] [EXEC] SELL FILLED qty=0.000240 remaining=0.000000
+[21:05:24.701] [INFO] [EXEC] SELL ACCOUNTING RESET inventory_drained
+[21:05:24.701] [INFO] [EXEC] INVENTORY DRAINED epsilon_cleanup qty=0.000000
+[21:05:24.701] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[21:05:24.716] [INFO] [EXEC] CYCLE SKIP no_fifo_pnl
+[21:05:24.936] [INFO] [HEALTH] state=GOOD
+[21:05:24.936] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=140 spread=10.73 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:05:24.936] [OK] [PLAN] HOT entry=81819.04 exit=81827.77 profit=0.002095 age=3578ms
+[21:05:26.171] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:05:26.171] [OK] [EXEC] BUY ORDER SENT orderId=383606623 price=81819.04 qty=0.000240
+[21:05:26.186] [OK] [EXEC] PLACE BUY price=81819.04 qty=0.000240
+[21:05:27.686] [OK] [PLAN] READY entry=81820.05 exit=81827.35 profit=0.001752 age=6078ms
+[21:05:29.435] [OK] [EXEC] BUY FILL UPDATE delta=0.000240 avg=81819.04
+[21:05:29.435] [OK] [EXEC] CHUNK ADD qty=0.000240 entry=81819.04
+[21:05:29.450] [INFO] [EXEC] CHUNK COUNT n=1
+[21:05:29.450] [OK] [EXEC] INVENTORY qty=0.000240
+[21:05:29.450] [OK] [EXEC] SELL REQUIRED inventory=0.000240
+[21:05:29.450] [OK] [EXEC] BUY PARTIAL delta=0.000240 total=0.000240
+[21:05:29.450] [OK] [EXEC] BUY REMAINING qty=0.000000
+[21:05:29.450] [OK] [EXEC] BUY FILLED id=383606623
+[21:05:29.841] [OK] [SYNC] order filled detected
+[21:05:29.857] [OK] [SYNC] BUY filled on exchange
+[21:05:30.108] [INFO] [EXEC] SELL CHECK inventory=0.000240 reported=0.000000 remaining=0.000240 chunks=1
+[21:05:30.108] [OK] [EXEC] PLACE SELL price=81820.86 qty=0.000240
+[21:05:30.373] [OK] [EXEC] SELL ORDER SENT orderId=383606799
+[21:05:30.389] [OK] [PLAN] HOT entry=81811.00 exit=81820.86 profit=0.002366 age=8499ms
+[21:05:30.670] [INFO] [EXEC] RECOVERY WAIT hard_sl_pending_recovery
+[21:05:32.201] [OK] [PLAN] READY entry=81804.36 exit=81811.33 profit=0.001673 age=751ms
+[21:05:33.123] [INFO] [EXEC] RECOVERY WAIT hard_sl_pending_recovery
+[21:05:35.685] [WARNING] [EXEC] SELL TIMEOUT orderId=383606799
+[21:05:35.700] [WARNING] [EXEC] CANCEL SELL orderId=383606799
+[21:05:36.278] [INFO] [EXEC] SELL FINAL STATUS status=CANCELED orderId=383606799
+[21:05:36.294] [INFO] [EXEC] SELL TIMEOUT check fast_exit
+[21:05:36.294] [WARNING] [EXEC] FORCE EXIT hard_sl_triggered
+[21:05:36.294] [ERROR] [EXEC] HARD SL triggered
+[21:05:36.294] [WARNING] [EXEC] PANIC EXIT sl_mode
+[21:05:36.294] [WARNING] [EXEC] FORCE EXIT price=81810.91
+[21:05:36.294] [OK] [EXEC] PLACE SELL price=81810.91 qty=0.000240
+[21:05:36.560] [WARNING] [EXEC] PANIC START price=81810.91
+[21:05:36.575] [OK] [EXEC] SELL ORDER SENT orderId=383606864
+[21:05:40.993] [WARNING] [EXEC] PANIC WAIT still_open orderId=383606864
+[21:05:40.993] [WARNING] [EXEC] PANIC HOLD active orderId=383606864
+[21:05:44.784] [WARNING] [EXEC] PANIC WAIT still_open orderId=383606864
+[21:05:44.784] [WARNING] [EXEC] PANIC HOLD active orderId=383606864
+[21:05:48.284] [WARNING] [EXEC] PANIC WAIT still_open orderId=383606864
+[21:05:48.284] [WARNING] [EXEC] PANIC HOLD active orderId=383606864
+[21:05:52.065] [WARNING] [EXEC] PANIC WAIT still_open orderId=383606864
+[21:05:52.068] [WARNING] [EXEC] PANIC HOLD active orderId=383606864
+[21:05:55.579] [WARNING] [EXEC] PANIC WAIT still_open orderId=383606864
+[21:05:55.579] [WARNING] [EXEC] PANIC HOLD active orderId=383606864
+[21:05:56.408] [WARNING] [EXEC] PANIC STALE detected orderId=383606864
+[21:05:56.408] [WARNING] [EXEC] PANIC ESCALATE old=81810.91 new=81803.42 qty=0.000240
+[21:05:57.220] [WARNING] [EXEC] PANIC ESCALATE placed orderId=383607021
+[21:05:58.095] [OK] [EXEC] FIFO CLOSE qty=0.000240 entry=81819.04 exit=81803.42 pnl=-0.003749
+[21:05:58.095] [INFO] [EXEC] CHUNK DRAINED
+[21:05:58.095] [OK] [EXEC] REALIZED pnl=-0.003749
+[21:05:58.110] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[21:05:58.110] [OK] [EXEC] CYCLE CLOSED pnl=-0.003749
+[21:05:58.110] [INFO] [EXEC] SESSION realized=-0.012895 wins=2 losses=2
+[21:05:58.110] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[21:05:58.110] [INFO] [EXEC] CYCLE SKIP no_fifo_pnl
+[21:05:58.110] [OK] [EXEC] SELL FILLED id=383607021
+[21:05:58.110] [OK] [EXEC] SELL FILLED qty=0.000240 remaining=0.000000
+[21:05:58.110] [INFO] [EXEC] SELL ACCOUNTING RESET inventory_drained
+[21:05:58.110] [INFO] [EXEC] INVENTORY DRAINED epsilon_cleanup qty=0.000000
+[21:05:58.110] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[21:05:58.110] [INFO] [EXEC] CYCLE SKIP no_fifo_pnl
+[21:05:59.360] [INFO] [HEALTH] state=GOOD
+[21:05:59.360] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=BALANCED ws_age=9625 spread=7.24 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:06:01.391] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=172 spread=7.13 stable=2/3 mid_delta=0.00 bid_delta=0.00
+[21:06:01.924] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:06:01.924] [OK] [EXEC] BUY ORDER SENT orderId=383607036 price=81804.53 qty=0.000240
+[21:06:01.924] [OK] [EXEC] PLACE BUY price=81804.53 qty=0.000240
+[21:06:05.437] [OK] [PLAN] READY entry=81805.54 exit=81812.13 profit=0.001582 age=780ms
+[21:06:06.939] [WARNING] [EXEC] BUY TIMEOUT orderId=383607036
+[21:06:06.954] [WARNING] [EXEC] CANCEL BUY orderId=383607036
+[21:06:07.219] [OK] [EXEC] BUY CANCELED confirmed
+[21:06:07.484] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383607036
+[21:06:07.484] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:06:07.938] [INFO] [HEALTH] state=GOOD
+[21:06:07.938] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=186 spread=7.64 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:06:08.812] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[21:06:08.812] [OK] [EXEC] BUY ORDER SENT orderId=383607098 price=81805.54 qty=0.000240
+[21:06:08.812] [OK] [EXEC] PLACE BUY price=81805.54 qty=0.000240
+[21:06:11.012] [OK] [PLAN] READY entry=81806.57 exit=81812.24 profit=0.001361 age=796ms
+[21:06:13.685] [WARNING] [EXEC] BUY TIMEOUT orderId=383607098
+[21:06:13.701] [WARNING] [EXEC] CANCEL BUY orderId=383607098
+[21:06:14.436] [OK] [EXEC] BUY CANCELED confirmed
+[21:06:14.702] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383607098
+[21:06:14.702] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[21:06:15.186] [INFO] [HEALTH] state=GOOD
+[21:06:15.186] [WARNING] [EXEC] BLOCK_BUY reason=snapshots_insufficient mode=BALANCED ws_age=186 spread=7.18 stable=1/3 mid_delta=0.00 bid_delta=0.00
+[21:06:15.907] [WARNING] cancel all requested
+[21:06:15.907] [WARNING] STOP

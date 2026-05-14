@@ -1,0 +1,10 @@
+{
+  "upper_price": 82000.0,
+  "lower_price": 81000.0,
+  "budget_u": 10000.0,
+  "levels": 20,
+  "profit_ticks": 100,
+  "max_exposure_u": 10000.0,
+  "auto_float_enabled": false,
+  "live_enabled": false
+}

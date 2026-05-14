@@ -1,0 +1,46 @@
+[14:48:44.532] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[14:48:44.532] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=0
+[14:48:45.219] [ERROR] REST lost
+[14:48:49.679] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[14:48:49.680] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=2
+[14:48:56.944] [OK] [SETTINGS] settings saved
+[14:48:56.945] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=3
+[14:48:58.312] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[14:48:58.312] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=4
+[14:48:58.313] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=15.0
+[14:48:58.313] [INFO] START_PROFILE_STREAM order_size=15.0 min_spread_ticks=8 guard_mode=FAST entry_mode=AGGRESSIVE stream_sell_timeout_ms=2800 stream_target_ticks=28
+[14:48:58.314] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=99
+[14:48:58.314] [WARNING] START_BLOCKED reason=api_not_ready
+[14:49:00.416] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[14:49:00.416] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=9
+[14:49:10.961] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[14:49:10.962] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=10
+[14:49:10.962] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=15.0
+[14:49:10.962] [INFO] START_PROFILE_STREAM order_size=15.0 min_spread_ticks=8 guard_mode=FAST entry_mode=AGGRESSIVE stream_sell_timeout_ms=2800 stream_target_ticks=28
+[14:49:10.963] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=99
+[14:49:10.963] [WARNING] START_BLOCKED reason=api_not_ready
+[14:49:11.663] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[14:49:14.323] [INFO] GUI_LOGS ON
+[14:50:01.432] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[14:50:01.433] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=16
+[14:50:01.433] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=15.0
+[14:50:01.433] [INFO] START_PROFILE_STREAM order_size=15.0 min_spread_ticks=8 guard_mode=FAST entry_mode=AGGRESSIVE stream_sell_timeout_ms=2800 stream_target_ticks=28
+[14:50:01.433] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=99
+[14:50:01.433] [WARNING] START_BLOCKED reason=api_not_ready
+[14:50:06.524] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[14:50:06.525] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=16
+[14:50:11.153] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[14:50:11.154] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=16
+[14:50:11.154] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=15.0
+[14:50:11.155] [INFO] START_PROFILE_STREAM order_size=15.0 min_spread_ticks=8 guard_mode=FAST entry_mode=AGGRESSIVE stream_sell_timeout_ms=2800 stream_target_ticks=28
+[14:50:11.156] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=99
+[14:50:11.156] [WARNING] START_BLOCKED reason=api_not_ready
+[14:50:12.144] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[14:50:15.698] [INFO] START_CLICK received enabled=True api_ready=False running=False
+[14:50:15.698] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=16
+[14:50:15.699] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=15.0
+[14:50:15.699] [INFO] START_PROFILE_STREAM order_size=15.0 min_spread_ticks=8 guard_mode=FAST entry_mode=AGGRESSIVE stream_sell_timeout_ms=2800 stream_target_ticks=28
+[14:50:15.699] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=99
+[14:50:15.700] [WARNING] START_BLOCKED reason=api_not_ready
+[14:50:17.219] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[14:50:17.220] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=OFF append_skipped=16

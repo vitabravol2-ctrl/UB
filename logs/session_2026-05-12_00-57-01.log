@@ -1,0 +1,32 @@
+[21:57:02.956] [OK] filters loaded
+[21:57:10.657] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/1.json
+[21:57:12.172] [OK] [SETTINGS] settings saved
+[21:57:29.041] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[21:57:29.041] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=777.0
+[21:57:29.496] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[21:57:29.496] [OK] START
+[21:57:29.496] [OK] START_OK runtime_started
+[21:57:29.496] [INFO] [EXEC] LIVE ON
+[21:57:29.496] [INFO] [EXEC] WAIT READY
+[21:57:29.496] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[21:57:29.511] [WARNING] [HEALTH] unstable_spread lifetime=0
+[21:57:29.511] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=8.48 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[21:57:29.511] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[21:57:29.511] [WS] connecting primary
+[21:57:29.683] [WARNING] [HEALTH] block spread_too_young lifetime=187
+[21:57:29.683] [OK] [PLAN] READY entry=81811.86 exit=81818.34 profit=0.061495 age=187ms
+[21:57:29.936] [WARNING] [HEALTH] block spread_too_young lifetime=440
+[21:57:30.589] [WARNING] [HEALTH] block falling_market bid_ticks=0.00 mid_ticks=-18.50
+[21:57:30.589] [WARNING] [HEALTH] negative_momentum ticks=-18.50
+[21:57:30.589] [WS] connected
+[21:57:31.685] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=8.11 stable=3/1 mid_delta=0.00 bid_delta=0.00
+[21:57:33.685] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=8.11 stable=4/1 mid_delta=0.00 bid_delta=0.00
+[21:57:35.347] [WS] primary no ticks for 5000ms -> switching to all bookTicker
+[21:57:35.347] [WS] stale/lost
+[21:57:35.347] [WS] reconnect in 2s count=1
+[21:57:35.707] [INFO] [HEALTH] state=GOOD
+[21:57:35.707] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=8.11 stable=3/1 mid_delta=0.00 bid_delta=0.00
+[21:57:37.449] [WS] fallback url=wss://stream.binance.com:9443/ws/!bookTicker
+[21:57:37.449] [WS] connecting fallback
+[21:57:37.730] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=7.96 stable=3/1 mid_delta=0.00 bid_delta=0.00
+[21:57:38.794] [WS] reconnected

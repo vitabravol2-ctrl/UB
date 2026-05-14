@@ -1,0 +1,55 @@
+[17:59:44.376] [OK] filters loaded
+[17:59:46.288] [OK] [PLAN] HOT entry=81905.30 exit=81910.78 profit=1.338106 age=769ms
+[17:59:46.803] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[17:59:46.807] [OK] START
+[17:59:46.813] [INFO] [EXEC] LIVE ON
+[17:59:46.816] [INFO] [EXEC] WAIT READY
+[17:59:47.382] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[17:59:47.385] [OK] [EXEC] BUY ORDER SENT orderId=383157723 price=81905.30 qty=0.244180
+[17:59:47.386] [OK] [EXEC] PLACE BUY price=81905.30 qty=0.244180
+[17:59:48.439] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[17:59:48.443] [WS] connecting primary
+[17:59:48.445] [WS] connected
+[17:59:48.446] [WS] LIVE bid=81921.23 ask=81932.77
+[17:59:49.307] [OK] [PLAN] READY entry=81924.81 exit=81928.00 profit=0.778743 age=3524ms
+[17:59:50.177] [OK] [PLAN] HOT entry=81925.15 exit=81930.20 profit=1.232806 age=4380ms
+[17:59:51.717] [WARNING] [EXEC] BUY TIMEOUT orderId=383157723
+[17:59:51.720] [WARNING] [EXEC] CANCEL BUY orderId=383157723
+[17:59:51.986] [OK] [EXEC] BUY CANCELED confirmed
+[17:59:52.258] [INFO] [EXEC] BUY FINAL STATUS status=CANCELED orderId=383157723
+[17:59:52.261] [WARNING] [EXEC] BLOCK reason=buy_not_filled
+[17:59:53.311] [WS] LIVE bid=81922.01 ask=81930.74
+[17:59:53.638] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[17:59:53.642] [OK] [EXEC] BUY ORDER SENT orderId=383158137 price=81924.01 qty=0.244120
+[17:59:53.645] [OK] [EXEC] PLACE BUY price=81924.01 qty=0.244120
+[17:59:55.190] [OK] [EXEC] BUY FILL UPDATE delta=0.000070 avg=81924.01
+[17:59:55.193] [OK] [EXEC] CHUNK ADD qty=0.000070 entry=81924.01
+[17:59:55.195] [INFO] [EXEC] CHUNK COUNT n=1
+[17:59:55.196] [OK] [EXEC] INVENTORY qty=0.000070
+[17:59:55.197] [OK] [EXEC] SELL REQUIRED inventory=0.000070
+[17:59:55.198] [OK] [EXEC] BUY PARTIAL delta=0.000070 total=0.000070
+[17:59:55.199] [OK] [EXEC] BUY REMAINING qty=0.244050
+[17:59:57.433] [INFO] [EXEC] SELL CHECK inventory=0.000070 reported=0.000000 remaining=0.000070 chunks=1
+[17:59:57.437] [OK] [EXEC] PLACE SELL price=81934.92 qty=0.000070
+[17:59:57.702] [OK] [EXEC] SELL ORDER SENT orderId=383158342
+[17:59:58.234] [WS] LIVE bid=81924.01 ask=81932.44
+[18:00:00.414] [OK] [SYNC] order filled detected
+[18:00:00.417] [OK] [SYNC] SELL filled on exchange
+[18:00:00.418] [OK] [EXEC] FIFO CLOSE qty=0.000070 entry=81924.01 exit=81934.92 pnl=+0.000764
+[18:00:00.420] [INFO] [EXEC] CHUNK DRAINED
+[18:00:00.423] [OK] [EXEC] REALIZED pnl=+0.000764
+[18:00:00.425] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[18:00:00.426] [OK] [EXEC] CYCLE CLOSED pnl=+0.000764
+[18:00:00.427] [INFO] [EXEC] SESSION realized=+0.000764 wins=1 losses=0
+[18:00:00.796] [ERROR] [EXEC] BUY REJECTED status=400 code=-2010 msg=Account has insufficient balance for requested action.
+[18:00:00.800] [ERROR] [EXEC] BUY REJECTED body={"code":-2010,"msg":"Account has insufficient balance for requested action."}
+[18:00:00.801] [WARNING] [EXEC] STOP retry storm prevented
+[18:00:00.803] [OK] [PLAN] READY entry=81926.57 exit=81930.44 profit=0.944744 age=2091ms
+[18:00:01.784] [OK] [PLAN] HOT entry=81907.32 exit=81915.37 profit=1.965569 age=3444ms
+[18:00:03.286] [WARNING] [EXEC] BLOCK reason=balance_low
+[18:00:04.179] [WS] LIVE bid=81898.00 ask=81910.10
+[18:00:08.919] [WS] LIVE bid=81921.38 ask=81929.99
+[18:00:10.603] [WARNING] [EXEC] BLOCK reason=balance_low
+[18:00:13.339] [WARNING] cancel all requested
+[18:00:13.340] [WARNING] STOP
+[18:00:14.364] [WS] stale/lost

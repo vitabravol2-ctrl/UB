@@ -1,0 +1,31 @@
+[08:02:57.559] [OK] filters loaded
+[08:02:59.081] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[08:02:59.082] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=10000.0
+[08:02:59.556] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[08:02:59.561] [OK] START
+[08:02:59.564] [OK] START_OK runtime_started
+[08:02:59.567] [INFO] [EXEC] LIVE ON
+[08:02:59.568] [INFO] [EXEC] WAIT READY
+[08:02:59.571] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[08:02:59.573] [WS] connecting primary
+[08:03:00.785] [WS] connected
+[08:03:01.523] [OK] [PLAN] READY entry=80863.38 exit=80869.18 profit=0.717228 age=255ms
+[08:03:02.271] [OK] [PLAN] HOT entry=80859.01 exit=80871.58 profit=1.554532 age=1001ms
+[08:03:03.529] [OK] [PLAN] READY entry=80867.62 exit=80873.00 profit=0.665237 age=258ms
+[08:03:04.764] [OK] [PLAN] HOT entry=80859.58 exit=80872.61 profit=1.611420 age=239ms
+[08:03:05.060] [OK] [PLAN] READY entry=80859.58 exit=80865.40 profit=0.719759 age=535ms
+[08:03:06.544] [OK] [PLAN] HOT entry=80853.78 exit=80866.18 profit=1.533632 age=2022ms
+[08:03:07.791] [OK] [PLAN] READY entry=80856.10 exit=80861.79 profit=0.703682 age=260ms
+[08:03:08.537] [OK] [PLAN] HOT entry=80856.10 exit=80864.82 profit=1.078402 age=1005ms
+[08:03:09.036] [OK] [PLAN] READY entry=80856.50 exit=80862.44 profit=0.734600 age=1504ms
+[08:03:13.807] [OK] [PLAN] READY entry=80850.49 exit=80855.88 profit=0.666635 age=248ms
+[08:03:15.546] [OK] [PLAN] HOT entry=80843.01 exit=80856.99 profit=1.729186 age=248ms
+[08:03:17.302] [OK] [PLAN] READY entry=80835.28 exit=80841.59 profit=0.780547 age=250ms
+[08:03:21.811] [OK] [PLAN] READY entry=80851.27 exit=80856.61 profit=0.660451 age=245ms
+[08:03:22.467] [OK] [PLAN] HOT entry=80853.39 exit=80861.14 profit=0.958520 age=899ms
+[08:03:25.094] [OK] [PLAN] HOT entry=80841.89 exit=80852.12 profit=1.265349 age=248ms
+[08:03:26.748] [OK] [PLAN] READY entry=80849.77 exit=80854.83 profit=0.625821 age=647ms
+[08:03:30.093] [OK] [PLAN] READY entry=80849.90 exit=80854.95 profit=0.624584 age=248ms
+[08:03:30.843] [OK] [PLAN] READY entry=80851.10 exit=80857.00 profit=0.729712 age=99ms
+[08:03:32.109] [OK] [PLAN] HOT entry=80852.54 exit=80866.11 profit=1.678338 age=248ms
+[08:03:32.898] [OK] [PLAN] READY entry=80850.00 exit=80857.01 profit=0.866997 age=1038ms

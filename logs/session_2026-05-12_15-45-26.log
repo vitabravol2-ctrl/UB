@@ -1,0 +1,56 @@
+[12:45:28.252] [OK] filters loaded
+[12:45:34.634] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[12:45:34.635] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[12:45:34.636] [INFO] START_PROFILE order_size=4000.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[12:45:34.636] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[12:45:35.136] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[12:45:35.144] [OK] START
+[12:45:35.148] [OK] START_OK runtime_started
+[12:45:35.634] [INFO] [EXEC] LIVE ON
+[12:45:35.635] [INFO] [EXEC] WAIT READY
+[12:45:35.637] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[12:45:35.637] [WARNING] [HEALTH] unstable_spread lifetime=0
+[12:45:35.639] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=7.01 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[12:45:35.928] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[12:45:35.929] [WS] connecting primary
+[12:45:36.064] [WARNING] [HEALTH] block spread_too_young lifetime=430
+[12:45:36.068] [OK] [PLAN] HOT entry=80859.32 exit=80864.83 profit=0.272525 age=430ms
+[12:45:36.846] [WS] connected
+[12:45:38.596] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[12:45:38.599] [OK] [EXEC] BUY ORDER SENT orderId=385444762 price=80867.43 qty=0.049460
+[12:45:38.601] [OK] [EXEC] PLACE BUY price=80867.43 qty=0.049460
+[12:45:39.831] [INFO] [EXEC] ENTRY_REPRICE reason=bid_moved_up old=80867.43 new=80872.77 count=1
+[12:45:40.392] [OK] [EXEC] ENTRY_PLACE price=80872.77 qty=0.049460
+[12:45:41.361] [INFO] [EXEC] BUY_WATCHDOG_SYNC orderId=385444881 status=FILLED
+[12:45:41.364] [OK] [SYNC] order filled detected
+[12:45:41.366] [OK] [SYNC] BUY filled on exchange
+[12:45:41.367] [OK] [EXEC] BUY FILL UPDATE delta=0.049460 avg=80872.76
+[12:45:41.372] [OK] [EXEC] CHUNK ADD qty=0.049460 entry=80872.76
+[12:45:41.373] [INFO] [EXEC] CHUNK COUNT n=1
+[12:45:41.375] [OK] [EXEC] INVENTORY qty=0.049460
+[12:45:41.376] [OK] [EXEC] SELL REQUIRED inventory=0.049460
+[12:45:42.378] [INFO] [EXEC] SELL CHECK inventory=0.049460 reported=0.000000 remaining=0.049450 chunks=1
+[12:45:42.380] [INFO] [EXEC] PLACE_SELL_SOURCE source=plan price=80875.28
+[12:45:42.381] [OK] [EXEC] PLACE SELL price=80875.28 qty=0.049450
+[12:45:42.644] [OK] [EXEC] SELL ORDER SENT orderId=385444930
+[12:45:43.179] [OK] [SYNC] order filled detected
+[12:45:43.182] [OK] [SYNC] SELL filled on exchange
+[12:45:43.183] [OK] [EXEC] FIFO CLOSE qty=0.049450 entry=80872.76 exit=80875.28 pnl=+0.124614
+[12:45:43.186] [INFO] [EXEC] CHUNK DRAINED
+[12:45:43.188] [OK] [EXEC] REALIZED pnl=+0.124614
+[12:45:43.191] [INFO] [EXEC] SELL ACCOUNTING RESET flat
+[12:45:43.193] [OK] [EXEC] CYCLE CLOSED pnl=+0.124614
+[12:45:43.195] [INFO] [EXEC] SESSION realized=+0.124614 wins=1 losses=0
+[12:45:43.377] [INFO] [HEALTH] state=GOOD
+[12:45:43.656] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[12:45:43.659] [OK] [EXEC] BUY ORDER SENT orderId=385444998 price=80871.00 qty=0.049460
+[12:45:43.661] [OK] [EXEC] PLACE BUY price=80871.00 qty=0.049460
+[12:45:44.635] [INFO] [EXEC] ENTRY_REPRICE reason=wide_spread_cross old=80871.00 new=80877.17 count=1
+[12:45:45.194] [OK] [EXEC] ENTRY_PLACE price=80877.17 qty=0.049460
+[12:45:46.078] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[12:45:46.375] [WARNING] cancel all requested
+[12:45:47.173] [WARNING] [SYNC] desync fixed
+[12:45:47.176] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.109257 locked=0.000000
+[12:45:47.179] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[12:45:47.181] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[12:45:47.184] [WARNING] STOP

@@ -1,0 +1,1009 @@
+[10:14:38.027] [OK] filters loaded
+[10:14:38.027] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=0
+[10:14:38.386] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:14:42.192] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[10:14:42.192] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=2
+[10:14:42.192] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=223.0
+[10:14:42.192] [INFO] START_PROFILE order_size=223.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[10:14:42.208] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[10:14:42.683] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[10:14:42.683] [OK] START
+[10:14:42.698] [OK] START_OK runtime_started
+[10:14:42.698] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=8
+[10:14:42.698] [INFO] [EXEC] STREAM_MULTI_MODE count=8
+[10:14:42.698] [INFO] [EXEC] STREAM_CONVEYOR_ACTIVE count=8 range_ticks=800 step_ticks=100
+[10:14:42.698] [INFO] [EXEC] GRID_BUDGET_SOURCE source=max_exposure_u budget=5000.00
+[10:14:42.698] [INFO] [EXEC] STREAM_CREATE stream_id=1 buy_price=81075.32000000 budget=625.00 qty=0.00770000
+[10:14:42.698] [INFO] [EXEC] STREAM_CREATE stream_id=2 buy_price=81074.32000000 budget=625.00 qty=0.00770000
+[10:14:42.698] [INFO] [EXEC] STREAM_CREATE stream_id=3 buy_price=81073.32000000 budget=625.00 qty=0.00770000
+[10:14:42.698] [INFO] [EXEC] STREAM_CREATE stream_id=4 buy_price=81072.32000000 budget=625.00 qty=0.00770000
+[10:14:42.698] [INFO] [EXEC] STREAM_CREATE stream_id=5 buy_price=81071.32000000 budget=625.00 qty=0.00770000
+[10:14:42.698] [INFO] [EXEC] STREAM_CREATE stream_id=6 buy_price=81070.32000000 budget=625.00 qty=0.00770000
+[10:14:42.698] [INFO] [EXEC] STREAM_CREATE stream_id=7 buy_price=81069.32000000 budget=625.00 qty=0.00770000
+[10:14:42.698] [INFO] [EXEC] STREAM_CREATE stream_id=8 buy_price=81068.32000000 budget=625.00 qty=0.00770000
+[10:14:42.698] [INFO] [EXEC] STREAM_CREATE_DONE count=8 budget=5000.00 step_ticks=100
+[10:14:42.992] [INFO] [EXEC] LIVE ON
+[10:14:42.992] [INFO] [EXEC] WAIT READY
+[10:14:42.993] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:14:42.993] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:14:42.994] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:14:42.994] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:14:43.511] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=388304588
+[10:14:43.511] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=28
+[10:14:43.511] [OK] [EXEC] PLACE BUY price=81075.32 qty=0.007700
+[10:14:44.042] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:14:44.042] [WS] connecting primary
+[10:14:44.042] [WS] connected
+[10:14:44.652] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:14:44.652] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=33
+[10:14:44.917] [INFO] [EXEC] STREAM_BUY_PLACED level_id=2 order_id=388304590
+[10:14:44.917] [OK] [EXEC] PLACE BUY price=81074.32 qty=0.007700
+[10:14:44.917] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:14:46.699] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:14:46.699] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=37
+[10:14:46.964] [INFO] [EXEC] STREAM_BUY_PLACED level_id=3 order_id=388304596
+[10:14:46.964] [OK] [EXEC] PLACE BUY price=81073.32 qty=0.007700
+[10:14:48.761] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:14:48.761] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=40
+[10:14:48.761] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:14:49.033] [INFO] [EXEC] STREAM_BUY_PLACED level_id=4 order_id=388304662
+[10:14:49.034] [OK] [EXEC] PLACE BUY price=81072.32 qty=0.007700
+[10:14:50.518] [INFO] [HEALTH] state=DANGER
+[10:14:50.519] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=44
+[10:14:50.520] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:14:50.776] [INFO] [EXEC] STREAM_BUY_PLACED level_id=5 order_id=388304699
+[10:14:50.776] [OK] [EXEC] PLACE BUY price=81071.32 qty=0.007700
+[10:14:50.776] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:14:52.542] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:14:52.542] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=49
+[10:14:52.542] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:14:52.542] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:14:52.807] [INFO] [EXEC] STREAM_BUY_PLACED level_id=6 order_id=388304704
+[10:14:52.807] [OK] [EXEC] PLACE BUY price=81070.32 qty=0.007700
+[10:14:55.074] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:14:55.074] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=54
+[10:14:55.074] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:14:55.340] [INFO] [EXEC] STREAM_BUY_PLACED level_id=7 order_id=388304765
+[10:14:55.340] [OK] [EXEC] PLACE BUY price=81069.32 qty=0.007700
+[10:14:59.964] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:14:59.964] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=58
+[10:14:59.964] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:14:59.964] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:00.244] [INFO] [EXEC] STREAM_BUY_PLACED level_id=8 order_id=388304903
+[10:15:00.244] [OK] [EXEC] PLACE BUY price=81068.32 qty=0.007700
+[10:15:00.247] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:03.360] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:03.360] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=64
+[10:15:03.360] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:15:05.855] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:15:05.855] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=66
+[10:15:05.855] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:15:05.855] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:06.121] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:08.390] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:08.390] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=70
+[10:15:08.390] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:15:11.676] [INFO] [HEALTH] state=DANGER
+[10:15:11.677] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=72
+[10:15:11.678] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:11.979] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:14.221] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:15:14.221] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=75
+[10:15:14.225] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:15:14.226] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:14.226] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:15:16.746] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:16.762] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=79
+[10:15:17.028] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:19.877] [INFO] [HEALTH] state=DANGER
+[10:15:19.878] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=81
+[10:15:19.879] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:19.879] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:15:22.917] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:22.917] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=84
+[10:15:22.917] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:25.573] [INFO] [HEALTH] state=DANGER
+[10:15:25.573] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=86
+[10:15:25.573] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:25.573] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:15:29.792] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:29.792] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=89
+[10:15:29.792] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:33.340] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:15:33.341] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=91
+[10:15:33.342] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:15:33.343] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:33.343] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:15:36.177] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:36.193] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=95
+[10:15:36.193] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:38.714] [INFO] [HEALTH] state=DANGER
+[10:15:38.714] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=97
+[10:15:38.714] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:38.714] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:15:41.417] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:41.417] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=100
+[10:15:41.417] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:44.244] [INFO] [HEALTH] state=DANGER
+[10:15:44.244] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=102
+[10:15:44.244] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:44.244] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:15:46.803] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:46.804] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=105
+[10:15:46.806] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:49.386] [INFO] [HEALTH] state=DANGER
+[10:15:49.386] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=107
+[10:15:49.387] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:49.387] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:15:52.089] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:52.089] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=110
+[10:15:52.089] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:54.632] [INFO] [HEALTH] state=DANGER
+[10:15:54.633] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=112
+[10:15:54.634] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:54.635] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:15:57.140] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:57.141] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=115
+[10:15:57.141] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:15:59.902] [INFO] [HEALTH] state=DANGER
+[10:15:59.902] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=117
+[10:15:59.902] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:15:59.902] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:02.418] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:02.418] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=120
+[10:16:02.418] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:16:04.949] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:16:04.949] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=122
+[10:16:04.949] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:16:04.949] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:04.949] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:07.683] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:07.683] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=126
+[10:16:07.683] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:16:10.202] [INFO] [HEALTH] state=DANGER
+[10:16:10.202] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=128
+[10:16:10.202] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:10.202] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:12.751] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:16:12.752] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=131
+[10:16:12.752] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:16:12.753] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:12.754] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[10:16:13.528] [INFO] [EXEC] STREAM_BUY_FILLED level_id=1
+[10:16:13.528] [OK] [EXEC] CHUNK ADD qty=0.007700 entry=81075.32
+[10:16:13.528] [INFO] [EXEC] CHUNK COUNT n=1
+[10:16:13.528] [INFO] [EXEC] STREAM_TARGET_USED ticks=50 sell_price=81075.82
+[10:16:13.792] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=1 chunk_id=2189386321792 order_id=388307198 price=81075.82 qty=0.007700
+[10:16:13.792] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=139
+[10:16:14.061] [INFO] [EXEC] STREAM_BUY_FILLED level_id=2
+[10:16:14.062] [OK] [EXEC] CHUNK ADD qty=0.007700 entry=81074.32
+[10:16:14.062] [INFO] [EXEC] CHUNK COUNT n=2
+[10:16:14.063] [INFO] [EXEC] STREAM_TARGET_USED ticks=50 sell_price=81074.82
+[10:16:14.349] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=2 chunk_id=2189386331776 order_id=388307230 price=81074.82 qty=0.007700
+[10:16:14.605] [INFO] [EXEC] STREAM_BUY_FILLED level_id=3
+[10:16:14.606] [OK] [EXEC] CHUNK ADD qty=0.007700 entry=81073.32
+[10:16:14.606] [INFO] [EXEC] CHUNK COUNT n=3
+[10:16:14.606] [INFO] [EXEC] STREAM_TARGET_USED ticks=50 sell_price=81073.82
+[10:16:14.874] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=3 chunk_id=2189335370432 order_id=388307245 price=81073.82 qty=0.007700
+[10:16:14.875] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=149
+[10:16:16.446] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2189386321792 order_id=388307198 status=FILLED
+[10:16:16.446] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=150
+[10:16:16.447] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=1 chunk_id=2189386321792 order_id=388307198
+[10:16:16.447] [OK] [EXEC] FIFO CLOSE qty=0.007700 entry=81075.32 exit=81075.82 pnl=+0.003850
+[10:16:16.447] [INFO] [EXEC] STREAM_PNL stream_id=1 pnl=+0.003850
+[10:16:16.447] [INFO] [EXEC] STREAM_RECYCLED level_id=1
+[10:16:16.447] [INFO] [EXEC] STREAM_RECYCLED stream_id=1
+[10:16:16.698] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=2 chunk_id=2189386331776 order_id=388307230 status=FILLED
+[10:16:16.698] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=2 chunk_id=2189386331776 order_id=388307230
+[10:16:16.698] [OK] [EXEC] FIFO CLOSE qty=0.007700 entry=81074.32 exit=81074.82 pnl=+0.003850
+[10:16:16.698] [INFO] [EXEC] STREAM_PNL stream_id=2 pnl=+0.003850
+[10:16:16.698] [INFO] [EXEC] STREAM_RECYCLED level_id=2
+[10:16:16.698] [INFO] [EXEC] STREAM_RECYCLED stream_id=2
+[10:16:16.950] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=3 chunk_id=2189335370432 order_id=388307245 status=FILLED
+[10:16:16.950] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=3 chunk_id=2189335370432 order_id=388307245
+[10:16:16.965] [OK] [EXEC] FIFO CLOSE qty=0.007700 entry=81073.32 exit=81073.82 pnl=+0.003850
+[10:16:16.965] [INFO] [EXEC] STREAM_PNL stream_id=3 pnl=+0.003850
+[10:16:16.965] [INFO] [EXEC] STREAM_RECYCLED level_id=3
+[10:16:16.965] [INFO] [EXEC] STREAM_RECYCLED stream_id=3
+[10:16:16.965] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:16.965] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:17.237] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=388307253
+[10:16:17.238] [OK] [EXEC] PLACE BUY price=81075.32 qty=0.007700
+[10:16:19.259] [INFO] [HEALTH] state=GOOD
+[10:16:19.259] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=172
+[10:16:19.259] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:19.259] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:19.542] [INFO] [EXEC] STREAM_BUY_PLACED level_id=2 order_id=388307287
+[10:16:19.542] [OK] [EXEC] PLACE BUY price=81074.32 qty=0.007700
+[10:16:21.729] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:21.729] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=177
+[10:16:22.000] [INFO] [EXEC] STREAM_BUY_PLACED level_id=3 order_id=388307317
+[10:16:22.001] [OK] [EXEC] PLACE BUY price=81073.32 qty=0.007700
+[10:16:22.002] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:16:24.824] [INFO] [HEALTH] state=GOOD
+[10:16:24.824] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=181
+[10:16:24.824] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:24.824] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:28.402] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:28.402] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=184
+[10:16:29.411] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:16:29.411] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=185
+[10:16:32.252] [INFO] [HEALTH] state=GOOD
+[10:16:32.252] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=186
+[10:16:32.252] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:32.256] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:35.246] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:35.249] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=189
+[10:16:35.250] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:16:37.746] [INFO] [HEALTH] state=DANGER
+[10:16:37.746] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=191
+[10:16:37.746] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:37.746] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:40.871] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:40.871] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=194
+[10:16:40.871] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:16:43.304] [INFO] [HEALTH] state=DANGER
+[10:16:43.304] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=196
+[10:16:43.304] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:43.304] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:45.855] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:16:45.855] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=199
+[10:16:45.855] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:16:45.855] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:48.557] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:48.557] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=202
+[10:16:48.557] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:16:51.516] [INFO] [HEALTH] state=DANGER
+[10:16:51.517] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=204
+[10:16:51.518] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:54.057] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:16:54.057] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=206
+[10:16:54.057] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:16:54.057] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:54.057] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:54.057] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:16:56.809] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:56.809] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=211
+[10:16:59.363] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:16:59.364] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=212
+[10:16:59.365] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:16:59.365] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:16:59.366] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:16:59.367] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:01.913] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:01.914] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=217
+[10:17:04.667] [INFO] [HEALTH] state=DANGER
+[10:17:04.667] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=218
+[10:17:04.667] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:04.667] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:17:04.667] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:07.240] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:17:07.241] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=222
+[10:17:07.241] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:17:07.241] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:09.761] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:17:09.761] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=225
+[10:17:09.761] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:12.484] [INFO] [HEALTH] state=DANGER
+[10:17:12.484] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=227
+[10:17:12.484] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:14.996] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:17:14.996] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=229
+[10:17:14.996] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:17.526] [INFO] [HEALTH] state=DANGER
+[10:17:17.526] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=231
+[10:17:17.526] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:20.307] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:17:20.307] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=233
+[10:17:20.307] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:22.854] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:17:22.854] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=235
+[10:17:22.854] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:17:22.854] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:25.360] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:17:25.360] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=238
+[10:17:25.361] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:28.574] [INFO] [HEALTH] state=DANGER
+[10:17:28.574] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=240
+[10:17:28.574] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:32.548] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:17:32.548] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=242
+[10:17:32.548] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:35.392] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:17:35.392] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=244
+[10:17:35.392] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:17:35.392] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:35.392] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:17:38.454] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:38.454] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=248
+[10:17:38.454] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:41.175] [INFO] [HEALTH] state=DANGER
+[10:17:41.175] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=250
+[10:17:41.175] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:41.175] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:17:43.999] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:44.000] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=253
+[10:17:44.001] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:46.526] [INFO] [HEALTH] state=DANGER
+[10:17:46.526] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=255
+[10:17:46.526] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:46.526] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:17:49.464] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:49.464] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=258
+[10:17:49.464] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:52.271] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:17:52.272] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=260
+[10:17:52.273] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:17:52.274] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:52.274] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:17:54.790] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:54.792] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=264
+[10:17:54.792] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:17:57.308] [INFO] [HEALTH] state=DANGER
+[10:17:57.308] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=266
+[10:17:57.308] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:17:57.308] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:00.170] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:00.170] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=269
+[10:18:00.170] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:02.699] [INFO] [HEALTH] state=DANGER
+[10:18:02.699] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=271
+[10:18:02.699] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:02.699] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:05.238] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:18:05.238] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=274
+[10:18:05.238] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:18:05.238] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:05.238] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:08.130] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:08.130] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=278
+[10:18:08.133] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:10.595] [INFO] [HEALTH] state=DANGER
+[10:18:10.597] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=280
+[10:18:10.598] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:10.599] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:13.111] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:13.112] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=283
+[10:18:13.113] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:15.870] [INFO] [HEALTH] state=DANGER
+[10:18:15.870] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=285
+[10:18:15.870] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:15.870] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:18.394] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:18.394] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=288
+[10:18:18.394] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:20.792] [INFO] [HEALTH] state=DANGER
+[10:18:20.792] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=290
+[10:18:20.792] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:21.073] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:23.676] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:18:23.677] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=293
+[10:18:23.678] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:18:23.679] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:23.679] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:26.240] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:26.241] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=297
+[10:18:26.242] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:28.765] [INFO] [HEALTH] state=DANGER
+[10:18:28.766] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=299
+[10:18:28.767] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:28.768] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:32.338] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:32.338] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=302
+[10:18:32.344] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:35.306] [INFO] [HEALTH] state=DANGER
+[10:18:35.307] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=304
+[10:18:35.308] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:35.309] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:37.856] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:18:37.856] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=307
+[10:18:37.856] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:18:37.856] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:37.856] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:40.668] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:40.668] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=311
+[10:18:40.668] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:43.650] [INFO] [HEALTH] state=GOOD
+[10:18:43.650] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=313
+[10:18:43.650] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:43.650] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:46.106] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:46.106] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=316
+[10:18:46.106] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:48.872] [INFO] [HEALTH] state=DANGER
+[10:18:48.872] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=318
+[10:18:48.872] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:48.872] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:51.855] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:18:51.855] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=321
+[10:18:51.855] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:18:51.855] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:51.855] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:54.397] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:54.397] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=325
+[10:18:54.398] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:18:57.156] [INFO] [HEALTH] state=GOOD
+[10:18:57.156] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=327
+[10:18:57.156] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:57.156] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:18:59.729] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:18:59.729] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=330
+[10:18:59.729] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:02.261] [INFO] [HEALTH] state=GOOD
+[10:19:02.261] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=332
+[10:19:02.261] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:02.261] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:04.995] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:04.995] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=335
+[10:19:04.995] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:07.480] [INFO] [HEALTH] state=DANGER
+[10:19:07.480] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=337
+[10:19:07.480] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:07.480] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:10.012] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:10.012] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=340
+[10:19:10.012] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:12.823] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:19:12.824] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=342
+[10:19:12.825] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:19:12.826] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:12.826] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:15.290] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:15.290] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=346
+[10:19:15.290] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:17.833] [INFO] [HEALTH] state=DANGER
+[10:19:17.835] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=348
+[10:19:17.836] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:17.836] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:20.590] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:19:20.590] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=351
+[10:19:20.590] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:19:20.590] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:20.590] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:23.131] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:23.131] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=355
+[10:19:23.131] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:25.666] [INFO] [HEALTH] state=DANGER
+[10:19:25.666] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=357
+[10:19:25.666] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:28.447] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:19:28.447] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=359
+[10:19:28.447] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:19:28.447] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:28.447] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:28.447] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:31.406] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:31.421] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=364
+[10:19:33.976] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:19:33.978] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=365
+[10:19:33.979] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:19:33.979] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:33.979] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:33.979] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:36.745] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:36.761] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=370
+[10:19:39.344] [INFO] [HEALTH] state=DANGER
+[10:19:39.345] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=371
+[10:19:39.346] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:39.346] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:39.346] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:41.887] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:41.887] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=375
+[10:19:44.644] [INFO] [HEALTH] state=DANGER
+[10:19:44.644] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=376
+[10:19:44.645] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:44.645] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:44.645] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:47.134] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:19:47.141] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=380
+[10:19:47.141] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:19:47.142] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:49.683] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:49.683] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=383
+[10:19:49.683] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:52.496] [INFO] [HEALTH] state=DANGER
+[10:19:52.496] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=385
+[10:19:52.496] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:19:55.124] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:19:55.124] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=387
+[10:19:55.124] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:19:57.574] [INFO] [HEALTH] state=DANGER
+[10:19:57.589] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=389
+[10:19:57.589] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:00.440] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:00.440] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=391
+[10:20:00.854] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:20:03.057] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:20:03.057] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=393
+[10:20:03.057] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:20:03.057] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:05.464] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:05.464] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=396
+[10:20:08.242] [INFO] [HEALTH] state=DANGER
+[10:20:08.244] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=397
+[10:20:08.244] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:08.244] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:20:10.730] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:10.730] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=400
+[10:20:10.730] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:13.326] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:20:13.328] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=402
+[10:20:13.328] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:20:13.328] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:13.328] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:20:16.089] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:16.089] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=406
+[10:20:16.089] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:19.573] [INFO] [HEALTH] state=DANGER
+[10:20:19.573] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=408
+[10:20:19.573] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:19.573] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:20:22.511] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:22.511] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=411
+[10:20:22.511] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:25.278] [INFO] [HEALTH] state=DANGER
+[10:20:25.278] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=413
+[10:20:25.278] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:25.278] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:20:27.870] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:27.870] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=416
+[10:20:27.870] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:30.933] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:20:30.933] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=418
+[10:20:30.933] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:20:30.933] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:30.933] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:20:33.776] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:33.776] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=422
+[10:20:33.776] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:36.733] [INFO] [HEALTH] state=DANGER
+[10:20:36.733] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=424
+[10:20:36.733] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:36.733] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:20:39.466] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:39.481] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=427
+[10:20:39.481] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:42.090] [INFO] [HEALTH] state=DANGER
+[10:20:42.090] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=429
+[10:20:42.090] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:42.090] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:20:45.064] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:20:45.064] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=432
+[10:20:45.064] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:20:45.064] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:45.064] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:47.901] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:47.901] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=436
+[10:20:47.901] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:20:50.418] [INFO] [HEALTH] state=GOOD
+[10:20:50.418] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=438
+[10:20:50.418] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:50.418] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:52.975] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:52.976] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=441
+[10:20:52.978] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:20:55.746] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:20:55.746] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=443
+[10:20:55.746] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:20:55.746] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:55.746] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:20:58.305] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:20:58.305] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=447
+[10:20:58.667] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:00.778] [INFO] [HEALTH] state=DANGER
+[10:21:00.779] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=449
+[10:21:00.780] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:00.780] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:03.919] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:03.919] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=452
+[10:21:04.292] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:06.820] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:21:06.820] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=454
+[10:21:06.820] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:21:06.820] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:06.820] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:09.264] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:09.264] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=458
+[10:21:12.089] [INFO] [HEALTH] state=DANGER
+[10:21:12.090] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=459
+[10:21:12.091] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:12.091] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:12.091] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:14.595] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:14.596] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=463
+[10:21:17.126] [INFO] [HEALTH] state=DANGER
+[10:21:17.127] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=464
+[10:21:17.127] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:17.128] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:17.130] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:19.916] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:19.916] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=468
+[10:21:22.466] [INFO] [HEALTH] state=DANGER
+[10:21:22.466] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=469
+[10:21:22.466] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:22.466] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:22.466] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:25.058] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:25.059] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=473
+[10:21:27.792] [INFO] [HEALTH] state=DANGER
+[10:21:27.792] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=474
+[10:21:27.792] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:27.792] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:27.792] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:30.259] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:30.260] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=478
+[10:21:33.255] [INFO] [HEALTH] state=DANGER
+[10:21:33.255] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=479
+[10:21:33.256] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:33.256] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:33.257] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:36.652] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:36.652] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=483
+[10:21:39.762] [INFO] [HEALTH] state=DANGER
+[10:21:39.764] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=484
+[10:21:39.765] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:39.766] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:39.767] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:42.275] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:42.276] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=488
+[10:21:45.057] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:21:45.057] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=489
+[10:21:45.057] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:21:45.057] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:45.057] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:45.057] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:47.649] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:47.649] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=494
+[10:21:50.193] [INFO] [HEALTH] state=GOOD
+[10:21:50.193] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=495
+[10:21:50.193] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:50.193] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:50.684] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:53.092] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:53.093] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=499
+[10:21:55.588] [INFO] [HEALTH] state=DANGER
+[10:21:55.588] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=500
+[10:21:55.589] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:55.590] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:21:55.691] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:21:58.104] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:21:58.104] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=504
+[10:22:00.867] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:22:00.868] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=505
+[10:22:00.868] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:22:00.869] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:22:00.869] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:22:00.871] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:22:03.402] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:22:03.402] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=510
+[10:22:05.909] [INFO] [HEALTH] state=DANGER
+[10:22:05.909] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=511
+[10:22:05.909] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:22:05.909] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:22:05.909] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:22:08.745] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:22:08.745] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=515
+[10:22:08.745] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:22:08.745] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:22:11.216] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:22:11.217] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=518
+[10:22:11.218] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:22:13.717] [INFO] [HEALTH] state=DANGER
+[10:22:13.719] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=520
+[10:22:13.720] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:22:16.559] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:22:16.559] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=522
+[10:22:16.565] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:22:19.081] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:22:19.081] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=524
+[10:22:19.081] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:22:19.081] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:22:21.628] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:22:21.628] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=527
+[10:22:24.475] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:22:24.475] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=528
+[10:22:24.481] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:22:24.481] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:22:24.481] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:22:26.975] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:22:26.975] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=532
+[10:22:26.975] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:22:29.636] [INFO] [HEALTH] state=DANGER
+[10:22:29.636] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=534
+[10:22:29.636] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:22:29.636] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:22:39.317] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Read timed out. (read timeout=6)
+[10:22:39.317] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=537
+[10:22:50.375] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667760121&signature=7ca218d4c203664a09bfe314cc6582d475122d59160053e358991aa3b5d580d6 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:22:50.375] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=538
+[10:23:01.435] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667771177&signature=ab7168d6e980914b63f03f84d9c24723c0dc5bdf23cfaaa052b3f84fffe7d6b4 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:01.435] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=539
+[10:23:01.439] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667782237&signature=c0d5fd7ca7f1d57ec6abf909381dbbd17407f905778b92ef1eb01afe402f183e (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:01.440] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:23:01.440] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:23:01.455] [ERROR] REST lost
+[10:23:01.456] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:23:01.496] [WS] error ping/pong timed out
+[10:23:01.497] [WS] stale/lost
+[10:23:01.497] [WS] reconnect in 2s count=1
+[10:23:01.497] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:23:01.497] [WS] connecting primary
+[10:23:01.696] [OK] [PLAN] HOT entry=81107.40 exit=81115.29 profit=0.021619 age=498703ms
+[10:23:02.960] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667783760&signature=219369b293a8ac4a7a0394905920c573b69aacb38fc22d5cf71728cdeda51313 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:02.960] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=551
+[10:23:02.961] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667783762&signature=a2f978f3a06aeebb84a2bfde6bcee4f02124e5f28af190cc4b51f535e42d0f30 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:02.963] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667783764&signature=20db72cf60e422bcd96fe715e8476e9f9311d695b8860be87a397edcd4bc9f46 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:02.965] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667783766&signature=e4f6e75c5ee2a773eb17817a609be0b16d8c1a88604f1803a5e09899fe873995 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:02.965] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667783767&signature=a8272ea73a9f8778d1684f9290cc115e5ed8d5dc9b43b2313929cd1316c69f58 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:02.966] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667783768&signature=517199c481437a2781e95400b392d6862f2dd0957a09cbe15a7fbccf58d14aae (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:02.967] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667783769&signature=f4f9f10a3f3facf73b54d6f40e934e5ac9499c0b6947ec9ef58a646970e30260 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:02.968] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667783770&signature=48a50e934e478fa2502a1019e58b03390cbde02c35fda406e9071e1f89d795dc (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:04.702] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667785503&signature=46fa08cc164a93c8f7c459a2b5d63e987843e94f76b3757cacea659020f303b9 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:04.703] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=559
+[10:23:04.704] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667785505&signature=8c5fb95a3a60410209317f192547eb7a71ab5b14acdce5450e6a9c43474536a2 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:04.706] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667785506&signature=255345c6a97442392f846ab16a6aaef134cfa8b9b3a5936986ef40956bf6de4d (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:04.707] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667785509&signature=560a7a844dbfc5432b5a5596ba667306e7c815eb776c5ba040ccd93b4858ac3d (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:04.709] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667785510&signature=ec3410c49b5c9d5d03761d7aab56e2f58f87a8caf66d45f569667f1604a9da9e (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:04.710] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667785511&signature=7ed1284ec7dab3d473accadd8855f9fa39d074c699bf1ba0d44bf0e5f087f4db (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:04.710] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667785512&signature=3a8976f088789bbf5fdf1376892bf1e92c1840b459bb39f4e2856c8344e99741 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:04.711] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667785513&signature=5646a6acf84cbf5319c9127470ec577c72a4c0b956cd21e558ccda0fb7873651 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:06.245] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667787044&signature=3d13627da5a3f9516dc2fd9a6d88fdfa995bb348e59dea29f65c7ae5fdde4cac (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:06.246] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=567
+[10:23:06.249] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667787049&signature=0ec6e72b288f6da3613da19fb9d5fedf5c281d0f0100d7ae93036b04b39708f4 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:06.251] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667787052&signature=5dbdf14df4684a6b2a8361e301e29f1f2851fdfdc6cbb8013d5bc2de39668550 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:06.254] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667787054&signature=22b1f24cba22c8b3d7d8947bcd19a63fe679fcff414ab69659a3ae5754175abc (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:06.258] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667787057&signature=1e64b21240eccd860f84e75071ce35e311b48722dcfa5113939d978b8083bbce (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:06.260] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667787060&signature=b4120bc2a2ba33a9271c0a95e6367f7f22a662ff74ab55f68b3d05c5824a243a (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:06.262] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667787062&signature=de187236ed196575e06edcf4298e546cfe5c0e894f8689e35d23643df29ded24 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:06.264] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667787064&signature=b58d0d8b442be0ca74a05d154759f164a48ed64c44550164f63d13823fb90ab3 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:06.499] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:23:07.437] [WS] error [Errno 11001] getaddrinfo failed
+[10:23:07.438] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=576
+[10:23:07.439] [WS] stale/lost
+[10:23:07.440] [WS] reconnect in 2s count=2
+[10:23:07.770] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667788571&signature=1d1b5031a1ba2f7756f35df078521db99aafbcf37a55301cd12222c21c3b3687 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:07.771] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667788572&signature=f265f394d834f41885a52582bd6e079ede142e09d79c4ccb718aaddb82218b4e (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:07.772] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667788573&signature=857e20867bcf0af91767e74cfefd8170fb878d4543083974e44621344db5feb7 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:07.774] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667788574&signature=5834dd0d28f29d0c8c6e622761051ff55ba6629db2a50977f1160a5085d87174 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:07.775] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667788576&signature=5a624daa6901f845833907664ffcd60d58c86c94b909d5ccd5046dbe4aeaf59a (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:07.775] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667788577&signature=337cb7d4f2db258f512ae5f401f17e4b336919d397aed072e5eb03344e813c04 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:07.776] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667788577&signature=db72e6706052532338a294d649d0cc31a0cf8c4612fead38dc49ae31089e01a9 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:07.777] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667788578&signature=71b9da33f87029884b8c0fbfec311b6f2e37ee943ea5ba552168e2f821a27015 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:09.300] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667790100&signature=ed580f1ad186819fcb1e426fb77aff9a928274a28844ff0903c2743c102a2a45 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:09.300] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=587
+[10:23:09.302] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667790103&signature=dff46532657048b486600daea99e41669c2b64c312ae49053bbb2e8924e5f9a8 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:09.305] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667790106&signature=0d5f78110fbde4a88d3e642d24bda766dc460f9151a80509d82fd75515223d3c (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:09.307] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667790108&signature=191aa5b67e04f6b0be054b016cc7e4d3ea1240829846a415d89645714f139b7d (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:09.309] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667790110&signature=50e542d9117c9cd98ef6b2f11534782cb7818749bb39389c969ce0d2c28217bf (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:09.312] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667790113&signature=96bcd32417751ec7e75466d634d07378323b3d75be6d5ac399bd855f59edb33d (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:09.314] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667790115&signature=6db65b793e82ced2c67a029bcbd132d7eb89fae31a547e2c1ecb649e208cecb9 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:09.316] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667790116&signature=8e739fd329fda1bce8b843f78d6a451cb79d76f8f365f7f458f6b541a533f3aa (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:09.439] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:23:09.440] [WS] connecting primary
+[10:23:09.442] [WS] error [Errno 11001] getaddrinfo failed
+[10:23:09.442] [WS] stale/lost
+[10:23:09.442] [WS] reconnect in 2s count=3
+[10:23:10.834] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667791633&signature=15e1024802ee0fdcbf4312316fa107713a30d497efdb9a5c9c745f8cf7edb734 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:10.835] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=600
+[10:23:10.838] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667791637&signature=164dc7d3caadce69f4da37c0b0158e6d57bb526b59c9094d0694414ad07e4202 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:10.841] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667791641&signature=fed8e81fee88f8b8254ad43c3eb92030883dbdd9cc4f705f1d89b4a6a0cc8aa1 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:10.844] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667791644&signature=9d01b9496befce2e8ab8451caee9eef8c07a0b584f4cece0ac085413b7b13d02 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:10.847] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667791647&signature=d45e13d7e5acd27b8e8ebf1828ffa6baf3089a02c5de47dab6405fb7776c6568 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:10.851] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667791650&signature=1bb624144d8d730465edac40bfab585122005d84e43fe90f618e9f613f9ba49e (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:10.853] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667791653&signature=8814c280d51eebc5e552a60dc3d9bb34d545f476f11e23e6930e86e0ac894e1c (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:10.856] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667791656&signature=1f720b28e2b4fd20828542be60664e8c66458caa0fd96312eba188a823f6d53d (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:11.440] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:23:11.441] [WS] connecting primary
+[10:23:11.441] [WS] error [Errno 11001] getaddrinfo failed
+[10:23:11.441] [WS] stale/lost
+[10:23:11.445] [WS] reconnect in 2s count=4
+[10:23:11.597] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:23:12.377] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667793177&signature=d6d084c0b9621ac1422095726b4fcfe00a6f9c70146f01b16ac0b19d5786740d (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:12.378] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=614
+[10:23:12.381] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667793180&signature=4c6eeb4312aab4ddbbbe404624ae1049df581d587098e53ed811d7ec08fc2c81 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:12.383] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667793184&signature=81e2b78bc6c064ec37c88f206140008a1d4768316a3c64bcbca5990cbb68a762 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:12.385] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667793185&signature=434b779b2cf1845b11e6cfa97523a667a3beef00dbdf0d9d04c0053bc0d4c605 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:12.387] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667793187&signature=eb58fed4dbca4e40403c597985481c0e91774e02cf703fbe237e549eec3708be (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:12.389] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667793189&signature=6c878f53a9c413f3bb75b528d11843db546fe0409702f5956d3065b5acd7a4ed (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:12.390] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667793191&signature=de702670768a07b6a65c106e7b4ddaf5be999ca6e8bddf4f43c0861b0816542d (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:12.391] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667793192&signature=8f5eea5ff7a2cbf2e9922c898800330d76d4e31988c0a3ebfb7b4843c4049dbd (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:13.442] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:23:13.442] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=622
+[10:23:13.443] [WS] connecting primary
+[10:23:13.443] [WS] error [Errno 11001] getaddrinfo failed
+[10:23:13.444] [WS] stale/lost
+[10:23:13.444] [WS] reconnect in 2s count=5
+[10:23:13.909] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667794709&signature=c6a2369223f6ba02835afc388752d50e4b0f9753016cffaeef46fddce45701f3 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:13.910] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667794711&signature=7c5bae6833c7c03111934c6efe76eb6de54e883a278d21359057d0a7b70dd30d (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:13.912] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667794713&signature=ab2af227c671c18af4c14a05e25e6b9d88ff4c2d91706755d787cded117e0cab (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:13.914] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667794714&signature=901a8d5c2741d15a022ec6416792d334785d07def237b1edf2f7cd799a7b1f5e (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:13.915] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667794716&signature=ee809e389bcfe2bf5635cd1697173718acaa82dcc190bc01043cf67d0bf1ee09 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:13.917] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667794718&signature=63ae5f39228c3bf0bedbc7bd1dfe429edf616b43fe8934284b8687f5e9c3e811 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:13.918] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667794719&signature=d10597366a91db212d0119b17f0310da1896eb954f3958b28977a434b54dcaa9 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:13.920] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667794720&signature=ee4c47efc7010d73072cc46f0f8578ee4b092a6a02c020d052a8a48462877231 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:15.437] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667796236&signature=8c6632910e8959174a3dbab6cab45f365f9188f2bd215a942ec3955eef53dea6 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:15.438] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=635
+[10:23:15.441] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667796241&signature=c8c967175f6df5cf4ca99c367257679940b2aff534ca67c3fa79a8f6e2d39314 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:15.445] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667796245&signature=8529fcc4999e1982191cfce5ce14cbd588ef9b93035f429d5ab7a8d621ce29de (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:15.447] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667796247&signature=4d0aa44c4bc10baaecacd613c0de10f3a67dd655eb5faf3673070cd0115e18f6 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:15.450] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667796249&signature=8bf5e61fcc753233a1718c4ae3916e840bae6c48bd576dfbfb3d20b1d33366b4 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:15.452] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667796253&signature=d54f7509ed80e8a745ad6f9dbcc510c5396c818b84dd1a3275c5f03e65314bde (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:15.454] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667796255&signature=9d7bb6b7caa279d824cdbf807c0ac77a0a7f602581d15fda188edf265f0b8edf (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:15.457] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667796258&signature=4171882edc72ce6785dee63a4b74fa6c5ac0a77c82a47e0121a9fbb26d7ffb43 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:15.460] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:23:15.460] [WS] connecting primary
+[10:23:15.461] [WS] error [Errno 11001] getaddrinfo failed
+[10:23:15.461] [WS] stale/lost
+[10:23:15.461] [WS] reconnect in 2s count=6
+[10:23:16.683] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:23:16.683] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=648
+[10:23:16.972] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667797772&signature=33c76819756b6ae6304c8afbc647ef428a99417fab74f9cb5524b6bbac6c79fa (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:16.973] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667797774&signature=73bea746b726965bb45f5e9b17ed1a4c33add2274eec4ae7d9b6ff211e6183fc (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:16.975] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667797776&signature=126a548f8d6f3998c37b4ee3b0d2eb99ad21da4242066825e71946d06576f20d (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:16.977] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667797778&signature=e6138a0261ec41bb84f63316b1fdec8d61946bfe422c42d6317b74a0a56fac7f (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:16.979] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667797779&signature=b985948afdf32a4b63314ef8972cd8685cc85c4897149d38f2962cdc4b8116e1 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:16.980] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667797781&signature=2b734766906d32367c517e62295a97b9ef09ed57fbda0caf13f644e3e72b9479 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:16.982] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667797783&signature=d913bfd4aae2ccc8f24cb006d62fd9c9de01e6e9776f6b29e0af4ffacfb1b16b (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:16.984] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667797785&signature=8e1477c0ec17fa76a03437cb97536f133ee260b7413acdad787009af83aa78de (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:17.443] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:23:17.445] [WS] connecting primary
+[10:23:17.446] [WS] error [Errno 11001] getaddrinfo failed
+[10:23:17.447] [WS] stale/lost
+[10:23:17.447] [WS] reconnect in 2s count=7
+[10:23:23.701] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:23:23.702] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=662
+[10:23:23.710] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667804510&signature=e1097413c283411881283ba5ab0d4031b850c14c3b0c593dd864205096420f3e (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:23.713] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667804512&signature=8201da5f845a2c4b6d9db987966acfb80a14c93cda80ca8448ff74fef63b0d04 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:23.715] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667804516&signature=e7db19541bdcac081443d60d9f1c2509de155d2a02145d30aabf8eef971e78a0 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:23.717] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667804518&signature=225f1635273a559335e98ebeeb0037386c655a671c58edd81c0e3c05efcee3fc (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:23.720] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667804521&signature=25346eee3e23839b3cb65bc037248bd77cc3d62e02c26d0e9dac38b5c1baca74 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:23.721] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667804522&signature=4a55c1943e749f120969cf888d46bc37935c93bfb8ba8f32115f243fa01f62d3 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:23.723] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667804524&signature=019e3b3fd8b579cd41217f127bdfa7e0071c2bc75f6baae0d28517a86eddef2b (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:23.724] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667804525&signature=c84f0d29ace711dd0b1723d3331cbd242f9d3d6939e351fe0460be54ecb16021 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:23.726] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:23:23.726] [WS] connecting primary
+[10:23:25.357] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667806156&signature=d1c340da1df37380c25e4215ea9a5d4eb2e2b347048b5c7e64721f0743195ebc (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:25.358] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=673
+[10:23:25.361] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667806161&signature=07def40b3e8eb36d3e537b9dd801a340d42ba4b66cd5a28b5d920f30b84633f4 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:25.363] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667806163&signature=0683d9f9c65ce7836b4a30e8eda1ce0c4683cf685e7681351c87d186458717fa (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:25.364] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667806165&signature=6854f7b667bdab2864da2eccef7c06b1cd99642d6e93b338b1073a0a9373af25 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:25.367] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667806168&signature=d08bb7ecd729ae7feaf529948b9a8d9d51a7e7a38e05bb4c9bb903ca9a3212cf (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:25.370] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667806170&signature=d7edabd056c23152f6459b9bad8384ffb79a53f46f83960f8774e1791846c90c (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:25.370] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667806172&signature=d96015098873f6ec6da2a96d4105081a23e39cacd3bc3fbfc93d5b364e62c456 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:25.374] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667806175&signature=cce6115995b35ddd11d4024488a7cc54b8f4686b8c2377d960a9ef664686e42b (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:26.881] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667807680&signature=9576f6b6d7ce8edf385902050a94e4cb930eb5c78d53637fd2276dfc3e435318 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:26.881] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=681
+[10:23:26.882] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667807683&signature=8e2db2d9e2d50c718857405e692b5ed89f033788ea11fdc25b16b4f04cb8baff (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:26.883] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667807685&signature=8a3f5dec3a1bdff304d75c64c9793e9e3611dea4f6d01500be28ab3c099342e7 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:26.885] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667807687&signature=d5c58bd3828fa8dd6c9901878683142ec8f0fd764e5126f14032c1f5d8935c28 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:26.886] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667807688&signature=8453bca6be2fb5fdf9b4ecd559e4f4a8936a4033b55c006d2b5954f033d8e8d5 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:26.887] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667807689&signature=10048c8887c5af8faf299294a124fb99a020e4d5de6b52f77e6013894d3de77c (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:26.887] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667807689&signature=5501518bb5cb0fcd95ff73a9342693baa3ed336b1abce2fca29ef87931cf9053 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:26.888] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667807690&signature=db906137c860e2f12acb2b9c065e3602290c279ec66c7d8d8446351c99d3090a (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:28.404] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=1 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307253&recvWindow=5000&timestamp=1778667809206&signature=631e6832d1464b6f162de1a428f4766b1cdf3d9df6e5c4c7b9f3128d69afe748 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:28.404] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=689
+[10:23:28.409] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=2 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307287&recvWindow=5000&timestamp=1778667809210&signature=c79f72a54b99109466f473cf404694233c02b4ec875bd3710828653333d288cd (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:28.411] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=3 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388307317&recvWindow=5000&timestamp=1778667809212&signature=f021efef22711bb59e6614594e353935d6851581691c057573e1b2d2cbdec1db (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:28.414] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=4 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304662&recvWindow=5000&timestamp=1778667809215&signature=aa8aae4973fdb2be10192c43379757fa4b362c9e3413c8b1efc2fa0e2df34515 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:28.417] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=5 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304699&recvWindow=5000&timestamp=1778667809217&signature=1f259f50927df4ed0859613755273de6145085059c711854d84bb2a1a5bebe03 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:28.420] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=6 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304704&recvWindow=5000&timestamp=1778667809220&signature=e0714777a4983698155403db00b9f236d515c520582709fd6dd203f4fb13a9bb (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:28.423] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=7 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304765&recvWindow=5000&timestamp=1778667809223&signature=ddbfe27afaa238300d00f9b6997b8843d889a1a673c2b56f30ed59b42b3d4bd8 (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:28.426] [ERROR] [EXEC] STREAM_ORDER_API_ERROR side=BUY stream_id=8 error=HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/order?symbol=BTCU&orderId=388304903&recvWindow=5000&timestamp=1778667809225&signature=59cb2171e78c9afe464bac0f07c696a55795b35347825f5526e6aeef49196c8c (Caused by NameResolutionError("HTTPSConnection(host='api.binance.com', port=443): Failed to resolve 'api.binance.com' ([Errno 11001] getaddrinfo failed)"))
+[10:23:28.734] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:23:39.909] [OK] REST restored
+[10:23:39.909] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=698
+[10:23:50.388] [INFO] [HEALTH] state=DANGER
+[10:23:50.388] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=699
+[10:23:50.388] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:23:50.388] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:23:50.394] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:23:51.165] [WS] error [Errno 11001] getaddrinfo failed
+[10:23:51.165] [WS] stale/lost
+[10:23:51.165] [WS] reconnect in 2s count=8
+[10:23:51.165] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:23:51.165] [WS] connecting primary
+[10:23:51.165] [WS] error [Errno 11001] getaddrinfo failed
+[10:23:51.171] [WS] stale/lost
+[10:23:51.172] [WS] reconnect in 2s count=9
+[10:23:51.172] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[10:23:51.173] [WS] connecting primary
+[10:23:51.174] [WS] connected
+[10:23:53.936] [INFO] [HEALTH] state=DANGER
+[10:23:53.936] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=714
+[10:23:53.936] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:23:53.936] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:23:58.934] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:23:58.935] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=717
+[10:23:58.935] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:24:13.634] [INFO] [HEALTH] state=DANGER
+[10:24:13.634] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=719
+[10:24:13.634] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:13.634] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:24:13.648] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:24:19.849] [INFO] [HEALTH] state=DANGER
+[10:24:19.849] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=723
+[10:24:19.849] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:19.849] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:24:19.849] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:24:24.585] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:24:24.585] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=727
+[10:24:24.585] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:24:24.585] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:24.585] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:24:28.431] [INFO] [HEALTH] state=DANGER
+[10:24:28.431] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=731
+[10:24:28.431] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:28.431] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:24:28.431] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:24:31.209] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:31.209] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=735
+[10:24:37.027] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:24:37.027] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=736
+[10:24:37.027] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:24:37.027] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:37.027] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:24:37.338] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:24:40.310] [INFO] [HEALTH] state=GOOD
+[10:24:40.311] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=741
+[10:24:40.312] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:40.313] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:24:42.848] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:42.852] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=744
+[10:24:42.853] [INFO] [EXEC] STREAM_STATS_UI cycles=3 wins=3 losses=0 pnl=+0.011550 winrate=100.00%
+[10:24:43.637] [INFO] [EXEC] STREAM_BUY_FILLED level_id=1
+[10:24:43.637] [OK] [EXEC] CHUNK ADD qty=0.007700 entry=81075.32
+[10:24:43.638] [INFO] [EXEC] CHUNK COUNT n=1
+[10:24:43.639] [INFO] [EXEC] STREAM_TARGET_USED ticks=50 sell_price=81075.82
+[10:24:43.887] [INFO] [EXEC] STREAM_SELL_PLACED stream_id=1 chunk_id=2189335369856 order_id=388321602 price=81075.82 qty=0.007700
+[10:24:43.887] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=750
+[10:24:46.022] [INFO] [EXEC] STREAM_SELL_STATUS stream_id=1 chunk_id=2189335369856 order_id=388321602 status=FILLED
+[10:24:46.022] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=751
+[10:24:46.022] [INFO] [EXEC] STREAM_SELL_FILLED stream_id=1 chunk_id=2189335369856 order_id=388321602
+[10:24:46.025] [OK] [EXEC] FIFO CLOSE qty=0.007700 entry=81075.32 exit=81075.82 pnl=+0.003850
+[10:24:46.025] [INFO] [EXEC] STREAM_PNL stream_id=1 pnl=+0.003850
+[10:24:46.025] [INFO] [EXEC] STREAM_RECYCLED level_id=1
+[10:24:46.026] [INFO] [EXEC] STREAM_RECYCLED stream_id=1
+[10:24:46.026] [INFO] [HEALTH] state=GOOD
+[10:24:46.027] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:46.027] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:24:46.289] [INFO] [EXEC] STREAM_BUY_PLACED level_id=1 order_id=388321661
+[10:24:46.290] [OK] [EXEC] PLACE BUY price=81075.32 qty=0.007700
+[10:24:49.023] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:49.023] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=762
+[10:24:49.024] [INFO] [EXEC] STREAM_STATS_UI cycles=4 wins=4 losses=0 pnl=+0.015400 winrate=100.00%
+[10:24:52.257] [INFO] [HEALTH] state=GOOD
+[10:24:52.258] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=764
+[10:24:52.259] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:52.259] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:24:54.774] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:54.774] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=767
+[10:24:54.787] [INFO] [EXEC] STREAM_STATS_UI cycles=4 wins=4 losses=0 pnl=+0.015400 winrate=100.00%
+[10:24:57.323] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[10:24:57.323] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=769
+[10:24:57.324] [WARNING] [HEALTH] unstable_spread lifetime=0
+[10:24:57.324] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:57.324] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:24:59.860] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:24:59.860] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=773
+[10:25:00.130] [INFO] [EXEC] STREAM_STATS_UI cycles=4 wins=4 losses=0 pnl=+0.015400 winrate=100.00%
+[10:25:02.884] [INFO] [HEALTH] state=GOOD
+[10:25:02.884] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=775
+[10:25:02.884] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:25:02.884] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:25:05.933] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:25:05.933] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=778
+[10:25:05.933] [INFO] [EXEC] STREAM_STATS_UI cycles=4 wins=4 losses=0 pnl=+0.015400 winrate=100.00%
+[10:25:08.974] [INFO] [HEALTH] state=DANGER
+[10:25:08.974] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=780
+[10:25:08.974] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:25:08.974] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:25:11.753] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:25:11.753] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=783
+[10:25:11.758] [INFO] [EXEC] STREAM_STATS_UI cycles=4 wins=4 losses=0 pnl=+0.015400 winrate=100.00%
+[10:25:14.730] [INFO] [HEALTH] state=DANGER
+[10:25:14.730] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=785
+[10:25:14.746] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:25:14.746] [INFO] [EXEC] STREAM_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[10:25:17.933] [INFO] [EXEC] STREAM_GUARD_SIMPLE_PASS
+[10:25:17.933] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=OFF append_skipped=788
+[10:25:17.933] [INFO] [EXEC] STREAM_STATS_UI cycles=4 wins=4 losses=0 pnl=+0.015400 winrate=100.00%

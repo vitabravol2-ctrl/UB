@@ -1,0 +1,305 @@
+[16:02:17.290] [OK] filters loaded
+[16:02:19.306] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[16:02:19.306] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[16:02:19.306] [INFO] START_PROFILE order_size=4000.0 min_spread=10.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=3500 far_sell_ticks=80 taker_exit_after_ms=2500
+[16:02:19.306] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[16:02:19.855] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[16:02:19.862] [OK] START
+[16:02:19.862] [OK] START_OK runtime_started
+[16:02:19.862] [INFO] [EXEC] GRID_BUDGET_DEPRECATED_USING_MAX_EXPOSURE
+[16:02:19.869] [INFO] [EXEC] GRID_BUDGET_SOURCE source=max_exposure_u budget=5000.00
+[16:02:19.869] [INFO] [EXEC] GRID_PARALLEL_START levels=10 budget=5000.00
+[16:02:19.869] [INFO] [EXEC] GRID_BUDGET_ALLOC levels=10 budget=5000.00 per_level=500.00
+[16:02:19.869] [INFO] [EXEC] GRID_LEVELS_CREATED count=10 budget=5000.00 step=20 size=200
+[16:02:20.137] [INFO] [EXEC] LIVE ON
+[16:02:20.140] [INFO] [EXEC] WAIT READY
+[16:02:20.141] [INFO] [HEALTH] state=DANGER
+[16:02:20.141] [WARNING] [EXEC] BLOCK_BUY reason=rest_source_live_ws_required mode=FAST ws_age=None spread=7.66 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:20.640] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[16:02:20.641] [WS] connecting primary
+[16:02:21.244] [OK] [PLAN] READY entry=80317.23 exit=80323.53 profit=0.313740 age=1108ms
+[16:02:21.755] [WS] connected
+[16:02:22.357] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:22.358] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:02:22.359] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=483 spread=11.60 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:22.932] [INFO] [EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[16:02:23.500] [INFO] [EXEC] GRID_BUY_PLACED level_id=1 order_id=386212926
+[16:02:23.501] [OK] [EXEC] PLACE BUY price=80317.02 qty=0.006220
+[16:02:23.759] [INFO] [EXEC] GRID_BUY_PLACED level_id=2 order_id=386212932
+[16:02:23.759] [OK] [EXEC] PLACE BUY price=80316.82 qty=0.006220
+[16:02:24.729] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=983 spread=8.38 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:25.765] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:25.766] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=1015 spread=12.77 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:26.790] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=859 spread=7.80 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:29.119] [INFO] [HEALTH] state=DANGER
+[16:02:30.111] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=922 spread=7.29 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:31.135] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:31.135] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:02:31.135] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=829 spread=14.98 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:32.197] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1062 spread=8.55 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:33.249] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:33.250] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=922 spread=15.01 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:34.306] [INFO] [EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[16:02:34.586] [INFO] [EXEC] GRID_BUY_PLACED level_id=3 order_id=386213467
+[16:02:34.589] [OK] [EXEC] PLACE BUY price=80316.62 qty=0.006220
+[16:02:34.866] [INFO] [EXEC] GRID_BUY_PLACED level_id=4 order_id=386213478
+[16:02:34.867] [OK] [EXEC] PLACE BUY price=80316.42 qty=0.006220
+[16:02:36.760] [INFO] [EXEC] GRID_BUY_PLACED level_id=5 order_id=386213658
+[16:02:36.760] [OK] [EXEC] PLACE BUY price=80316.22 qty=0.006220
+[16:02:37.030] [INFO] [EXEC] GRID_BUY_PLACED level_id=6 order_id=386213669
+[16:02:37.034] [OK] [EXEC] PLACE BUY price=80316.02 qty=0.006220
+[16:02:39.165] [INFO] [HEALTH] state=DANGER
+[16:02:39.166] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=2140 spread=7.98 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:41.206] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:41.208] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:02:41.210] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=2016 spread=14.77 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:44.394] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=2875 spread=8.92 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:46.400] [INFO] [HEALTH] state=DANGER
+[16:02:48.697] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:02:48.697] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:02:48.697] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=2016 spread=15.24 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:50.690] [INFO] [EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[16:02:52.729] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1983 spread=6.86 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:02:54.989] [INFO] [HEALTH] state=DANGER
+[16:02:57.074] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1984 spread=9.85 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:01.806] [INFO] [HEALTH] state=DANGER
+[16:03:01.806] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=2437 spread=8.98 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:05.855] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1983 spread=6.82 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:08.637] [INFO] [HEALTH] state=DANGER
+[16:03:11.198] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=2562 spread=7.98 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:13.506] [INFO] [HEALTH] state=DANGER
+[16:03:16.041] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=2530 spread=7.15 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:20.290] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:20.290] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:03:20.290] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=1875 spread=14.36 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:22.850] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=2468 spread=9.99 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:27.698] [INFO] [HEALTH] state=DANGER
+[16:03:27.698] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1952 spread=8.68 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:32.173] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=2093 spread=6.05 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:34.308] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:34.311] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:03:34.312] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=1686 spread=11.03 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:37.166] [INFO] [EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[16:03:39.182] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1936 spread=5.03 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:41.312] [INFO] [HEALTH] state=DANGER
+[16:03:43.431] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1859 spread=7.87 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:46.893] [INFO] [EXEC] GRID_BUY_CANCELED level_id=3 order_id=386213467 status=CANCELED
+[16:03:46.893] [INFO] [EXEC] GRID_LEVEL_RECYCLED level_id=3
+[16:03:47.151] [INFO] [EXEC] GRID_BUY_CANCELED level_id=4 order_id=386213478 status=CANCELED
+[16:03:47.167] [INFO] [EXEC] GRID_LEVEL_RECYCLED level_id=4
+[16:03:47.431] [INFO] [EXEC] GRID_BUY_CANCELED level_id=5 order_id=386213658 status=CANCELED
+[16:03:47.431] [INFO] [EXEC] GRID_LEVEL_RECYCLED level_id=5
+[16:03:47.697] [INFO] [EXEC] GRID_BUY_CANCELED level_id=6 order_id=386213669 status=CANCELED
+[16:03:47.697] [INFO] [EXEC] GRID_LEVEL_RECYCLED level_id=6
+[16:03:47.697] [INFO] [HEALTH] state=DANGER
+[16:03:47.697] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1922 spread=9.05 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:48.353] [INFO] [EXEC] GRID_BUY_CANCELED level_id=1 order_id=386212926 status=CANCELED
+[16:03:48.369] [INFO] [EXEC] GRID_LEVEL_RECYCLED level_id=1
+[16:03:48.635] [INFO] [EXEC] GRID_BUY_CANCELED level_id=2 order_id=386212932 status=CANCELED
+[16:03:48.635] [INFO] [EXEC] GRID_LEVEL_RECYCLED level_id=2
+[16:03:48.635] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:48.635] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:03:48.635] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=579 spread=12.16 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:49.115] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=0 spread=6.60 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:50.635] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:50.638] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=140 spread=11.22 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:51.127] [WARNING] [HEALTH] block spread_too_young lifetime=493
+[16:03:51.129] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=141 spread=10.97 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:51.620] [INFO] [EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[16:03:51.884] [INFO] [EXEC] GRID_BUY_PLACED level_id=1 order_id=386218460
+[16:03:51.887] [OK] [EXEC] PLACE BUY price=80317.02 qty=0.006220
+[16:03:52.170] [INFO] [EXEC] GRID_BUY_PLACED level_id=2 order_id=386218468
+[16:03:52.173] [OK] [EXEC] PLACE BUY price=80316.82 qty=0.006220
+[16:03:53.704] [INFO] [HEALTH] state=DANGER
+[16:03:53.705] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=984 spread=8.11 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:54.803] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:54.805] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:03:54.806] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=1045 spread=10.60 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:55.819] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1000 spread=9.74 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:56.712] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:03:56.712] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=781 spread=10.83 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:03:57.739] [INFO] [EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[16:03:58.003] [INFO] [EXEC] GRID_BUY_PLACED level_id=3 order_id=386218949
+[16:03:58.006] [OK] [EXEC] PLACE BUY price=80316.62 qty=0.006220
+[16:03:58.307] [INFO] [EXEC] GRID_BUY_PLACED level_id=4 order_id=386218964
+[16:03:58.307] [OK] [EXEC] PLACE BUY price=80316.42 qty=0.006220
+[16:04:00.485] [INFO] [EXEC] GRID_BUY_PLACED level_id=5 order_id=386219188
+[16:04:00.486] [OK] [EXEC] PLACE BUY price=80316.22 qty=0.006220
+[16:04:00.770] [INFO] [EXEC] GRID_BUY_PLACED level_id=6 order_id=386219209
+[16:04:00.773] [OK] [EXEC] PLACE BUY price=80316.02 qty=0.006220
+[16:04:03.037] [INFO] [HEALTH] state=DANGER
+[16:04:03.038] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=2077 spread=4.89 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:04:07.731] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:04:07.733] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:04:07.735] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=1922 spread=10.37 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:04:09.814] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=2061 spread=7.32 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:04:12.214] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[16:04:12.495] [WARNING] cancel all requested
+[16:04:12.495] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.018707 locked=0.000000
+[16:04:12.495] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[16:04:12.495] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[16:04:12.510] [WARNING] STOP
+[16:04:12.646] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[16:04:12.647] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[16:04:12.648] [INFO] START_PROFILE order_size=4000.0 min_spread=10.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=3500 far_sell_ticks=80 taker_exit_after_ms=2500
+[16:04:12.648] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[16:04:13.159] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[16:04:13.164] [OK] START
+[16:04:13.166] [OK] START_OK runtime_started
+[16:04:13.166] [INFO] [EXEC] GRID_BUDGET_DEPRECATED_USING_MAX_EXPOSURE
+[16:04:13.169] [INFO] [EXEC] GRID_BUDGET_SOURCE source=max_exposure_u budget=5000.00
+[16:04:13.172] [INFO] [EXEC] GRID_PARALLEL_START levels=10 budget=5000.00
+[16:04:13.175] [INFO] [EXEC] GRID_BUDGET_ALLOC levels=10 budget=5000.00 per_level=500.00
+[16:04:13.177] [INFO] [EXEC] GRID_LEVELS_CREATED count=10 budget=5000.00 step=20 size=200
+[16:04:13.461] [INFO] [EXEC] LIVE ON
+[16:04:13.462] [INFO] [EXEC] WAIT READY
+[16:04:13.463] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[16:04:13.464] [WARNING] [HEALTH] unstable_spread lifetime=0
+[16:04:13.464] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=1265 spread=13.63 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:04:13.467] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[16:04:13.467] [WS] connecting primary
+[16:04:13.681] [WARNING] [HEALTH] block spread_too_young lifetime=221
+[16:04:13.681] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=1483 spread=13.63 stable=2/1 mid_delta=0.00 bid_delta=0.00
+[16:04:14.187] [INFO] [EXEC] GRID_MODE_ACTIVE_SKIP_SINGLE_ENTRY
+[16:04:14.447] [INFO] [EXEC] GRID_BUY_PLACED level_id=1 order_id=386219766
+[16:04:14.447] [OK] [EXEC] PLACE BUY price=80364.17 qty=0.006220
+[16:04:14.759] [INFO] [EXEC] GRID_BUY_PLACED level_id=2 order_id=386219776
+[16:04:14.759] [OK] [EXEC] PLACE BUY price=80363.97 qty=0.006220
+[16:04:15.176] [WS] connected
+[16:04:15.729] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=562 spread=6.97 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[16:04:18.736] [INFO] [EXEC] GRID_BUY_FILLED level_id=1
+[16:04:18.740] [OK] [EXEC] CHUNK ADD qty=0.006220 entry=80364.17
+[16:04:18.741] [INFO] [EXEC] CHUNK COUNT n=1
+[16:04:19.025] [INFO] [EXEC] GRID_SELL_PLACED level_id=1 chunk_id=1633164042816 order_id=386219959 price=80365.17 qty=0.006220
+[16:04:19.303] [INFO] [EXEC] GRID_BUY_FILLED level_id=2
+[16:04:19.307] [OK] [EXEC] CHUNK ADD qty=0.006220 entry=80363.97
+[16:04:19.311] [INFO] [EXEC] CHUNK COUNT n=2
+[16:04:19.589] [INFO] [EXEC] GRID_SELL_PLACED level_id=2 chunk_id=1633164044304 order_id=386219985 price=80364.97 qty=0.006220
+[16:04:20.340] [WARNING] [EXEC] STATE REPAIR reason=inventory_cannot_be_flat
+[16:04:20.342] [INFO] [EXEC] EXIT RECOVERY inventory_no_sell qty=0.012440
+[16:04:20.599] [WARNING] [EXEC] SELL_WATCHDOG_FAR_CANCEL orderId=386219959 price=80365.17 ask=80362.02 dist_ticks=314
+[16:04:21.157] [INFO] [EXEC] SELL_FAR_CANCEL_FINAL_STATUS status=CANCELED
+[16:04:22.593] [WARNING] [EXEC] SELL_WATCHDOG_FAR_CANCEL orderId=386219985 price=80364.97 ask=80362.05 dist_ticks=291
+[16:04:23.117] [INFO] [EXEC] SELL_FAR_CANCEL_FINAL_STATUS status=CANCELED
+[16:04:25.337] [WARNING] [EXEC] PLACE_SELL_STUCK_RECOVERY qty=0.012430
+[16:04:25.888] [INFO] [EXEC] SELL CHECK inventory=0.012440 reported=0.000000 remaining=0.012430 chunks=2
+[16:04:25.894] [INFO] [EXEC] SELL_REPRICE_FRESH_APPLIED old=80364.97 new=80336.92 ask=80336.94 bid=80325.51
+[16:04:25.894] [INFO] [EXEC] SELL_REPRICE_VALIDATION old=80364.97 new=80336.92 ask=80336.94 dist_ticks=2 source=fresh_snapshot
+[16:04:25.894] [WARNING] [EXEC] SELL_FLOOR_BLOCKED price=80336.92 floor=80364.57 entry=80364.07 reason=below_min_profit source=fresh_after_far_cancel
+[16:04:25.894] [INFO] [EXEC] PLACE_SELL_SOURCE source=fresh_after_far_cancel price=80364.57
+[16:04:25.894] [OK] [EXEC] PLACE SELL price=80364.57 qty=0.012430
+[16:04:26.165] [WARNING] [EXEC] SELL_HOLD_RECOVERY_START orderId=386220508 entry=80364.07 floor=80364.57 ask=80336.94
+[16:04:26.167] [OK] [EXEC] SELL ORDER SENT orderId=386220508
+[16:04:27.635] [INFO] [EXEC] SELL UPSIZE old=0.012430 new=0.012440
+[16:04:27.650] [WARNING] [EXEC] SELL TIMEOUT orderId=386220508
+[16:04:27.650] [WARNING] [EXEC] CANCEL SELL orderId=386220508
+[16:04:28.209] [INFO] [EXEC] SELL FINAL STATUS status=CANCELED orderId=386220508
+[16:04:28.209] [INFO] [EXEC] SELL TIMEOUT check fast_exit
+[16:04:28.209] [WARNING] [EXEC] FORCE EXIT hard_sl_triggered
+[16:04:28.209] [ERROR] [EXEC] HARD SL triggered
+[16:04:28.209] [WARNING] [EXEC] PANIC EXIT sl_mode
+[16:04:28.486] [WARNING] [EXEC] FORCE EXIT price=80339.31
+[16:04:28.489] [INFO] [EXEC] PLACE_SELL_SOURCE source=panic price=80339.31
+[16:04:28.490] [OK] [EXEC] PLACE SELL price=80339.31 qty=0.012430
+[16:04:28.740] [WARNING] [EXEC] PANIC START price=80339.31
+[16:04:28.740] [OK] [EXEC] SELL ORDER SENT orderId=386220732
+[16:04:30.571] [INFO] [EXEC] SELL_UPSIZE_SKIPPED reason=exit_or_panic_active
+[16:04:31.963] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=386220732 status=NEW
+[16:04:31.967] [WARNING] [EXEC] SELL_WATCHDOG_FAR_CANCEL orderId=386220732 price=80339.31 ask=80324.49 dist_ticks=1481
+[16:04:32.528] [INFO] [EXEC] SELL_FAR_CANCEL_FINAL_STATUS status=CANCELED
+[16:04:34.020] [INFO] [EXEC] SELL CHECK inventory=0.012440 reported=0.000000 remaining=0.012430 chunks=2
+[16:04:34.022] [INFO] [EXEC] SELL_REPRICE_FRESH_APPLIED old=80339.31 new=80323.47 ask=80323.50 bid=80317.72
+[16:04:34.025] [INFO] [EXEC] SELL_REPRICE_VALIDATION old=80339.31 new=80323.47 ask=80323.50 dist_ticks=2 source=fresh_snapshot
+[16:04:34.026] [WARNING] [EXEC] SELL_FLOOR_BLOCKED price=80323.47 floor=80364.57 entry=80364.07 reason=below_min_profit source=fresh_after_far_cancel
+[16:04:34.027] [INFO] [EXEC] PLACE_SELL_SOURCE source=fresh_after_far_cancel price=80364.57
+[16:04:34.028] [OK] [EXEC] PLACE SELL price=80364.57 qty=0.012430
+[16:04:34.299] [OK] [EXEC] SELL ORDER SENT orderId=386221006
+[16:04:38.238] [INFO] [EXEC] SELL_WATCHDOG_SYNC orderId=386221006 status=NEW
+[16:04:38.240] [WARNING] [EXEC] SMART_EXIT_ACTIVE
+[16:04:38.241] [WARNING] [EXEC] SMART_EXIT_BREAK_HOLD reason=too_far age=3937 dist_ticks=2657
+[16:04:38.770] [WARNING] [EXEC] SMART_EXIT_TO_PANIC reason=taker_trigger_failed_after_break_hold
+[16:04:39.476] [WARNING] [SYNC] desync fixed
+[16:04:40.176] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:40.178] [WARNING] [EXEC] SMART_EXIT_PANIC_RETRY reason=inventory_no_sell attempt=1
+[16:04:40.179] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[16:04:40.180] [WARNING] [EXEC] PANIC HOLD active orderId=386220732
+[16:04:41.291] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:41.294] [WARNING] [EXEC] SMART_EXIT_PANIC_RETRY reason=inventory_no_sell attempt=3
+[16:04:41.300] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[16:04:41.301] [WARNING] [EXEC] PANIC HOLD active orderId=386220732
+[16:04:42.301] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:42.304] [WARNING] [EXEC] SMART_EXIT_PANIC_RETRY reason=inventory_no_sell attempt=5
+[16:04:42.307] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[16:04:42.308] [WARNING] [EXEC] PANIC HOLD active orderId=386220732
+[16:04:43.326] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:43.328] [WARNING] [EXEC] SMART_EXIT_PANIC_RETRY reason=inventory_no_sell attempt=7
+[16:04:43.329] [WARNING] [EXEC] EXIT_FAIL reason=smart_exit_inventory_no_sell force_exit
+[16:04:43.330] [WARNING] [EXEC] PANIC HOLD active orderId=386220732
+[16:04:44.353] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:44.353] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=9 qty=0.012440
+[16:04:45.617] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:45.619] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=10 qty=0.012440
+[16:04:46.635] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:46.635] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=11 qty=0.012440
+[16:04:47.890] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:47.892] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=12 qty=0.012440
+[16:04:48.900] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:48.900] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=13 qty=0.012440
+[16:04:50.150] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:50.167] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=14 qty=0.012440
+[16:04:51.189] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:51.189] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=15 qty=0.012440
+[16:04:52.187] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:52.191] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=16 qty=0.012440
+[16:04:53.468] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:53.471] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=17 qty=0.012440
+[16:04:54.487] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:54.490] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=18 qty=0.012440
+[16:04:55.732] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:55.737] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=19 qty=0.012440
+[16:04:56.790] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:56.790] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=20 qty=0.012440
+[16:04:57.785] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:57.785] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=21 qty=0.012440
+[16:04:58.805] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:04:58.806] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=22 qty=0.012440
+[16:05:00.823] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:00.829] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=23 qty=0.012440
+[16:05:02.150] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:02.150] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=24 qty=0.012440
+[16:05:03.128] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:03.132] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=25 qty=0.012440
+[16:05:04.133] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:04.133] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=26 qty=0.012440
+[16:05:05.608] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:05.610] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=27 qty=0.012440
+[16:05:06.635] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:06.635] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=28 qty=0.012440
+[16:05:07.670] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:07.671] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=29 qty=0.012440
+[16:05:08.665] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:08.665] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=30 qty=0.012440
+[16:05:09.772] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:09.774] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=31 qty=0.012440
+[16:05:11.245] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:11.249] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=32 qty=0.012440
+[16:05:12.210] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:12.210] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=33 qty=0.012440
+[16:05:13.210] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:13.210] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=34 qty=0.012440
+[16:05:14.398] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:14.402] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=35 qty=0.012440
+[16:05:15.509] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:15.525] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=36 qty=0.012440
+[16:05:16.649] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:16.649] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=37 qty=0.012440
+[16:05:17.837] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:17.854] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=38 qty=0.012440
+[16:05:18.849] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:18.855] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=39 qty=0.012440
+[16:05:20.119] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:20.136] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=40 qty=0.012440
+[16:05:21.651] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:21.666] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=41 qty=0.012440
+[16:05:23.290] [WARNING] [EXEC] SMART_EXIT_ORPHAN_INVENTORY qty=0.012440
+[16:05:23.290] [ERROR] [EXEC] SMART_EXIT_MAX_ATTEMPTS attempts=42 qty=0.012440

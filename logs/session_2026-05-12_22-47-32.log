@@ -1,0 +1,42 @@
+[19:47:33.916] [OK] filters loaded
+[19:49:50.330] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings — копия.json
+[19:49:50.331] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[19:49:53.637] [OK] [SETTINGS] settings saved
+[19:51:54.944] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings — копия.json
+[19:51:54.945] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[19:51:56.881] [OK] [SETTINGS] settings saved
+[19:53:50.712] [INFO] [SETTINGS] imported path=C:/Users/Art/Desktop/UB/config/settings — копия.json
+[19:53:50.715] [INFO] [EXEC] STREAM_STATS_UI cycles=0 wins=0 losses=0 pnl=+0.000000 winrate=0.00%
+[19:53:54.731] [OK] [SETTINGS] settings saved
+[19:54:11.404] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[19:54:11.405] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[19:54:11.405] [INFO] START_PROFILE order_size=4000.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[19:54:11.405] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[19:54:11.941] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[19:54:11.945] [OK] START
+[19:54:11.947] [OK] START_OK runtime_started
+[19:54:11.950] [INFO] [EXEC] LIVE ON
+[19:54:11.952] [INFO] [EXEC] WAIT READY
+[19:54:11.955] [INFO] [HEALTH] state=DANGER
+[19:54:11.955] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=4.86 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[19:54:12.744] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[19:54:12.745] [WS] connecting primary
+[19:54:13.279] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[19:54:13.281] [WARNING] [HEALTH] unstable_spread lifetime=0
+[19:54:13.284] [OK] [PLAN] READY entry=80786.01 exit=80793.14 profit=0.353006 age=1329ms
+[19:54:13.779] [WS] connected
+[19:54:14.640] [INFO] [EXEC] SELL ACCOUNTING RESET new_cycle
+[19:54:14.643] [OK] [EXEC] BUY ORDER SENT orderId=386946069 price=80779.06 qty=0.049510
+[19:54:14.645] [OK] [EXEC] PLACE BUY price=80779.06 qty=0.049510
+[19:54:15.515] [OK] [SYNC] order filled detected
+[19:54:15.518] [OK] [SYNC] BUY filled on exchange
+[19:54:15.520] [OK] [EXEC] BUY FILL UPDATE delta=0.049510 avg=80779.06
+[19:54:15.526] [OK] [EXEC] CHUNK ADD qty=0.049510 entry=80779.06
+[19:54:15.530] [INFO] [EXEC] CHUNK COUNT n=1
+[19:54:15.532] [OK] [EXEC] INVENTORY qty=0.049510
+[19:54:15.534] [OK] [EXEC] SELL REQUIRED inventory=0.049510
+[19:54:15.557] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[19:54:15.890] [WARNING] cancel all requested
+[19:54:16.159] [WARNING] [EXEC] STOP_SAFE_MANUAL inventory=0.049510 active_order=0
+[19:54:16.161] [WARNING] [EXEC] STREAM_STOP_OPEN_INVENTORY qty=0.049510 locked=0.000000 free=0.049517
+[19:54:16.162] [WARNING] STOP

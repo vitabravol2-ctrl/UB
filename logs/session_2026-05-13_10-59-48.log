@@ -1,0 +1,40 @@
+[07:59:49.293] [OK] filters loaded
+[07:59:49.293] [INFO] GUI_PERF tick_ms=0 logs_visible=False gui_log_mode=IMPORTANT append_skipped=0
+[07:59:53.578] [INFO] GUI_LOGS ON
+[07:59:59.104] [OK] SESSION RESULT cycles=0 wins=0 losses=0 winrate=0.00% realized=+0.000000 avg=+0.000000 max_loss=+0.000000 max_win=+0.000000 stop_loss_count=0 api_errors=0
+[07:59:59.104] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=IMPORTANT append_skipped=1
+[08:00:10.952] [INFO] START_CLICK received enabled=True api_ready=True running=False
+[08:00:10.953] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=IMPORTANT append_skipped=1
+[08:00:10.956] [INFO] START_SETTINGS live_enabled=True guard_mode=FAST entry_mode=AGGRESSIVE exit_engine=True order_size=4000.0
+[08:00:10.957] [INFO] START_PROFILE order_size=4000.0 min_spread=7.0 guard_mode=FAST entry_mode=AGGRESSIVE sell_timeout=2200 far_sell_ticks=30 taker_exit_after_ms=1600
+[08:00:10.957] [INFO] SETTINGS_MERGE_PRESERVE existing_values=true missing_added=0
+[08:00:11.426] [EXCHANGE] symbol=BTCU base=BTC quote=U status=TRADING permissions=[]
+[08:00:11.442] [OK] START
+[08:00:11.442] [OK] START_OK runtime_started
+[08:00:11.442] [INFO] [EXEC] LIVE ON
+[08:00:11.442] [INFO] [EXEC] WAIT READY
+[08:00:11.442] [INFO] [HEALTH] state=DANGER
+[08:00:11.442] [WARNING] [EXEC] BLOCK_BUY reason=ws_stale mode=FAST ws_age=None spread=5.25 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[08:00:12.457] [WS] primary url=wss://stream.binance.com:9443/ws/btcu@bookTicker
+[08:00:12.458] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=IMPORTANT append_skipped=1
+[08:00:12.460] [WS] connecting primary
+[08:00:12.460] [WS] connected
+[08:00:12.559] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=108 spread=5.91 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[08:00:12.564] [OK] [PLAN] HOT entry=81022.39 exit=81028.29 profit=0.291224 age=1116ms
+[08:00:13.058] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:00:13.058] [WARNING] [HEALTH] unstable_spread lifetime=0
+[08:00:13.058] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=155 spread=9.93 stable=2/1 mid_delta=248.00 bid_delta=47.00
+[08:00:13.559] [WARNING] [HEALTH] block spread_too_young lifetime=499
+[08:00:13.559] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=IMPORTANT append_skipped=1
+[08:00:13.559] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=45 spread=8.62 stable=2/1 mid_delta=6.50 bid_delta=72.00
+[08:00:14.574] [WARNING] [HEALTH] block spread_too_young lifetime=0
+[08:00:14.574] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=IMPORTANT append_skipped=1
+[08:00:14.574] [WARNING] [EXEC] BLOCK_BUY reason=spread_too_young mode=FAST ws_age=77 spread=8.81 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[08:00:15.076] [WARNING] [EXEC] BLOCK_BUY reason=market_health_bad mode=FAST ws_age=47 spread=6.64 stable=1/1 mid_delta=0.00 bid_delta=0.00
+[08:00:15.854] [INFO] START_CLICK received enabled=True api_ready=True running=True
+[08:00:15.854] [INFO] GUI_PERF tick_ms=0 logs_visible=True gui_log_mode=IMPORTANT append_skipped=1
+[08:00:16.176] [WARNING] cancel all requested
+[08:00:16.441] [WARNING] [EXEC] BALANCE_EXTERNAL_BTC free=0.049377 locked=0.000000
+[08:00:16.441] [INFO] [EXEC] SELL ACCOUNTING RESET reconcile_stop
+[08:00:16.441] [INFO] [EXEC] RECONCILE_FLAT reason=inventory_empty_safe_qty_zero
+[08:00:16.441] [WARNING] STOP

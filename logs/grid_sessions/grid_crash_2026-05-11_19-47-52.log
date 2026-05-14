@@ -1,0 +1,39 @@
+exception_type=ValueError
+exception=API NOT SET
+last_gui_action=balance refresh
+last_runtime_state=IDLE
+last_market_snapshot={'bid': None, 'ask': None, 'source': 'NONE', 'updated_ms': 1778528871404}
+last_settings={'upper_price': 82000.0, 'lower_price': 81000.0, 'budget_u': 10000.0, 'levels': 20, 'profit_ticks': 100, 'max_exposure_u': 10000.0, 'auto_float_enabled': False, 'live_enabled': False, 'max_live_budget_u': 30.0}
+last_grid_summary={'Range': 'N/A', 'Step U': 'N/A', 'Levels': '0', 'Budget / Level': '0', 'Total Budget': '0', 'Valid Levels': '0', 'Invalid Levels': '0', 'Total Expected PnL': '0', 'Tick Size': 'N/A', 'Step Size': 'N/A', 'Min Qty': 'N/A', 'Min Notional': 'N/A', 'LIVE': 'LOCKED'}
+
+traceback:
+Traceback (most recent call last):
+  File "C:\Users\Art\Desktop\UB\main.py", line 24, in <module>
+    main()
+  File "C:\Users\Art\Desktop\UB\main.py", line 15, in main
+    window = MicroGridWindow()
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Art\Desktop\UB\app\gui\micro_grid_window.py", line 72, in __init__
+    self._log("[GRID] terminal opened"); self._log(f"[GRID] session log path={self.session_logger.path}"); self._refresh_info()
+                                                                                                           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Art\Desktop\UB\app\gui\micro_grid_window.py", line 136, in _refresh_info
+    self._safe_call("market callbacks", self._load_filters); self._safe_call("balance refresh", self._balances_refresh); self._load_api_status(); self._load_open_orders()
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Art\Desktop\UB\app\gui\micro_grid_window.py", line 85, in _safe_call
+    return fn(*args)
+           ^^^^^^^^^
+  File "C:\Users\Art\Desktop\UB\app\gui\micro_grid_window.py", line 145, in _balances_refresh
+    b=self.trade_adapter.refresh_balances(); self.bal["BTC free"].setText(f"{b['BTC']['free']:.6f}")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Art\Desktop\UB\app\core\grid_trade_adapter.py", line 22, in refresh_balances
+    return self.account.get_account_balances()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Art\Desktop\UB\app\core\binance_account.py", line 216, in get_account_balances
+    data = self.signed_get("/api/v3/account")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Art\Desktop\UB\app\core\binance_account.py", line 127, in signed_get
+    resp = self._signed_request("GET", path, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Art\Desktop\UB\app\core\binance_account.py", line 85, in _signed_request
+    raise ValueError("API NOT SET")
+ValueError: API NOT SET
