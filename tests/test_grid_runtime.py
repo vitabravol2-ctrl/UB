@@ -499,3 +499,63 @@ def test_stream_pool_status_includes_wait_start_balance_wait_terminal() -> None:
     assert any("STREAM_POOL_STATUS wait_start=1" in x for x in logs)
     assert any("balance_wait=1" in x for x in logs)
     assert any("terminal=1" in x for x in logs)
+
+def test_sell_qty_not_safe_with_active_sell_polls_existing_order() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    lvl = rt.levels[0]
+    lvl.state = "SELL_PLACED"
+    lvl.active_chunk_id = 901
+    lvl.active_sell_order_id = 7001
+    result = rt.handle_sell_qty_not_safe(1, safe_qty=0.0, free_btc=0.0, has_active_sell_order=True, now_ms=100)
+    assert result == "LOCKED_BY_ACTIVE_ORDER"
+    assert lvl.state == "SELL_PLACED"
+    assert any("STREAM_SELL_LOCKED_BY_ACTIVE_ORDER" in x for x in logs)
+
+
+def test_sell_qty_not_safe_without_active_sell_enters_balance_wait() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    lvl = rt.levels[0]
+    lvl.state = "SELL_PLACED"
+    lvl.active_chunk_id = 902
+    lvl.active_sell_order_id = None
+    result = rt.handle_sell_qty_not_safe(1, safe_qty=0.0, free_btc=0.0, has_active_sell_order=False, now_ms=100)
+    assert result == "BALANCE_WAIT"
+    assert lvl.state == "SELL_BALANCE_WAIT"
+    assert lvl.balance_wait_until_ms > 100
+    assert any("STREAM_SELL_BALANCE_WAIT" in x for x in logs)
+
+
+def test_sell_balance_wait_wakes_to_retry() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    lvl = rt.levels[0]
+    lvl.state = "SELL_BALANCE_WAIT"
+    lvl.active_chunk_id = 903
+    lvl.balance_wait_until_ms = 120
+    released = rt.wake_balance_wait_streams(now_ms=121)
+    assert released == [1]
+    assert lvl.state == "SELL_RETRY"
+    assert any("STREAM_SELL_BALANCE_RESOLVED" in x for x in logs)
+
+
+def test_stop_reports_open_inventory_chunks_and_orders() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    lvl = rt.levels[0]
+    lvl.active_chunk_id = 444
+    lvl.active_sell_order_id = 555
+    lvl.terminal_exit_order_id = 556
+    rt.stop_diagnostics(inventory_qty=0.01, free_btc=0.0, locked_btc=0.01)
+    assert any("STREAM_STOP_INVENTORY_REPORT" in x for x in logs)
+    assert any("STREAM_STOP_CHUNK_REPORT" in x for x in logs)
+    assert any("STREAM_STOP_ACTIVE_SELL_REPORT" in x for x in logs)
