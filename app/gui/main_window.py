@@ -110,6 +110,7 @@ class MainWindow(QMainWindow):
         self.grid_buy_paused = False
         self.grid_last_batch_size = 0
         self.stream_last_recenter_ms = 0
+        self.last_stream_ownership_audit_ms = 0
         self.api_status = "NOT SET"
         self.api_ready = False
         self.last_log_line = ""
@@ -1344,6 +1345,10 @@ class MainWindow(QMainWindow):
                     return self._is_stream_owned_chunk(chunk) and chunk.qty > eps
         if qty is not None and float(qty) <= eps:
             return False
+        stream_chunks = sum(1 for chunk in self.inventory_chunks if self._is_stream_owned_chunk(chunk) and chunk.qty > eps)
+        if qty is not None and float(qty) > eps and stream_chunks <= 0:
+            self.log("ERROR", f"[EXEC] STREAM_OWNERSHIP_MISMATCH reason=qty_without_stream_chunks qty={float(qty):.6f}")
+            return False
         return self._has_stream_owned_chunks_or_orders()
 
     def _should_skip_global_sell_engine(self, reason: str) -> bool:
@@ -1382,6 +1387,42 @@ class MainWindow(QMainWindow):
         stream_chunks = sum(1 for chunk in self.inventory_chunks if self._is_stream_owned_chunk(chunk) and chunk.qty > self._inventory_epsilon_qty())
         self.log("WARNING", f"[EXEC] STREAM_GLOBAL_EXIT_HARD_BLOCK trigger={trigger} qty={qty:.6f} stream_chunks={stream_chunks}")
         return True
+
+    def _log_stream_ownership_audit(self, now_ms: int) -> None:
+        if now_ms - int(self.last_stream_ownership_audit_ms or 0) < 1500:
+            return
+        eps = self._inventory_epsilon_qty()
+        streams_total = len(self.grid_runtime.levels)
+        wait_buy = buy_placed = sell_active = exiting = recycle = 0
+        stream_chunk_count = 0
+        stream_inventory_qty = 0.0
+        for level in self.grid_runtime.levels:
+            if level.state == "WAIT_BUY":
+                wait_buy += 1
+            if level.state == "BUY_PLACED":
+                buy_placed += 1
+            if level.state in {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY"}:
+                sell_active += 1
+            if level.state == "EXITING":
+                exiting += 1
+            if level.state == "RECYCLE_COOLDOWN":
+                recycle += 1
+            chunk = next((c for c in self.inventory_chunks if id(c) == int(level.active_chunk_id or 0)), None)
+            chunk_qty = max(float(chunk.qty), 0.0) if chunk is not None else 0.0
+            if chunk_qty > eps and self._is_stream_owned_chunk(chunk):
+                stream_chunk_count += 1
+                stream_inventory_qty += chunk_qty
+            self.log("INFO", f"[EXEC] STREAM_OWNERSHIP_AUDIT stream_id={level.level_id} state={level.state} buy_order_id={int(level.active_buy_order_id or 0)} sell_order_id={int(level.active_sell_order_id or 0)} chunk_id={int(level.active_chunk_id or 0)} chunk_qty={chunk_qty:.6f} buy_live={str(level.state == 'BUY_PLACED').lower()} sell_live={str(level.state in {'SELL_PLACED', 'SELL_RETRY', 'EXITING'} and int(level.active_sell_order_id or 0) > 0).lower()} chunk_live={str(chunk is not None and chunk_qty > eps).lower()}")
+            if int(level.active_sell_order_id or 0) > 0 and int(level.active_chunk_id or 0) <= 0:
+                self.log("ERROR", f"[EXEC] STREAM_STATE_MISMATCH reason=sell_order_without_chunk stream_id={level.level_id} sell_order_id={int(level.active_sell_order_id or 0)}")
+        chunks_total = sum(1 for c in self.inventory_chunks if c.qty > eps)
+        orphan_chunks = sum(1 for c in self.inventory_chunks if c.qty > eps and not self._is_stream_owned_chunk(c))
+        inventory_qty = max(sum(max(c.qty, 0.0) for c in self.inventory_chunks), 0.0)
+        orphan_inventory_qty = max(inventory_qty - stream_inventory_qty, 0.0)
+        if inventory_qty > eps and stream_chunk_count <= 0:
+            self.log("ERROR", f"[EXEC] STREAM_STATE_MISMATCH reason=stream_inventory_qty_mismatch inventory_qty={inventory_qty:.6f} stream_chunks={stream_chunk_count}")
+        self.log("INFO", f"[EXEC] STREAM_OWNERSHIP_SUMMARY streams_total={streams_total} wait_buy={wait_buy} buy_placed={buy_placed} sell_active={sell_active} exiting={exiting} recycle={recycle} chunks_total={chunks_total} stream_chunks={stream_chunk_count} orphan_chunks={orphan_chunks} inventory_qty={inventory_qty:.6f} stream_inventory_qty={stream_inventory_qty:.6f} orphan_inventory_qty={orphan_inventory_qty:.6f}")
+        self.last_stream_ownership_audit_ms = now_ms
 
     def _process_stream_shutdown(self, now_ms: int) -> None:
         if not self.stream_shutdown_active:
@@ -1569,6 +1610,7 @@ class MainWindow(QMainWindow):
                     continue
                 sell_order_id = int(sell_o.get("orderId"))
                 chunk.entry_order_id = order_id
+                self.log("INFO", f"[EXEC] STREAM_CHUNK_OWNED stream_id={level.level_id} chunk_id={id(chunk)} qty={fill_qty:.6f}")
                 chunk.sell_order_id = sell_order_id
                 chunk.state = "STREAM_SELL_PLACED"
                 chunk.sell_placed_ms = now_ms
@@ -1576,6 +1618,7 @@ class MainWindow(QMainWindow):
                 level.active_sell_order_id = sell_order_id
                 level.active_chunk_id = id(chunk)
                 self.grid_sell_order_meta[sell_order_id] = (level.level_id, id(chunk))
+                self.log("INFO", f"[EXEC] STREAM_SELL_OWNED stream_id={level.level_id} chunk_id={id(chunk)} order_id={sell_order_id}")
                 self.log("INFO", f"[EXEC] STREAM_SELL_PLACED stream_id={level.level_id} chunk_id={id(chunk)} order_id={sell_order_id} price={sell_price:.2f} qty={fill_qty:.6f}")
             elif status in {"CANCELED", "EXPIRED", "REJECTED"}:
                 self.grid_order_ids.discard(order_id)
@@ -1601,6 +1644,16 @@ class MainWindow(QMainWindow):
                 level.active_chunk_id = chunk_id
                 level.state = "SELL_PLACED" if status in {"NEW", "PARTIALLY_FILLED"} else level.state
             self.log("INFO", f"[EXEC] STREAM_EXIT_RETRY_STATUS stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
+            if status == "PARTIALLY_FILLED":
+                executed_qty = float(st.get("executedQty", 0.0) or 0.0)
+                for chunk in self.inventory_chunks:
+                    if id(chunk) != chunk_id:
+                        continue
+                    remaining_qty = max(chunk.qty - executed_qty, 0.0)
+                    if remaining_qty <= self._inventory_epsilon_qty():
+                        self.log("ERROR", f"[EXEC] STREAM_STATE_MISMATCH reason=partial_fill_no_remaining_qty stream_id={level_id} chunk_id={chunk_id}")
+                    self.log("INFO", f"[EXEC] STREAM_PARTIAL_EXIT_UPDATE stream_id={level_id} filled_qty={executed_qty:.6f} remaining_qty={remaining_qty:.6f}")
+                    break
             if status == "NEW":
                 timeout_handled = False
                 timeout_ms = max(int(getattr(self.settings, "stream_sell_timeout_ms", 12000)), 1)
@@ -2412,6 +2465,7 @@ class MainWindow(QMainWindow):
         self.runtime["Stable snaps"].setText(f"{self.entry_guard_stable_count}/{self.settings.stable_snapshots_required}")
         now_ms = int(time.time() * 1000)
         self._poll_grid_orders(now_ms)
+        self._log_stream_ownership_audit(now_ms)
         if self.runtime_active and self.fsm_state == "WAIT_TAKER_EXIT_STATUS":
             self._sync_taker_exit_status(now_ms)
             return
