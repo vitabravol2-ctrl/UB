@@ -132,5 +132,6 @@
   "stream_buy_max_distance_ticks": 120,
   "stream_recenter_interval_ms": 1500,
   "stream_order_error_cooldown_ms": 1500,
-  "stream_max_order_errors": 5
+  "stream_max_order_errors": 5,
+  "trading_log_mode": "COMPACT"
 }

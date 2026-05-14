@@ -344,8 +344,9 @@ class MainWindow(QMainWindow):
         self.cancel_btn = QPushButton("ОТМЕНИТЬ ВСЁ"); self.cancel_btn.setProperty("kind", "danger"); self.cancel_btn.clicked.connect(self.cancel_all); row.addWidget(self.cancel_btn)
         self.load_session_log_btn = QPushButton("LOAD SESSION LOG"); self.load_session_log_btn.setProperty("kind", "neutral"); self.load_session_log_btn.clicked.connect(self.load_session_log_summary); row.addWidget(self.load_session_log_btn)
         self.toggle_logs_btn = QPushButton("SHOW LOGS" if not self.logs_visible else "HIDE LOGS"); self.toggle_logs_btn.setProperty("kind", "neutral"); self.toggle_logs_btn.clicked.connect(self.toggle_logs_visibility); row.addWidget(self.toggle_logs_btn)
+        self.toggle_trading_logs_btn = QPushButton(); self.toggle_trading_logs_btn.clicked.connect(self.toggle_trading_log_mode); row.addWidget(self.toggle_trading_logs_btn)
         self.analysis_btn = QPushButton("АНАЛИЗ"); self.analysis_btn.setProperty("kind", "neutral"); self.analysis_btn.clicked.connect(self.open_analysis_lab); row.addWidget(self.analysis_btn)
-        for btn in (self.settings_btn, self.start_stop_btn, self.cancel_btn, self.load_session_log_btn, self.toggle_logs_btn, self.analysis_btn):
+        for btn in (self.settings_btn, self.start_stop_btn, self.cancel_btn, self.load_session_log_btn, self.toggle_logs_btn, self.toggle_trading_logs_btn, self.analysis_btn):
             btn.setMinimumHeight(54)
             btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.controls_row = row
@@ -367,6 +368,21 @@ class MainWindow(QMainWindow):
         self.log_tabs.setVisible(self.logs_visible)
         self.toggle_logs_btn.setText("HIDE LOGS" if self.logs_visible else "SHOW LOGS")
         self.file_logs.write_session(format_log("INFO", f"GUI_LOGS {'ON' if self.logs_visible else 'OFF'}"))
+
+
+    def _update_trading_logs_button(self) -> None:
+        is_off = self.trading_log_mode == "OFF"
+        self.toggle_trading_logs_btn.setText(f"ЛОГИ: {'OFF' if is_off else 'ON'}")
+        self.toggle_trading_logs_btn.setProperty("kind", "danger" if is_off else "neutral")
+        self.toggle_trading_logs_btn.style().unpolish(self.toggle_trading_logs_btn)
+        self.toggle_trading_logs_btn.style().polish(self.toggle_trading_logs_btn)
+
+    def toggle_trading_log_mode(self) -> None:
+        self.trading_log_mode = "OFF" if self.trading_log_mode != "OFF" else "COMPACT"
+        self.settings.trading_log_mode = self.trading_log_mode
+        SETTINGS_STORE.save(self.settings)
+        self._update_trading_logs_button()
+        self.file_logs.write_session(format_log("INFO", f"TRADING_LOG_MODE {self.trading_log_mode}"))
 
     def open_analysis_lab(self) -> None:
         if getattr(self, "analysis_window", None) is None:
@@ -422,6 +438,7 @@ class MainWindow(QMainWindow):
             "gui_logs_visible_default": "GUI logs visible by default",
             "compact_logs": "Compact logs",
             "runtime_diag_enabled": "Runtime diagnostics",
+            "trading_log_mode": "Trading log mode",
         }
 
         account_tab = QWidget(); account_form = QFormLayout(account_tab)
@@ -439,7 +456,7 @@ class MainWindow(QMainWindow):
             ("ENTRY", ["min_spread_ticks", "entry_offset_ticks", "buy_timeout_ms", "buy_watchdog_ms", "far_buy_ticks", "entry_mode", "entry_chase_ticks", "entry_cross_if_spread_ticks_above"]),
             ("EXIT", ["stream_target_ticks", "stream_min_profit_ticks", "stream_sell_timeout_ms", "stream_sell_retry_max", "stream_sell_retry_step_ticks", "stop_loss_ticks", "stream_loss_cooldown_ms"]),
             ("DATA / GUARD", ["require_ws_for_buy", "ws_optional_enabled", "max_ws_age_ms", "guard_enabled", "min_spread_lifetime_ms", "block_on_mid_negative", "block_on_bid_unstable"]),
-            ("GUI / LOGS", ["gui_log_mode", "gui_logs_visible_default", "compact_logs", "runtime_diag_enabled"]),
+            ("GUI / LOGS", ["gui_log_mode", "gui_logs_visible_default", "compact_logs", "runtime_diag_enabled", "trading_log_mode"]),
         ]
         for title, fields in tab_map:
             w = QWidget(); f = QFormLayout(w)
@@ -475,6 +492,7 @@ class MainWindow(QMainWindow):
             if isinstance(widget, QCheckBox): setattr(self.settings, key, widget.isChecked())
             elif isinstance(old, int): setattr(self.settings, key, int(float(widget.text())))
             elif isinstance(old, float): setattr(self.settings, key, float(widget.text()))
+            elif isinstance(old, str): setattr(self.settings, key, widget.text())
         SETTINGS_STORE.save(self.settings); self._apply_runtime_settings(); self.log("OK", "[SETTINGS] settings saved")
         dialog.close()
 
@@ -496,6 +514,9 @@ class MainWindow(QMainWindow):
         self.last_sell_qty_clamp_log_ms = 0
         self.last_exit_recovery_log_ms = 0
         self.gui_log_mode = str(getattr(self.settings, "gui_log_mode", "IMPORTANT") or "IMPORTANT").upper()
+        self.trading_log_mode = str(getattr(self.settings, "trading_log_mode", "COMPACT") or "COMPACT").upper()
+        if self.trading_log_mode not in {"FULL", "COMPACT", "OFF"}:
+            self.settings.trading_log_mode = "COMPACT"
         if self.gui_log_mode not in {"FULL", "IMPORTANT", "OFF"}:
             self.gui_log_mode = "IMPORTANT"
         self.logs_visible = bool(getattr(self.settings, "gui_logs_visible_default", False)) if not hasattr(self, "toggle_logs_btn") else self.logs_visible
@@ -506,6 +527,8 @@ class MainWindow(QMainWindow):
         self.log_tabs.setVisible(self.logs_visible)
         if hasattr(self, "toggle_logs_btn"):
             self.toggle_logs_btn.setText("HIDE LOGS" if self.logs_visible else "SHOW LOGS")
+        if hasattr(self, "toggle_trading_logs_btn"):
+            self._update_trading_logs_button()
 
     def _export_settings(self) -> None:
         path, _ = QFileDialog.getSaveFileName(self, "Export settings", "settings_export.json", "JSON (*.json)")
@@ -3887,6 +3910,26 @@ class MainWindow(QMainWindow):
             self.last_health_reason = ""
             self.last_health_log_ms = now_ms
 
+
+    def _is_critical_trading_log(self, tag: str, message: str) -> bool:
+        critical_tokens = ("ORDER_ERROR", "BALANCE", "PNL_SUMMARY", "SESSION RESULT", "SESSION_SUMMARY", "EMERGENCY")
+        if tag in {"ERROR", "CRITICAL"}:
+            return True
+        return any(token in message for token in critical_tokens)
+
+    def _allow_trading_log(self, tag: str, message: str) -> bool:
+        if self.trading_log_mode == "FULL":
+            return True
+        if self.trading_log_mode == "OFF":
+            return self._is_critical_trading_log(tag, message)
+        compact_tokens = ("START", "STOP", "BUY_FILLED", "SELL_FILLED", "STREAM_PNL", "STREAM_STATS_UI")
+        blocked_tokens = ("STREAM_SUPERVISOR_TICK", "STREAM_CONTRACT_OK", "STREAM_BUY_SCHEDULER_TICK", "STREAM_POOL_STATUS", "GLOBAL_EXIT_HARD_BLOCK")
+        if any(token in message for token in blocked_tokens):
+            return self._is_critical_trading_log(tag, message)
+        if tag in {"ERROR", "WARNING", "CRITICAL"}:
+            return True
+        return any(token in message for token in compact_tokens)
+
     def _flush_gui_logs(self) -> None:
         if not self.logs_visible:
             return
@@ -3924,6 +3967,8 @@ class MainWindow(QMainWindow):
         return False
 
     def log(self, tag: str, message: str) -> None:
+        if not self._allow_trading_log(tag, message):
+            return
         line = format_log(tag, message)
         if line.split("] ", 1)[-1] == self.last_log_line:
             return

@@ -114,6 +114,7 @@ class SettingsData:
     compact_logs: bool = True
     runtime_diag_enabled: bool = False
     gui_log_mode: str = "OFF"
+    trading_log_mode: str = "COMPACT"
     gui_logs_visible_default: bool = False
     stream_count: int = 8
     stream_range_ticks: int = 180
