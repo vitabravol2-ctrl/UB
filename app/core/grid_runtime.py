@@ -27,6 +27,10 @@ class GridLevel:
     last_fill_ts: int = 0
     start_at_ms: int = 0
     recycle_ready_at_ms: int = 0
+    balance_wait_until_ms: int = 0
+    paused_error_reason: str = ""
+    terminal_result: str = ""
+    exit_stuck_attempts: int = 0
 
 
 @dataclass
@@ -116,6 +120,9 @@ class GridRuntime:
             self._log(f"STREAM_CREATE stream_id={idx} buy_price={price:.8f} budget={order_size_u:.2f} qty={qty:.8f}")
             self._log(f"STREAM_WAIT_START stream_id={idx} start_at_ms={start_at_ms}")
         self.activate_ready_streams(now_ms=now_ms)
+        self._log(f"STREAM_POOL_CREATED count={levels_count}")
+        activated_count = len([lvl for lvl in self.levels if lvl.state != "WAIT_START"])
+        self._log(f"STREAM_POOL_ACTIVATED count={activated_count}")
         self._log(f"STREAM_CREATE_DONE count={len(self.levels)} budget_per_level={order_size_u:.2f} step_ticks={step_ticks}")
         return self.levels
 
@@ -129,6 +136,35 @@ class GridRuntime:
                 activated.append(level.level_id)
                 self._log(f"STREAM_ACTIVATED stream_id={level.level_id} at_ms={ts}")
         return activated
+
+    def validate_stream_contract(self, now_ms: int | None = None) -> tuple[bool, list[str]]:
+        ts = int(time.time() * 1000) if now_ms is None else now_ms
+        valid_states = {"WAIT_BUY", "BUY_PLACED", "SELL_PLACED", "SELL_RETRY", "SELL_BALANCE_WAIT", "TERMINAL_EXIT", "RECYCLE", "PAUSED_ERROR", "WAIT_START"}
+        violations: list[str] = []
+        for level in self.levels:
+            if int(level.level_id or 0) <= 0:
+                violations.append("missing_stream_id")
+            if level.state not in valid_states:
+                violations.append(f"invalid_state:{level.level_id}:{level.state}")
+            if level.state == "BUY_PLACED" and int(level.active_buy_order_id or 0) <= 0:
+                violations.append(f"missing_active_buy_order:{level.level_id}")
+            if level.state in {"SELL_PLACED", "SELL_RETRY", "TERMINAL_EXIT", "SELL_BALANCE_WAIT"} and int(level.active_chunk_id or 0) <= 0:
+                violations.append(f"missing_chunk:{level.level_id}")
+            if int(level.active_chunk_id or 0) > 0 and int(level.active_sell_order_id or 0) <= 0:
+                has_plan = (int(level.balance_wait_until_ms or 0) > ts) or (level.state in {"SELL_RETRY", "SELL_BALANCE_WAIT"})
+                if not has_plan:
+                    violations.append(f"chunk_live_without_plan:{level.level_id}")
+            if level.state == "PAUSED_ERROR" and not level.paused_error_reason:
+                violations.append(f"paused_without_reason:{level.level_id}")
+            if level.state == "RECYCLE" and ts >= int(level.recycle_ready_at_ms or 0):
+                level.state = "WAIT_BUY"
+                level.recycle_ready_at_ms = 0
+                self._log(f"STREAM_CONTRACT_REPAIR stream_id={level.level_id} action=recycle_to_wait_buy")
+        if violations:
+            self._log(f"STREAM_CONTRACT_VIOLATION count={len(violations)} details={'|'.join(violations)}")
+            return False, violations
+        self._log(f"STREAM_CONTRACT_OK streams={len(self.levels)}")
+        return True, []
 
     def mark_buy_placed(self, level_id: int, order_id: int) -> None:
         level = next((x for x in self.levels if x.level_id == level_id), None)
@@ -163,7 +199,7 @@ class GridRuntime:
         level = next((x for x in self.levels if x.level_id == level_id), None)
         if not level:
             return
-        level.state = "WAIT_SELL"
+        level.state = "SELL_PLACED"
         level.active_buy_order_id = None
         level.last_fill_ts = int(time.time() * 1000)
         self._log(f"STREAM_BUY_FILLED level_id={level_id}")
@@ -182,11 +218,11 @@ class GridRuntime:
             return
         delay_ms = max(int(recycle_delay_ms), 0)
         now_ms = int(time.time() * 1000)
-        if not allow_without_sell_fill and level.state not in {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"}:
+        if not allow_without_sell_fill and level.state not in {"SELL_PLACED", "SELL_RETRY", "TERMINAL_EXIT", "SELL_BALANCE_WAIT"}:
             self._log(f"STREAM_RECYCLE_BLOCKED reason=no_confirmed_sell_fill stream_id={level_id} state={level.state}")
             return False
         level.recycle_ready_at_ms = now_ms + delay_ms
-        level.state = "RECYCLE_COOLDOWN"
+        level.state = "RECYCLE"
         level.active_buy_order_id = None
         level.active_sell_order_id = None
         level.active_chunk_id = None
@@ -200,7 +236,7 @@ class GridRuntime:
         ts = int(time.time() * 1000) if now_ms is None else now_ms
         released: list[int] = []
         for level in self.levels:
-            if level.state == "RECYCLE_COOLDOWN" and ts >= level.recycle_ready_at_ms:
+            if level.state == "RECYCLE" and ts >= level.recycle_ready_at_ms:
                 level.state = "WAIT_BUY"
                 level.recycle_ready_at_ms = 0
                 released.append(level.level_id)
@@ -210,8 +246,8 @@ class GridRuntime:
     def grid_telemetry(self, inventory_u: float = 0.0, buy_paused: bool = False, placement_queue: int = 0, last_batch_size: int = 0) -> dict[str, float | int | str]:
         active = len(self.levels)
         open_buys = sum(1 for lvl in self.levels if lvl.state == "BUY_PLACED" and lvl.active_buy_order_id is not None)
-        filled = sum(1 for lvl in self.levels if lvl.state in {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"})
-        used = sum(lvl.budget_u for lvl in self.levels if lvl.state in {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"})
+        filled = sum(1 for lvl in self.levels if lvl.state in {"SELL_PLACED", "SELL_RETRY", "TERMINAL_EXIT", "SELL_BALANCE_WAIT"})
+        used = sum(lvl.budget_u for lvl in self.levels if lvl.state in {"SELL_PLACED", "SELL_RETRY", "TERMINAL_EXIT", "SELL_BALANCE_WAIT"})
         total = sum(lvl.budget_u for lvl in self.levels)
         return {
             "GRID LEVELS": active,

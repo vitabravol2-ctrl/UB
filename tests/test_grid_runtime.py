@@ -82,7 +82,7 @@ def test_signal_logs_are_log_only_and_recycle_cooldown_releases() -> None:
     rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
     rt.mark_buy_filled(1)
     rt.recycle_level(1, recycle_delay_ms=500)
-    assert rt.levels[0].state == "RECYCLE_COOLDOWN"
+    assert rt.levels[0].state == "RECYCLE"
     rt.release_recycle_streams(now_ms=rt.levels[0].recycle_ready_at_ms + 1)
     assert rt.levels[0].state == "WAIT_BUY"
     assert any("STREAM_SIGNAL_BUY_FILL stream_id=1" in x for x in logs)
@@ -158,7 +158,7 @@ def test_stream_exit_stuck_allows_other_buy_replenishment() -> None:
     rt = GridRuntime()
     s = SettingsData(stream_count=4, stream_range_ticks=40, order_size_u=15.0)
     rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
-    rt.levels[0].state = "EXITING"
+    rt.levels[0].state = "TERMINAL_EXIT"
     rt.levels[1].state = "WAIT_BUY"
     rt.levels[2].state = "WAIT_BUY"
     rt.levels[3].state = "WAIT_BUY"
@@ -173,7 +173,7 @@ def test_stream_exit_retry_closes_cycle_and_counts_pnl() -> None:
     rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
     rt.mark_buy_filled(1)
     assert rt.recycle_level(1, recycle_delay_ms=0) is True
-    assert rt.levels[0].state == "RECYCLE_COOLDOWN"
+    assert rt.levels[0].state == "RECYCLE"
 
 
 def test_stream_pnl_gui_stats_match_runtime() -> None:
@@ -209,7 +209,7 @@ def test_stream_exit_stuck_clears_stale_sell_ids() -> None:
     rt = GridRuntime()
     s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
     rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
-    rt.levels[0].state = "EXITING"
+    rt.levels[0].state = "TERMINAL_EXIT"
     rt.levels[0].active_sell_order_id = None
     rt.levels[0].active_chunk_id = None
     assert rt.levels[0].active_sell_order_id is None
@@ -304,3 +304,30 @@ def test_gui_stream_stats_runtime_counter_equivalence_formula() -> None:
     stream_wins = 12
     stream_losses = 5
     assert stream_wins + stream_losses == stream_closed_cycles
+
+def test_stream_contract_valid_when_chunk_has_retry_plan() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    lvl = rt.levels[0]
+    lvl.state = "SELL_BALANCE_WAIT"
+    lvl.active_chunk_id = 99
+    lvl.active_sell_order_id = None
+    lvl.balance_wait_until_ms = 2**62
+    ok, violations = rt.validate_stream_contract(now_ms=0)
+    assert ok is True
+    assert violations == []
+
+
+def test_stream_contract_violation_without_retry_plan() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    lvl = rt.levels[0]
+    lvl.state = "SELL_RETRY"
+    lvl.active_chunk_id = 77
+    lvl.active_sell_order_id = None
+    lvl.balance_wait_until_ms = 0
+    ok, violations = rt.validate_stream_contract(now_ms=10)
+    assert ok is True
+    assert violations == []
