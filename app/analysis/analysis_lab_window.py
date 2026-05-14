@@ -57,8 +57,8 @@ class AnalysisLabWindow(QMainWindow):
         content = QHBoxLayout()
         lay.addLayout(content)
 
-        self.table = QTableWidget(0, 12)
-        self.table.setHorizontalHeaderLabels(["Место", "PnL", "Winrate", "Циклы", "Победы", "Убытки", "Застревания", "Таймауты", "Рейтинг", "Тип профиля", "Тип мутации", "Профиль настроек"])
+        self.table = QTableWidget(0, 18)
+        self.table.setHorizontalHeaderLabels(["Место", "PnL", "Winrate", "Циклы", "Победы", "Убытки", "Застревания", "Таймауты", "Рейтинг", "Класс", "Турнир", "Tier", "Деградация", "Поколение", "Lineage", "Stability", "Mutation", "Профиль настроек"])
         content.addWidget(self.table, 3)
         self.table.itemSelectionChanged.connect(self._on_table_selection)
 
@@ -169,13 +169,13 @@ class AnalysisLabWindow(QMainWindow):
         timeout_small = p["stream_sell_timeout_ms"] <= 1800
         active_high = p["stream_max_active_buys"] >= 8
         if target_small and timeout_small and active_high:
-            return "АГРЕССИВНЫЙ"
+            return "FAST_SCALPER"
         target_high = p["stream_target_ticks"] >= 42
         timeout_high = p["stream_sell_timeout_ms"] >= 2600
         active_low = p["stream_max_active_buys"] <= 4
         if target_high and timeout_high and active_low:
-            return "ОСТОРОЖНЫЙ"
-        return "БАЛАНС"
+            return "LOW_RISK"
+        return "BALANCED"
 
     def _row_color(self, row: dict) -> QColor:
         if row["pnl"] < 0 or row["losses"] > row["wins"] or row["exit_stuck"] >= 4:
@@ -257,7 +257,9 @@ class AnalysisLabWindow(QMainWindow):
             new = row["params"].get(key)
             if old != new:
                 change_lines.append(f"{key}: {old} -> {new}")
-        confirm = QMessageBox.question(self, "Подтверждение", "Применить профиль в settings.json?\n\n" + "\n".join(change_lines[:40]))
+        risk = "LOW" if row.get("degradation_score", 0) <= 0 else ("MEDIUM" if row.get("degradation_score", 0) < 5 else "HIGH")
+        expected = f"Expected: score {row.get("score",0):.2f}, pnl {row.get("pnl",0):.2f}, winrate {row.get("winrate",0):.1f}%"
+        confirm = QMessageBox.question(self, "Подтверждение", "Применить профиль в settings.json?\n\nРиск: " + risk + "\n" + expected + "\n\n" + "\n".join(change_lines[:40]))
         if confirm != QMessageBox.StandardButton.Yes:
             return
         src = Path(SETTINGS_STORE.path)
@@ -303,7 +305,7 @@ class AnalysisLabWindow(QMainWindow):
         for i, row in enumerate(rows):
             wr = f"{row['winrate']:.1f}%"
             summary = self._format_summary(row["params"])
-            vals = [str(i + 1), f"{row['pnl']:.2f}", wr, str(row['cycles']), str(row['wins']), str(row['losses']), str(row['exit_stuck']), str(row['timeouts']), f"{row['score']:.2f}", self._profile_kind(row), row["params"].get("mutation_type", "BASE"), summary]
+            vals = [str(i + 1), f"{row['pnl']:.2f}", wr, str(row['cycles']), str(row['wins']), str(row['losses']), str(row['exit_stuck']), str(row['timeouts']), f"{row['score']:.2f}", row.get("profile_class", self._profile_kind(row)), row.get("params", {}).get("tournament", row.get("tournament", "BALANCED")), row.get("mutation_tier", "SMALL"), row.get("degradation_state", "PROFILE_STABLE"), str(row.get("generation", 0)), row.get("lineage", "SEED"), f"{row.get('stability_score',0):.1f}", row["params"].get("mutation_type", "BASE"), summary]
             color = self._row_color(row)
             for col, v in enumerate(vals):
                 item = QTableWidgetItem(v)
