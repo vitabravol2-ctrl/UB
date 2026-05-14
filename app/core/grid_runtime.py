@@ -286,6 +286,33 @@ class GridRuntime:
         target = max(int(max_active_buys), 0)
         free_slots = max(0, target - active_buys)
         should_fill = bool(runtime_active and wait_buy > 0 and free_slots > 0)
+        blocked_reason = ""
+        if not runtime_active:
+            blocked_reason = "runtime_inactive"
+        elif wait_buy <= 0:
+            blocked_reason = "no_wait_buy"
+        elif free_slots <= 0:
+            blocked_reason = "buy_slots_full"
+        if should_fill:
+            self._log(
+                f"STREAM_BUY_CAPACITY_FILL wait_buy={wait_buy} active_buys={active_buys} free_slots={free_slots} target={target}"
+            )
+            if self.stream_wait_buy_starvation_since_ms > 0:
+                self._log(
+                    f"STREAM_BUY_STARVATION_RECOVERY wait_buy={wait_buy} active_buys={active_buys} free_slots={free_slots}"
+                )
+                self.stream_wait_buy_starvation_since_ms = 0
+        else:
+            self._log(
+                f"STREAM_BUY_CAPACITY_BLOCKED reason={blocked_reason} wait_buy={wait_buy} active_buys={active_buys} free_slots={free_slots} target={target}"
+            )
+            if runtime_active and wait_buy > 0 and free_slots <= 0:
+                ts = int(time.time() * 1000) if now_ms is None else int(now_ms)
+                if self.stream_wait_buy_starvation_since_ms <= 0:
+                    self.stream_wait_buy_starvation_since_ms = ts
+                    self._log(
+                        f"STREAM_BUY_STARVATION_DETECTED since_ms={ts} wait_buy={wait_buy} active_buys={active_buys} target={target}"
+                    )
         return {"target": target, "active": active_buys, "wait_buy": wait_buy, "free_slots": free_slots, "should_fill": should_fill}
 
     def grid_telemetry(self, inventory_u: float = 0.0, buy_paused: bool = False, placement_queue: int = 0, last_batch_size: int = 0) -> dict[str, float | int | str]:

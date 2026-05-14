@@ -321,6 +321,27 @@ def test_exiting_stream_does_not_block_capacity_fill_plan() -> None:
     assert plan["should_fill"] is True
 
 
+def test_capacity_fill_logging_and_starvation_recovery() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=2, stream_range_ticks=20, order_size_u=15.0, stream_max_active_buys=1)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "BUY_PLACED"
+    rt.levels[0].active_buy_order_id = 101
+    rt.levels[1].state = "WAIT_BUY"
+    blocked = rt.stream_capacity_fill_plan(runtime_active=True, max_active_buys=1, now_ms=10)
+    assert blocked["should_fill"] is False
+    assert any("STREAM_BUY_CAPACITY_BLOCKED reason=buy_slots_full" in x for x in logs)
+    assert any("STREAM_BUY_STARVATION_DETECTED" in x for x in logs)
+
+    rt.levels[0].state = "SELL_PLACED"
+    rt.levels[0].active_buy_order_id = None
+    filled = rt.stream_capacity_fill_plan(runtime_active=True, max_active_buys=1, now_ms=11)
+    assert filled["should_fill"] is True
+    assert any("STREAM_BUY_CAPACITY_FILL" in x for x in logs)
+    assert any("STREAM_BUY_STARVATION_RECOVERY" in x for x in logs)
+
+
 def test_retry_ladder_escalates_progressively() -> None:
     p1 = GridRuntime.stream_sell_retry_plan(
         entry_price=100.0, best_bid=100.0, best_ask=101.0, tick=1.0,
