@@ -20,6 +20,7 @@ class GridLevel:
     qty: float
     state: str = "WAIT_START"
     active_buy_order_id: int | None = None
+    buy_order_id: int | None = None
     active_sell_order_id: int | None = None
     active_chunk_id: int | None = None
     linked_inventory_chunk_ids: list[str] = field(default_factory=list)
@@ -135,7 +136,28 @@ class GridRuntime:
             return False
         level.state = "BUY_PLACED"
         level.active_buy_order_id = order_id
+        level.buy_order_id = order_id
         self._log(f"STREAM_BUY_PLACED level_id={level_id} order_id={order_id}")
+
+
+    def reset_buy_stream_to_wait(self, level_id: int, reason: str) -> bool:
+        level = next((x for x in self.levels if x.level_id == level_id), None)
+        if not level:
+            return False
+        if level.state != "BUY_PLACED":
+            return False
+        level.active_buy_order_id = None
+        level.buy_order_id = None
+        level.state = "WAIT_BUY"
+        self._log(f"STREAM_BUY_RESET_TO_WAIT stream_id={level_id} reason={reason}")
+        return True
+
+    def handle_buy_order_canceled(self, level_id: int, reason: str = "BUY_CANCELED") -> bool:
+        reset = self.reset_buy_stream_to_wait(level_id, reason=reason)
+        level = next((x for x in self.levels if x.level_id == level_id), None)
+        if level and level.state == "BUY_PLACED":
+            self._log(f"STREAM_STATE_MISMATCH reason=buy_canceled_still_buy_placed stream_id={level_id}")
+        return reset
 
     def mark_buy_filled(self, level_id: int) -> None:
         level = next((x for x in self.levels if x.level_id == level_id), None)
