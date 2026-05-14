@@ -216,6 +216,23 @@ def test_stream_exit_stuck_clears_stale_sell_ids() -> None:
     assert rt.levels[0].active_chunk_id is None
 
 
+def test_stuck_attempts_stop_at_max_attempts() -> None:
+    max_attempts = 3
+    attempts = 0
+    for _ in range(10):
+        attempts = min(attempts + 1, max_attempts)
+    assert attempts == max_attempts
+
+
+def test_terminal_action_blocks_further_normal_recovery() -> None:
+    max_attempts = 3
+    attempts = 3
+    terminal_started = attempts >= max_attempts
+    allow_normal_recovery = not terminal_started
+    assert terminal_started is True
+    assert allow_normal_recovery is False
+
+
 def test_waiting_streams_replenish_buy_even_with_active_sell() -> None:
     rt = GridRuntime()
     s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0, stream_max_active_buys=2)

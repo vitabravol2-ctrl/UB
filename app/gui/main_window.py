@@ -1593,6 +1593,18 @@ class MainWindow(QMainWindow):
         waiting_streams = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY" and int(lvl.active_buy_order_id or 0) <= 0)
         return active_buys, active_sells, waiting_streams
 
+    def _stream_safe_sell_qty(self, chunk, price: float) -> float:
+        step = float(self.filters.get("stepSize", 0.0) or 0.0)
+        min_qty = float(self.filters.get("minQty", 0.0) or 0.0)
+        min_notional = float(self.filters.get("minNotional", 0.0) or 0.0)
+        free_btc = float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0)
+        remaining_qty = max(float(getattr(chunk, "qty", 0.0) or 0.0), 0.0)
+        safe_qty = self._normalize_qty(min(remaining_qty, free_btc))
+        if safe_qty <= self._inventory_epsilon_qty() or safe_qty < min_qty or (price > 0 and safe_qty * price < min_notional):
+            self.log("WARNING", f"[EXEC] STREAM_SELL_QTY_NOT_SAFE chunk_id={id(chunk)} remaining_qty={remaining_qty:.8f} free_btc={free_btc:.8f} safe_qty={safe_qty:.8f} price={price:.2f} min_qty={min_qty:.8f} min_notional={min_notional:.2f} step={step:.8f}")
+            return 0.0
+        return safe_qty
+
     def _stream_exit_telemetry(self) -> tuple[int, float, int]:
         epsilon = self._inventory_epsilon_qty()
         exiting_states = {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"}
@@ -1671,12 +1683,23 @@ class MainWindow(QMainWindow):
                 sell_price = add_ticks(fill_price, target_ticks, tick)
                 self.log("INFO", f"[EXEC] STREAM_TARGET_USED ticks={target_ticks} sell_price={sell_price:.2f}")
                 try:
-                    sell_o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(fill_qty))
+                    safe_sell_qty = self._stream_safe_sell_qty(chunk, float(sell_price))
+                    if safe_sell_qty <= 0:
+                        level.state = "SELL_RETRY"
+                        level.active_sell_order_id = None
+                        level.active_chunk_id = id(chunk)
+                        self.log("INFO", f"[EXEC] STREAM_SELL_BALANCE_WAIT stream_id={level.level_id} chunk_id={id(chunk)}")
+                        continue
+                    sell_o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(safe_sell_qty))
                 except (BinanceAPIError, RequestException, Exception) as exc:
                     chunk.state = "STREAM_WAIT_SELL"
                     level.state = "SELL_RETRY"
                     level.active_sell_order_id = None
                     level.active_chunk_id = id(chunk)
+                    if "-2010" in str(exc):
+                        self.log("WARNING", f"[EXEC] STREAM_SELL_INSUFFICIENT_BALANCE stream_id={level.level_id} chunk_id={id(chunk)}")
+                        self.log("INFO", f"[EXEC] STREAM_CHUNK_OWNERSHIP_PRESERVED stream_id={level.level_id} chunk_id={id(chunk)}")
+                        self.log("INFO", f"[EXEC] STREAM_SELL_BALANCE_RETRY stream_id={level.level_id} chunk_id={id(chunk)}")
                     self._mark_stream_order_api_error("SELL", level.level_id, exc)
                     self.log("WARNING", f"[EXEC] STREAM_SELL_RETRY stream_id={level.level_id} chunk_id={id(chunk)} reason=placement_failed")
                     continue
@@ -1691,7 +1714,7 @@ class MainWindow(QMainWindow):
                 level.active_chunk_id = id(chunk)
                 self.grid_sell_order_meta[sell_order_id] = (level.level_id, id(chunk))
                 self.log("INFO", f"[EXEC] STREAM_SELL_OWNED stream_id={level.level_id} chunk_id={id(chunk)} order_id={sell_order_id}")
-                self.log("INFO", f"[EXEC] STREAM_SELL_PLACED stream_id={level.level_id} chunk_id={id(chunk)} order_id={sell_order_id} price={sell_price:.2f} qty={fill_qty:.6f}")
+                self.log("INFO", f"[EXEC] STREAM_SELL_PLACED stream_id={level.level_id} chunk_id={id(chunk)} order_id={sell_order_id} price={sell_price:.2f} qty={safe_sell_qty:.6f}")
             elif status in {"CANCELED", "EXPIRED", "REJECTED"}:
                 self.grid_order_ids.discard(order_id)
                 self.grid_level_by_order_id.pop(order_id, None)
@@ -1798,8 +1821,13 @@ class MainWindow(QMainWindow):
                             stuck_attempts=int(chunk.exit_stuck_attempts),
                         )
                         chunk.exit_stuck_attempts = int(plan["stuck_attempts_next"])
+                        if chunk.exit_stuck_attempts >= stuck_max_attempts:
+                            chunk.exit_stuck_attempts = stuck_max_attempts
                         new_price = self._round_price_down(float(plan["price"]))
                         self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_ATTEMPT stream_id={level_id} chunk_id={chunk_id} attempt={chunk.exit_stuck_attempts} max_attempts={stuck_max_attempts} price={new_price:.2f}")
+                        if chunk.exit_stuck_attempts >= stuck_max_attempts:
+                            self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_MAX_REACHED stream_id={level_id} chunk_id={chunk_id} max_attempts={stuck_max_attempts}")
+                            self.log("WARNING", f"[EXEC] STREAM_EXIT_TERMINAL_ACTION stream_id={level_id} chunk_id={chunk_id} action=terminal_sell")
                         if chunk.exit_escalated or chunk.exit_stuck_attempts > 1:
                             self.log("ERROR", f"[EXEC] STREAM_EXIT_STUCK stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
                             self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_CONTROLLED stream_id={level_id} chunk_id={chunk_id} action=force_sell_reprice")
@@ -1807,12 +1835,30 @@ class MainWindow(QMainWindow):
                         self.log("WARNING", f"[EXEC] STREAM_EXIT_ISOLATED stream_id={level_id} chunk_id={chunk_id} action=stop_loss_exit")
                         if bool(plan["finalized"]) and chunk.exit_stuck_attempts >= stuck_max_attempts:
                             self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_FINALIZED stream_id={level_id} chunk_id={chunk_id} attempt={chunk.exit_stuck_attempts} action=force_exit_taker_like price={new_price:.2f}")
+                        if chunk.exit_stuck_attempts > stuck_max_attempts:
+                            timeout_handled = True
+                            break
                         self.log("WARNING", f"[EXEC] STREAM_EXIT_FINAL_REASON stream_id={level_id} chunk_id={chunk_id} reason={plan['reason']} finalized={str(bool(plan['finalized'])).lower()}")
                         chunk.exit_escalated = True
                     try:
-                        repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(chunk.qty))
+                        safe_sell_qty = self._stream_safe_sell_qty(chunk, float(new_price))
+                        if safe_sell_qty <= 0:
+                            chunk.state = "STREAM_WAIT_SELL"
+                            level = next((lv for lv in self.grid_runtime.levels if lv.level_id == level_id), None)
+                            if level is not None:
+                                level.state = "SELL_RETRY"
+                                level.active_sell_order_id = None
+                                level.active_chunk_id = chunk_id
+                            self.log("INFO", f"[EXEC] STREAM_SELL_BALANCE_WAIT stream_id={level_id} chunk_id={chunk_id}")
+                            timeout_handled = True
+                            break
+                        repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(safe_sell_qty))
                     except (BinanceAPIError, RequestException, Exception) as exc:
                         chunk.state = "STREAM_WAIT_SELL"
+                        if "-2010" in str(exc):
+                            self.log("WARNING", f"[EXEC] STREAM_SELL_INSUFFICIENT_BALANCE stream_id={level_id} chunk_id={chunk_id}")
+                            self.log("INFO", f"[EXEC] STREAM_CHUNK_OWNERSHIP_PRESERVED stream_id={level_id} chunk_id={chunk_id}")
+                            self.log("INFO", f"[EXEC] STREAM_SELL_BALANCE_RETRY stream_id={level_id} chunk_id={chunk_id}")
                         self._mark_stream_order_api_error("SELL", level_id, exc)
                         self.log("WARNING", f"[EXEC] STREAM_SELL_UNLOCK_FAILED stream_id={level_id} chunk_id={chunk_id} reason=placement_failed")
                         timeout_handled = True
@@ -1831,6 +1877,8 @@ class MainWindow(QMainWindow):
                         if chunk.exit_escalated:
                             self.log("WARNING", f"[EXEC] STREAM_EXIT_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id} qty={chunk.qty:.6f} price={new_price:.2f}")
                             self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_RECOVERY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id}")
+                            if chunk.exit_stuck_attempts >= stuck_max_attempts:
+                                self.log("WARNING", f"[EXEC] STREAM_EXIT_TERMINAL_ORDER_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id}")
                         else:
                             self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id} qty={chunk.qty:.6f} price={new_price:.2f}")
                     else:
@@ -2766,6 +2814,11 @@ class MainWindow(QMainWindow):
                             free_buy_slots = max(0, max_active_buys - active_buys)
                             interval_elapsed = (now_ms - self.grid_last_place_batch_ms) >= place_interval_ms
                             self.log("INFO", f"[EXEC] STREAM_BUY_SCHEDULER_TICK active_buys={active_buys} active_sells={active_sells} waiting_streams={waiting_streams} max_active_buys={max_active_buys} free_buy_slots={free_buy_slots} batch_size={batch_size} runtime_active={str(bool(self.runtime_active)).lower()}")
+                            expected_min_active_streams = min(len(self.grid_runtime.levels), max_active_buys)
+                            active_streams = sum(1 for lvl in self.grid_runtime.levels if lvl.state != "WAIT_START")
+                            self.log("INFO", f"[EXEC] STREAM_SWARM_ACTIVATION_CHECK active_streams={active_streams} expected_min_active_streams={expected_min_active_streams} waiting_streams={waiting_streams} active_buys={active_buys}")
+                            if self.runtime_active and waiting_streams > 0 and active_buys < max_active_buys and active_streams < expected_min_active_streams:
+                                self.log("WARNING", f"[EXEC] STREAM_SWARM_ACTIVATION_RECOVERY active_streams={active_streams} expected_min_active_streams={expected_min_active_streams}")
                             self.log("INFO", f"[EXEC] STREAM_BUY_CAPACITY active_buys={active_buys} active_sells={active_sells} waiting_streams={waiting_streams} max_active_buys={max_active_buys} free_buy_slots={free_buy_slots} batch_size={batch_size}")
                             placed_any = False
                             placed_count = 0
@@ -2833,6 +2886,7 @@ class MainWindow(QMainWindow):
                                     self.grid_level_by_order_id[buy_order_id] = level.level_id
                                     self.grid_order_ids.add(buy_order_id)
                                     self.grid_runtime.mark_buy_placed(level.level_id, buy_order_id)
+                                    self.log("INFO", f"[EXEC] STREAM_BUY_PLACED stream_id={level.level_id} order_id={buy_order_id}")
                                     free_u -= level.budget_u
                                     active_buys += 1
                                     placed_count += 1
