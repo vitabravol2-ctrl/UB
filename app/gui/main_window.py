@@ -659,6 +659,16 @@ class MainWindow(QMainWindow):
             self.fsm_state = "WAIT_MANUAL"
             self.log("WARNING", f"[EXEC] STOP_SAFE_MANUAL inventory={self.position_qty:.6f} active_order={self.active_order.get('orderId', 0)}")
             self.log("WARNING", f"[EXEC] STREAM_STOP_OPEN_INVENTORY qty={self.position_qty:.6f} locked={float(self.balances.get('BTC', {}).get('locked', 0.0) or 0.0):.6f} free={float(self.balances.get('BTC', {}).get('free', 0.0) or 0.0):.6f}")
+            free_btc = float(self.balances.get("BTC", {}).get("free", 0.0) or 0.0)
+            locked_btc = float(self.balances.get("BTC", {}).get("locked", 0.0) or 0.0)
+            self.log("WARNING", f"[EXEC] STREAM_STOP_INVENTORY_REPORT qty={self.position_qty:.6f} free_btc={free_btc:.8f} locked_btc={locked_btc:.8f}")
+            for chunk in self.inventory_chunks:
+                qty = max(float(getattr(chunk, "qty", 0.0) or 0.0), 0.0)
+                if qty <= self._inventory_epsilon_qty():
+                    continue
+                self.log("WARNING", f"[EXEC] STREAM_STOP_CHUNK_REPORT chunk_id={id(chunk)} stream_id={int(getattr(chunk, 'stream_id', 0) or getattr(chunk, 'grid_level_id', 0) or 0)} qty={qty:.8f} sell_order_id={int(getattr(chunk, 'sell_order_id', 0) or 0)}")
+            for sell_order_id, (level_id, chunk_id) in sorted(self.grid_sell_order_meta.items()):
+                self.log("WARNING", f"[EXEC] STREAM_STOP_ACTIVE_SELL_REPORT stream_id={int(level_id or 0)} chunk_id={int(chunk_id or 0)} order_id={int(sell_order_id or 0)}")
         else:
             self.position_state = "FLAT"
             self._reconcile_position_state("stop")
@@ -1634,6 +1644,34 @@ class MainWindow(QMainWindow):
             return 0.0
         return safe_qty
 
+    def _stream_find_active_sell_owner(self, level, chunk) -> int:
+        level_sell_id = int(getattr(level, "active_sell_order_id", 0) or 0)
+        chunk_sell_id = int(getattr(chunk, "sell_order_id", 0) or 0)
+        if level_sell_id > 0:
+            return level_sell_id
+        if chunk_sell_id > 0:
+            return chunk_sell_id
+        for order_id, (meta_level_id, meta_chunk_id) in self.grid_sell_order_meta.items():
+            if int(meta_level_id or 0) == int(getattr(level, "level_id", 0) or 0) or int(meta_chunk_id or 0) == int(id(chunk)):
+                return int(order_id or 0)
+        return 0
+
+    def _stream_handle_not_safe_sell_qty(self, *, level, chunk, level_id: int, now_ms: int) -> bool:
+        active_sell_id = self._stream_find_active_sell_owner(level, chunk)
+        if active_sell_id > 0:
+            level.state = "SELL_PLACED"
+            level.active_sell_order_id = active_sell_id
+            level.active_chunk_id = id(chunk)
+            self.grid_sell_order_meta.setdefault(active_sell_id, (level_id, id(chunk)))
+            self.log("INFO", f"[EXEC] STREAM_SELL_LOCKED_BY_ACTIVE_ORDER stream_id={level_id} chunk_id={id(chunk)} order_id={active_sell_id}")
+            return True
+        level.state = "SELL_BALANCE_WAIT"
+        level.active_sell_order_id = None
+        level.active_chunk_id = id(chunk)
+        level.balance_wait_until_ms = now_ms + max(int(getattr(self.settings, "stream_sell_retry_cooldown_ms", 1200)), 250)
+        self.log("INFO", f"[EXEC] STREAM_SELL_BALANCE_WAIT stream_id={level_id} chunk_id={id(chunk)}")
+        return True
+
     def _stream_exit_telemetry(self) -> tuple[int, float, int]:
         epsilon = self._inventory_epsilon_qty()
         exiting_states = {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"}
@@ -1758,10 +1796,7 @@ class MainWindow(QMainWindow):
                 try:
                     safe_sell_qty = self._stream_safe_sell_qty(chunk, float(sell_price))
                     if safe_sell_qty <= 0:
-                        level.state = "SELL_RETRY"
-                        level.active_sell_order_id = None
-                        level.active_chunk_id = id(chunk)
-                        self.log("INFO", f"[EXEC] STREAM_SELL_BALANCE_WAIT stream_id={level.level_id} chunk_id={id(chunk)}")
+                        self._stream_handle_not_safe_sell_qty(level=level, chunk=chunk, level_id=int(level.level_id), now_ms=now_ms)
                         continue
                     sell_o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(safe_sell_qty))
                 except (BinanceAPIError, RequestException, Exception) as exc:
@@ -1941,10 +1976,7 @@ class MainWindow(QMainWindow):
                             chunk.state = "STREAM_WAIT_SELL"
                             level = next((lv for lv in self.grid_runtime.levels if lv.level_id == level_id), None)
                             if level is not None:
-                                level.state = "SELL_RETRY"
-                                level.active_sell_order_id = None
-                                level.active_chunk_id = chunk_id
-                            self.log("INFO", f"[EXEC] STREAM_SELL_BALANCE_WAIT stream_id={level_id} chunk_id={chunk_id}")
+                                self._stream_handle_not_safe_sell_qty(level=level, chunk=chunk, level_id=level_id, now_ms=now_ms)
                             timeout_handled = True
                             break
                         repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(safe_sell_qty))
