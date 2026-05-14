@@ -51,6 +51,7 @@ class GridRuntime:
     stream_signal_recent_buy_fill: dict[str, float | int] | None = None
     stream_signal_recent_sell_fill: dict[str, float | int] | None = None
     stream_wait_buy_starvation_since_ms: int = 0
+    runtime_started_ms: int = 0
 
     def _log(self, message: str) -> None:
         if self.log_callback:
@@ -97,6 +98,7 @@ class GridRuntime:
     def configure_micro_grid(self, bid: float, tick_size: float, step_size: float, min_qty: float, min_notional: float, settings, *, free_u: float | None = None) -> list[GridLevel]:
         self.levels = []
         now_ms = int(time.time() * 1000)
+        self.runtime_started_ms = now_ms
         levels_count = max(int(getattr(settings, "stream_count", 1)), 0)
         total_range_ticks = max(int(getattr(settings, "stream_range_ticks", 200)), 0)
         start_interval_ms = max(int(getattr(settings, "stream_start_interval_ms", 0)), 0)
@@ -252,6 +254,13 @@ class GridRuntime:
         ts = int(time.time() * 1000) if now_ms is None else now_ms
         self._log("STREAM_SUPERVISOR_TICK")
         self.activate_ready_streams(now_ms=ts)
+        runtime_started_ms = int(self.runtime_started_ms or 0)
+        if runtime_started_ms > 0 and ts - runtime_started_ms >= 1000:
+            for level in self.levels:
+                if level.state == "WAIT_START":
+                    level.state = "WAIT_BUY"
+                    level.recycle_ready_at_ms = 0
+                    self._log(f"STREAM_WAIT_START_REPAIRED stream_id={level.level_id} at_ms={ts}")
         self.release_recycle_streams(now_ms=ts)
         status = {
             "wait_buy": sum(1 for x in self.levels if x.state == "WAIT_BUY"),

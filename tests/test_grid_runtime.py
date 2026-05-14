@@ -260,6 +260,43 @@ def test_supervisor_converts_wait_start_and_recycle_to_wait_buy() -> None:
     assert status["wait_buy"] >= 2
 
 
+def test_wait_start_hard_repair_after_runtime_start_timeout() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=2, stream_range_ticks=20, order_size_u=15.0, stream_start_interval_ms=5000)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    assert any(lvl.state == "WAIT_START" for lvl in rt.levels)
+    rt.stream_supervisor_tick(now_ms=rt.runtime_started_ms + 1200)
+    assert all(lvl.state != "WAIT_START" for lvl in rt.levels)
+    assert any("STREAM_WAIT_START_REPAIRED stream_id=" in x for x in logs)
+
+
+def test_full_stream_chain_regression_runtime_flow() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=10, stream_range_ticks=100, order_size_u=15.0, stream_max_active_buys=3)
+    levels = rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    assert len(levels) == 10
+    rt.stream_supervisor_tick(now_ms=rt.runtime_started_ms + 1500)
+    assert sum(1 for lvl in rt.levels if lvl.state == "WAIT_BUY") == 10
+
+    plan = rt.stream_capacity_fill_plan(runtime_active=True, max_active_buys=3, now_ms=rt.runtime_started_ms + 1600)
+    assert plan["should_fill"] is True
+    assert plan["wait_buy"] == 10
+    assert plan["free_slots"] == 3
+
+    for level in rt.levels[:3]:
+        rt.mark_buy_placed(level.level_id, order_id=1000 + level.level_id)
+    assert sum(1 for lvl in rt.levels if lvl.state == "BUY_PLACED") == 3
+
+    first = rt.levels[0]
+    rt.mark_buy_filled(first.level_id)
+    first.active_chunk_id = 12345
+    first.state = "SELL_PLACED"
+    assert rt.recycle_level(first.level_id, recycle_delay_ms=0) is True
+    rt.release_recycle_streams(now_ms=int(first.recycle_ready_at_ms) + 1)
+    assert first.state == "WAIT_BUY"
+
+
 def test_wait_buy_and_capacity_triggers_fill_plan() -> None:
     rt = GridRuntime()
     s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0)
