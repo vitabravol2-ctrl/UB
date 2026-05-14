@@ -49,6 +49,7 @@ class DryTournamentRuntime:
     _started_at: float = field(default_factory=time.monotonic, init=False)
     _last_eliminate: float = field(default_factory=time.monotonic, init=False)
     tested_total: int = 0
+    _events: list[str] = field(default_factory=list, init=False)
 
     def __post_init__(self) -> None:
         self._rng = random.Random(self.seed)
@@ -93,10 +94,16 @@ class DryTournamentRuntime:
             self._last_eliminate = now
             self._configs.sort(key=lambda x: (x.score, x.pnl))
             self._configs = self._configs[self.eliminate_count:]
+            self._events.append(f"Удалены {self.eliminate_count} слабых профилей")
             parents = sorted(self._configs, key=lambda x: (x.score, x.pnl), reverse=True)[:20]
+            prev_best_score = max((c.score for c in self._configs), default=0.0)
             for _ in range(self.eliminate_count):
                 parent = self._rng.choice(parents)
                 self._configs.append(self._new_config(parent.params))
+            self._events.append(f"Добавлены {self.eliminate_count} новых мутаций")
+            new_best_score = max((c.score for c in self._configs), default=0.0)
+            if new_best_score > prev_best_score:
+                self._events.append("Новый лучший профиль найден")
 
     def top_rows(self, limit: int = 100) -> list[dict]:
         rows = [c.as_row() for c in self._configs]
@@ -118,3 +125,8 @@ class DryTournamentRuntime:
             "avg_pnl": avg_pnl,
             "cycles_per_hour": (self.tested_total / elapsed) * 3600.0,
         }
+
+    def pull_events(self) -> list[str]:
+        events = self._events[:]
+        self._events.clear()
+        return events
