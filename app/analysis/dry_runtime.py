@@ -50,16 +50,26 @@ class DryTournamentRuntime:
     _last_eliminate: float = field(default_factory=time.monotonic, init=False)
     tested_total: int = 0
     _events: list[str] = field(default_factory=list, init=False)
+    _mutation_types: tuple[str, ...] = ("ENTRY_ONLY", "SELL_ONLY", "PANIC_ONLY", "SCALE_ONLY", "MIXED_SMALL", "MIXED_AGGRESSIVE")
 
     def __post_init__(self) -> None:
         self._rng = random.Random(self.seed)
         for _ in range(self.active_count):
             self._configs.append(self._new_config(self.base_settings))
 
-    def _new_config(self, base: dict) -> SimConfig:
-        c = SimConfig(cfg_id=self._next_id, params=mutate_from(base, self._rng, intensity=1.0))
+    def _new_config(self, base: dict, mutation_type: str = "MIXED_SMALL", intensity: float = 1.0) -> SimConfig:
+        c = SimConfig(cfg_id=self._next_id, params=mutate_from(base, self._rng, intensity=intensity, mutation_type=mutation_type))
         self._next_id += 1
         return c
+
+    def _pick_parent(self, parents: list[SimConfig], all_cfgs: list[SimConfig]) -> SimConfig:
+        roll = self._rng.random()
+        if roll < 0.7 and parents:
+            return self._rng.choice(parents)
+        if roll < 0.9 and all_cfgs:
+            mid = sorted(all_cfgs, key=lambda x: x.score)[len(all_cfgs) // 2:]
+            return self._rng.choice(mid or all_cfgs)
+        return self._rng.choice(all_cfgs or parents)
 
     def _step_one(self, c: SimConfig) -> None:
         p = c.params
@@ -98,8 +108,10 @@ class DryTournamentRuntime:
             parents = sorted(self._configs, key=lambda x: (x.score, x.pnl), reverse=True)[:20]
             prev_best_score = max((c.score for c in self._configs), default=0.0)
             for _ in range(self.eliminate_count):
-                parent = self._rng.choice(parents)
-                self._configs.append(self._new_config(parent.params))
+                parent = self._pick_parent(parents, self._configs)
+                mtype = self._rng.choice(self._mutation_types)
+                intensity = 2.2 if mtype == "MIXED_AGGRESSIVE" else 1.0
+                self._configs.append(self._new_config(parent.params, mutation_type=mtype, intensity=intensity))
             self._events.append(f"Добавлены {self.eliminate_count} новых мутаций")
             new_best_score = max((c.score for c in self._configs), default=0.0)
             if new_best_score > prev_best_score:
