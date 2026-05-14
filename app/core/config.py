@@ -74,6 +74,7 @@ class SettingsData:
     taker_status_timeout_ms: int = 1200
     exit_ioc_enabled: bool = False
     take_profit_ticks: int = 2
+    min_profit_ticks: int = 2
     rest_poll_ms: int = 700
     open_orders_poll_ms: int = 250
     all_orders_poll_ms: int = 9000
@@ -199,7 +200,7 @@ class SettingsStore:
                 migrated_stream_keys.append(f"{old_key}->{new_key}")
         ignored_legacy_keys: list[str] = []
         for key, value in payload.items():
-            if key in {"max_live_exposure_u", "micro_grid_budget_u", "stream_max_inventory_u", "stream_pause_buy_inventory_u", "micro_grid_max_inventory_u", "micro_grid_pause_buy_if_inventory_u_above", "target_capture_ticks", "target_capture", "sell_timeout_ms", "min_profit_ticks"}:
+            if key in {"max_live_exposure_u", "micro_grid_budget_u", "stream_max_inventory_u", "stream_pause_buy_inventory_u", "micro_grid_max_inventory_u", "micro_grid_pause_buy_if_inventory_u_above", "target_capture_ticks", "target_capture", "sell_timeout_ms"}:
                 ignored_legacy_keys.append(key)
                 continue
             if key in known_keys:
@@ -224,6 +225,8 @@ class SettingsStore:
         current.pop("exit_timeout_ms", None)
         current.pop("live_max_exposure_u", None)
         current.pop("arm_live", None)
+        if "min_profit_ticks" not in payload and "take_profit_ticks" in payload:
+            current["min_profit_ticks"] = int(payload.get("take_profit_ticks") or 0)
         missing_added = sum(1 for key in known_keys if key not in payload)
         self.last_merge_missing_added = missing_added
         self.last_merge_existing_preserved = True
