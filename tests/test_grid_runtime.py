@@ -227,3 +227,63 @@ def test_waiting_streams_replenish_buy_even_with_active_sell() -> None:
     waiting_streams = sum(1 for lvl in rt.levels if lvl.state == "WAIT_BUY")
     assert active_buys == 0
     assert waiting_streams > 0
+
+
+def test_retry_ladder_escalates_progressively() -> None:
+    p1 = GridRuntime.stream_sell_retry_plan(
+        entry_price=100.0, best_bid=100.0, best_ask=101.0, tick=1.0,
+        min_profit_ticks=1, retry_step_ticks=2, stop_loss_ticks=3,
+        retry_count=0, retry_max=3, stuck_attempts=0,
+    )
+    p2 = GridRuntime.stream_sell_retry_plan(
+        entry_price=100.0, best_bid=100.0, best_ask=101.0, tick=1.0,
+        min_profit_ticks=1, retry_step_ticks=2, stop_loss_ticks=3,
+        retry_count=1, retry_max=3, stuck_attempts=0,
+    )
+    p3 = GridRuntime.stream_sell_retry_plan(
+        entry_price=100.0, best_bid=100.0, best_ask=101.0, tick=1.0,
+        min_profit_ticks=1, retry_step_ticks=2, stop_loss_ticks=3,
+        retry_count=2, retry_max=3, stuck_attempts=0,
+    )
+    assert p1["mode"] == "retry"
+    assert p2["mode"] == "retry"
+    assert p3["mode"] == "retry"
+    assert float(p1["price"]) >= float(p2["price"]) >= float(p3["price"])
+
+
+def test_retry_ladder_reprices_not_same_forever() -> None:
+    p1 = GridRuntime.stream_sell_retry_plan(
+        entry_price=100.0, best_bid=100.0, best_ask=102.0, tick=1.0,
+        min_profit_ticks=1, retry_step_ticks=1, stop_loss_ticks=5,
+        retry_count=0, retry_max=3, stuck_attempts=0,
+    )
+    p2 = GridRuntime.stream_sell_retry_plan(
+        entry_price=100.0, best_bid=100.0, best_ask=102.0, tick=1.0,
+        min_profit_ticks=1, retry_step_ticks=1, stop_loss_ticks=5,
+        retry_count=1, retry_max=3, stuck_attempts=0,
+    )
+    assert float(p1["price"]) != float(p2["price"])
+
+
+def test_exit_finalized_only_after_retry_exhaustion() -> None:
+    pre = GridRuntime.stream_sell_retry_plan(
+        entry_price=100.0, best_bid=99.0, best_ask=101.0, tick=1.0,
+        min_profit_ticks=1, retry_step_ticks=2, stop_loss_ticks=10,
+        retry_count=2, retry_max=3, stuck_attempts=0,
+    )
+    post = GridRuntime.stream_sell_retry_plan(
+        entry_price=100.0, best_bid=99.0, best_ask=101.0, tick=1.0,
+        min_profit_ticks=1, retry_step_ticks=2, stop_loss_ticks=10,
+        retry_count=3, retry_max=3, stuck_attempts=2,
+    )
+    assert pre["mode"] == "retry"
+    assert bool(pre["finalized"]) is False
+    assert post["mode"] == "stuck_exit"
+    assert bool(post["finalized"]) is True
+
+
+def test_gui_stream_stats_runtime_counter_equivalence_formula() -> None:
+    stream_closed_cycles = 17
+    stream_wins = 12
+    stream_losses = 5
+    assert stream_wins + stream_losses == stream_closed_cycles

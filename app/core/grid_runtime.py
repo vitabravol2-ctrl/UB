@@ -237,3 +237,50 @@ class GridRuntime:
         if filters is None:
             return self.state, "NO_FILTERS"
         return self.state, "OK"
+
+    @staticmethod
+    def stream_sell_retry_plan(
+        *,
+        entry_price: float,
+        best_bid: float,
+        best_ask: float,
+        tick: float,
+        min_profit_ticks: int,
+        retry_step_ticks: int,
+        stop_loss_ticks: int,
+        retry_count: int,
+        retry_max: int,
+        stuck_attempts: int,
+    ) -> dict[str, float | int | str | bool]:
+        tick_safe = max(float(tick), 1e-12)
+        normalized_retry_step = max(int(retry_step_ticks), 1)
+        normalized_retry_max = max(int(retry_max), 0)
+        if retry_count < normalized_retry_max:
+            ladder_step = retry_count + 1
+            top_offset_ticks = max(normalized_retry_step * ladder_step, ladder_step)
+            floor_target = entry_price + (tick_safe * max(int(min_profit_ticks), 0))
+            adaptive_floor = max(floor_target - (tick_safe * max(ladder_step - 1, 0)), tick_safe)
+            ask_anchor = (best_ask - (tick_safe * top_offset_ticks)) if best_ask > 0 else floor_target
+            target_price = max(adaptive_floor, ask_anchor, tick_safe)
+            return {
+                "mode": "retry",
+                "price": target_price,
+                "retry_count_next": retry_count + 1,
+                "stuck_attempts_next": stuck_attempts,
+                "finalized": False,
+                "reason": f"retry_ladder_{ladder_step}",
+            }
+        stuck_next = stuck_attempts + 1
+        attempt_ticks = normalized_retry_step * max(stuck_next, 1)
+        bid_anchor = (best_bid - (tick_safe * attempt_ticks)) if best_bid > 0 else (entry_price - tick_safe * attempt_ticks)
+        stop_loss_floor = entry_price - (tick_safe * max(int(stop_loss_ticks), 0))
+        target_price = max(min(bid_anchor, entry_price), stop_loss_floor, tick_safe)
+        finalized = stuck_next >= 3
+        return {
+            "mode": "stuck_exit",
+            "price": target_price,
+            "retry_count_next": retry_count,
+            "stuck_attempts_next": stuck_next,
+            "finalized": finalized,
+            "reason": "retry_exhausted_finalized" if finalized else "retry_exhausted_reprice",
+        }
