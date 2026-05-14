@@ -117,6 +117,7 @@ class MainWindow(QMainWindow):
         self.orders_data = []
         self.canceled_attempts = {"canceled_buy": 0, "canceled_sell": 0, "timeout_buy": 0, "timeout_sell": 0}
         self.runtime_active = False
+        self.runtime_started_ms = 0
         self.fsm_state = "IDLE"
         self.active_order = {}
         self.position_qty = 0.0
@@ -522,7 +523,7 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", "START_BLOCKED reason=api_not_ready")
                 self.runtime_active = False
             else:
-                self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.exit_blocked_no_sellable_count = 0; self.log("OK", "START")
+                self.ws.start(); self.start_stop_btn.setText("STOP"); self.start_stop_btn.setProperty("kind", "stop"); self.exit_blocked_no_sellable_count = 0; self.runtime_started_ms = int(time.time() * 1000); self.log("OK", "START")
                 self.log("OK", "START_OK runtime_started")
                 if (int(getattr(self.settings, "stream_count", 1)) >= 1) and self.filters.get("loaded") and float(self.state.snapshot.bid or 0.0) > 0:
                     stream_count = max(int(getattr(self.settings, "stream_count", 1)), 1)
@@ -541,6 +542,7 @@ class MainWindow(QMainWindow):
                     self.log("WARNING", f"[EXEC] START_RESUME_EXIT qty={self.position_qty:.6f}")
                     self.fsm_state = "PLACE_SELL"
         else:
+            self.runtime_started_ms = 0
             self.ws.stop(); self.start_stop_btn.setText("START"); self.start_stop_btn.setProperty("kind", "start"); self.exit_blocked_no_sellable_count = 0; self.cancel_all(); self.log("WARNING", "STOP")
         self.start_stop_btn.setEnabled(True)
         self.start_stop_btn.style().polish(self.start_stop_btn)
@@ -1383,6 +1385,15 @@ class MainWindow(QMainWindow):
         )
         waiting_streams = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY" and int(lvl.active_buy_order_id or 0) <= 0)
         return active_buys, active_sells, waiting_streams
+
+    def _log_stream_swarm_state(self, active_buys: int, active_sells: int) -> tuple[int, int]:
+        wait_start = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_START")
+        wait_buy = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY")
+        buy_placed = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "BUY_PLACED")
+        sell_active = sum(1 for lvl in self.grid_runtime.levels if lvl.state in {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"})
+        recycle = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "RECYCLE_COOLDOWN")
+        self.log("INFO", f"[EXEC] STREAM_SWARM_STATE wait_start={wait_start} wait_buy={wait_buy} buy_placed={buy_placed} sell_active={sell_active} recycle={recycle} active_buys={active_buys} active_sells={active_sells}")
+        return wait_start, wait_buy
 
     def _poll_grid_orders(self, now_ms: int) -> None:
         if not self.runtime_active or not (int(getattr(self.settings, "stream_count", 1)) >= 1):
@@ -2381,7 +2392,10 @@ class MainWindow(QMainWindow):
                             free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
                             bid_now = float(self.state.snapshot.bid or 0.0)
                             inventory_u = self.position_qty * bid_now
+                            self.grid_runtime.activate_ready_streams(now_ms)
+                            self.grid_runtime.release_recycle_streams(now_ms)
                             active_buys, active_sells, waiting_streams = self._stream_counts()
+                            wait_start, wait_buy = self._log_stream_swarm_state(active_buys, active_sells)
                             if active_sells == 0:
                                 for level in self.grid_runtime.levels:
                                     if int(level.active_sell_order_id or 0) > 0:
@@ -2461,6 +2475,14 @@ class MainWindow(QMainWindow):
                                 elif blocked_reason == "none":
                                     blocked_reason = "no_waiting_stream"
                             self.log("INFO", f"[EXEC] STREAM_PLACEMENT_TICK active_buys={active_buys} active_sells={active_sells} waiting_streams={waiting_streams} free_buy_slots={free_buy_slots} placed={placed_count}")
+                            if waiting_streams == 0 and wait_start > 0:
+                                overdue_wait_start = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_START" and now_ms >= int(lvl.start_at_ms or 0))
+                                if overdue_wait_start > 0:
+                                    self.log("ERROR", f"[EXEC] STREAM_STATE_MISMATCH reason=overdue_wait_start_not_activated count={overdue_wait_start}")
+                            if int(getattr(self.settings, "stream_count", 1)) > 1 and (now_ms - int(self.runtime_started_ms or now_ms)) <= 3000:
+                                active_stream_ids = {lvl.level_id for lvl in self.grid_runtime.levels if lvl.state != "WAIT_START"}
+                                if active_stream_ids == {1}:
+                                    self.log("ERROR", "[EXEC] STREAM_STATE_MISMATCH reason=swarm_activation_stuck active_streams=1 expected_more=true")
                             if placed_count == 0:
                                 self.log("INFO", f"[EXEC] STREAM_PLACEMENT_TICK reason={blocked_reason}")
                             if placed_any:
