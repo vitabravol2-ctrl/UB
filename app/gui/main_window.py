@@ -19,6 +19,7 @@ from app.core.grid_runtime import GridRuntime
 from app.core.price_ticks import add_ticks
 from app.gui.styles import main_qss
 from app.gui.widgets import big_value, build_kv_card
+from app.analysis.analysis_lab_window import AnalysisLabWindow
 
 
 @dataclass
@@ -343,7 +344,8 @@ class MainWindow(QMainWindow):
         self.cancel_btn = QPushButton("ОТМЕНИТЬ ВСЁ"); self.cancel_btn.setProperty("kind", "danger"); self.cancel_btn.clicked.connect(self.cancel_all); row.addWidget(self.cancel_btn)
         self.load_session_log_btn = QPushButton("LOAD SESSION LOG"); self.load_session_log_btn.setProperty("kind", "neutral"); self.load_session_log_btn.clicked.connect(self.load_session_log_summary); row.addWidget(self.load_session_log_btn)
         self.toggle_logs_btn = QPushButton("SHOW LOGS" if not self.logs_visible else "HIDE LOGS"); self.toggle_logs_btn.setProperty("kind", "neutral"); self.toggle_logs_btn.clicked.connect(self.toggle_logs_visibility); row.addWidget(self.toggle_logs_btn)
-        for btn in (self.settings_btn, self.start_stop_btn, self.cancel_btn, self.load_session_log_btn, self.toggle_logs_btn):
+        self.analysis_btn = QPushButton("АНАЛИЗ"); self.analysis_btn.setProperty("kind", "neutral"); self.analysis_btn.clicked.connect(self.open_analysis_lab); row.addWidget(self.analysis_btn)
+        for btn in (self.settings_btn, self.start_stop_btn, self.cancel_btn, self.load_session_log_btn, self.toggle_logs_btn, self.analysis_btn):
             btn.setMinimumHeight(54)
             btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.controls_row = row
@@ -365,6 +367,14 @@ class MainWindow(QMainWindow):
         self.log_tabs.setVisible(self.logs_visible)
         self.toggle_logs_btn.setText("HIDE LOGS" if self.logs_visible else "SHOW LOGS")
         self.file_logs.write_session(format_log("INFO", f"GUI_LOGS {'ON' if self.logs_visible else 'OFF'}"))
+
+    def open_analysis_lab(self) -> None:
+        if getattr(self, "analysis_window", None) is None:
+            self.analysis_window = AnalysisLabWindow(self.settings)
+        self.analysis_window.show()
+        self.analysis_window.raise_()
+        self.analysis_window.activateWindow()
+
 
     def open_settings_dialog(self) -> None:
         d = QDialog(self); d.setWindowTitle("Настройки UB"); d.setModal(True); d.resize(760, 620)
