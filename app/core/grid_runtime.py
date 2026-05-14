@@ -19,6 +19,8 @@ class GridLevel:
     qty: float
     state: str = "WAIT_BUY"
     active_buy_order_id: int | None = None
+    active_sell_order_id: int | None = None
+    active_chunk_id: int | None = None
     linked_inventory_chunk_ids: list[str] = field(default_factory=list)
     last_fill_ts: int = 0
 
@@ -110,7 +112,7 @@ class GridRuntime:
         level = next((x for x in self.levels if x.level_id == level_id), None)
         if not level:
             return
-        level.state = "WAIT_BUY_FILL"
+        level.state = "BUY_PLACED"
         level.active_buy_order_id = order_id
         self._log(f"STREAM_BUY_PLACED level_id={level_id} order_id={order_id}")
 
@@ -118,7 +120,7 @@ class GridRuntime:
         level = next((x for x in self.levels if x.level_id == level_id), None)
         if not level:
             return
-        level.state = "BUY_FILLED"
+        level.state = "WAIT_SELL"
         level.active_buy_order_id = None
         level.last_fill_ts = int(time.time() * 1000)
         self._log(f"STREAM_BUY_FILLED level_id={level_id}")
@@ -129,14 +131,16 @@ class GridRuntime:
             return
         level.state = "WAIT_BUY"
         level.active_buy_order_id = None
+        level.active_sell_order_id = None
+        level.active_chunk_id = None
         level.linked_inventory_chunk_ids.clear()
         self._log(f"STREAM_RECYCLED level_id={level_id}")
 
     def grid_telemetry(self, inventory_u: float = 0.0, buy_paused: bool = False, placement_queue: int = 0, last_batch_size: int = 0) -> dict[str, float | int | str]:
         active = len(self.levels)
-        open_buys = sum(1 for lvl in self.levels if lvl.state == "WAIT_BUY_FILL" and lvl.active_buy_order_id is not None)
-        filled = sum(1 for lvl in self.levels if lvl.state == "BUY_FILLED")
-        used = sum(lvl.budget_u for lvl in self.levels if lvl.state == "BUY_FILLED")
+        open_buys = sum(1 for lvl in self.levels if lvl.state == "BUY_PLACED" and lvl.active_buy_order_id is not None)
+        filled = sum(1 for lvl in self.levels if lvl.state in {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"})
+        used = sum(lvl.budget_u for lvl in self.levels if lvl.state in {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"})
         total = sum(lvl.budget_u for lvl in self.levels)
         return {
             "GRID LEVELS": active,
