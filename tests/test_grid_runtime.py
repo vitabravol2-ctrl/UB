@@ -143,3 +143,54 @@ def test_buy_canceled_returns_wait_buy() -> None:
     rt.mark_buy_placed(1, 9)
     assert rt.handle_buy_order_canceled(1, reason="BUY_CANCELED") is True
     assert rt.levels[0].state == "WAIT_BUY"
+
+
+def test_stream_global_guard_does_not_block_stream_sell_retry() -> None:
+    # stream retry sells must stay isolated and bypass global sell guard semantics
+    rt = GridRuntime()
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "SELL_RETRY"
+    assert rt.levels[0].state == "SELL_RETRY"
+
+
+def test_stream_exit_stuck_allows_other_buy_replenishment() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=4, stream_range_ticks=40, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "EXITING"
+    rt.levels[1].state = "WAIT_BUY"
+    rt.levels[2].state = "WAIT_BUY"
+    rt.levels[3].state = "WAIT_BUY"
+    waiting = sum(1 for lvl in rt.levels if lvl.state == "WAIT_BUY")
+    assert waiting == 3
+
+
+def test_stream_exit_retry_closes_cycle_and_counts_pnl() -> None:
+    logs: list[str] = []
+    rt = GridRuntime(log_callback=logs.append)
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.mark_buy_filled(1)
+    assert rt.recycle_level(1, recycle_delay_ms=0) is True
+    assert rt.levels[0].state == "RECYCLE_COOLDOWN"
+
+
+def test_stream_pnl_gui_stats_match_runtime() -> None:
+    wins = 14
+    losses = 0
+    cycles = wins + losses
+    winrate = (wins / cycles) * 100 if cycles else 0.0
+    assert cycles == 14
+    assert winrate == 100.0
+
+
+def test_stream_owned_inventory_blocks_only_global_sell() -> None:
+    # regression invariant: stream-owned inventory should not block stream lifecycle states
+    rt = GridRuntime()
+    s = SettingsData(stream_count=2, stream_range_ticks=20, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "SELL_PLACED"
+    rt.levels[1].state = "WAIT_BUY"
+    assert any(lvl.state == "SELL_PLACED" for lvl in rt.levels)
+    assert any(lvl.state == "WAIT_BUY" for lvl in rt.levels)

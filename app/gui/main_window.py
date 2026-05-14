@@ -1422,8 +1422,13 @@ class MainWindow(QMainWindow):
         self.log("INFO", f"[EXEC] STREAM_SHUTDOWN_STATE active={active} reason={reason}")
         self.last_stream_shutdown_state_log_ms = now
 
-    def _guard_stream_global_exit_hard_block(self, trigger: str, qty: float) -> bool:
-        if not self.is_stream_owned_inventory(qty=qty):
+    def _guard_stream_global_exit_hard_block(self, trigger: str, qty: float, sell_scope: str = "global", stream_id: int | None = None) -> bool:
+        is_global_scope = str(sell_scope).lower() == "global"
+        allowed = not is_global_scope or not self.is_stream_owned_inventory(qty=qty)
+        reason = "none" if allowed else "stream_owned_inventory"
+        stream_id_value = int(stream_id or 0)
+        self.log("INFO", f"[EXEC] STREAM_SELL_SCOPE_CHECK scope={sell_scope} allowed={str(allowed).lower()} stream_id={stream_id_value} reason={reason}")
+        if allowed:
             return False
         stream_chunks = sum(1 for chunk in self.inventory_chunks if self._is_stream_owned_chunk(chunk) and chunk.qty > self._inventory_epsilon_qty())
         self.log("WARNING", f"[EXEC] STREAM_GLOBAL_EXIT_HARD_BLOCK trigger={trigger} qty={qty:.6f} stream_chunks={stream_chunks}")
@@ -1943,7 +1948,7 @@ class MainWindow(QMainWindow):
         return safe_qty
 
     def _log_exit_recovery_throttled(self, qty: float) -> None:
-        if self._guard_stream_global_exit_hard_block("exit_recovery_inventory_no_sell", qty):
+        if self._guard_stream_global_exit_hard_block("exit_recovery_inventory_no_sell", qty, sell_scope="global"):
             self.position_state = "STREAM_EXITING"
             return
         if self._should_skip_global_sell_engine("exit_recovery_inventory_no_sell"):
@@ -2976,7 +2981,7 @@ class MainWindow(QMainWindow):
                     self.last_entry_reprice_ms = now
                     self.log("OK", f"[EXEC] ENTRY_PLACE price={new_price:.2f} qty={float(self.active_order.get('qty', 0.0)):.6f}")
         elif self.runtime_active and self.fsm_state == "PLACE_SELL":
-            if self._guard_stream_global_exit_hard_block("place_sell", self.position_qty):
+            if self._guard_stream_global_exit_hard_block("place_sell", self.position_qty, sell_scope="global"):
                 self.fsm_state = "DONE"
                 self.position_state = "STREAM_EXITING"
                 return
