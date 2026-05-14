@@ -1265,12 +1265,12 @@ class MainWindow(QMainWindow):
     def _repair_runtime_state(self) -> None:
         inventory_qty = self._recalc_position_from_chunks()
         self._recalc_entry_avg_from_chunks()
-        if bool((int(getattr(self.settings, "stream_count", 1)) >= 1)) and self._has_stream_owned_chunks_or_orders():
+        stream_owned = bool((int(getattr(self.settings, "stream_count", 1)) >= 1)) and self._has_stream_owned_chunks_or_orders()
+        if stream_owned:
             now = int(time.time() * 1000)
             if now - int(self.last_stream_repair_skip_log_ms or 0) >= 2500:
                 self.log("INFO", "[EXEC] STREAM_REPAIR_SKIP reason=stream_owned_inventory")
                 self.last_stream_repair_skip_log_ms = now
-            return
         active_side = str(self.active_order.get("side", ""))
         has_active_order = bool(self.active_order.get("orderId"))
         if inventory_qty <= self._inventory_epsilon_qty():
@@ -1288,7 +1288,7 @@ class MainWindow(QMainWindow):
                 self.log("WARNING", "[EXEC] STATE REPAIR reason=buy_pending_with_inventory")
                 self.position_state = "POSITION_OPEN"
             if self.fsm_state == "WAIT_READY" and not (has_active_order and active_side == "SELL"):
-                if self._has_stream_owned_chunks_or_orders():
+                if stream_owned:
                     self.log("INFO", "[EXEC] STREAM_GLOBAL_SELL_SKIP reason=stream_owned_inventory")
                 else:
                     self._log_exit_recovery_throttled(inventory_qty)
@@ -1376,12 +1376,11 @@ class MainWindow(QMainWindow):
     def _stream_counts(self) -> tuple[int, int, int]:
         active_buys = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "BUY_PLACED" and int(lvl.active_buy_order_id or 0) > 0)
         sell_states = {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"}
-        active_sells = 0
-        for lvl in self.grid_runtime.levels:
-            if lvl.state not in sell_states:
-                continue
-            if int(lvl.active_sell_order_id or 0) > 0:
-                active_sells += 1
+        active_sells = sum(
+            1
+            for lvl in self.grid_runtime.levels
+            if (lvl.state in sell_states) or int(lvl.active_sell_order_id or 0) > 0
+        )
         waiting_streams = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY" and int(lvl.active_buy_order_id or 0) <= 0)
         return active_buys, active_sells, waiting_streams
 
@@ -2384,19 +2383,15 @@ class MainWindow(QMainWindow):
                             inventory_u = self.position_qty * bid_now
                             active_buys, active_sells, waiting_streams = self._stream_counts()
                             if active_sells == 0:
-                                for sell_order_id, (sid, _chunk_id) in self.grid_sell_order_meta.items():
-                                    self.log("ERROR", f"[EXEC] STREAM_STATE_MISMATCH reason=sell_order_not_counted stream_id={sid} order_id={sell_order_id}")
+                                for level in self.grid_runtime.levels:
+                                    if int(level.active_sell_order_id or 0) > 0:
+                                        self.log("ERROR", f"[EXEC] STREAM_STATE_MISMATCH reason=active_sell_not_counted stream_id={level.level_id}")
                             has_active_sell = bool(self.active_order.get("orderId") and self.active_order.get("side") == "SELL")
                             max_active_buys = max(int(getattr(self.settings, "stream_max_active_buys", 8)), 1)
                             batch_size = max(int(getattr(self.settings, "stream_place_batch_size", 3)), 1)
                             place_interval_ms = max(int(getattr(self.settings, "stream_place_interval_ms", 500)), 0)
                             self.grid_last_batch_size = 0
                             self.grid_buy_paused = False
-                            if bool(getattr(self.settings, "stream_sell_first", True)) and (inventory_u > 0.0 or has_active_sell):
-                                self.grid_buy_paused = True
-                                unsold = next((c for c in self.inventory_chunks if c.qty > 0 and c.sell_order_id is None), None)
-                                if unsold is not None:
-                                    self.log("INFO", f"[EXEC] GRID_SELL_FIRST_PENDING chunk_id={id(unsold)} level_id={unsold.grid_level_id}")
                             if inventory_u > float(getattr(self.settings, "stream_pause_buy_inventory_u", 800.0)):
                                 self.grid_buy_paused = True
                                 self.log("WARNING", f"[EXEC] GRID_BUY_PAUSED_INVENTORY inventory_u={inventory_u:.2f}")
@@ -2475,6 +2470,10 @@ class MainWindow(QMainWindow):
                             else:
                                 self.log("INFO", "[EXEC] GRID_NO_VALID_LEVELS_FOR_BUY")
                                 self.fsm_state = "DONE"
+                            self.log(
+                                "INFO",
+                                f"[EXEC] STREAM_CONCURRENCY_STATE buys={active_buys} sells={active_sells} waiting={waiting_streams} inventory_u={inventory_u:.2f} exposure_u={max(inventory_u, 0.0):.2f} buy_allowed={str(not self.grid_buy_paused).lower()} reason={blocked_reason}",
+                            )
                             return
                         o = self.account.place_limit_order(CONFIG.binance_symbol, "BUY", buy_price, buy_qty)
                         now = int(time.time() * 1000)
