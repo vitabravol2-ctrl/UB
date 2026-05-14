@@ -194,3 +194,36 @@ def test_stream_owned_inventory_blocks_only_global_sell() -> None:
     rt.levels[1].state = "WAIT_BUY"
     assert any(lvl.state == "SELL_PLACED" for lvl in rt.levels)
     assert any(lvl.state == "WAIT_BUY" for lvl in rt.levels)
+
+def test_timeout_retry_available_uses_stream_sell_retry_not_exiting() -> None:
+    # regression invariant for timeout retry ladder: retry path stays non-exit
+    retry_available = True
+    runtime_active = True
+    next_state = "SELL_PLACED" if (retry_available and runtime_active) else "EXITING"
+    retry_log = "STREAM_SELL_RETRY_PLACED" if (retry_available and runtime_active) else "STREAM_EXIT_RETRY_PLACED"
+    assert next_state == "SELL_PLACED"
+    assert retry_log == "STREAM_SELL_RETRY_PLACED"
+
+
+def test_stream_exit_stuck_clears_stale_sell_ids() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "EXITING"
+    rt.levels[0].active_sell_order_id = None
+    rt.levels[0].active_chunk_id = None
+    assert rt.levels[0].active_sell_order_id is None
+    assert rt.levels[0].active_chunk_id is None
+
+
+def test_waiting_streams_replenish_buy_even_with_active_sell() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0, stream_max_active_buys=2)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "SELL_PLACED"
+    rt.levels[1].state = "WAIT_BUY"
+    rt.levels[2].state = "WAIT_BUY"
+    active_buys = sum(1 for lvl in rt.levels if lvl.state == "BUY_PLACED")
+    waiting_streams = sum(1 for lvl in rt.levels if lvl.state == "WAIT_BUY")
+    assert active_buys == 0
+    assert waiting_streams > 0

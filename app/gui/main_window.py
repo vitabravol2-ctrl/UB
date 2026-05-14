@@ -1737,6 +1737,10 @@ class MainWindow(QMainWindow):
                         break
                     self.grid_sell_order_meta.pop(sell_order_id, None)
                     chunk.sell_order_id = None
+                    if level is not None and (int(level.active_sell_order_id or 0) > 0 or int(level.active_chunk_id or 0) > 0):
+                        level.active_sell_order_id = None
+                        level.active_chunk_id = None
+                        self.log("INFO", f"[EXEC] STREAM_STALE_SELL_CLEARED stream_id={level_id} chunk_id={chunk_id} old_order_id={sell_order_id}")
                     best_bid = float(self.state.snapshot.bid or 0.0)
                     best_ask = float(self.state.snapshot.ask or 0.0)
                     stop_loss_ticks = max(int(getattr(self.settings, "stop_loss_ticks", 0)), 0)
@@ -1753,7 +1757,7 @@ class MainWindow(QMainWindow):
                         new_price = self._round_price_up(retry_price)
 
                         chunk.sell_retry_count += 1
-                        self.log("WARNING", f"[EXEC] STREAM_EXIT_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id=pending qty={chunk.qty:.6f} price={new_price:.2f} retry_count={chunk.sell_retry_count}")
+                        self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id=pending qty={chunk.qty:.6f} price={new_price:.2f} retry_count={chunk.sell_retry_count}")
                     else:
                         if chunk.sell_retry_count < retry_max and not emergency_or_manual_stop:
                             raise AssertionError("STREAM_STOP_LOSS_EXIT forbidden while retry is available")
@@ -1761,9 +1765,7 @@ class MainWindow(QMainWindow):
                         new_price = self._round_price_down(max(best_bid, stop_loss_price, tick))
                         if chunk.exit_escalated:
                             self.log("ERROR", f"[EXEC] STREAM_EXIT_STUCK stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
-                            self.log("WARNING", f"[EXEC] STREAM_EXIT_ISOLATED stream_id={level_id} chunk_id={chunk_id} action=force_sell_reprice")
-                            timeout_handled = True
-                            break
+                            self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_CONTROLLED stream_id={level_id} chunk_id={chunk_id} action=force_sell_reprice")
                         self.log("WARNING", f"[EXEC] STREAM_STOP_LOSS_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} stop_price={new_price:.2f} retry_count={chunk.sell_retry_count} retry_max={retry_max}")
                         self.log("WARNING", f"[EXEC] STREAM_EXIT_ISOLATED stream_id={level_id} chunk_id={chunk_id} action=stop_loss_exit")
                         chunk.exit_escalated = True
@@ -1788,6 +1790,9 @@ class MainWindow(QMainWindow):
                         self.grid_sell_order_meta[new_id] = (level_id, chunk_id)
                         if chunk.exit_escalated:
                             self.log("WARNING", f"[EXEC] STREAM_EXIT_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id} qty={chunk.qty:.6f} price={new_price:.2f}")
+                            self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_RECOVERY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id}")
+                        else:
+                            self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id} qty={chunk.qty:.6f} price={new_price:.2f}")
                     else:
                         self.log("WARNING", f"[EXEC] STREAM_EXIT_ORDER_TRACKING_FAILED stream_id={level_id} chunk_id={chunk_id}")
                         chunk.state = "STREAM_WAIT_SELL"
