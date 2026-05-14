@@ -1753,31 +1753,51 @@ class MainWindow(QMainWindow):
                     retry_available = chunk.sell_retry_count < retry_max
                     if retry_available and not emergency_or_manual_stop:
                         self.log("INFO", f"[EXEC] STREAM_STOP_LOSS_BLOCKED_RETRY_AVAILABLE retry_count={chunk.sell_retry_count} retry_max={retry_max} stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
-                        retry_price = self._round_price_up(chunk.entry_price + tick * min_profit_ticks)
-                        if best_ask > 0:
-                            retry_price = max(retry_price, max(best_ask - tick * retry_step_ticks, tick))
-                        new_price = self._round_price_up(retry_price)
-
-                        chunk.sell_retry_count += 1
+                        plan = self.grid_runtime.stream_sell_retry_plan(
+                            entry_price=float(chunk.entry_price),
+                            best_bid=best_bid,
+                            best_ask=best_ask,
+                            tick=tick,
+                            min_profit_ticks=min_profit_ticks,
+                            retry_step_ticks=retry_step_ticks,
+                            stop_loss_ticks=stop_loss_ticks,
+                            retry_count=int(chunk.sell_retry_count),
+                            retry_max=retry_max,
+                            stuck_attempts=int(chunk.exit_stuck_attempts),
+                        )
+                        new_price = self._round_price_up(float(plan["price"]))
+                        old_price = float(st.get("price", 0.0) or 0.0)
+                        chunk.sell_retry_count = int(plan["retry_count_next"])
+                        self.log("INFO", f"[EXEC] STREAM_SELL_REPRICE stream_id={level_id} chunk_id={chunk_id} reason={plan['reason']} attempt={chunk.sell_retry_count} old_price={old_price:.2f} new_price={new_price:.2f}")
+                        self.log("INFO", f"[EXEC] STREAM_SELL_REPRICE_DELTA stream_id={level_id} chunk_id={chunk_id} delta={new_price - old_price:+.2f}")
+                        self.log("INFO", f"[EXEC] STREAM_EXIT_MARKET_DISTANCE stream_id={level_id} chunk_id={chunk_id} bid_distance_ticks={(new_price - best_bid)/tick if tick > 0 and best_bid > 0 else 0.0:.2f} ask_distance_ticks={(new_price - best_ask)/tick if tick > 0 and best_ask > 0 else 0.0:.2f}")
                         self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id=pending qty={chunk.qty:.6f} price={new_price:.2f} retry_count={chunk.sell_retry_count}")
                     else:
                         if chunk.sell_retry_count < retry_max and not emergency_or_manual_stop:
                             raise AssertionError("STREAM_STOP_LOSS_EXIT forbidden while retry is available")
-                        chunk.exit_stuck_attempts += 1
-                        stop_loss_price = self._round_price_down(max(chunk.entry_price - tick * stop_loss_ticks, tick))
-                        attempt_step_ticks = max(retry_step_ticks, 1) * max(chunk.exit_stuck_attempts, 1)
-                        aggressive_price = self._round_price_down(max(best_bid - tick * attempt_step_ticks, tick))
-                        new_price = self._round_price_down(max(aggressive_price, stop_loss_price, tick))
+                        plan = self.grid_runtime.stream_sell_retry_plan(
+                            entry_price=float(chunk.entry_price),
+                            best_bid=best_bid,
+                            best_ask=best_ask,
+                            tick=tick,
+                            min_profit_ticks=min_profit_ticks,
+                            retry_step_ticks=retry_step_ticks,
+                            stop_loss_ticks=stop_loss_ticks,
+                            retry_count=int(chunk.sell_retry_count),
+                            retry_max=retry_max,
+                            stuck_attempts=int(chunk.exit_stuck_attempts),
+                        )
+                        chunk.exit_stuck_attempts = int(plan["stuck_attempts_next"])
+                        new_price = self._round_price_down(float(plan["price"]))
                         self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_ATTEMPT stream_id={level_id} chunk_id={chunk_id} attempt={chunk.exit_stuck_attempts} max_attempts={stuck_max_attempts} price={new_price:.2f}")
                         if chunk.exit_escalated or chunk.exit_stuck_attempts > 1:
                             self.log("ERROR", f"[EXEC] STREAM_EXIT_STUCK stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
                             self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_CONTROLLED stream_id={level_id} chunk_id={chunk_id} action=force_sell_reprice")
                         self.log("WARNING", f"[EXEC] STREAM_STOP_LOSS_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} stop_price={new_price:.2f} retry_count={chunk.sell_retry_count} retry_max={retry_max}")
                         self.log("WARNING", f"[EXEC] STREAM_EXIT_ISOLATED stream_id={level_id} chunk_id={chunk_id} action=stop_loss_exit")
-                        if chunk.exit_stuck_attempts >= stuck_max_attempts:
-                            final_price = self._round_price_down(max(best_bid - tick * max(attempt_step_ticks, 1), tick))
-                            new_price = min(new_price, final_price)
+                        if bool(plan["finalized"]) and chunk.exit_stuck_attempts >= stuck_max_attempts:
                             self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_FINALIZED stream_id={level_id} chunk_id={chunk_id} attempt={chunk.exit_stuck_attempts} action=force_exit_taker_like price={new_price:.2f}")
+                        self.log("WARNING", f"[EXEC] STREAM_EXIT_FINAL_REASON stream_id={level_id} chunk_id={chunk_id} reason={plan['reason']} finalized={str(bool(plan['finalized'])).lower()}")
                         chunk.exit_escalated = True
                     try:
                         repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(new_price), float(chunk.qty))
@@ -3577,6 +3597,7 @@ class MainWindow(QMainWindow):
             if now_ms - self.last_stream_stats_ui_log_ms >= 5000:
                 self.last_stream_stats_ui_log_ms = now_ms
                 self.log("INFO", f"[EXEC] STREAM_STATS_UI cycles={closed_cycles} wins={wins} losses={losses} pnl={realized_pnl:+.6f} winrate={winrate:.2f}%")
+                self.log("INFO", f"[EXEC] STREAM_STATS_UI_SYNC stream_closed_cycles={self.stream_closed_cycles} stream_wins={self.stream_wins} stream_losses={self.stream_losses} stream_realized_pnl={self.stream_realized_pnl:+.6f} stream_last_pnl={self.stream_last_pnl:+.6f}")
                 exiting_streams, exiting_qty, recycled_streams = self._stream_exit_telemetry()
                 self.log("INFO", f"[EXEC] STREAMS_EXITING count={exiting_streams} EXITING_QTY={exiting_qty:.6f}")
                 self.log("INFO", f"[EXEC] STREAM_CONCURRENCY_AUDIT active_buy_streams={sum(1 for lvl in self.grid_runtime.levels if lvl.state == 'BUY_PLACED' and int(lvl.active_buy_order_id or 0) > 0)} active_sell_streams={sum(1 for lvl in self.grid_runtime.levels if lvl.state in {'WAIT_SELL','SELL_PLACED','SELL_RETRY','EXITING'} or int(lvl.active_sell_order_id or 0) > 0)} exiting_streams={exiting_streams} recycled_streams={recycled_streams} waiting_streams={sum(1 for lvl in self.grid_runtime.levels if lvl.state == 'WAIT_BUY' and int(lvl.active_buy_order_id or 0) <= 0)}")
