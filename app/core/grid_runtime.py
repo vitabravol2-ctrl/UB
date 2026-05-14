@@ -46,6 +46,7 @@ class GridRuntime:
     levels: list[GridLevel] = field(default_factory=list)
     stream_signal_recent_buy_fill: dict[str, float | int] | None = None
     stream_signal_recent_sell_fill: dict[str, float | int] | None = None
+    stream_wait_buy_starvation_since_ms: int = 0
 
     def _log(self, message: str) -> None:
         if self.log_callback:
@@ -242,6 +243,35 @@ class GridRuntime:
                 released.append(level.level_id)
                 self._log(f"STREAM_RECYCLE_READY stream_id={level.level_id} at_ms={ts}")
         return released
+
+    def stream_supervisor_tick(self, now_ms: int | None = None) -> dict[str, int]:
+        ts = int(time.time() * 1000) if now_ms is None else now_ms
+        self._log("STREAM_SUPERVISOR_TICK")
+        self.activate_ready_streams(now_ms=ts)
+        self.release_recycle_streams(now_ms=ts)
+        status = {
+            "wait_buy": sum(1 for x in self.levels if x.state == "WAIT_BUY"),
+            "buy": sum(1 for x in self.levels if x.state == "BUY_PLACED"),
+            "sell": sum(1 for x in self.levels if x.state in {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY"}),
+            "exiting": sum(1 for x in self.levels if x.state in {"EXITING", "TERMINAL_EXIT"}),
+            "recycle": sum(1 for x in self.levels if x.state in {"RECYCLE", "RECYCLE_COOLDOWN"}),
+            "error": sum(1 for x in self.levels if x.state in {"PAUSED_ERROR", "ERROR"}),
+        }
+        self._log(
+            "STREAM_POOL_STATUS "
+            f"wait_buy={status['wait_buy']} buy={status['buy']} sell={status['sell']} "
+            f"exiting={status['exiting']} recycle={status['recycle']} error={status['error']}"
+        )
+        return status
+
+    def stream_capacity_fill_plan(self, *, runtime_active: bool, max_active_buys: int, now_ms: int | None = None) -> dict[str, int | bool]:
+        status = self.stream_supervisor_tick(now_ms=now_ms)
+        active_buys = int(status["buy"])
+        wait_buy = int(status["wait_buy"])
+        target = max(int(max_active_buys), 0)
+        free_slots = max(0, target - active_buys)
+        should_fill = bool(runtime_active and wait_buy > 0 and free_slots > 0)
+        return {"target": target, "active": active_buys, "wait_buy": wait_buy, "free_slots": free_slots, "should_fill": should_fill}
 
     def grid_telemetry(self, inventory_u: float = 0.0, buy_paused: bool = False, placement_queue: int = 0, last_batch_size: int = 0) -> dict[str, float | int | str]:
         active = len(self.levels)
