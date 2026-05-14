@@ -164,6 +164,8 @@ class MainWindow(QMainWindow):
         self.taker_exit_order_id = 0
         self.taker_exit_sent_ms = 0
         self.last_taker_status_poll_ms = 0
+        self.stream_terminal_exit_last_poll_ms: dict[int, int] = {}
+        self.stream_terminal_exit_last_wait_log_ms: dict[int, int] = {}
         self.last_taker_exit_reason = "-"
         self.last_taker_reason = "-"
         self.last_taker_qty = 0.0
@@ -425,6 +427,10 @@ class MainWindow(QMainWindow):
             "stream_sell_timeout_ms": "Stream sell timeout ms",
             "stream_sell_retry_max": "Stream sell retry max",
             "stream_sell_retry_step_ticks": "Stream sell retry step ticks",
+            "stream_terminal_exit_timeout_ms": "Terminal exit timeout ms",
+            "stream_terminal_exit_poll_ms": "Terminal exit poll ms",
+            "stream_terminal_exit_max_reprices": "Terminal exit max reprices",
+            "stream_terminal_exit_force_after_ms": "Terminal exit force after ms",
             "stop_loss_ticks": "Stop loss ticks",
             "stream_loss_cooldown_ms": "Stream loss cooldown ms",
             "require_ws_for_buy": "Require WS for buy",
@@ -454,7 +460,7 @@ class MainWindow(QMainWindow):
             ("GENERAL", ["live_enabled", "order_size_u", "max_exposure_u", "max_daily_loss", "auto_cancel_on_stop"]),
             ("STREAM CONVEYOR", ["stream_count", "stream_range_ticks", "stream_max_active_buys", "stream_place_batch_size", "stream_place_interval_ms", "stream_buy_max_distance_ticks", "stream_recenter_interval_ms", "stream_sell_first"]),
             ("ENTRY", ["min_spread_ticks", "entry_offset_ticks", "buy_timeout_ms", "buy_watchdog_ms", "far_buy_ticks", "entry_mode", "entry_chase_ticks", "entry_cross_if_spread_ticks_above"]),
-            ("EXIT", ["stream_target_ticks", "stream_min_profit_ticks", "stream_sell_timeout_ms", "stream_sell_retry_max", "stream_sell_retry_step_ticks", "stop_loss_ticks", "stream_loss_cooldown_ms"]),
+            ("EXIT", ["stream_target_ticks", "stream_min_profit_ticks", "stream_sell_timeout_ms", "stream_sell_retry_max", "stream_sell_retry_step_ticks", "stream_terminal_exit_timeout_ms", "stream_terminal_exit_poll_ms", "stream_terminal_exit_max_reprices", "stream_terminal_exit_force_after_ms", "stop_loss_ticks", "stream_loss_cooldown_ms"]),
             ("DATA / GUARD", ["require_ws_for_buy", "ws_optional_enabled", "max_ws_age_ms", "guard_enabled", "min_spread_lifetime_ms", "block_on_mid_negative", "block_on_bid_unstable"]),
             ("GUI / LOGS", ["gui_log_mode", "gui_logs_visible_default", "compact_logs", "runtime_diag_enabled", "trading_log_mode"]),
         ]
@@ -1784,22 +1790,53 @@ class MainWindow(QMainWindow):
                     age_ms = max(now_ms - placed_ms, 0)
                     if age_ms < timeout_ms:
                         break
-                    self.log("WARNING", f"[EXEC] STREAM_SELL_TIMEOUT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} age_ms={age_ms} timeout_ms={timeout_ms}")
                     if level is not None and bool(level.terminal_exit_started):
-                        terminal_order_id = int(level.terminal_exit_order_id or 0)
+                        terminal_order_id = int(level.terminal_exit_order_id or sell_order_id or 0)
+                        terminal_poll_ms = max(int(getattr(self.settings, "stream_terminal_exit_poll_ms", getattr(self.settings, "taker_status_poll_ms", 500))), 1)
+                        terminal_timeout_ms = max(int(getattr(self.settings, "stream_terminal_exit_timeout_ms", 8000)), 1)
+                        terminal_force_after_ms = max(int(getattr(self.settings, "stream_terminal_exit_force_after_ms", 12000)), terminal_timeout_ms)
+                        terminal_max_reprices = max(int(getattr(self.settings, "stream_terminal_exit_max_reprices", 1)), 0)
+                        started_ms = int(level.terminal_exit_started_at_ms or placed_ms)
+                        terminal_age_ms = max(now_ms - started_ms, 0)
+                        last_poll_ms = int(self.stream_terminal_exit_last_poll_ms.get(chunk_id, 0))
+                        if last_poll_ms and now_ms - last_poll_ms < terminal_poll_ms:
+                            timeout_handled = True
+                            break
+                        self.stream_terminal_exit_last_poll_ms[chunk_id] = now_ms
+                        status_now = "UNKNOWN"
                         if terminal_order_id > 0:
                             try:
                                 terminal_status = self.account.get_order(CONFIG.binance_symbol, terminal_order_id)
                                 status_now = str(terminal_status.get("status", "UNKNOWN"))
-                                self.grid_runtime.terminal_exit_status_wait(level_id, now_ms)
-                                self.log("INFO", f"[EXEC] STREAM_TERMINAL_EXIT_STATUS_WAIT stream_id={level_id} chunk_id={chunk_id} order_id={terminal_order_id} status={status_now}")
                             except (BinanceAPIError, RequestException, Exception) as exc:
                                 self._mark_stream_order_api_error("SELL", level_id, exc)
-                        else:
-                            self.grid_runtime.terminal_exit_status_wait(level_id, now_ms)
-                            self.log("INFO", f"[EXEC] STREAM_TERMINAL_EXIT_STATUS_WAIT stream_id={level_id} chunk_id={chunk_id} order_id=unknown status=UNKNOWN")
+                        if status_now in {"FILLED", "PARTIALLY_FILLED"}:
+                            self.grid_runtime.finalize_terminal_exit(level_id, "FILLED", now_ms=now_ms)
+                            timeout_handled = True
+                            break
+                        self.grid_runtime.terminal_exit_status_wait(level_id, now_ms)
+                        last_wait_log_ms = int(self.stream_terminal_exit_last_wait_log_ms.get(chunk_id, 0))
+                        if (not last_wait_log_ms) or (now_ms - last_wait_log_ms >= terminal_poll_ms):
+                            self.stream_terminal_exit_last_wait_log_ms[chunk_id] = now_ms
+                            self.log("INFO", f"[EXEC] STREAM_TERMINAL_EXIT_STATUS_WAIT stream_id={level_id} chunk_id={chunk_id} order_id={terminal_order_id or 'unknown'} status={status_now} age_ms={terminal_age_ms}")
+                        if status_now == "NEW" and terminal_age_ms < terminal_timeout_ms:
+                            timeout_handled = True
+                            break
+                        if status_now == "NEW" and terminal_age_ms >= terminal_force_after_ms:
+                            self.grid_runtime.finalize_terminal_exit(level_id, "PAUSED_ERROR", now_ms=now_ms)
+                            if level is not None:
+                                level.state = "PAUSED_ERROR"
+                                level.paused_error_reason = "terminal_exit_force_timeout"
+                            self.log("ERROR", f"[EXEC] STREAM_TERMINAL_EXIT_FORCE_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={terminal_order_id} age_ms={terminal_age_ms}")
+                            self.grid_sell_order_meta.pop(sell_order_id, None)
+                            timeout_handled = True
+                            break
+                        if status_now == "NEW" and terminal_age_ms >= terminal_timeout_ms and int(level.terminal_exit_attempts) < terminal_max_reprices:
+                            level.terminal_exit_attempts += 1
+                            self.log("WARNING", f"[EXEC] STREAM_TERMINAL_EXIT_REPRICE_ONCE stream_id={level_id} chunk_id={chunk_id} attempt={level.terminal_exit_attempts} max={terminal_max_reprices}")
                         timeout_handled = True
                         break
+                    self.log("WARNING", f"[EXEC] STREAM_SELL_TIMEOUT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} age_ms={age_ms} timeout_ms={timeout_ms}")
                     try:
                         self.account.cancel_order(CONFIG.binance_symbol, int(sell_order_id))
                         self.log("INFO", f"[EXEC] STREAM_SELL_CANCEL_OLD stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
@@ -2014,6 +2051,8 @@ class MainWindow(QMainWindow):
                 recycle_delay_ms = max(int(getattr(self.settings, "stream_recycle_delay_ms", 0)), 0)
                 self.log("INFO", f"[EXEC] STREAM_RECYCLE_DELAY_APPLIED stream_id={level_id} delay_ms={recycle_delay_ms}")
                 self.grid_runtime.recycle_level(level_id, recycle_delay_ms=recycle_delay_ms)
+                self.stream_terminal_exit_last_poll_ms.pop(chunk_id, None)
+                self.stream_terminal_exit_last_wait_log_ms.pop(chunk_id, None)
                 self.log("INFO", f"[EXEC] STREAM_LIFECYCLE_AUDIT stream_id={level_id} state=FILLED has_buy_order=false has_sell_order=false has_chunk=false action=recycle")
                 self.log("INFO", f"[EXEC] STREAM_RUNTIME_TICK_CONTINUED_AFTER_EXIT stream_id={level_id}")
                 break

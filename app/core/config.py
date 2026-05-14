@@ -136,6 +136,10 @@ class SettingsData:
     stream_sell_timeout_ms: int = 2800
     stream_sell_retry_max: int = 2
     stream_sell_retry_step_ticks: int = 3
+    stream_terminal_exit_timeout_ms: int = 8000
+    stream_terminal_exit_poll_ms: int = 500
+    stream_terminal_exit_max_reprices: int = 1
+    stream_terminal_exit_force_after_ms: int = 12000
     stream_loss_cooldown_ms: int = 6000
     stream_buy_max_distance_ticks: int = 120
     stream_recenter_interval_ms: int = 1500
