@@ -1373,6 +1373,18 @@ class MainWindow(QMainWindow):
         self.log("INFO", f"[EXEC] CHUNK COUNT n={len(self.inventory_chunks)}")
         self._recalc_entry_avg_from_chunks()
 
+    def _stream_counts(self) -> tuple[int, int, int]:
+        active_buys = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "BUY_PLACED" and int(lvl.active_buy_order_id or 0) > 0)
+        sell_states = {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"}
+        active_sells = 0
+        for lvl in self.grid_runtime.levels:
+            if lvl.state not in sell_states:
+                continue
+            if int(lvl.active_sell_order_id or 0) > 0:
+                active_sells += 1
+        waiting_streams = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY" and int(lvl.active_buy_order_id or 0) <= 0)
+        return active_buys, active_sells, waiting_streams
+
     def _poll_grid_orders(self, now_ms: int) -> None:
         if not self.runtime_active or not (int(getattr(self.settings, "stream_count", 1)) >= 1):
             return
@@ -1383,7 +1395,7 @@ class MainWindow(QMainWindow):
         target_ticks = max(int(getattr(self.settings, "stream_target_ticks", 30)), 0)
         for level in self.grid_runtime.levels:
             order_id = int(level.active_buy_order_id or 0)
-            if level.state != "WAIT_BUY_FILL" or order_id <= 0:
+            if level.state != "BUY_PLACED" or order_id <= 0:
                 continue
             try:
                 st = self.account.get_order(CONFIG.binance_symbol, order_id)
@@ -1430,6 +1442,9 @@ class MainWindow(QMainWindow):
                     sell_o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(fill_qty))
                 except (BinanceAPIError, RequestException, Exception) as exc:
                     chunk.state = "STREAM_WAIT_SELL"
+                    level.state = "SELL_RETRY"
+                    level.active_sell_order_id = None
+                    level.active_chunk_id = id(chunk)
                     self._mark_stream_order_api_error("SELL", level.level_id, exc)
                     self.log("WARNING", f"[EXEC] STREAM_SELL_RETRY stream_id={level.level_id} chunk_id={id(chunk)} reason=placement_failed")
                     continue
@@ -1438,13 +1453,15 @@ class MainWindow(QMainWindow):
                 chunk.sell_order_id = sell_order_id
                 chunk.state = "STREAM_SELL_PLACED"
                 chunk.sell_placed_ms = now_ms
+                level.state = "SELL_PLACED"
+                level.active_sell_order_id = sell_order_id
+                level.active_chunk_id = id(chunk)
                 self.grid_sell_order_meta[sell_order_id] = (level.level_id, id(chunk))
                 self.log("INFO", f"[EXEC] STREAM_SELL_PLACED stream_id={level.level_id} chunk_id={id(chunk)} order_id={sell_order_id} price={sell_price:.2f} qty={fill_qty:.6f}")
             elif status in {"CANCELED", "EXPIRED", "REJECTED"}:
                 level.active_buy_order_id = None
-                level.state = "WAIT_BUY"
-                self.log("INFO", f"[EXEC] STREAM_SKIP stream_id={level.level_id} reason=BUY_CANCELED order_id={order_id} status={status}")
                 self.grid_runtime.recycle_level(level.level_id)
+                self.log("INFO", f"[EXEC] STREAM_SKIP stream_id={level.level_id} reason=BUY_CANCELED order_id={order_id} status={status}")
         for sell_order_id, (level_id, chunk_id) in list(self.grid_sell_order_meta.items()):
             try:
                 st = self.account.get_order(CONFIG.binance_symbol, int(sell_order_id))
@@ -1452,6 +1469,11 @@ class MainWindow(QMainWindow):
                 self._mark_stream_order_api_error("SELL", level_id, exc)
                 continue
             status = str(st.get("status", "NEW"))
+            level = next((lv for lv in self.grid_runtime.levels if lv.level_id == level_id), None)
+            if level is not None:
+                level.active_sell_order_id = int(sell_order_id)
+                level.active_chunk_id = chunk_id
+                level.state = "SELL_PLACED" if status in {"NEW", "PARTIALLY_FILLED"} else level.state
             self.log("INFO", f"[EXEC] STREAM_SELL_STATUS stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} status={status}")
             if status == "NEW":
                 timeout_handled = False
@@ -1508,9 +1530,19 @@ class MainWindow(QMainWindow):
                         chunk.sell_order_id = new_id
                         chunk.sell_placed_ms = now_ms
                         chunk.state = "STREAM_SELL_PLACED"
+                        level = next((lv for lv in self.grid_runtime.levels if lv.level_id == level_id), None)
+                        if level is not None:
+                            level.state = "SELL_PLACED"
+                            level.active_sell_order_id = new_id
+                            level.active_chunk_id = chunk_id
                         self.grid_sell_order_meta[new_id] = (level_id, chunk_id)
                     else:
                         chunk.state = "STREAM_WAIT_SELL"
+                        level = next((lv for lv in self.grid_runtime.levels if lv.level_id == level_id), None)
+                        if level is not None:
+                            level.state = "SELL_RETRY"
+                            level.active_sell_order_id = None
+                            level.active_chunk_id = chunk_id
                         self.log("WARNING", f"[EXEC] STREAM_SELL_UNLOCK_FAILED stream_id={level_id} chunk_id={chunk_id} reason=empty_order_id")
                     timeout_handled = True
                     break
@@ -1541,6 +1573,11 @@ class MainWindow(QMainWindow):
                         chunk.sell_order_id = retry_order_id
                         chunk.state = "STREAM_SELL_PLACED"
                         chunk.sell_placed_ms = now_ms
+                        level = next((lv for lv in self.grid_runtime.levels if lv.level_id == level_id), None)
+                        if level is not None:
+                            level.state = "SELL_PLACED"
+                            level.active_sell_order_id = retry_order_id
+                            level.active_chunk_id = chunk_id
                         self.grid_sell_order_meta[retry_order_id] = (level_id, chunk_id)
                         self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={retry_order_id} price={retry_price:.2f} qty={chunk.qty:.6f}")
                     break
@@ -2345,15 +2382,10 @@ class MainWindow(QMainWindow):
                             free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
                             bid_now = float(self.state.snapshot.bid or 0.0)
                             inventory_u = self.position_qty * bid_now
-                            active_buys = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY_FILL" and lvl.active_buy_order_id is not None)
-                            active_sell_level_ids = {
-                                int(chunk.grid_level_id)
-                                for chunk in self.inventory_chunks
-                                if chunk.qty > self._inventory_epsilon_qty()
-                                and chunk.grid_level_id is not None
-                                and chunk.state in {"STREAM_WAIT_SELL", "STREAM_SELL_PLACED"}
-                            }
-                            active_sells = len(active_sell_level_ids)
+                            active_buys, active_sells, waiting_streams = self._stream_counts()
+                            if active_sells == 0:
+                                for sell_order_id, (sid, _chunk_id) in self.grid_sell_order_meta.items():
+                                    self.log("ERROR", f"[EXEC] STREAM_STATE_MISMATCH reason=sell_order_not_counted stream_id={sid} order_id={sell_order_id}")
                             has_active_sell = bool(self.active_order.get("orderId") and self.active_order.get("side") == "SELL")
                             max_active_buys = max(int(getattr(self.settings, "stream_max_active_buys", 8)), 1)
                             batch_size = max(int(getattr(self.settings, "stream_place_batch_size", 3)), 1)
@@ -2371,7 +2403,6 @@ class MainWindow(QMainWindow):
                             if inventory_u > float(getattr(self.settings, "stream_max_inventory_u", 1000.0)):
                                 self.grid_buy_paused = True
                                 self.log("WARNING", f"[EXEC] GRID_SELL_FIRST_MODE inventory_u={inventory_u:.2f}")
-                            waiting_streams = sum(1 for lvl in self.grid_runtime.levels if lvl.state == "WAIT_BUY" and lvl.active_buy_order_id is None)
                             free_buy_slots = max(0, max_active_buys - active_buys)
                             interval_elapsed = (now_ms - self.grid_last_place_batch_ms) >= place_interval_ms
                             self.log("INFO", f"[EXEC] STREAM_BUY_CAPACITY active_buys={active_buys} active_sells={active_sells} waiting_streams={waiting_streams} max_active_buys={max_active_buys} free_buy_slots={free_buy_slots} batch_size={batch_size}")
@@ -2397,7 +2428,7 @@ class MainWindow(QMainWindow):
                                     pending_buy_exposure_u = sum(
                                         float(lvl.budget_u)
                                         for lvl in self.grid_runtime.levels
-                                        if lvl.state == "WAIT_BUY_FILL" and lvl.active_buy_order_id is not None
+                                        if lvl.state == "BUY_PLACED" and lvl.active_buy_order_id is not None
                                     )
                                     current_exposure_u = max(inventory_u, 0.0) + pending_buy_exposure_u
                                     if current_exposure_u + float(level.budget_u) > max_exposure_u + 1e-12:
