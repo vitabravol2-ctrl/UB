@@ -1316,6 +1316,18 @@ class MainWindow(QMainWindow):
     def _has_stream_owned_chunks_or_orders(self) -> bool:
         return self._has_stream_owned_inventory() or self._has_stream_owned_orders()
 
+    def is_stream_owned_inventory(self, qty: float | None = None, chunk_id: int | None = None) -> bool:
+        if not bool((int(getattr(self.settings, "stream_count", 1)) >= 1)):
+            return False
+        eps = self._inventory_epsilon_qty()
+        if chunk_id is not None:
+            for chunk in self.inventory_chunks:
+                if id(chunk) == int(chunk_id):
+                    return self._is_stream_owned_chunk(chunk) and chunk.qty > eps
+        if qty is not None and float(qty) <= eps:
+            return False
+        return self._has_stream_owned_chunks_or_orders()
+
     def _should_skip_global_sell_engine(self, reason: str) -> bool:
         if not bool((int(getattr(self.settings, "stream_count", 1)) >= 1)):
             return False
@@ -1726,6 +1738,10 @@ class MainWindow(QMainWindow):
         return safe_qty
 
     def _log_exit_recovery_throttled(self, qty: float) -> None:
+        if self.is_stream_owned_inventory(qty=qty):
+            if self._should_skip_global_sell_engine("exit_recovery_inventory_no_sell"):
+                self.position_state = "STREAM_EXITING"
+            return
         if self._should_skip_global_sell_engine("exit_recovery_inventory_no_sell"):
             return
         if self._is_taker_exit_active():
@@ -1966,6 +1982,10 @@ class MainWindow(QMainWindow):
         self.fsm_state = "WAIT_MANUAL"
 
     def _panic_exit_final(self, now_ms: int, reason: str, sl_mode: bool = False) -> None:
+        if self.is_stream_owned_inventory(qty=self.position_qty):
+            if self._should_skip_global_sell_engine("panic_exit"):
+                self.position_state = "STREAM_EXITING"
+            return
         if self.panic_exit_final and self.panic_exit_order_id:
             self.log("WARNING", f"[EXEC] PANIC HOLD active orderId={self.panic_exit_order_id}")
             self.fsm_state = "WAIT_SELL_FILL"
@@ -2022,6 +2042,10 @@ class MainWindow(QMainWindow):
     def trigger_panic_exit(self, reason: str) -> None:
         epsilon = self._inventory_epsilon_qty()
         if self.position_qty <= epsilon:
+            return
+        if self.is_stream_owned_inventory(qty=self.position_qty):
+            if self._should_skip_global_sell_engine("trigger_panic_exit"):
+                self.position_state = "STREAM_EXITING"
             return
         if self.sell_recovery_in_progress or self.sell_cancel_in_progress:
             self.log("INFO", "[EXEC] RECOVERY WAIT panic_trigger_in_progress")
@@ -2368,6 +2392,10 @@ class MainWindow(QMainWindow):
         self._repair_runtime_state()
         if self.position_qty > 0 and not (self.active_order.get("orderId") and self.active_order.get("side") == "SELL") and self.runtime_active:
             if self.smart_exit_active:
+                if self.is_stream_owned_inventory(qty=self.position_qty):
+                    if self._should_skip_global_sell_engine("smart_exit_orphan_inventory"):
+                        self.position_state = "STREAM_EXITING"
+                    return
                 if self._should_skip_global_sell_engine("smart_exit_orphan_inventory"):
                     self.position_state = "STREAM_EXITING"
                     return
@@ -3586,6 +3614,10 @@ class MainWindow(QMainWindow):
         self.ws.stop(); super().closeEvent(event)
 
     def _smart_exit_retry_aggressive(self, now_ms: int, reason: str) -> None:
+        if self.is_stream_owned_inventory(qty=self.position_qty):
+            if self._should_skip_global_sell_engine("smart_exit_retry_aggressive"):
+                self.position_state = "STREAM_EXITING"
+            return
         max_attempts = max(int(getattr(self.settings, "max_smart_exit_attempts", 8)), 1)
         self.smart_exit_active = True
         self.smart_exit_attempts += 1
