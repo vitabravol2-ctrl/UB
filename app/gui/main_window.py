@@ -1684,15 +1684,19 @@ class MainWindow(QMainWindow):
             try:
                 if terminal_order_id > 0:
                     self.account.cancel_order(CONFIG.binance_symbol, int(terminal_order_id))
+                    self.log("INFO", f"[EXEC] STREAM_TERMINAL_FORCE_CANCELLED stream_id={level_id} chunk_id={chunk_id} order_id={terminal_order_id}")
             except (BinanceAPIError, RequestException, Exception) as exc:
                 self._mark_stream_order_api_error("SELL", level_id, exc)
             self.grid_runtime.finalize_terminal_exit(level_id, "PAUSED_ERROR", now_ms=now_ms)
-            level.state = "PAUSED_ERROR"
-            level.paused_error_reason = "terminal_exit_force_after"
+            level.state = "SELL_BALANCE_WAIT"
+            level.paused_error_reason = "terminal_exit_force_after_preserved_chunk"
+            level.balance_wait_until_ms = now_ms + max(int(getattr(self.settings, "stream_sell_retry_cooldown_ms", 1200)), 250)
             self.grid_sell_order_meta.pop(sell_order_id, None)
             chunk.sell_order_id = None
+            self.log("INFO", f"[EXEC] STREAM_TERMINAL_CHUNK_PRESERVED stream_id={level_id} chunk_id={chunk_id} qty={max(float(getattr(chunk, 'qty', 0.0) or 0.0), 0.0):.6f}")
+            self.log("INFO", f"[EXEC] STREAM_TERMINAL_RECOVERY_WAIT stream_id={level_id} chunk_id={chunk_id} state={level.state}")
             level.active_sell_order_id = None
-            level.active_chunk_id = None
+            level.active_chunk_id = chunk_id
         return True
 
     def _poll_grid_orders(self, now_ms: int) -> None:

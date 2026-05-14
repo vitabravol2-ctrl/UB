@@ -407,6 +407,18 @@ def test_terminal_timeout_leads_to_paused_error_or_one_controlled_reprice() -> N
     assert GridRuntime.terminal_exit_should_reprice(started_at_ms=1000, now_ms=7000, attempts=1, timeout_ms=5000, max_reprices=1) is False
 
 
+def test_terminal_force_finalize_does_not_detach_chunk() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    lvl = rt.levels[0]
+    assert rt.start_terminal_exit(1, chunk_id=222, order_id=333, now_ms=1000) is True
+    assert rt.finalize_terminal_exit(1, "PAUSED_ERROR", now_ms=9000) is True
+    assert lvl.active_chunk_id == 222
+    assert int(lvl.active_sell_order_id or 0) == 333
+    assert lvl.terminal_exit_started is False
+
+
 def test_other_streams_continue_while_one_chunk_is_terminal_exit() -> None:
     rt = GridRuntime()
     s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0, stream_max_active_buys=2)
