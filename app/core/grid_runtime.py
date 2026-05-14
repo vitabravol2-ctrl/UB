@@ -389,6 +389,42 @@ class GridRuntime:
     def terminal_exit_should_reprice(*, started_at_ms: int, now_ms: int, attempts: int, timeout_ms: int = 5000, max_reprices: int = 1) -> bool:
         return (now_ms - started_at_ms) >= max(int(timeout_ms), 1) and attempts < max(int(max_reprices), 0)
 
+
+    def handle_sell_qty_not_safe(self, level_id: int, *, safe_qty: float, free_btc: float, has_active_sell_order: bool, now_ms: int | None = None, balance_wait_ms: int = 1500) -> str:
+        level = next((x for x in self.levels if x.level_id == level_id), None)
+        if not level:
+            return "NO_STREAM"
+        ts = int(time.time() * 1000) if now_ms is None else int(now_ms)
+        if float(safe_qty) > 0:
+            return "SAFE"
+        if has_active_sell_order and int(level.active_sell_order_id or 0) > 0:
+            level.state = "SELL_PLACED"
+            self._log(f"STREAM_SELL_LOCKED_BY_ACTIVE_ORDER stream_id={level_id} chunk_id={level.active_chunk_id} order_id={level.active_sell_order_id} free_btc={free_btc:.8f}")
+            return "LOCKED_BY_ACTIVE_ORDER"
+        level.state = "SELL_BALANCE_WAIT"
+        level.balance_wait_until_ms = ts + max(int(balance_wait_ms), 0)
+        self._log(f"STREAM_SELL_BALANCE_WAIT stream_id={level_id} chunk_id={level.active_chunk_id} free_btc={free_btc:.8f} wait_until_ms={level.balance_wait_until_ms}")
+        return "BALANCE_WAIT"
+
+    def wake_balance_wait_streams(self, now_ms: int | None = None) -> list[int]:
+        ts = int(time.time() * 1000) if now_ms is None else int(now_ms)
+        released: list[int] = []
+        for level in self.levels:
+            if level.state == "SELL_BALANCE_WAIT" and ts >= int(level.balance_wait_until_ms or 0):
+                level.state = "SELL_RETRY"
+                level.balance_wait_until_ms = 0
+                released.append(level.level_id)
+                self._log(f"STREAM_SELL_BALANCE_RESOLVED stream_id={level.level_id} at_ms={ts}")
+        return released
+
+    def stop_diagnostics(self, *, inventory_qty: float, free_btc: float, locked_btc: float) -> None:
+        self._log(f"STREAM_STOP_INVENTORY_REPORT inventory_qty={inventory_qty:.8f} free_btc={free_btc:.8f} locked_btc={locked_btc:.8f}")
+        open_chunks = [lvl.level_id for lvl in self.levels if int(lvl.active_chunk_id or 0) > 0]
+        active_sells = [lvl.level_id for lvl in self.levels if int(lvl.active_sell_order_id or 0) > 0]
+        terminal_orders = [lvl.level_id for lvl in self.levels if int(lvl.terminal_exit_order_id or 0) > 0]
+        self._log(f"STREAM_STOP_CHUNK_REPORT open_chunks={open_chunks} paused={[lvl.level_id for lvl in self.levels if lvl.state == 'PAUSED_ERROR']}")
+        self._log(f"STREAM_STOP_ACTIVE_SELL_REPORT active_sell_streams={active_sells} terminal_streams={terminal_orders}")
+
     def validate_inputs(self, levels=None, market=None, balances=None, filters=None) -> tuple[str, str]:
         if not levels:
             return self.state, "EMPTY_LEVELS"
