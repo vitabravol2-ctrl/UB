@@ -2629,7 +2629,18 @@ class MainWindow(QMainWindow):
             if self.stream_shutdown_active:
                 self.log("ERROR", "[EXEC] STREAM_STATE_MISMATCH reason=shutdown_active_without_stop")
             self._process_stream_shutdown(now_ms)
-            if self.position_qty > 0:
+            stream_mode_active = bool((int(getattr(self.settings, "stream_count", 1)) >= 1))
+            non_stream_inventory_qty = sum(
+                max(float(chunk.qty), 0.0)
+                for chunk in self.inventory_chunks
+                if chunk.qty > self._inventory_epsilon_qty() and not self._is_stream_owned_chunk(chunk)
+            )
+            block_for_position_open = (
+                self.position_qty > self._inventory_epsilon_qty()
+                if not stream_mode_active
+                else non_stream_inventory_qty > self._inventory_epsilon_qty()
+            )
+            if block_for_position_open:
                 if not plan.balance_ok:
                     self.log("WARNING", "[EXEC] BALANCE LOW ignored: exit priority")
                 if now_ms - self.last_position_open_block_log_ms >= 3000:
@@ -2704,6 +2715,9 @@ class MainWindow(QMainWindow):
                             balance_safety_buffer_u = float(getattr(self.settings, "balance_safety_buffer_u", 0.0) or 0.0)
                             max_exposure_u = float(getattr(self.settings, "max_exposure_u", 0.0) or 0.0)
                             blocked_reason = "none"
+                            balance_ok_for_stream_buys = free_u + 1e-12 >= (float(plan.order_size_u or 0.0) + balance_safety_buffer_u)
+                            exposure_ok_for_stream_buys = inventory_u <= float(getattr(self.settings, "stream_max_inventory_u", 1000.0)) + 1e-12
+                            buy_allowed = False
                             if self.grid_buy_paused:
                                 blocked_reason = "balance_low"
                             elif free_buy_slots <= 0:
@@ -2712,7 +2726,16 @@ class MainWindow(QMainWindow):
                                 blocked_reason = "interval_not_elapsed"
                             elif waiting_streams <= 0:
                                 blocked_reason = "no_waiting_stream"
+                            elif not balance_ok_for_stream_buys:
+                                blocked_reason = "balance_low"
+                            elif not exposure_ok_for_stream_buys:
+                                blocked_reason = "exposure_limit"
                             else:
+                                buy_allowed = True
+                            self.log("INFO", f"[EXEC] STREAM_BUY_AFTER_EXIT_CHECK exiting_streams={sum(1 for lvl in self.grid_runtime.levels if lvl.state == 'EXITING')} waiting_streams={waiting_streams} buy_allowed={str(buy_allowed).lower()} reason={blocked_reason}")
+                            if not buy_allowed and waiting_streams > 0 and free_buy_slots > 0 and interval_elapsed and balance_ok_for_stream_buys and exposure_ok_for_stream_buys:
+                                self.log("ERROR", "[EXEC] STREAM_STATE_MISMATCH reason=exit_stuck_blocked_buy_replenishment")
+                            if buy_allowed:
                                 for level in self.grid_runtime.levels:
                                     if placed_count >= batch_size or active_buys >= max_active_buys:
                                         break
