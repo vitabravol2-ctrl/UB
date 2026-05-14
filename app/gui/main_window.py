@@ -2762,8 +2762,11 @@ class MainWindow(QMainWindow):
             ):
                 self.fsm_state = "DONE"
             elif self.active_order.get("orderId"):
-                self.log("WARNING", "[EXEC] BLOCK reason=active_order")
-                self.fsm_state = "DONE"
+                if (int(getattr(self.settings, "stream_count", 1)) >= 1) and self.active_order.get("side") == "SELL" and self._is_stream_sell_order_id(int(self.active_order.get("orderId", 0) or 0)):
+                    self.log("INFO", "[EXEC] STREAM_ACTIVE_ORDER_IGNORE_FOR_BUY reason=stream_sell_active")
+                else:
+                    self.log("WARNING", "[EXEC] BLOCK reason=active_order")
+                    self.fsm_state = "DONE"
             elif (plan.required_u or 0.0) > self.settings.max_exposure_u:
                 self.log("WARNING", f"[EXEC] BLOCK reason=required_u_gt_max_exposure_u required_u={(plan.required_u or 0.0):.4f} max_exposure_u={self.settings.max_exposure_u:.4f}")
                 self.fsm_state = "DONE"
@@ -2791,9 +2794,9 @@ class MainWindow(QMainWindow):
                             free_u = float(self.balances.get("U", {}).get("free", 0.0) or 0.0)
                             bid_now = float(self.state.snapshot.bid or 0.0)
                             inventory_u = self.position_qty * bid_now
-                            self.grid_runtime.activate_ready_streams(now_ms)
-                            self.grid_runtime.release_recycle_streams(now_ms)
+                            supervisor_status = self.grid_runtime.stream_supervisor_tick(now_ms)
                             active_buys, active_sells, waiting_streams = self._stream_counts()
+                            waiting_streams = int(supervisor_status.get("wait_buy", waiting_streams))
                             wait_start, wait_buy = self._log_stream_swarm_state(active_buys, active_sells)
                             if active_sells == 0:
                                 for level in self.grid_runtime.levels:
@@ -2843,6 +2846,7 @@ class MainWindow(QMainWindow):
                             else:
                                 buy_allowed = True
                             self.log("INFO", f"[EXEC] STREAM_BUY_AFTER_EXIT_CHECK exiting_streams={sum(1 for lvl in self.grid_runtime.levels if lvl.state == 'EXITING')} waiting_streams={waiting_streams} buy_allowed={str(buy_allowed).lower()} reason={blocked_reason}")
+                            self.log("INFO", f"[EXEC] STREAM_BUY_CAPACITY_FILL target={max_active_buys} active={active_buys} available_wait={waiting_streams} placed=0")
                             if buy_allowed:
                                 self.log("INFO", "[EXEC] STREAM_BUY_SCHEDULER_ALLOWED")
                             else:
@@ -2907,6 +2911,17 @@ class MainWindow(QMainWindow):
                                     self.log("ERROR", "[EXEC] STREAM_STATE_MISMATCH reason=swarm_activation_stuck active_streams=1 expected_more=true")
                             if placed_count == 0:
                                 self.log("INFO", f"[EXEC] STREAM_PLACEMENT_TICK reason={blocked_reason}")
+                            if waiting_streams > 0 and active_buys == 0:
+                                if int(getattr(self, "stream_buy_starvation_since_ms", 0) or 0) <= 0:
+                                    self.stream_buy_starvation_since_ms = now_ms
+                                elif now_ms - int(self.stream_buy_starvation_since_ms) >= 2000:
+                                    self.log("WARNING", "[EXEC] STREAM_BUY_STARVATION_DETECTED")
+                                    self.log("INFO", "[EXEC] STREAM_BUY_STARVATION_RECOVERY")
+                            else:
+                                self.stream_buy_starvation_since_ms = 0
+                            self.log("INFO", f"[EXEC] STREAM_BUY_CAPACITY_FILL target={max_active_buys} active={active_buys} available_wait={waiting_streams} placed={placed_count}")
+                            if not buy_allowed:
+                                self.log("INFO", f"[EXEC] STREAM_BUY_CAPACITY_BLOCKED reason={blocked_reason}")
                             if placed_any:
                                 self.grid_last_place_batch_ms = now_ms
                                 self.grid_last_batch_size = placed_count

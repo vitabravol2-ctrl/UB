@@ -246,6 +246,44 @@ def test_waiting_streams_replenish_buy_even_with_active_sell() -> None:
     assert waiting_streams > 0
 
 
+def test_supervisor_converts_wait_start_and_recycle_to_wait_buy() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=2, stream_range_ticks=20, order_size_u=15.0, stream_start_interval_ms=500)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "RECYCLE"
+    rt.levels[0].recycle_ready_at_ms = 1
+    rt.levels[1].state = "WAIT_START"
+    rt.levels[1].start_at_ms = 1
+    status = rt.stream_supervisor_tick(now_ms=2)
+    assert rt.levels[0].state == "WAIT_BUY"
+    assert rt.levels[1].state == "WAIT_BUY"
+    assert status["wait_buy"] >= 2
+
+
+def test_wait_buy_and_capacity_triggers_fill_plan() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "BUY_PLACED"
+    rt.levels[0].active_buy_order_id = 11
+    for level in rt.levels[1:]:
+        level.state = "WAIT_BUY"
+    plan = rt.stream_capacity_fill_plan(runtime_active=True, max_active_buys=3)
+    assert plan["should_fill"] is True
+    assert plan["free_slots"] == 2
+
+
+def test_exiting_stream_does_not_block_capacity_fill_plan() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "EXITING"
+    rt.levels[1].state = "WAIT_BUY"
+    rt.levels[2].state = "WAIT_BUY"
+    plan = rt.stream_capacity_fill_plan(runtime_active=True, max_active_buys=2)
+    assert plan["should_fill"] is True
+
+
 def test_retry_ladder_escalates_progressively() -> None:
     p1 = GridRuntime.stream_sell_retry_plan(
         entry_price=100.0, best_bid=100.0, best_ask=101.0, tick=1.0,
