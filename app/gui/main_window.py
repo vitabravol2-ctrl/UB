@@ -1785,6 +1785,21 @@ class MainWindow(QMainWindow):
                     if age_ms < timeout_ms:
                         break
                     self.log("WARNING", f"[EXEC] STREAM_SELL_TIMEOUT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} age_ms={age_ms} timeout_ms={timeout_ms}")
+                    if level is not None and bool(level.terminal_exit_started):
+                        terminal_order_id = int(level.terminal_exit_order_id or 0)
+                        if terminal_order_id > 0:
+                            try:
+                                terminal_status = self.account.get_order(CONFIG.binance_symbol, terminal_order_id)
+                                status_now = str(terminal_status.get("status", "UNKNOWN"))
+                                self.grid_runtime.terminal_exit_status_wait(level_id, now_ms)
+                                self.log("INFO", f"[EXEC] STREAM_TERMINAL_EXIT_STATUS_WAIT stream_id={level_id} chunk_id={chunk_id} order_id={terminal_order_id} status={status_now}")
+                            except (BinanceAPIError, RequestException, Exception) as exc:
+                                self._mark_stream_order_api_error("SELL", level_id, exc)
+                        else:
+                            self.grid_runtime.terminal_exit_status_wait(level_id, now_ms)
+                            self.log("INFO", f"[EXEC] STREAM_TERMINAL_EXIT_STATUS_WAIT stream_id={level_id} chunk_id={chunk_id} order_id=unknown status=UNKNOWN")
+                        timeout_handled = True
+                        break
                     try:
                         self.account.cancel_order(CONFIG.binance_symbol, int(sell_order_id))
                         self.log("INFO", f"[EXEC] STREAM_SELL_CANCEL_OLD stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
@@ -1863,6 +1878,11 @@ class MainWindow(QMainWindow):
                             break
                         self.log("WARNING", f"[EXEC] STREAM_EXIT_FINAL_REASON stream_id={level_id} chunk_id={chunk_id} reason={plan['reason']} finalized={str(bool(plan['finalized'])).lower()}")
                         chunk.exit_escalated = True
+                        if level is not None and not bool(level.terminal_exit_started):
+                            if self.grid_runtime.start_terminal_exit(level_id, chunk_id, int(sell_order_id), now_ms=now_ms):
+                                self.log("WARNING", f"[EXEC] STREAM_TERMINAL_EXIT_STARTED stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
+                        if level is not None and bool(level.terminal_exit_started):
+                            self.grid_runtime.terminal_exit_status_wait(level_id, now_ms)
                     try:
                         safe_sell_qty = self._stream_safe_sell_qty(chunk, float(new_price))
                         if safe_sell_qty <= 0:
@@ -1898,10 +1918,14 @@ class MainWindow(QMainWindow):
                             level.active_chunk_id = chunk_id
                         self.grid_sell_order_meta[new_id] = (level_id, chunk_id)
                         if chunk.exit_escalated:
-                            self.log("WARNING", f"[EXEC] STREAM_EXIT_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id} qty={chunk.qty:.6f} price={new_price:.2f}")
-                            self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_RECOVERY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id}")
-                            if chunk.exit_stuck_attempts >= stuck_max_attempts:
-                                self.log("WARNING", f"[EXEC] STREAM_EXIT_TERMINAL_ORDER_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id}")
+                            if level is not None and bool(level.terminal_exit_started):
+                                level.terminal_exit_order_id = new_id
+                                self.log("WARNING", f"[EXEC] STREAM_TERMINAL_EXIT_ORDER_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id} qty={chunk.qty:.6f} price={new_price:.2f}")
+                            else:
+                                self.log("WARNING", f"[EXEC] STREAM_EXIT_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id} qty={chunk.qty:.6f} price={new_price:.2f}")
+                                self.log("WARNING", f"[EXEC] STREAM_EXIT_STUCK_RECOVERY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id}")
+                                if chunk.exit_stuck_attempts >= stuck_max_attempts:
+                                    self.log("WARNING", f"[EXEC] STREAM_EXIT_TERMINAL_ORDER_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id}")
                         else:
                             self.log("INFO", f"[EXEC] STREAM_SELL_RETRY_PLACED stream_id={level_id} chunk_id={chunk_id} order_id={new_id} qty={chunk.qty:.6f} price={new_price:.2f}")
                     else:
