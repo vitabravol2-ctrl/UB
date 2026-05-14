@@ -1672,6 +1672,53 @@ class MainWindow(QMainWindow):
         self.log("INFO", f"[EXEC] STREAM_SELL_BALANCE_WAIT stream_id={level_id} chunk_id={id(chunk)}")
         return True
 
+    def _stream_try_place_recovery_sell(self, *, level, chunk, level_id: int, now_ms: int, log_prefix: str) -> bool:
+        tick = max(self._tick_size(), 1e-12)
+        best_bid = float(self.state.snapshot.bid or 0.0)
+        best_ask = float(self.state.snapshot.ask or 0.0)
+        stop_loss_ticks = max(int(getattr(self.settings, "stop_loss_ticks", 0)), 0)
+        min_profit_ticks = max(int(getattr(self.settings, "stream_min_profit_ticks", 0)), 0)
+        retry_max = max(int(getattr(self.settings, "stream_sell_retry_max", 3)), 0)
+        retry_step_ticks = max(int(getattr(self.settings, "stream_sell_retry_step_ticks", 20)), 0)
+        plan = self.grid_runtime.stream_sell_retry_plan(
+            entry_price=float(chunk.entry_price),
+            best_bid=best_bid,
+            best_ask=best_ask,
+            tick=tick,
+            min_profit_ticks=min_profit_ticks,
+            retry_step_ticks=retry_step_ticks,
+            stop_loss_ticks=stop_loss_ticks,
+            retry_count=int(chunk.sell_retry_count),
+            retry_max=retry_max,
+            stuck_attempts=int(chunk.exit_stuck_attempts),
+        )
+        sell_price = self._round_price_up(float(plan["price"]))
+        safe_sell_qty = self._stream_safe_sell_qty(chunk, float(sell_price))
+        if safe_sell_qty <= 0:
+            return self._stream_handle_not_safe_sell_qty(level=level, chunk=chunk, level_id=level_id, now_ms=now_ms)
+        try:
+            sell_o = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(safe_sell_qty))
+        except (BinanceAPIError, RequestException, Exception) as exc:
+            if "-2010" in str(exc):
+                return self._stream_handle_not_safe_sell_qty(level=level, chunk=chunk, level_id=level_id, now_ms=now_ms)
+            self._mark_stream_order_api_error("SELL", level_id, exc)
+            self.log("WARNING", f"[EXEC] {log_prefix}_FAILED stream_id={level_id} chunk_id={id(chunk)} reason=placement_failed")
+            return False
+        sell_order_id = int(sell_o.get("orderId", 0) or 0)
+        if sell_order_id <= 0:
+            self.log("WARNING", f"[EXEC] {log_prefix}_FAILED stream_id={level_id} chunk_id={id(chunk)} reason=empty_order_id")
+            return False
+        chunk.sell_order_id = sell_order_id
+        chunk.sell_placed_ms = now_ms
+        chunk.state = "STREAM_SELL_PLACED"
+        level.state = "TERMINAL_EXIT" if bool(level.terminal_exit_started) else "SELL_PLACED"
+        level.active_sell_order_id = sell_order_id
+        level.active_chunk_id = id(chunk)
+        level.balance_wait_until_ms = 0
+        self.grid_sell_order_meta[sell_order_id] = (level_id, id(chunk))
+        self.log("INFO", f"[EXEC] {log_prefix} stream_id={level_id} chunk_id={id(chunk)} order_id={sell_order_id} price={sell_price:.2f} qty={safe_sell_qty:.6f}")
+        return True
+
     def _stream_exit_telemetry(self) -> tuple[int, float, int]:
         epsilon = self._inventory_epsilon_qty()
         exiting_states = {"WAIT_SELL", "SELL_PLACED", "SELL_RETRY", "EXITING"}
@@ -1726,15 +1773,17 @@ class MainWindow(QMainWindow):
             except (BinanceAPIError, RequestException, Exception) as exc:
                 self._mark_stream_order_api_error("SELL", level_id, exc)
             self.grid_runtime.finalize_terminal_exit(level_id, "PAUSED_ERROR", now_ms=now_ms)
-            level.state = "SELL_BALANCE_WAIT"
             level.paused_error_reason = "terminal_exit_force_after_preserved_chunk"
-            level.balance_wait_until_ms = now_ms + max(int(getattr(self.settings, "stream_sell_retry_cooldown_ms", 1200)), 250)
             self.grid_sell_order_meta.pop(sell_order_id, None)
             chunk.sell_order_id = None
             self.log("INFO", f"[EXEC] STREAM_TERMINAL_CHUNK_PRESERVED stream_id={level_id} chunk_id={chunk_id} qty={max(float(getattr(chunk, 'qty', 0.0) or 0.0), 0.0):.6f}")
-            self.log("INFO", f"[EXEC] STREAM_TERMINAL_RECOVERY_WAIT stream_id={level_id} chunk_id={chunk_id} state={level.state}")
             level.active_sell_order_id = None
             level.active_chunk_id = chunk_id
+            self._refresh_balances()
+            if not self._stream_try_place_recovery_sell(level=level, chunk=chunk, level_id=level_id, now_ms=now_ms, log_prefix="STREAM_TERMINAL_RECOVERY_PLACED"):
+                level.state = "SELL_BALANCE_WAIT"
+                level.balance_wait_until_ms = now_ms + max(int(getattr(self.settings, "stream_sell_retry_cooldown_ms", 1200)), 250)
+                self.log("INFO", f"[EXEC] STREAM_TERMINAL_RECOVERY_WAIT stream_id={level_id} chunk_id={chunk_id} state={level.state}")
         return True
 
     def _poll_grid_orders(self, now_ms: int) -> None:
@@ -1832,6 +1881,22 @@ class MainWindow(QMainWindow):
                 self.log("INFO", f"[EXEC] STREAM_BUY_CANCEL_PATH stream_id={level.level_id} order_id={order_id} status={status} reset_called={str(bool(reset_called)).lower()}")
                 self.log("INFO", f"[EXEC] STREAM_SKIP stream_id={level.level_id} reason=BUY_CANCELED order_id={order_id} status={status}")
         self._self_heal_buy_placed_canceled()
+        for level in self.grid_runtime.levels:
+            if level.state != "SELL_BALANCE_WAIT":
+                continue
+            level_id = int(level.level_id)
+            wake_at = int(level.balance_wait_until_ms or 0)
+            if wake_at > now_ms:
+                continue
+            chunk = next((c for c in self.inventory_chunks if id(c) == int(level.active_chunk_id or 0)), None)
+            if chunk is None:
+                continue
+            self._refresh_balances()
+            if self._stream_try_place_recovery_sell(level=level, chunk=chunk, level_id=level_id, now_ms=now_ms, log_prefix="STREAM_SELL_BALANCE_RESOLVED"):
+                continue
+            level.state = "SELL_BALANCE_WAIT"
+            level.balance_wait_until_ms = now_ms + max(int(getattr(self.settings, "stream_sell_retry_cooldown_ms", 1200)), 250)
+            self.log("INFO", f"[EXEC] STREAM_SELL_BALANCE_WAIT stream_id={level_id} chunk_id={id(chunk)}")
         for sell_order_id, (level_id, chunk_id) in list(self.grid_sell_order_meta.items()):
             try:
                 st = self.account.get_order(CONFIG.binance_symbol, int(sell_order_id))
