@@ -1655,6 +1655,46 @@ class MainWindow(QMainWindow):
         self.log("INFO", f"[EXEC] STREAM_SWARM_STATE wait_start={wait_start} wait_buy={wait_buy} buy_placed={buy_placed} sell_active={sell_active} recycle={recycle} active_buys={active_buys} active_sells={active_sells}")
         return wait_start, wait_buy
 
+    def _terminal_poll_handler(self, *, level, level_id: int, chunk, chunk_id: int, sell_order_id: int, now_ms: int, placed_ms: int) -> bool:
+        terminal_order_id = int(level.terminal_exit_order_id or 0)
+        terminal_poll_ms = max(int(getattr(self.settings, "stream_terminal_exit_poll_ms", getattr(self.settings, "taker_status_poll_ms", 500))), 1)
+        terminal_force_after_ms = max(int(getattr(self.settings, "stream_terminal_exit_force_after_ms", 12000)), 1)
+        started_ms = int(level.terminal_exit_started_at_ms or placed_ms)
+        terminal_age_ms = max(now_ms - started_ms, 0)
+        last_poll_ms = int(self.stream_terminal_exit_last_poll_ms.get(chunk_id, 0))
+        if last_poll_ms and now_ms - last_poll_ms < terminal_poll_ms:
+            return True
+        self.stream_terminal_exit_last_poll_ms[chunk_id] = now_ms
+        status_now = "UNKNOWN"
+        if terminal_order_id > 0:
+            try:
+                terminal_status = self.account.get_order(CONFIG.binance_symbol, terminal_order_id)
+                status_now = str(terminal_status.get("status", "UNKNOWN"))
+            except (BinanceAPIError, RequestException, Exception) as exc:
+                self._mark_stream_order_api_error("SELL", level_id, exc)
+        self.grid_runtime.terminal_exit_status_wait(level_id, now_ms)
+        self.log("INFO", f"[EXEC] STREAM_TERMINAL_EXIT_STATUS_WAIT stream_id={level_id} chunk_id={chunk_id} order_id={terminal_order_id or 'unknown'} status={status_now} age_ms={terminal_age_ms}")
+        if status_now == "FILLED":
+            self.grid_runtime.finalize_terminal_exit(level_id, "FILLED", now_ms=now_ms)
+            return True
+        if status_now == "NEW" and terminal_age_ms < terminal_force_after_ms:
+            return True
+        if terminal_age_ms >= terminal_force_after_ms:
+            self.log("WARNING", f"[EXEC] STREAM_TERMINAL_EXIT_FORCE_DECISION stream_id={level_id} chunk_id={chunk_id} order_id={terminal_order_id or 'unknown'} age_ms={terminal_age_ms} force_after_ms={terminal_force_after_ms}")
+            try:
+                if terminal_order_id > 0:
+                    self.account.cancel_order(CONFIG.binance_symbol, int(terminal_order_id))
+            except (BinanceAPIError, RequestException, Exception) as exc:
+                self._mark_stream_order_api_error("SELL", level_id, exc)
+            self.grid_runtime.finalize_terminal_exit(level_id, "PAUSED_ERROR", now_ms=now_ms)
+            level.state = "PAUSED_ERROR"
+            level.paused_error_reason = "terminal_exit_force_after"
+            self.grid_sell_order_meta.pop(sell_order_id, None)
+            chunk.sell_order_id = None
+            level.active_sell_order_id = None
+            level.active_chunk_id = None
+        return True
+
     def _poll_grid_orders(self, now_ms: int) -> None:
         if not self.runtime_active or not (int(getattr(self.settings, "stream_count", 1)) >= 1):
             return
@@ -1788,53 +1828,24 @@ class MainWindow(QMainWindow):
                         continue
                     placed_ms = int(chunk.sell_placed_ms or chunk.created_ms or now_ms)
                     age_ms = max(now_ms - placed_ms, 0)
-                    if age_ms < timeout_ms:
+                    is_terminal_order = (
+                        level is not None and (
+                            bool(level.terminal_exit_started)
+                            or int(level.terminal_exit_order_id or 0) == int(sell_order_id)
+                        )
+                    )
+                    if is_terminal_order:
+                        timeout_handled = self._terminal_poll_handler(
+                            level=level,
+                            level_id=level_id,
+                            chunk=chunk,
+                            chunk_id=chunk_id,
+                            sell_order_id=int(sell_order_id),
+                            now_ms=now_ms,
+                            placed_ms=placed_ms,
+                        )
                         break
-                    if level is not None and bool(level.terminal_exit_started):
-                        terminal_order_id = int(level.terminal_exit_order_id or sell_order_id or 0)
-                        terminal_poll_ms = max(int(getattr(self.settings, "stream_terminal_exit_poll_ms", getattr(self.settings, "taker_status_poll_ms", 500))), 1)
-                        terminal_timeout_ms = max(int(getattr(self.settings, "stream_terminal_exit_timeout_ms", 8000)), 1)
-                        terminal_force_after_ms = max(int(getattr(self.settings, "stream_terminal_exit_force_after_ms", 12000)), terminal_timeout_ms)
-                        terminal_max_reprices = max(int(getattr(self.settings, "stream_terminal_exit_max_reprices", 1)), 0)
-                        started_ms = int(level.terminal_exit_started_at_ms or placed_ms)
-                        terminal_age_ms = max(now_ms - started_ms, 0)
-                        last_poll_ms = int(self.stream_terminal_exit_last_poll_ms.get(chunk_id, 0))
-                        if last_poll_ms and now_ms - last_poll_ms < terminal_poll_ms:
-                            timeout_handled = True
-                            break
-                        self.stream_terminal_exit_last_poll_ms[chunk_id] = now_ms
-                        status_now = "UNKNOWN"
-                        if terminal_order_id > 0:
-                            try:
-                                terminal_status = self.account.get_order(CONFIG.binance_symbol, terminal_order_id)
-                                status_now = str(terminal_status.get("status", "UNKNOWN"))
-                            except (BinanceAPIError, RequestException, Exception) as exc:
-                                self._mark_stream_order_api_error("SELL", level_id, exc)
-                        if status_now in {"FILLED", "PARTIALLY_FILLED"}:
-                            self.grid_runtime.finalize_terminal_exit(level_id, "FILLED", now_ms=now_ms)
-                            timeout_handled = True
-                            break
-                        self.grid_runtime.terminal_exit_status_wait(level_id, now_ms)
-                        last_wait_log_ms = int(self.stream_terminal_exit_last_wait_log_ms.get(chunk_id, 0))
-                        if (not last_wait_log_ms) or (now_ms - last_wait_log_ms >= terminal_poll_ms):
-                            self.stream_terminal_exit_last_wait_log_ms[chunk_id] = now_ms
-                            self.log("INFO", f"[EXEC] STREAM_TERMINAL_EXIT_STATUS_WAIT stream_id={level_id} chunk_id={chunk_id} order_id={terminal_order_id or 'unknown'} status={status_now} age_ms={terminal_age_ms}")
-                        if status_now == "NEW" and terminal_age_ms < terminal_timeout_ms:
-                            timeout_handled = True
-                            break
-                        if status_now == "NEW" and terminal_age_ms >= terminal_force_after_ms:
-                            self.grid_runtime.finalize_terminal_exit(level_id, "PAUSED_ERROR", now_ms=now_ms)
-                            if level is not None:
-                                level.state = "PAUSED_ERROR"
-                                level.paused_error_reason = "terminal_exit_force_timeout"
-                            self.log("ERROR", f"[EXEC] STREAM_TERMINAL_EXIT_FORCE_EXIT stream_id={level_id} chunk_id={chunk_id} order_id={terminal_order_id} age_ms={terminal_age_ms}")
-                            self.grid_sell_order_meta.pop(sell_order_id, None)
-                            timeout_handled = True
-                            break
-                        if status_now == "NEW" and terminal_age_ms >= terminal_timeout_ms and int(level.terminal_exit_attempts) < terminal_max_reprices:
-                            level.terminal_exit_attempts += 1
-                            self.log("WARNING", f"[EXEC] STREAM_TERMINAL_EXIT_REPRICE_ONCE stream_id={level_id} chunk_id={chunk_id} attempt={level.terminal_exit_attempts} max={terminal_max_reprices}")
-                        timeout_handled = True
+                    if age_ms < timeout_ms:
                         break
                     self.log("WARNING", f"[EXEC] STREAM_SELL_TIMEOUT stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id} age_ms={age_ms} timeout_ms={timeout_ms}")
                     try:
