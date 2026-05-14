@@ -255,6 +255,8 @@ class MainWindow(QMainWindow):
         self.last_stream_global_sell_skip_log_ms_by_reason: dict[str, int] = {}
         self.last_stream_repair_skip_log_ms = 0
         self.last_stream_stats_ui_log_ms = 0
+        self.stream_shutdown_active = False
+        self.stream_shutdown_done_streams: set[int] = set()
         self.entry_guard_stable_count = 0
         self.last_plan_recompute_ms = 0
         self._cached_plan = None
@@ -517,6 +519,8 @@ class MainWindow(QMainWindow):
         self.log("INFO", f"START_CLICK received enabled={self.start_stop_btn.isEnabled()} api_ready={self.api_ready} running={self.runtime_active}")
         self.runtime_active = not self.runtime_active
         if self.runtime_active:
+            self.stream_shutdown_active = False
+            self.stream_shutdown_done_streams.clear()
             self.settings.live_enabled = True
             self.log("INFO", f"START_SETTINGS live_enabled={self.settings.live_enabled} guard_mode={self.settings.guard_mode} entry_mode={self.settings.entry_mode} exit_engine={self.settings.exit_engine_enabled} order_size={self.settings.order_size_u}")
             self.log("INFO", f"START_PROFILE_STREAM order_size={self.settings.order_size_u} min_spread_ticks={self.settings.min_spread_ticks} guard_mode={self.settings.guard_mode} entry_mode={self.settings.entry_mode} stream_sell_timeout_ms={self.settings.stream_sell_timeout_ms} stream_target_ticks={self.settings.stream_target_ticks}")
@@ -551,6 +555,10 @@ class MainWindow(QMainWindow):
 
     def cancel_all(self) -> None:
         self.log("WARNING", "cancel all requested")
+        self.stream_shutdown_active = bool((int(getattr(self.settings, "stream_count", 1)) >= 1))
+        self.stream_shutdown_done_streams.clear()
+        if self.stream_shutdown_active:
+            self.log("WARNING", "[EXEC] STREAM_SHUTDOWN_STARTED")
         stream_order_ids = list(self.grid_order_ids) + list(self.grid_sell_order_meta.keys())
         if self.active_order.get("orderId") and self.active_order.get("side") == "BUY":
             try:
@@ -572,6 +580,15 @@ class MainWindow(QMainWindow):
                     self.account.cancel_order(CONFIG.binance_symbol, int(order_id))
             except Exception:
                 pass
+        if self.stream_shutdown_active:
+            for level in self.grid_runtime.levels:
+                level_id = int(level.level_id or 0)
+                if level.state == "BUY_PLACED":
+                    self.log("WARNING", f"[EXEC] STREAM_SHUTDOWN_BUY_CANCELLED stream_id={level_id}")
+                    level.active_buy_order_id = None
+                    level.state = "WAIT_BUY"
+                elif level.state in {"WAIT_BUY", "WAIT_START", "RECYCLE_COOLDOWN"}:
+                    self.stream_shutdown_done_streams.add(level_id)
         self.refresh_account_data()
         if self.position_qty <= self._inventory_epsilon_qty():
             open_sell = self._find_open_sell_order()
@@ -1329,6 +1346,8 @@ class MainWindow(QMainWindow):
         return self._has_stream_owned_chunks_or_orders()
 
     def _should_skip_global_sell_engine(self, reason: str) -> bool:
+        if self.stream_shutdown_active:
+            return True
         if not bool((int(getattr(self.settings, "stream_count", 1)) >= 1)):
             return False
         if not self._has_stream_owned_chunks_or_orders():
@@ -1347,6 +1366,58 @@ class MainWindow(QMainWindow):
                 self.log("INFO", f"[EXEC] STREAM_GLOBAL_EXIT_BLOCKED_FOR_STREAM reason=stream_owned_inventory stream_id={stream_id}")
             self.last_stream_global_sell_skip_log_ms_by_reason[reason] = now
         return True
+
+    def _process_stream_shutdown(self, now_ms: int) -> None:
+        if not self.stream_shutdown_active:
+            return
+        self.grid_buy_paused = True
+        eps = self._inventory_epsilon_qty()
+        for level in self.grid_runtime.levels:
+            level_id = int(level.level_id or 0)
+            if level.state in {"WAIT_BUY", "WAIT_START", "RECYCLE_COOLDOWN"}:
+                self.stream_shutdown_done_streams.add(level_id)
+                continue
+            if level.state not in {"SELL_PLACED", "SELL_RETRY", "EXITING"}:
+                for chunk in self.inventory_chunks:
+                    if chunk.qty <= eps:
+                        continue
+                    if int(chunk.stream_id or chunk.grid_level_id or 0) != level_id:
+                        continue
+                    if int(chunk.sell_order_id or 0) > 0:
+                        continue
+                    tick = self._tick_size()
+                    target_ticks = max(int(getattr(self.settings, "stream_target_ticks", 30)), 0)
+                    sell_price = self._round_price_up(add_ticks(chunk.entry_price, target_ticks, tick))
+                    try:
+                        repl = self.account.place_limit_order(CONFIG.binance_symbol, "SELL", float(sell_price), float(chunk.qty))
+                    except (BinanceAPIError, RequestException, Exception):
+                        continue
+                    new_id = int(repl.get("orderId", 0) or 0)
+                    if new_id <= 0:
+                        continue
+                    chunk.sell_order_id = new_id
+                    chunk.state = "STREAM_SELL_PLACED"
+                    chunk.sell_placed_ms = now_ms
+                    self.grid_sell_order_meta[new_id] = (level_id, id(chunk))
+                    level.active_sell_order_id = new_id
+                    level.state = "SELL_PLACED"
+                    self.log("WARNING", f"[EXEC] STREAM_SHUTDOWN_EXIT_PLACED stream_id={level_id} qty={chunk.qty:.6f}")
+            has_inventory = any(
+                c.qty > eps and int(c.stream_id or c.grid_level_id or 0) == level_id
+                for c in self.inventory_chunks
+            )
+            has_sell = any(int(order_meta[0]) == level_id for order_meta in self.grid_sell_order_meta.values())
+            if not has_inventory and not has_sell:
+                self.log("INFO", f"[EXEC] STREAM_SHUTDOWN_STREAM_DONE stream_id={level_id}")
+                self.stream_shutdown_done_streams.add(level_id)
+        if (
+            self.stream_shutdown_done_streams
+            and len(self.stream_shutdown_done_streams) >= len(self.grid_runtime.levels)
+            and not self._has_stream_owned_inventory()
+            and not self.grid_sell_order_meta
+        ):
+            self.log("OK", "[EXEC] STREAM_SHUTDOWN_COMPLETE")
+            self.stream_shutdown_active = False
 
     def _is_stream_sell_order_id(self, order_id: int) -> bool:
         return bool(order_id > 0 and int(order_id) in self.grid_sell_order_meta)
@@ -1643,6 +1714,8 @@ class MainWindow(QMainWindow):
                 qty_to_close = min(max(chunk.qty, 0.0), executed_qty)
                 if qty_to_close > 0:
                     self.log("INFO", f"[EXEC] STREAM_EXIT_RETRY_FILLED stream_id={level_id} chunk_id={chunk_id} order_id={sell_order_id}")
+                    if self.stream_shutdown_active:
+                        self.log("INFO", f"[EXEC] STREAM_SHUTDOWN_EXIT_FILLED stream_id={level_id}")
                     pnl = (fill_price - chunk.entry_price) * qty_to_close
                     self.log("OK", f"[EXEC] FIFO CLOSE qty={qty_to_close:.6f} entry={chunk.entry_price:.2f} exit={fill_price:.2f} pnl={pnl:+.6f}")
                     self.log("INFO", f"[EXEC] STREAM_PNL stream_id={level_id} pnl={pnl:+.6f}")
@@ -2420,6 +2493,7 @@ class MainWindow(QMainWindow):
             if now_ms - self._last_health_update_ms >= 250:
                 self._update_market_health(now_ms)
                 self._last_health_update_ms = now_ms
+            self._process_stream_shutdown(now_ms)
             if self.position_qty > 0:
                 if not plan.balance_ok:
                     self.log("WARNING", "[EXEC] BALANCE LOW ignored: exit priority")
@@ -2442,6 +2516,9 @@ class MainWindow(QMainWindow):
                 self.fsm_state = "DONE"
             elif (plan.required_u or 0.0) > self.settings.max_exposure_u:
                 self.log("WARNING", f"[EXEC] BLOCK reason=required_u_gt_max_exposure_u required_u={(plan.required_u or 0.0):.4f} max_exposure_u={self.settings.max_exposure_u:.4f}")
+                self.fsm_state = "DONE"
+            elif self.stream_shutdown_active:
+                self.log("INFO", "[EXEC] STREAM_SHUTDOWN_BUY_DISABLED")
                 self.fsm_state = "DONE"
             else:
                 ok_to_buy, _ = self.final_pre_buy_check(plan, now_ms)
