@@ -38,6 +38,31 @@ class GridLevel:
 
 
 @dataclass
+class RuntimeAction:
+    action_type: str
+    stream_id: int
+    chunk_id: int | None = None
+    order_id: int | None = None
+    side: str | None = None
+    price: float | None = None
+    qty: float | None = None
+    reason: str = ""
+
+
+@dataclass
+class ExecutionResult:
+    action_type: str
+    stream_id: int
+    chunk_id: int | None = None
+    order_id: int | None = None
+    status: str = "OK"
+    filled_qty: float = 0.0
+    avg_price: float = 0.0
+    error_code: str = ""
+    error_message: str = ""
+
+
+@dataclass
 class GridRuntime:
     state: str = "IDLE"
     live_enabled: bool = False
@@ -56,6 +81,8 @@ class GridRuntime:
     stream_closed_cycles: int = 0
     stream_wins: int = 0
     stream_losses: int = 0
+    stream_realized_pnl: float = 0.0
+    _last_supervisor_log_ms: int = 0
 
     def _log(self, message: str) -> None:
         if self.log_callback:
@@ -199,6 +226,48 @@ class GridRuntime:
         level.buy_order_id = order_id
         self._log(f"STREAM_BUY_PLACED level_id={level_id} order_id={order_id}")
 
+    def emit_buy_actions(self, *, runtime_active: bool, max_active_buys: int, now_ms: int | None = None) -> list[RuntimeAction]:
+        plan = self.stream_capacity_fill_plan(runtime_active=runtime_active, max_active_buys=max_active_buys, now_ms=now_ms)
+        if not bool(plan["should_fill"]):
+            return []
+        free_slots = int(plan["free_slots"])
+        actions: list[RuntimeAction] = []
+        for level in self.levels:
+            if len(actions) >= free_slots:
+                break
+            if level.state != "WAIT_BUY" or int(level.active_buy_order_id or 0) > 0:
+                continue
+            actions.append(RuntimeAction(action_type="PLACE_BUY", stream_id=level.level_id, side="BUY", price=level.target_buy_price, qty=level.qty, reason="capacity_fill"))
+        return actions
+
+    def on_execution_result(self, result: ExecutionResult) -> bool:
+        if result.action_type == "PLACE_BUY":
+            if str(result.status).upper() == "OK" and int(result.order_id or 0) > 0:
+                self.mark_buy_placed(result.stream_id, int(result.order_id))
+                return True
+            self._log(f"STREAM_BUY_PLACE_FAILED stream_id={result.stream_id} code={result.error_code} message={result.error_message}")
+            return False
+        return False
+
+    def can_place_sell(self, stream_id: int, chunk_id: int) -> tuple[bool, str]:
+        level = next((x for x in self.levels if x.level_id == stream_id), None)
+        if not level:
+            return False, "stream_missing"
+        if int(level.terminal_exit_order_id or 0) > 0 or level.terminal_exit_started:
+            return False, "terminal_active"
+        if int(level.active_sell_order_id or 0) > 0:
+            return False, "active_sell_exists"
+        if int(chunk_id or 0) <= 0:
+            return False, "chunk_missing"
+        if int(level.active_chunk_id or 0) > 0 and int(level.active_chunk_id or 0) != int(chunk_id):
+            return False, "stream_does_not_own_chunk"
+        for other in self.levels:
+            if other.level_id != stream_id and int(other.active_chunk_id or 0) == int(chunk_id):
+                return False, "stream_does_not_own_chunk"
+            if other.level_id != stream_id and int(other.active_sell_order_id or 0) > 0 and int(other.active_chunk_id or 0) == int(chunk_id):
+                return False, "duplicate_sell_chunk"
+        return True, "ok"
+
 
     def reset_buy_stream_to_wait(self, level_id: int, reason: str) -> bool:
         level = next((x for x in self.levels if x.level_id == level_id), None)
@@ -265,6 +334,22 @@ class GridRuntime:
         self._log(f"STREAM_RECYCLED level_id={level_id} recycle_delay_ms={delay_ms}")
         return True
 
+    def close_chunk_with_pnl(self, stream_id: int, chunk_id: int, pnl: float, result: str, *, recycle_delay_ms: int = 0) -> bool:
+        level = next((x for x in self.levels if x.level_id == stream_id), None)
+        if not level:
+            return False
+        level.state = "SELL_FILLED"
+        self._log(f"STREAM_SELL_FILLED stream_id={stream_id} chunk_id={chunk_id} result={result}")
+        self.stream_realized_pnl += float(pnl)
+        if pnl >= 0:
+            self.stream_wins += 1
+        else:
+            self.stream_losses += 1
+        return self.recycle_level(stream_id, recycle_delay_ms=recycle_delay_ms, allow_without_sell_fill=True)
+
+    def on_sell_filled(self, stream_id: int, chunk_id: int, pnl: float, result: str = "FILLED") -> bool:
+        return self.close_chunk_with_pnl(stream_id, chunk_id, pnl, result)
+
     def release_recycle_streams(self, now_ms: int | None = None) -> list[int]:
         ts = int(time.time() * 1000) if now_ms is None else now_ms
         released: list[int] = []
@@ -278,7 +363,10 @@ class GridRuntime:
 
     def stream_supervisor_tick(self, now_ms: int | None = None) -> dict[str, int]:
         ts = int(time.time() * 1000) if now_ms is None else now_ms
-        self._log("STREAM_SUPERVISOR_TICK")
+        should_log_tick = (ts - int(self._last_supervisor_log_ms or 0)) >= 1000
+        if should_log_tick:
+            self._log("STREAM_SUPERVISOR_TICK")
+            self._last_supervisor_log_ms = ts
         self.activate_ready_streams(now_ms=ts)
         runtime_started_ms = int(self.runtime_started_ms or 0)
         if runtime_started_ms > 0 and ts - runtime_started_ms >= 1000:
@@ -298,11 +386,12 @@ class GridRuntime:
             "recycle": sum(1 for x in self.levels if x.state in {"RECYCLE", "RECYCLE_COOLDOWN"}),
             "error": sum(1 for x in self.levels if x.state in {"PAUSED_ERROR", "ERROR"}),
         }
-        self._log(
-            "STREAM_POOL_STATUS "
-            f"wait_start={status['wait_start']} wait_buy={status['wait_buy']} buy={status['buy']} sell={status['sell']} "
-            f"balance_wait={status['balance_wait']} terminal={status['terminal']} recycle={status['recycle']} error={status['error']}"
-        )
+        if should_log_tick:
+            self._log(
+                "STREAM_POOL_STATUS "
+                f"wait_start={status['wait_start']} wait_buy={status['wait_buy']} buy={status['buy']} sell={status['sell']} "
+                f"balance_wait={status['balance_wait']} terminal={status['terminal']} recycle={status['recycle']} error={status['error']}"
+            )
         return status
 
     def stream_capacity_fill_plan(self, *, runtime_active: bool, max_active_buys: int, now_ms: int | None = None) -> dict[str, int | bool]:
