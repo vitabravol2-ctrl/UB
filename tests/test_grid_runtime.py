@@ -1,6 +1,6 @@
 from app.core.grid_order_registry import GridOrderRegistry
 from app.core.config import SettingsData
-from app.core.grid_runtime import GridRuntime
+from app.core.grid_runtime import ExecutionResult, GridRuntime
 from app.core.grid_trade_adapter import GridTradeAdapter
 
 
@@ -217,6 +217,62 @@ def test_stream_exit_stuck_clears_stale_sell_ids() -> None:
     rt.levels[0].active_chunk_id = None
     assert rt.levels[0].active_sell_order_id is None
     assert rt.levels[0].active_chunk_id is None
+
+
+def test_runtime_emits_buy_action_when_capacity_exists() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=2, stream_range_ticks=20, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    actions = rt.emit_buy_actions(runtime_active=True, max_active_buys=1)
+    assert len(actions) == 1
+    assert actions[0].action_type == "PLACE_BUY"
+
+
+def test_execution_result_updates_buy_order_id() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    ok = rt.on_execution_result(ExecutionResult(action_type="PLACE_BUY", stream_id=1, order_id=1234, status="OK"))
+    assert ok is True
+    assert rt.levels[0].active_buy_order_id == 1234
+
+
+def test_can_place_sell_blocks_duplicate_sell_and_terminal() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].active_chunk_id = 777
+    rt.levels[0].active_sell_order_id = 22
+    allowed, reason = rt.can_place_sell(1, 777)
+    assert allowed is False
+    assert reason == "active_sell_exists"
+    rt.levels[0].active_sell_order_id = None
+    rt.levels[0].terminal_exit_order_id = 33
+    allowed2, reason2 = rt.can_place_sell(1, 777)
+    assert allowed2 is False
+    assert reason2 == "terminal_active"
+
+
+def test_close_chunk_with_pnl_increments_once() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=1, stream_range_ticks=10, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].active_chunk_id = 777
+    assert rt.close_chunk_with_pnl(1, 777, pnl=1.25, result="FILLED")
+    assert rt.stream_closed_cycles == 1
+    assert rt.stream_pnl_count == 1
+    assert rt.stream_wins == 1
+
+
+def test_failed_stream_does_not_block_other_capacity_fill() -> None:
+    rt = GridRuntime()
+    s = SettingsData(stream_count=3, stream_range_ticks=30, order_size_u=15.0)
+    rt.configure_micro_grid(80000.0, 1.0, 0.00001, 0.00001, 5.0, s)
+    rt.levels[0].state = "PAUSED_ERROR"
+    rt.levels[1].state = "WAIT_BUY"
+    rt.levels[2].state = "WAIT_BUY"
+    actions = rt.emit_buy_actions(runtime_active=True, max_active_buys=2)
+    assert len(actions) == 2
 
 
 def test_stuck_attempts_stop_at_max_attempts() -> None:
