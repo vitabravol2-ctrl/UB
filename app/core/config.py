@@ -149,8 +149,8 @@ class SettingsData:
 @dataclass(frozen=True)
 class UBConfig:
     display_symbol: str = "BTC/U"
-    binance_symbol: str = "BTCU"
-    stream_symbol: str = "btcu"
+    binance_symbol: str = "BTCUSDT"
+    stream_symbol: str = "btcusdt"
     tick_size_default: float = 0.01
 
 
